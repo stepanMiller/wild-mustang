@@ -1244,18 +1244,29 @@ function applyQuality(){
 }
 
 /* --- сохранения --- */
-async function saveCheckpoint(){
+function isValidCheckpoint(checkpoint){
+  return checkpoint && typeof checkpoint === 'object' && !Array.isArray(checkpoint) &&
+    Number.isFinite(checkpoint.x) && Number.isFinite(checkpoint.z) &&
+    Number.isFinite(checkpoint.quest) && Number.isFinite(checkpoint.trust) &&
+    Number.isFinite(checkpoint.apples) && typeof checkpoint.phase === 'string' &&
+    typeof checkpoint.alexFollows === 'boolean' && Array.isArray(checkpoint.taken) &&
+    checkpoint.taken.length === apples.length && checkpoint.taken.every(taken => typeof taken === 'boolean');
+}
+function saveCheckpoint(){
   G.checkpoint = {x:P.x, z:P.z, quest:G.quest, trust:G.trust, apples:G.apples,
                   phase:G.phase, alexFollows:G.alexFollows, taken:apples.map(a=>a.userData.taken)};
   G.hasSave = true;
   toast('Контрольная точка сохранена');
-  try{ if(window.storage) await window.storage.set('veter-save', JSON.stringify(G.checkpoint)); }catch(e){}
+  try{ localStorage.setItem('veter-save', JSON.stringify(G.checkpoint)); }catch(e){}
 }
-async function loadSave(){
+function loadSave(){
   try{
-    if(window.storage){
-      const r = await window.storage.get('veter-save');
-      if(r && r.value){ G.checkpoint = JSON.parse(r.value); G.hasSave=true; }
+    const saved = localStorage.getItem('veter-save');
+    if(!saved) return;
+    const checkpoint = JSON.parse(saved);
+    if(isValidCheckpoint(checkpoint)){
+      G.checkpoint = checkpoint;
+      G.hasSave = true;
     }
   }catch(e){}
 }
