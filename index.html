@@ -361,6 +361,16 @@ const $ = s => document.querySelector(s);
 const clamp = (v,a,b) => v<a?a:(v>b?b:v);
 const lerp = (a,b,t) => a+(b-a)*t;
 const TAU = Math.PI*2;
+function hashRand(seed){
+  let t = seed >>> 0;
+  return function(){
+    t += 0x6D2B79F5;
+    let r = Math.imul(t ^ (t >>> 15), 1 | t);
+    r ^= r + Math.imul(r ^ (r >>> 7), 61 | r);
+    return ((r ^ (r >>> 14)) >>> 0) / 4294967296;
+  };
+}
+const valleyRand = hashRand(0x57A1C0DE);
 
 /* ================================================================
    1. НАСТРОЙКИ И СОСТОЯНИЕ
@@ -383,22 +393,34 @@ const G = {
    2. ЛАНДШАФТ
    ================================================================ */
 const WATER_Y = 1.15;
-function riverX(z){ return -18 + Math.sin(z*0.035)*16 + Math.cos(z*0.012)*8; }
+function riverX(z){
+  return -18 + Math.sin(z*0.035)*16 + Math.cos(z*0.012)*8 + Math.sin(z*0.082+1.1)*4.5;
+}
+function riverWidth(z){ return 5.2 + Math.sin(z*0.045+0.7)*1.1 + Math.cos(z*0.018)*0.9; }
 function baseH(x,z){
-  return Math.sin(x*0.045)*1.6 + Math.cos(z*0.038)*1.4
-       + Math.sin((x+z)*0.021)*2.0
+  const ridgeA = Math.sin((x*0.038-z*0.022)+1.6)*2.0;
+  const ridgeB = Math.sin((x*0.075+z*0.041)-0.8)*0.9;
+  const longSlope = (z+GSIZE*0.18)*0.012 + Math.max(0,-x-35)*0.035;
+  return Math.sin(x*0.045)*1.8 + Math.cos(z*0.038)*1.55
+       + Math.sin((x+z)*0.021)*2.15 + ridgeA + ridgeB + longSlope
        + Math.sin(x*0.11+1.3)*0.55 + Math.cos(z*0.127)*0.35;
 }
+function hollow(x,z,cx,cz,rx,rz,depth){
+  const q=((x-cx)*(x-cx))/(rx*rx)+((z-cz)*(z-cz))/(rz*rz);
+  return -depth*Math.exp(-q);
+}
 function hAt(x,z){
-  let h = baseH(x,z) + 7.4;
-  const d = Math.abs(x - riverX(z));
-  const blend = Math.exp(-(d*d)/500);
-  const bed = 0.15 + Math.min(d*0.55, 4.2);
+  let h = baseH(x,z) + 7.6;
+  h += hollow(x,z,36,-54,30,18,3.0) + hollow(x,z,-12,48,24,36,2.4);
+  const rx = riverX(z), d = Math.abs(x - rx), w = riverWidth(z);
+  const blend = Math.exp(-(d*d)/(w*w*4.8));
+  const bed = 0.08 + Math.min(d*0.44, 3.8) + Math.sin(z*0.18)*0.10;
   h = h*(1-blend) + bed*blend;
-  // холм обзора
+  const bank = Math.exp(-((d-w*1.15)*(d-w*1.15))/(w*w*0.55));
+  h += bank*0.9;
+  // холм обзора стал выше и читается как путь к дальнему плану
   const dx = x+72, dz = z+64;
-  h += 17*Math.exp(-(dx*dx+dz*dz)/820);
-  // пологий склон у старта
+  h += 20*Math.exp(-(dx*dx+dz*dz)/720) + 4*Math.exp(-((x+95)*(x+95)+(z+72)*(z+72))/1800);
   return h;
 }
 function normalAt(x,z){
@@ -464,6 +486,8 @@ groundGeo.rotateX(-Math.PI/2);
     if(d<26) c.lerp(cGreen, clamp(1-(d-4)/22,0,1)*0.85);
     if(d<5)  c.lerp(cSand, clamp(1-d/5,0,1));
     if(h>15) c.lerp(cRock, clamp((h-15)/8,0,1)*0.7);
+    const scree = Math.max(0, Math.sin(x*0.19+z*0.11)*Math.cos(z*0.17));
+    if(scree>0.72 && h>9 && d>riverWidth(z)+8) c.lerp(cRock, (scree-0.72)*1.4);
     cols.push(c.r,c.g,c.b);
   }
   groundGeo.setAttribute('color', new THREE.Float32BufferAttribute(cols,3));
@@ -473,10 +497,24 @@ const ground = new THREE.Mesh(groundGeo, new THREE.MeshLambertMaterial({vertexCo
 scene.add(ground);
 
 /* --- вода --- */
-const waterMat = new THREE.MeshPhongMaterial({color:0x4E8FA8, transparent:true, opacity:0.78,
-  shininess:110, specular:0xffe9c0});
-const water = new THREE.Mesh(new THREE.PlaneGeometry(GSIZE,GSIZE,1,1), waterMat);
-water.rotation.x = -Math.PI/2; water.position.y = WATER_Y;
+const waterMat = new THREE.MeshPhongMaterial({color:0x4E8FA8, transparent:true, opacity:0.76,
+  shininess:115, specular:0xffe9c0});
+function buildRiverGeometry(){
+  const seg=96, verts=[], uvs=[], idx=[];
+  for(let i=0;i<=seg;i++){
+    const z=-GSIZE/2 + (i/seg)*GSIZE, x=riverX(z), w=riverWidth(z);
+    verts.push(x-w, 0, z, x+w, 0, z);
+    uvs.push(0,i/seg, 1,i/seg);
+    if(i<seg){ const a=i*2; idx.push(a,a+1,a+2, a+1,a+3,a+2); }
+  }
+  const geo=new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.Float32BufferAttribute(verts,3));
+  geo.setAttribute('uv', new THREE.Float32BufferAttribute(uvs,2));
+  geo.setIndex(idx); geo.computeVertexNormals();
+  return geo;
+}
+const water = new THREE.Mesh(buildRiverGeometry(), waterMat);
+water.position.y = WATER_Y;
 scene.add(water);
 
 /* --- горы --- */
@@ -484,12 +522,12 @@ scene.add(water);
   const rockM = new THREE.MeshLambertMaterial({color:0x7A6B7E, flatShading:true});
   const snowM = new THREE.MeshLambertMaterial({color:0xF2E4D6, flatShading:true});
   for(let i=0;i<30;i++){
-    const a = i/30*TAU + Math.random()*0.1;
-    const r = 210 + Math.random()*70;
-    const hgt = 42 + Math.random()*62, rad = 26 + Math.random()*24;
+    const a = i/30*TAU + valleyRand()*0.12;
+    const r = 210 + valleyRand()*80;
+    const hgt = 40 + valleyRand()*70, rad = 24 + valleyRand()*30;
     const m = new THREE.Mesh(new THREE.ConeGeometry(rad,hgt,6+((i%3)|0)), rockM);
     m.position.set(Math.cos(a)*r, hgt*0.42, Math.sin(a)*r);
-    m.rotation.y = Math.random()*TAU;
+    m.rotation.y = valleyRand()*TAU;
     scene.add(m);
     const cap = new THREE.Mesh(new THREE.ConeGeometry(rad*0.36,hgt*0.28,6), snowM);
     cap.position.set(m.position.x, m.position.y + hgt*0.36, m.position.z);
@@ -582,9 +620,12 @@ function refreshGrass(px,pz){
   const m = new THREE.MeshLambertMaterial({color:0x7C6BB0});
   const im = new THREE.InstancedMesh(g,m,420);
   for(let i=0;i<420;i++){
-    const x=(Math.random()-0.5)*190, z=(Math.random()-0.5)*190, y=hAt(x,z);
-    _p.set(x,y,z); _e.set(0,Math.random()*TAU,0); _q.setFromEuler(_e);
-    const k = y<WATER_Y+0.4?0.01:(0.8+Math.random()*0.9);
+    const cluster = i%3;
+    const cx = cluster===0 ? -34 : (cluster===1 ? -55 : 20);
+    const cz = cluster===0 ? -20 : (cluster===1 ? -40 : 18);
+    const x=cx+(valleyRand()-0.5)*44, z=cz+(valleyRand()-0.5)*36, y=hAt(x,z);
+    _p.set(x,y,z); _e.set(0,valleyRand()*TAU,0); _q.setFromEuler(_e);
+    const k = y<WATER_Y+0.4?0.01:(0.65+valleyRand()*0.8);
     _s.set(k,k,k); _m.compose(_p,_q,_s); im.setMatrixAt(i,_m);
   }
   scene.add(im);
@@ -608,6 +649,7 @@ const M = {
   wood:  new THREE.MeshLambertMaterial({color:0x6B4A2E}),
   leaf:  new THREE.MeshLambertMaterial({color:0x5E7C3E}),
   rock:  new THREE.MeshLambertMaterial({color:0x8B8071, flatShading:true}),
+  paleRock: new THREE.MeshLambertMaterial({color:0xE8E0C8, flatShading:true}),
   apple: new THREE.MeshLambertMaterial({color:0xC63A2E}),
   dark:  new THREE.MeshLambertMaterial({color:0x2A1C10, transparent:true, opacity:0.5})
 };
@@ -735,7 +777,7 @@ function addLog(x,z,rot){
 function addRock(x,z,s){
   const y=hAt(x,z);
   const r = sph(1.1*s, M.rock, 1, 0.75, 1.1);
-  r.position.set(x,y+0.5*s,z); r.rotation.y=Math.random()*TAU;
+  r.position.set(x,y+0.5*s,z); r.rotation.y=valleyRand()*TAU;
   scene.add(r); obstacles.push({x,z,r:1.1*s,top:y+1.1*s});
 }
 function addTree(x,z){
@@ -743,17 +785,38 @@ function addTree(x,z){
   const t = cyl(0.34,0.44,3.4,M.wood); t.position.set(x,y+1.7,z); scene.add(t);
   for(let i=0;i<3;i++){
     const f = sph(1.5-i*0.22, M.leaf, 1.1,0.85,1.1);
-    f.position.set(x+(Math.random()-0.5), y+3.4+i*0.9, z+(Math.random()-0.5));
+    f.position.set(x+(valleyRand()-0.5), y+3.4+i*0.9, z+(valleyRand()-0.5));
     scene.add(f);
   }
   obstacles.push({x,z,r:0.9,top:y+3.5});
 }
+function addWhiteRock(x,z,s){
+  const y=hAt(x,z);
+  const r = sph(1.0*s, M.paleRock, 1.15, 0.55, 0.9);
+  r.position.set(x,y+0.35*s,z); r.rotation.y=valleyRand()*TAU;
+  scene.add(r); obstacles.push({x,z,r:0.95*s,top:y+0.8*s});
+}
+function addBush(x,z,s){
+  const y=hAt(x,z), g=new THREE.Group();
+  for(let i=0;i<3;i++){
+    const b=sph(0.55*s,M.leaf,1.25,0.55,1.0);
+    b.position.set((valleyRand()-0.5)*0.7,y+0.32*s,(valleyRand()-0.5)*0.7); g.add(b);
+  }
+  g.position.set(x,0,z); scene.add(g);
+}
 addLog(14,14,0.2); addLog(2,-14,1.1); addLog(-40,-24,0.5);
-for(let i=0;i<26;i++){
-  const a=Math.random()*TAU, r=14+Math.random()*95;
-  const x=Math.cos(a)*r, z=Math.sin(a)*r;
-  if(Math.abs(x-riverX(z))<7) continue;
-  if(Math.random()<0.45) addRock(x,z,0.7+Math.random()*0.9); else addTree(x,z);
+[[-18,-6,0.9],[-24,-16,0.7],[-33,-25,0.8],[-47,-29,0.75],[-62,-45,1.1],[-78,-61,1.25],[10,5,0.65],[32,-46,1.0],[-10,60,0.9],[38,42,0.8]].forEach(p=>addRock(p[0],p[1],p[2]));
+[[-30,12],[-56,-8],[-68,-58],[-90,-70],[22,34],[48,-20],[-6,74]].forEach(p=>addTree(p[0],p[1]));
+[[-6,-18,0.8],[-42,-12,0.9],[-58,-34,0.7],[16,25,0.7],[50,30,0.8],[-84,-52,0.8]].forEach(p=>addBush(p[0],p[1],p[2]));
+// Белые камни обозначают будущий брод: это только визуальный ориентир первой главы.
+for(let i=0;i<9;i++){
+  const z=52+i*2.2, x=riverX(z)+(i%2?-1:1)*(1.2+valleyRand()*2.2);
+  addWhiteRock(x,z,0.34+valleyRand()*0.22);
+}
+for(let i=0;i<18;i++){
+  const x=-95+valleyRand()*180, z=-88+valleyRand()*176;
+  if(Math.abs(x-riverX(z))<riverWidth(z)+8) continue;
+  if(valleyRand()<0.55) addRock(x,z,0.45+valleyRand()*0.55); else addBush(x,z,0.55+valleyRand()*0.35);
 }
 
 /* --- следы копыт --- */
@@ -1238,7 +1301,8 @@ document.querySelectorAll('.seg button').forEach(b=>{
     b.classList.add('sel'); S.quality=+b.dataset.q; applyQuality(); });
 });
 function applyQuality(){
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, [1,1.5,2][S.quality]));
+  const mobileCap = /iPad|iPhone|Android|Mobile/.test(navigator.userAgent) ? 1.35 : 2;
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, [1,1.35,Math.min(1.75,mobileCap)][S.quality]));
   buildGrass(); refreshGrass(P.x,P.z);
   clouds.forEach((c,i)=>c.visible = S.quality>0 || i<6);
 }
@@ -1320,7 +1384,8 @@ function drawMap(){
     else{
       const t=clamp((h-1.5)/16,0,1);
       r=lerp(126,190,t); gg=lerp(140,170,t); b=lerp(72,140,t);
-      const d=Math.abs(x-riverX(z)); if(d<20){ const k=1-d/20; r=lerp(r,110,k*0.5); gg=lerp(gg,150,k*0.5); b=lerp(b,80,k*0.5); }
+      const d=Math.abs(x-riverX(z)), rw=riverWidth(z); if(d<rw){ r=78; gg=143; b=168; }
+      else if(d<rw+16){ const k=1-(d-rw)/16; r=lerp(r,110,k*0.5); gg=lerp(gg,150,k*0.5); b=lerp(b,80,k*0.5); }
     }
     const i=(py*W+px)*4; img.data[i]=r; img.data[i+1]=gg; img.data[i+2]=b; img.data[i+3]=255;
   }
