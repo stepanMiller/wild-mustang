@@ -437,7 +437,7 @@ const renderer = new THREE.WebGLRenderer({canvas, antialias:true, powerPreferenc
 renderer.setClearColor(0x2b1a0d);
 renderer.outputEncoding = THREE.sRGBEncoding;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 1.06;
+renderer.toneMappingExposure = 1.12;
 const scene = new THREE.Scene();
 scene.fog = new THREE.FogExp2(0xE9A65C, 0.0062);
 const camera = new THREE.PerspectiveCamera(56, 4/3, 0.5, 900);
@@ -449,6 +449,9 @@ const hemi = new THREE.HemisphereLight(0xffc98a, 0x6a5a34, 0.85);
 scene.add(hemi);
 const fill = new THREE.DirectionalLight(0x9ec4ff, 0.35);
 fill.position.set(50, 25, -40); scene.add(fill);
+// A soft, warm rim separates the characters from the valley without the cost of shadows.
+const rim = new THREE.DirectionalLight(0xff9a52, 0.42);
+rim.position.set(-35, 12, -55); scene.add(rim);
 
 /* --- небо --- */
 const skyMat = new THREE.ShaderMaterial({
@@ -497,8 +500,21 @@ const ground = new THREE.Mesh(groundGeo, new THREE.MeshLambertMaterial({vertexCo
 scene.add(ground);
 
 /* --- вода --- */
-const waterMat = new THREE.MeshPhongMaterial({color:0x4E8FA8, transparent:true, opacity:0.76,
-  shininess:115, specular:0xffe9c0});
+const waterMat = new THREE.MeshPhongMaterial({color:0x3F91A0, transparent:true, opacity:0.82,
+  shininess:150, specular:0xffe6a8, side:THREE.DoubleSide});
+waterMat.onBeforeCompile = sh => {
+  sh.uniforms.uWaterTime = windU;
+  sh.vertexShader = 'uniform float uWaterTime;\n' + sh.vertexShader.replace('#include <begin_vertex>', `
+    #include <begin_vertex>
+    transformed.y += sin(position.z*.34 + uWaterTime*1.7)*.055;
+    transformed.y += sin(position.z*.91 - uWaterTime*2.2)*.022;
+  `);
+  sh.fragmentShader = 'uniform float uWaterTime;\n' + sh.fragmentShader.replace('#include <dithering_fragment>', `
+    float glint = pow(.5 + .5*sin(vViewPosition.z*1.7 + uWaterTime*2.4), 12.0);
+    gl_FragColor.rgb += vec3(1.0,.72,.38)*glint*.13;
+    #include <dithering_fragment>
+  `);
+};
 function buildRiverGeometry(){
   const seg=96, verts=[], uvs=[], idx=[];
   for(let i=0;i<=seg;i++){
@@ -563,8 +579,19 @@ const windU = {value:0};
 function buildGrass(){
   if(grass){ scene.remove(grass); grass.geometry.dispose(); grass=null; }
   grassCount = [2600, 7000, 12000][S.quality];
-  const bg = new THREE.PlaneGeometry(0.42, 1.5, 1, 3);
-  bg.translate(0, 0.75, 0);
+  // Two crossed, tapered ribbons read as fine blades from every camera angle.
+  // Unlike PlaneGeometry they finish in a point, removing the old card-like silhouette.
+  const verts=[], indices=[];
+  function blade(angle, height, width){
+    const ca=Math.cos(angle), sa=Math.sin(angle), base=verts.length/3;
+    const levels=[[0,width*.62],[height*.42,width*.48],[height*.78,width*.27],[height,0]];
+    levels.forEach(v=>{ verts.push(-v[1]*ca,v[0],-v[1]*sa, v[1]*ca,v[0],v[1]*sa); });
+    for(let j=0;j<3;j++){ const a=base+j*2; indices.push(a,a+1,a+2,a+1,a+3,a+2); }
+  }
+  blade(0,1.55,.23); blade(Math.PI/2,1.18,.17);
+  const bg = new THREE.BufferGeometry();
+  bg.setAttribute('position',new THREE.Float32BufferAttribute(verts,3)); bg.setIndex(indices);
+  bg.computeVertexNormals();
   const cols=[]; const pos=bg.attributes.position;
   const dark=new THREE.Color(0x6B7C38), lite=new THREE.Color(0xE0C066);
   for(let i=0;i<pos.count;i++){ const t=clamp(pos.getY(i)/1.5,0,1);
@@ -648,6 +675,7 @@ const M = {
   scarf: new THREE.MeshLambertMaterial({color:0xB2402E}),
   wood:  new THREE.MeshLambertMaterial({color:0x6B4A2E}),
   leaf:  new THREE.MeshLambertMaterial({color:0x5E7C3E}),
+  leafLight: new THREE.MeshLambertMaterial({color:0x83994B}),
   rock:  new THREE.MeshLambertMaterial({color:0x8B8071, flatShading:true}),
   paleRock: new THREE.MeshLambertMaterial({color:0xE8E0C8, flatShading:true}),
   apple: new THREE.MeshLambertMaterial({color:0xC63A2E}),
@@ -664,6 +692,10 @@ function makeHorse(scale, coatMat){
   const body = sph(1.05, coat, 1.0, 0.92, 1.65); body.position.set(0,1.55,0); g.add(body);
   const chest = sph(0.85, coat, 1.0, 1.0, 0.85); chest.position.set(0,1.62,0.9); g.add(chest);
   const rump = sph(0.9, coat, 1.0, 1.0, 0.9); rump.position.set(0,1.6,-1.0); g.add(rump);
+  // Overlapping muscle masses keep the low-poly construction but give the horse
+  // the proud chest and powerful hind-quarter silhouette of the key art.
+  const shoulder = sph(.62,coat,1.02,1.22,.72); shoulder.position.set(0,1.72,.72); g.add(shoulder);
+  const haunch = sph(.68,coat,1.03,1.18,.78); haunch.position.set(0,1.72,-.9); g.add(haunch);
 
   const neck = new THREE.Group(); neck.position.set(0,2.05,1.25); g.add(neck);
   const nk = cyl(0.42,0.6,1.5,coat); nk.position.set(0,0.6,0.2); nk.rotation.x=-0.42; neck.add(nk);
@@ -673,12 +705,15 @@ function makeHorse(scale, coatMat){
   const nose = sph(0.19,M.hoof,0.9,0.8,0.7); nose.position.set(0,-0.2,0.95); head.add(nose);
   const blaze = sph(0.11,M.white,0.9,0.5,0.6); blaze.position.set(0,0.2,0.4); head.add(blaze);
   [-1,1].forEach(s=>{
-    const eye = sph(0.085,M.eye); eye.position.set(s*0.26,0.1,0.3); head.add(eye);
+    const eyeWhite = sph(.105,M.white,1,.82,.55); eyeWhite.position.set(s*.265,.1,.31); head.add(eyeWhite);
+    const eye = sph(0.072,M.eye); eye.position.set(s*0.285,0.1,0.34); head.add(eye);
+    const shine = sph(.018,M.white); shine.position.set(s*.31,.125,.385); head.add(shine);
     const ear = new THREE.Mesh(new THREE.ConeGeometry(0.11,0.36,5), coat);
     ear.position.set(s*0.19,0.42,-0.06); ear.rotation.z=-s*0.18; head.add(ear);
     const fl = new THREE.Mesh(new THREE.ConeGeometry(0.05,0.2,5), M.hair);
     fl.position.set(s*0.19,0.44,-0.03); head.add(fl);
   });
+  [-1,1].forEach(s=>{ const nostril=sph(.035,M.eye,1,.55,.45); nostril.position.set(s*.11,-.22,.112); nose.add(nostril); });
   // грива
   const mane = new THREE.Group(); neck.add(mane);
   for(let i=0;i<9;i++){
@@ -723,8 +758,21 @@ function makeAlex(){
   const head = new THREE.Group(); head.position.y=1.72; g.add(head);
   const sk = sph(0.21,M.skin,1,1.08,0.95); head.add(sk);
   const hair = sph(0.225,M.hair,1.02,0.9,1.02); hair.position.set(0,0.07,-0.02); head.add(hair);
-  const fringe = box(0.4,0.12,0.14,M.hair); fringe.position.set(0,0.13,0.16); head.add(fringe);
-  [-1,1].forEach(s=>{ const e=sph(0.035,M.eye); e.position.set(s*0.08,0.0,0.19); head.add(e); });
+  const fringe = sph(.16,M.hair,1.25,.42,.72); fringe.position.set(-.035,.15,.15); fringe.rotation.z=-.16; head.add(fringe);
+  [-1,1].forEach(s=>{
+    const ear=sph(.04,M.skin,.58,1,.45); ear.position.set(s*.215,0,.0); head.add(ear);
+    const ew=sph(.041,M.white,1,.82,.45); ew.position.set(s*.082,.005,.195); head.add(ew);
+    const e=sph(.027,M.eye); e.position.set(s*.083,.005,.215); head.add(e);
+    const brow=box(.075,.018,.018,M.hair); brow.position.set(s*.085,.072,.208); brow.rotation.z=s*.12; head.add(brow);
+  });
+  const nose=sph(.035,M.skin,.72,.9,.7); nose.position.set(0,-.025,.225); head.add(nose);
+  const smile=new THREE.Mesh(new THREE.TorusGeometry(.055,.009,4,10,Math.PI),M.scarf);
+  smile.position.set(0,-.09,.205); smile.rotation.z=Math.PI; head.add(smile);
+  // A few asymmetric locks make Alex feel hand-drawn rather than assembled from boxes.
+  for(let i=0;i<5;i++){
+    const lock=new THREE.Mesh(new THREE.ConeGeometry(.045,.17,5),M.hair);
+    lock.position.set((i-2)*.065,.22-Math.abs(i-2)*.018,.0); lock.rotation.z=(i-2)*.14; head.add(lock);
+  }
   const arms=[], legs=[];
   [-1,1].forEach(s=>{
     const sh = new THREE.Group(); sh.position.set(s*0.28,1.35,0); g.add(sh);
@@ -782,11 +830,14 @@ function addRock(x,z,s){
 }
 function addTree(x,z){
   const y=hAt(x,z);
-  const t = cyl(0.34,0.44,3.4,M.wood); t.position.set(x,y+1.7,z); scene.add(t);
-  for(let i=0;i<3;i++){
-    const f = sph(1.5-i*0.22, M.leaf, 1.1,0.85,1.1);
-    f.position.set(x+(valleyRand()-0.5), y+3.4+i*0.9, z+(valleyRand()-0.5));
-    scene.add(f);
+  const t = cyl(0.27,0.48,4.1,M.wood); t.position.set(x,y+2.05,z); t.rotation.z=(valleyRand()-.5)*.1; scene.add(t);
+  // Open, irregular prairie crowns let sunset light through instead of reading as snowmen.
+  for(let i=0;i<7;i++){
+    const a=valleyRand()*TAU, reach=.3+valleyRand()*1.25;
+    const f = sph(.8+valleyRand()*.55, i%3?M.leaf:M.leafLight,
+      1.25+valleyRand()*.35,.55+valleyRand()*.28,1.0+valleyRand()*.3);
+    f.position.set(x+Math.cos(a)*reach, y+3.65+valleyRand()*1.65, z+Math.sin(a)*reach);
+    f.rotation.y=a; scene.add(f);
   }
   obstacles.push({x,z,r:0.9,top:y+3.5});
 }
