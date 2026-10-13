@@ -30,7 +30,7 @@ The original browser world is preserved. Unity and English Loop are unchanged. T
 
 ## Release QA, issue #8
 
-- [x] Build and12 unit checks pass; three-project GitHub CI matrix runs13 browser scenarios per project on the integrated candidate.
+- [x] Build and14 unit checks pass; three-project GitHub CI matrix runs13 browser scenarios per project on the integrated candidate.
 - [x] Local Chromium final5/5 focus passes; WebKit12 unique scenarios plus repeated final integration/last-finale gate pass. See QA.md for exact source snapshots and timing-only retries.
 - [x] Local assets, glyph-independent SVG controls,44px touch targets, portrait hint, safe areas and versioned saves.
 - [x] Reduced terrain/grass budget, instanced distant peaks, single-draw contact shadows, bounded family scene and actual load gating.

@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { directionAngle } from './navigation.js';
 import { applyIcons } from './ui-icons.js';
 import { createContactShadows } from './contact-shadows.js';
 import { attachCharacters } from './characters/characters.js';
@@ -1539,7 +1540,7 @@ function updateGuidance(){
   if(!beacon.visible) return;
   beacon.position.set(t[0],hAt(...t)+.15,t[1]);diamond.rotation.y=windU.value;
   diamond.position.y=3.1+Math.sin(windU.value*2)*.3;
-  const angle=Math.atan2(t[0]-P.x,t[1]-P.z)-cam.yaw-Math.PI;
+  const angle=directionAngle(P.x,P.z,t[0],t[1],cam.yaw);
   $('#directionArrow').style.transform=`rotate(${angle}rad)`;
   $('#directionDistance').textContent=Math.round(Math.hypot(t[0]-P.x,t[1]-P.z))+' м';
 }
