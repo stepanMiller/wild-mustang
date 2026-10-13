@@ -1,0 +1,40 @@
+name: Game quality checks
+
+on:
+  pull_request:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Build deployable game
+        run: npm run build
+      - name: Validate saved progress and story data
+        run: npm run test:unit
+      - name: Install desktop Chromium and WebKit
+        run: npx playwright install --with-deps chromium webkit
+      - name: Play gameplay checks on desktop and tablet emulation
+        run: npm test
+      - name: Rebuild production without test hooks
+        run: npm run build
+      - name: Keep browser evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gameplay-qa
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 14
+          if-no-files-found: ignore
