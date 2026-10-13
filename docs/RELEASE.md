@@ -12,7 +12,7 @@ Horse, foal and five family horses use independently animated CC0 rigs. Alex has
 
 ## Evidence and limits
 
-- Production build succeeds. Fourteen unit checks validate real glTF skeletons/clips, character behavior/fallback and save migration.
+- Production build succeeds. Fifteen unit checks validate real glTF skeletons/clips, character behavior/fallback and save migration.
 - Chromium and Linux WebKit exercised real keyboard/pointer handlers, pause, checkpoints, repeat play, all three chapter transitions, reunion, epilogue and reload/replay. Deterministic progression tests teleport between objectives and fast-forward cinematics. They do not prove natural walking-route duration or a seven-year-old's independent comprehension.
 - Actual rendered cast: `public/assets/characters/cast-preview.png`. Integrated family scene: `tests/evidence/reunion-gameplay.png` (visual sampling with a QA save/pose). WebKit story completion: `tests/evidence/webkit-story-ending.png`.
 - The software browser benchmark is a desktop CPU renderer, not an iPad performance measurement. Final scene uses roughly 76-83 draws and 127k triangles in the recorded emulated view. No claim of 30 or 60 FPS on physical hardware is made.

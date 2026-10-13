@@ -184,3 +184,38 @@ test('P1 corrupted saved data recovers to a playable new game', async ({ page })
   await meetAlex(page);
   expect((await state(page)).quest).toBe(0);
 });
+
+test('P1 return to the trail moves an off-route save without losing quest progress', async ({ page }) => {
+  await openGame(page);
+  await startChapterOne(page);
+  await skipTutorial(page);
+  await meetAlex(page);
+  const progress = await state(page);
+  await teleport(page, 80, 80);
+  await page.locator('#btnPause').click();
+  const offRoute = position(await state(page));
+  expect(offRoute.x).toBe(80);
+  expect(offRoute.z).toBe(80);
+  await page.locator('#btnUnstuck').click();
+  await expect.poll(async () => {
+    const p = position(await state(page));
+    return Math.hypot(p.x - offRoute.x, p.z - offRoute.z);
+  }).toBeGreaterThan(10);
+  const returned = await state(page);
+  expect(returned.grounded).toBe(true);
+  expect(returned.paused).toBe(false);
+  expect(returned.speed).toBeLessThan(0.1);
+  expect(returned.quest).toBe(progress.quest);
+  expect(returned.trust).toBe(progress.trust);
+  const savedPosition = position(returned);
+  await page.reload();
+  await expect(page.locator('#loading')).toHaveCount(0, { timeout: 20_000 });
+  await page.locator('#btnContinue').click();
+  const resumed = await state(page);
+  expect(resumed.quest).toBe(progress.quest);
+  expect(resumed.trust).toBe(progress.trust);
+  expect(resumed.grounded).toBe(true);
+  expect(resumed.paused).toBe(false);
+  expect(position(resumed).x).toBeCloseTo(savedPosition.x, 4);
+  expect(position(resumed).z).toBeCloseTo(savedPosition.z, 4);
+});

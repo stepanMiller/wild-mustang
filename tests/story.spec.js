@@ -66,6 +66,16 @@ test('Story restart resets the current chapter and preserves unlocked chapters',
   await skipTutorial(page);
   await meetAlex(page);
   await finishCurrentChapter(page);
+  await expect(page.locator('#pause')).not.toHaveClass(/on/);
+  await page.evaluate(() => {
+    const descriptor = Object.getOwnPropertyDescriptor(document, 'hidden');
+    Object.defineProperty(document, 'hidden', { configurable: true, get: () => true });
+    document.dispatchEvent(new Event('visibilitychange'));
+    if (descriptor) Object.defineProperty(document, 'hidden', descriptor);
+    else delete document.hidden;
+  });
+  await expect(page.locator('#pause')).not.toHaveClass(/on/);
+  await expect(page.locator('#finish')).toHaveClass(/on/);
   await page.locator('#btnAgain').click();
   await expect.poll(async () => (await state(page)).phase).toBe('tutorial');
   const restarted = await state(page);
@@ -75,6 +85,12 @@ test('Story restart resets the current chapter and preserves unlocked chapters',
   expect(restarted.freeProgress).toBe(0);
   expect(restarted.foalFreed).toBe(false);
   expect(restarted.completedChapters).toContain(1);
+  await page.locator('#btnPause').click();
+  await page.locator('#btnToMenu').click();
+  await expect(page.locator('#start')).toHaveClass(/on/);
+  for (const id of ['#pause', '#map', '#log', '#settings', '#finish', '#chapters']) {
+    await expect(page.locator(id)).not.toHaveClass(/on/);
+  }
 });
 
 // Ensure diagnostics cannot be used accidentally by a normal player.
