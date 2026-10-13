@@ -1,0 +1,46 @@
+{
+  "verifiedOn": "2026-10-13",
+  "horse": {
+    "creator": "Quaternius",
+    "pack": "Ultimate Animated Animal Pack",
+    "packRelease": "July 2021",
+    "officialPage": "https://quaternius.com/packs/ultimateanimatedanimals.html",
+    "officialDownloadFolder": "https://drive.google.com/drive/folders/1uJ3N5HfB7jKTseJUNQr3N4YaN0UuEtHk",
+    "officialGltfFolder": "https://drive.google.com/drive/folders/1yJXdB1iSrI8Db7hG77zxZ66vKsqIt0ry",
+    "originalModel": "Horse.gltf",
+    "originalFileId": "1hbtY8kxnXiPdwYGVY7rWRgU0jl_-Q-LG",
+    "originalSha256": "3deb61550dff1d2786d04b6e8559d63ad3907d6ab606ba28ce0af074ed96341b",
+    "sourceGenerator": "Khronos glTF Blender I/O v1.6.16",
+    "license": "CC0-1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "licenseFileId": "1F2uy8T2fRpdc6gZ4mnS02_C2E63WvKtn",
+    "licenseEvidence": "quaternius-animals-license.txt",
+    "shippingFile": "../characters/horse.glb",
+    "shippingSha256": "591007f38ed01f46a2141806abd2500c34b90eb3e509ce7ee56cf46d440508d3",
+    "shippingBytes": 761596,
+    "triangles": 2182,
+    "bones": 50,
+    "shippingClips": ["Eating", "Gallop", "Gallop_Jump", "Idle", "Idle_2", "Idle_Headlow", "Jump_toIdle", "Walk", "Trot"],
+    "modifications": [
+      "Trimmed all attack, death and hit-reaction clips",
+      "Authored diagonal-pair Trot by quarter-cycle rephasing Walk hind-limb channels and changing cadence",
+      "Removed Body vertical jump displacement so gameplay alone owns physical jump trajectory",
+      "Added original pale facial blaze as a separately weighted skinned primitive",
+      "Deduplicated and repacked original accessor data into local GLB without runtime codec dependencies",
+      "Runtime combines primitives into one vertex-colored skinned mesh per horse",
+      "Runtime bay and herd coat palettes, dark mane, foal larger head and shorter neck/trunk"
+    ],
+    "attributionRequired": false,
+    "publicRedistributionPermitted": true,
+    "paidCost": 0
+  },
+  "alex": {
+    "creator": "Wild Mustang project",
+    "source": "src/characters/alex.js",
+    "license": "MIT",
+    "licenseEvidence": "../../../LICENSE",
+    "provenance": "Original authored geometry, skin weights, skeleton and animation clips. No third-party model, image or paid generation.",
+    "animations": ["Idle", "Walk", "Run", "Wave", "OfferApple", "Pet"],
+    "paidCost": 0
+  }
+}
