@@ -5,9 +5,9 @@
 **Source of truth:** `index.html`, `AGENTS.md`, `docs/GameDesign.md`. Keep `main` deployable. All major tasks use a separate branch and PR. Record date, test evidence and blockers per stage below. Do not mark boxes complete just because code was written: run and verify.
 
 ## P0 — protect and audit existing build
-- [ ] Reproduce current 3D game and get screenshots on desktop/mobile viewport.
+- [x] Reproduce chapter 1 in desktop Chromium; automated landscape screenshot recorded in the Playwright report.
 - [ ] Confirm current page deployment; identify Safari-only risks, JS errors and quest softlocks.
-- [ ] Set up reproducible local build/test command and smoke tests; preserve working release.
+- [x] Set up pinned npm/Vite build, versioned persistence unit checks and Playwright gameplay checks; Pages deploys only after CI validation.
 - [ ] Track live flow: start → tutorial → Alex → tracks → apples → creek → foal → finale.
 
 ## P1 — make chapter 1 enjoyable and technically reliable
@@ -15,6 +15,14 @@
 - [ ] Confirm control buttons, camera follow, landscape UI and checkpoints/resume.
 - [ ] Smooth horse locomotion and terrain contact, interactions and hints.
 - [ ] Desktop browser smoke test, mobile emulation; document on-device Safari test status.
+
+### P1 implementation and evidence (13 October 2026)
+
+Branch `fix/chapter-one-stability` preserves the existing chapter and separates its browser code into `src/game.js`. Dependencies are pinned and included in the static build. Chapter 1 now has walkable shallow fords, required quest interactions ahead of optional petting, safe early apple collection, versioned checkpoints with legacy migration, paused jump physics, cleared input after interruptions and safe pointer capture cancellation. The error overlay also remains usable after the loading screen has been removed.
+
+Executed locally: `npm run build` passed; `npm run test:unit` passed 5/5 persistence checks. The build has a 558.8 kB minified game chunk (146.1 kB gzip) and a non-blocking Vite chunk-size warning. The 24-case Playwright chapter-1 matrix covers desktop Chromium, Chromium with iPad landscape/touch emulation and WebKit with iPad emulation. Results will be recorded after that run completes.
+
+Physical iPad Safari has not been tested in this environment. Actual device performance, tab/app switching and a child's uninterrupted playthrough remain release gates. Automated quest checks use test-only teleporting for traversal, followed by the same interaction buttons and quest triggers as ordinary play; they do not establish that a child can find the whole route unaided.
 
 ## P2 — real art pipeline and character animation
 - [ ] Compare Quaternius horse with desired stylized-realistic art; verify exact license and clips.

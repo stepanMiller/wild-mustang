@@ -1,4 +1,4 @@
-name: Deploy static site to GitHub Pages
+name: Verify and deploy game to GitHub Pages
 
 on:
   push:
@@ -15,7 +15,10 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  checks:
+    uses: ./.github/workflows/qa.yml
   deploy:
+    needs: checks
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -23,12 +26,19 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Build production game
+        run: npm run build
       - name: Configure Pages
         uses: actions/configure-pages@v5
-      - name: Upload static site
+      - name: Upload built static game
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: dist
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
