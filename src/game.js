@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { directionAngle } from './navigation.js';
+import { directionAngle, nearestSafeTrailPoint } from './navigation.js';
 import { applyIcons } from './ui-icons.js';
 import { createContactShadows } from './contact-shadows.js';
 import { attachCharacters } from './characters/characters.js';
@@ -990,8 +990,13 @@ $('#btnPause').onclick = ()=>{ saveCheckpoint(); pauseGame(true); screen('#pause
 $('#btnResume').onclick = ()=>{ screen('#pause',false); pauseGame(false); };
 $('#btnToMenu').onclick = ()=>{ screen('#pause',false); toMenu(); };
 $('#btnUnstuck').onclick = ()=>{
-  const cp = G.checkpoint;
-  resetTo(cp?cp.x:20, cp?cp.z:24);
+  const chapter = CHAPTERS[G.chapter];
+  const point = nearestSafeTrailPoint(chapter.route,P.x,P.z,(x,z)=>{
+    const ground = hAt(x,z);
+    return ground >= WATER_Y+.1 && !obstacles.some(o=>Math.hypot(x-o.x,z-o.z)<o.r+1.5 && ground<o.top+.25);
+  }) || chapter.spawn;
+  resetTo(...point);
+  saveCheckpoint();
   screen('#pause',false); pauseGame(false); toast('Ветер вернулся на тропу');
 };
 $('#btnMap').onclick = ()=>{ drawMap(); pauseGame(true); screen('#map',true); };
@@ -1110,6 +1115,7 @@ function startGame(cont,chapter=1){
 }
 function toMenu(){
   saveCheckpoint(); pauseGame(true); $('#hud').classList.remove('on');
+  ['#pause','#map','#log','#settings','#finish','#chapters'].forEach(id=>screen(id,false));
   screen('#start',true); $('#cine').classList.remove('on'); G.phase='menu'; renderChapters();
 }
 function finishTutorial(){
@@ -1129,7 +1135,12 @@ function clearInput(){
   joyBase.style.left=''; joyBase.style.top=''; joyBase.style.bottom='';
 }
 window.addEventListener('blur',()=>{ if(!G.paused && G.phase!=='menu'){saveCheckpoint();pauseGame(true);screen('#pause',true);} clearInput(); });
-document.addEventListener('visibilitychange',()=>{if(document.hidden){saveCheckpoint();pauseGame(true);if(G.phase!=='menu') screen('#pause',true);}});
+document.addEventListener('visibilitychange',()=>{
+  if(!document.hidden) return;
+  saveCheckpoint();
+  if(!G.paused && G.phase!=='menu'){pauseGame(true);screen('#pause',true);}
+  clearInput();
+});
 canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();saveCheckpoint();pauseGame(true);$('#errorText').textContent='Графика остановилась. Перезагрузи игру, чтобы продолжить с сохранённого места.';screen('#error',true);});
 
 /* --- карта --- */
