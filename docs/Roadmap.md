@@ -35,7 +35,7 @@ The original browser world is preserved. Unity and English Loop are unchanged. T
 - [x] Local assets, glyph-independent SVG controls, 44px touch targets, portrait hint, safe areas and versioned saves.
 - [x] Reduced terrain/grass budget, instanced distant peaks, single-draw contact shadows, bounded family scene and actual load gating.
 - [x] Software frame/draw metrics recorded separately from hardware requirements.
-- [ ] Confirm final candidate Pages deployment and exact release.json match after final PR merge.
+- [x] Candidate published and verified: Pages run 38407337306 passed 42/42 browser scenarios and 15 unit checks. Public HTML, release.json, all runtime bundles and GLB exactly match the production build by SHA-256.
 - [ ] Actual iPad Safari landscape: all chapters, background/restore, orientation, touch cancellation and replay.
 - [ ] Sustained >=30 FPS on recorded representative iPad; no desktop software benchmark can satisfy this.
 - [ ] Independent Luka playthrough and observed chapter durations against the 10-15 minute design target.
