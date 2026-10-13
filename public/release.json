@@ -1,7 +1,7 @@
 {
   "version": "1.0.0-rc.1",
   "game": "Ветер прерий",
-  "sourceCommit": "ac91e3d4c5c166d42b65dad0a2444bc62527975e",
+  "sourceCommit": "c6c77646f2fcb98a54c0208546ebf81c7f854080",
   "date": "2026-10-13",
   "chapters": 3,
   "manualIPadSafari": "pending",
@@ -12,5 +12,9 @@
     "src/characters/characters.js": "aa608b6544bdb3ed27b0f80cdd0c99c41de2ccddc22d26668fc3fa6be5f5a5ac",
     "index.html": "3dd860cdd95d94d1f1e88d5dd78e226aa0e264096e2b25b0f3db524204ba8eba",
     "src/navigation.js": "08e52d18e00612c0c23b22923adb70600eb77b7c39258ef69f6406ef6f091170"
+  },
+  "toolchain": {
+    "three": "0.128.0",
+    "vite": "6.4.4"
   }
 }

@@ -1,6 +1,6 @@
 import { expect } from '@playwright/test';
 import { test } from './fixtures.js';
-import { action, finishCurrentChapter, meetAlex, openGame, pointer, position, skipTutorial, startChapterOne, state, teleport } from './helpers.js';
+import { action, meetAlex, openGame, pointer, position, skipTutorial, startChapterOne, state, teleport } from './helpers.js';
 
 test.beforeEach(async ({ page }) => {
   const errors = [];
@@ -118,8 +118,16 @@ test('P1 early apple collection does not softlock the apple objective', async ({
     await action(page, /Взять яблоко/);
   }
   expect((await state(page)).apples).toBe(3);
-  await finishCurrentChapter(page);
-  expect((await state(page)).completedChapters).toContain(1);
+  // This regression concerns advancing past an already satisfied apple task.
+  // The separate story scenario verifies the remaining chapter and its ending.
+  const quests = await page.evaluate(() => window.__WILD_MUSTANG_TEST__.objects().quests);
+  await teleport(page, quests[0].target[0], quests[0].target[1]);
+  await action(page, quests[0].label);
+  await expect.poll(async () => (await state(page)).quest).toBe(1);
+  await teleport(page, quests[1].target[0], quests[1].target[1]);
+  await expect.poll(async () => (await state(page)).quest).toBe(3);
+  expect((await state(page)).phase).toBe('quests');
+  expect((await state(page)).apples).toBe(3);
 });
 
 test('P1 save and reload preserve partially rescued foal and world state', async ({ page }) => {
@@ -158,8 +166,15 @@ test('P1 save and reload preserve partially rescued foal and world state', async
   expect(loaded.quest).toBe(3);
   expect(loaded.freeProgress).toBe(1);
   expect(loaded.apples).toBe(3);
-  await finishCurrentChapter(page);
+  // Complete the remaining rescue actions after reload. The full story test
+  // owns hill navigation and the chapter ending, avoiding a duplicate playthrough.
+  for (let attempts = 0; attempts < 3 && (await state(page)).quest === 3; attempts++) {
+    await action(page, /Отодвинуть ветк/);
+  }
+  await expect.poll(async () => (await state(page)).quest).toBe(4);
+  expect((await state(page)).phase).toBe('quests');
   expect((await state(page)).foalFreed).toBe(true);
+  expect((await state(page)).freeProgress).toBe(3);
 });
 
 test('P1 corrupted saved data recovers to a playable new game', async ({ page }) => {

@@ -21,8 +21,10 @@ export default defineConfig({
   use: {
     baseURL,
     screenshot: 'only-on-failure',
-    trace: process.env.PLAYWRIGHT_SINGLE_PROCESS === '1' ? 'off' : 'retain-on-failure',
-    video: 'retain-on-failure',
+    trace: process.env.PLAYWRIGHT_SINGLE_PROCESS === '1' ? 'off' : {
+      mode: 'retain-on-failure', snapshots: false, screenshots: false, sources: true,
+    },
+    video: 'off',
   },
   projects: [
     {

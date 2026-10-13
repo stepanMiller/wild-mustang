@@ -62,6 +62,7 @@ export async function finishCurrentChapter(page) {
       return { current, quest: objects.quests[current.quest], target: api.target(),
         allApplesTaken: objects.apples.every(apple => apple.taken) };
     });
+    console.log(`Story progress: chapter ${current.chapter}, quest ${current.quest}, phase ${current.phase}, apples ${current.apples}, rescue ${current.freeProgress}`);
     if (current.phase === 'cine' || current.phase === 'done') break;
     if (!quest || !target) throw new Error(`No quest target: ${JSON.stringify(current)}`);
     if (quest.kind === 'apples' && allApplesTaken) {
