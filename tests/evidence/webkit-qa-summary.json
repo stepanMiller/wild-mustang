@@ -1,0 +1,79 @@
+{
+  "recordedAtUtc": "2026-10-13T12:35:55.291840+00:00",
+  "initialMatrix": {
+    "passed": 11,
+    "failed": 1,
+    "durationMinutes": 7.6,
+    "failure": "Tutorial final phase meet 12-second poll timeout under software rendering, tests/gameplay.spec.js:59",
+    "report": "playwright-report/index.html"
+  },
+  "tutorialTargetedRetry": {
+    "passed": 1,
+    "durationSeconds": 29.4,
+    "sameAssertion": true,
+    "runtimeOnlyAdjustment": "final meet phase poll timeout 60000 ms",
+    "report": "playwright-retry-report/index.html"
+  },
+  "finalSourceFocus": {
+    "passed": 4,
+    "durationMinutes": 2.8,
+    "coverage": [
+      "rigged character status and walk/trot/gallop/jump/idle",
+      "local game render and landscape controls",
+      "software render metrics",
+      "all three chapters completion save reunion epilogue reload replay"
+    ],
+    "report": "playwright-final-focus-report/index.html",
+    "sourceManifest": "final-source-manifest.json"
+  },
+  "softwareRenderMetrics": {
+    "browser": "Mozilla/5.0 (iPad; CPU OS 12_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.5 Mobile/15E148 Safari/604.1",
+    "viewport": [
+      1194,
+      834
+    ],
+    "devicePixelRatio": 2,
+    "samples": 9,
+    "meanFrameMs": 337.22222222222223,
+    "p95FrameMs": 677,
+    "renderer": {
+      "calls": 76,
+      "triangles": 126688
+    },
+    "note": "Desktop automated runner, not physical iPad performance."
+  },
+  "rootChangesSinceFinalSnapshot": [
+    "index.html",
+    "src/game.js",
+    "src/story/chapters.js",
+    "src/story/environment.js"
+  ],
+  "limitations": [
+    "WebKit desktop software runner with iPad landscape emulation, not physical iPad Safari",
+    "Story traversal uses test-hook teleport and cinematic fast-forward while clicking real action buttons",
+    "Performance numbers are software runner evidence; real 30 FPS iPad target remains unmeasured"
+  ],
+  "screenshots": [
+    "test-results-final-focus/gameplay-P1-new-game-rende-8e2fe-ndscape-controls-are-usable-webkit-ipad/chapter-one-landscape.png",
+    "test-results-final-focus/characters-Characters-ship-6d6c5-act-to-movement-and-jumping-webkit-ipad/rigged-characters.png",
+    "test-results-final-focus/.playwright-artifacts-0/3c380616e59ff10fbef4e87445e6ed74.png",
+    "test-results-final-focus/.playwright-artifacts-0/e52ff46e9665ba65a833e235614440c4.png",
+    "test-results-final-focus/.playwright-artifacts-0/7f0c28f45713574f97f83e899c888ff8.png",
+    "test-results-final-focus/.playwright-artifacts-0/ccb8fb78abecc517a79c5c3d7e9eb3ee.png",
+    "test-results-final-focus/story-Story-all-three-chap-32630-y-without-losing-completion-webkit-ipad/chapter-3-complete.png",
+    "test-results-final-focus/story-Story-all-three-chap-32630-y-without-losing-completion-webkit-ipad/chapter-2-complete.png",
+    "test-results-final-focus/story-Story-all-three-chap-32630-y-without-losing-completion-webkit-ipad/chapter-1-complete.png"
+  ],
+  "latestFinaleGate": {
+    "passed": 1,
+    "durationMinutes": 2.1,
+    "report": "playwright-final-story-report/index.html",
+    "sourceManifest": "final-story-source-manifest.json",
+    "gameSha256": "f276f5ed1dac39c36b42446b9e3ec0b7a2405d8eb91717a608fcc8626548939f",
+    "sourceCopiedAtUtc": "2026-10-13T12:36:53.696265+00:00",
+    "rootSourceChangesSinceSnapshot": [],
+    "coverage": "All three chapters quests/completion/unlocks/save/reunion/epilogue/reload/replay after final reunion quest/cinematic/rock fixes"
+  },
+  "finalTitleScreenshot": "test-results-final-story/story-Story-all-three-chap-32630-y-without-losing-completion-webkit-ipad/chapter-3-complete.png",
+  "completedAtUtc": "2026-10-13T12:39:21.384704+00:00"
+}

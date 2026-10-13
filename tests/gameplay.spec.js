@@ -13,10 +13,10 @@ test.afterEach(async ({ page }) => {
   expect(page.__gameErrors, 'Uncaught browser/console errors').toEqual([]);
 });
 
-test('P1 new game renders locally and landscape controls are usable', async ({ page }, testInfo) => {
+test('P1 new game renders locally and landscape controls are usable', async ({ page, baseURL }, testInfo) => {
   const foreignRequests = [];
   page.on('request', request => {
-    if (new URL(request.url()).origin !== 'http://127.0.0.1:4173') foreignRequests.push(request.url());
+    if (new URL(request.url()).origin !== new URL(baseURL).origin) foreignRequests.push(request.url());
   });
   await openGame(page);
   await startChapterOne(page);
@@ -55,7 +55,7 @@ test('P1 keyboard can finish every tutorial step and Shift release stops gallopi
   await page.keyboard.press('Space');
   await expect.poll(async () => (await state(page)).tutStep).toBeGreaterThanOrEqual(4);
   await page.keyboard.up('w');
-  await expect.poll(async () => (await state(page)).phase, { timeout: 30_000 }).toBe('meet');
+  await expect.poll(async () => (await state(page)).phase, { timeout: 90_000 }).toBe('meet');
   expect((await state(page)).inputs.gallop).toBe(false);
 });
 
@@ -127,19 +127,29 @@ test('P1 save and reload preserve partially rescued foal and world state', async
   await startChapterOne(page);
   await skipTutorial(page);
   await meetAlex(page);
-  // Find tracks, ford, and apples using normal in-game action triggers.
-  while ((await state(page)).quest < 3) {
-    const s = await state(page);
-    const target = await page.evaluate(() => window.__WILD_MUSTANG_TEST__.target());
-    const q = await page.evaluate(index => window.__WILD_MUSTANG_TEST__.objects().quests[index], s.quest);
+  // Read progression and destination together, as automatic completion may
+  // happen between browser round-trips after an early apple collection.
+  for (let attempts = 0; attempts < 12; attempts++) {
+    const { s, target, q, allTaken } = await page.evaluate(() => {
+      const api = window.__WILD_MUSTANG_TEST__;
+      const s = api.snapshot(), objects = api.objects();
+      return { s, target: api.target(), q: objects.quests[s.quest],
+        allTaken: objects.apples.every(a => a.taken) };
+    });
+    if (s.quest >= 3) break;
+    if (q.kind === 'apples' && allTaken) {
+      await expect.poll(async () => (await state(page)).quest).not.toBe(s.quest);
+      continue;
+    }
     const travel = q.kind === 'zone' ? q.target : target;
     await teleport(page, travel[0], travel[1]);
     if (q.kind === 'zone') await expect.poll(async () => (await state(page)).quest).not.toBe(s.quest);
-    else await action(page);
+    else await action(page, q.kind === 'apples' ? /Взять яблоко/ : q.label);
   }
+  expect((await state(page)).quest).toBe(3);
   const target = await page.evaluate(() => window.__WILD_MUSTANG_TEST__.target());
   await teleport(page, target[0], target[1]);
-  await action(page, /Отодвинуть ветки/);
+  await action(page, /Отодвинуть ветк/);
   await expect.poll(async () => (await state(page)).freeProgress).toBe(1);
   await page.reload();
   await expect(page.locator('#loading')).toHaveCount(0, { timeout: 20_000 });

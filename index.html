@@ -23,8 +23,8 @@
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 html,body{width:100%;height:100%;overflow:hidden;background:#1a1008;
   font-family:'Rubik',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-  color:var(--cream);touch-action:none;overscroll-behavior:none;user-select:none;-webkit-user-select:none;}
-#scene{position:fixed;inset:0;display:block;}
+  color:var(--cream);touch-action:auto;overscroll-behavior:none;user-select:none;-webkit-user-select:none;}
+#scene{position:fixed;inset:0;display:block;touch-action:none;}
 #ui{position:fixed;inset:0;pointer-events:none;z-index:10;}
 .pe{pointer-events:auto;}
 
@@ -41,7 +41,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#1a1008;
 .btn .ic{font-size:26px;line-height:1;}
 
 /* ---------- HUD ---------- */
-#hud{position:absolute;inset:0;opacity:0;transition:opacity .5s ease;}
+#hud{position:absolute;inset:0;touch-action:none;opacity:0;transition:opacity .5s ease;}
 #hud.on{opacity:1;}
 #gauges{position:absolute;top:var(--safe-t);left:var(--safe-l);width:250px;}
 .gauge{margin-bottom:11px;}
@@ -208,9 +208,12 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:32px;heigh
 #directionArrow{font-size:30px;display:inline-block;color:var(--gold);}
 #btnSkipTutorial{position:absolute;top:calc(var(--safe-t) + 152px);left:50%;transform:translateX(-50%);padding:14px 18px;}
 #orientation{display:none;position:fixed;inset:0;z-index:90;background:#33200fe8;align-items:center;justify-content:center;text-align:center;font-size:24px;padding:32px;}
-.panel{max-height:calc(100dvh - 40px);overflow:auto;}
+.panel{max-height:calc(100vh - 40px);max-height:calc(100dvh - 40px);overflow:auto;touch-action:pan-y;}
 @media(orientation:portrait){#orientation{display:flex;}}
 @media(max-height:600px){#gauges{width:160px;}#chapterTag{font-size:13px;}#topRight{gap:6px;}#topRight .btn{width:48px;height:48px;}#tracker{width:190px;top:calc(var(--safe-t) + 114px);padding:7px 10px;}#tracker p{font-size:13px;}#tracker span{font-size:11px;}#hint{font-size:13px;padding:7px 12px;max-width:53vw;top:calc(var(--safe-t) + 52px);}#direction{top:calc(var(--safe-t) + 60px);}#joyBase{width:120px;height:120px;left:var(--safe-l);bottom:var(--safe-b);}#actions{transform:scale(.8);transform-origin:bottom right;}#dialog{width:48vw;padding:9px 14px;font-size:13px;bottom:var(--safe-b);}#startInner{padding-top:12px;}#title{font-size:56px;}#tagline{font-size:13px;margin:10px 0;}#startBtns{gap:8px;}#startBtns .btn{min-height:44px;padding:9px 16px;}#chapterLine{font-size:12px;}#mapCanvas{max-height:45vh;width:auto;}}
+[data-chapter]{width:100%;text-align:left;margin:10px 0;padding:14px;min-height:80px;border-radius:14px;justify-content:flex-start;}[data-chapter] .tx{flex:1;}[data-chapter] .mk{min-width:36px;}
+.toggle,input[type="range"],.seg button{min-height:44px;}
+.toggle i{top:50%;transform:translateY(-50%);}
 </style>
 </head>
 <body>
@@ -261,7 +264,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:32px;heigh
     <div id="startInner">
       <div id="chapterLine">Глава первая · Следы после грозы</div>
       <h1 id="title">Ветер<em>прерий</em></h1>
-      <p id="tagline">Мустанг проснулся один после ночной грозы. Табун ушёл к горам. Найди следы, найди друга — и найди дорогу домой.</p>
+      <p id="tagline">Мустанг проснулся один после ночной грозы. Табун ушёл к горам. Найди следы и друга. Найди дорогу домой.</p>
       <div id="startBtns">
         <button class="btn primary pe" id="btnPlay">Начать путешествие</button>
         <button class="btn pe" id="btnContinue">Продолжить</button>
@@ -336,9 +339,9 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:32px;heigh
     <div class="panel">
       <h2>Главы</h2>
       <div class="sub">Путешествие только начинается.</div>
-      <div class="quest now"><div class="mk">1</div><div class="tx"><b>Следы после грозы</b><span>Долина, рассвет. Доступно.</span></div></div>
-      <div class="quest"><div class="mk">2</div><div class="tx"><b>Брод у белых камней</b><span>Откроется после первой главы.</span></div></div>
-      <div class="quest"><div class="mk">3</div><div class="tx"><b>Дорога к дальним горам</b><span>Откроется позже.</span></div></div>
+<button class="quest btn pe" data-chapter="1"><div class="mk">1</div><div class="tx"><b>Следы после грозы</b><span></span></div></button>
+<button class="quest btn pe" data-chapter="2" disabled><div class="mk">2</div><div class="tx"><b>Брод у белых камней</b><span></span></div></button>
+<button class="quest btn pe" data-chapter="3" disabled><div class="mk">3</div><div class="tx"><b>Дорога к дальним горам</b><span></span></div></button>
       <button class="btn wide primary pe" id="btnCloseChapters">Назад</button>
     </div>
   </div>
@@ -351,7 +354,9 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:32px;heigh
       <div class="row"><label>Доверие</label><b id="finTrust">—</b></div>
       <div class="row"><label>Собрано яблок</label><b id="finApples">—</b></div>
       <div class="row"><label>Время в пути</label><b id="finTime">—</b></div>
-      <button class="btn wide primary pe" id="btnAgain">Пройти главу заново</button>
+      <button class="btn wide primary pe" id="btnNextChapter" hidden>Продолжить путь →</button>
+      <button class="btn wide primary pe" id="btnEpilogue" hidden>Гулять с табуном</button>
+      <button class="btn wide pe" id="btnAgain">Пройти главу заново</button>
       <button class="btn wide pe" id="btnFinMenu">В главное меню</button>
     </div>
   </div>

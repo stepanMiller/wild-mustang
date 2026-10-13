@@ -1,5 +1,8 @@
 import { defineConfig, devices } from '@playwright/test';
 
+const port = process.env.WILD_MUSTANG_TEST_PORT || '4173';
+const baseURL = `http://127.0.0.1:${port}/wild-mustang/`;
+
 const sandboxArgs = process.env.PLAYWRIGHT_SINGLE_PROCESS === '1'
   ? ['--no-sandbox', '--no-zygote', '--single-process', '--enable-unsafe-swiftshader']
   : ['--enable-unsafe-swiftshader'];
@@ -16,9 +19,9 @@ export default defineConfig({
   reporter: [['list'], ['html', { open: 'never' }]],
   outputDir: 'test-results',
   use: {
-    baseURL: 'http://127.0.0.1:4173/wild-mustang/',
+    baseURL,
     screenshot: 'only-on-failure',
-    trace: 'retain-on-failure',
+    trace: process.env.PLAYWRIGHT_SINGLE_PROCESS === '1' ? 'off' : 'retain-on-failure',
     video: 'retain-on-failure',
   },
   projects: [
@@ -36,8 +39,8 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: 'VITE_TEST_MODE=true npm run build && npm run preview -- --host 127.0.0.1 --port 4173',
-    url: 'http://127.0.0.1:4173/wild-mustang/',
+    command: `VITE_TEST_MODE=true npm run build && npm run preview -- --host 127.0.0.1 --port ${port}`,
+    url: baseURL,
     reuseExistingServer: false,
     cwd: process.env.WILD_MUSTANG_REPO || process.cwd(),
     timeout: 60_000,
