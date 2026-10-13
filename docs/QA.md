@@ -67,3 +67,47 @@ model, iPadOS version, Safari version, and date before marking this gate complet
    work without sound, and Safari Private Browsing/storage refusal fails gently.
 
 Status: actual iPad Safari testing has not been performed in this environment.
+
+## Automated release evidence, 13 October 2026
+
+WebKit 26.5 on Ubuntu 24.04, iPad Pro 11 landscape emulation (1194 x 834,
+DPR 2), completed all twelve initial scenarios. Eleven passed in the initial
+matrix; the last tutorial transition exceeded its original 12-second wall-clock
+wait. A targeted retry with the identical assertion and a longer wait passed.
+The production simulation caps frame delta to 0.05 seconds, so a 2.2-second
+simulation delay takes longer on software WebGL. No input or quest logic was
+changed to make this pass. The committed test harness now accommodates this.
+
+Four additional final checks passed: local render/layout, the rigged cast and
+Walk/Trot/Gallop/Jump/Idle transitions, frame metrics, and the complete story.
+After the final reunion target/cinematic/rock changes, a fresh full story run
+again passed: all three chapters, unlocks, save, reunion, epilogue movement,
+reload/Continue, and chapter replay without losing completion.
+
+The last WebKit story run verified `src/game.js` SHA-256
+`f276f5ed1dac39c36b42446b9e3ec0b7a2405d8eb91717a608fcc8626548939f`.
+Source files stayed unchanged during that run.
+
+Chromium 151 on the same software runner also passed five final checks:
+rigged cast/gait transitions, local render/layout, partial foal rescue and
+save/reload/completion, frame metrics, and all three chapters with reunion,
+epilogue, save/reload and replay. That frozen copy predates the final reunion
+staging adjustments verified by the later WebKit run. Normal CI checks the
+final source in Chromium desktop, Chromium tablet and WebKit tablet projects.
+
+Committed evidence:
+
+- `tests/evidence/release-rigged-characters.png`
+- `tests/evidence/release-chapter-1.png`
+- `tests/evidence/release-chapter-2.png`
+- `tests/evidence/release-chapter-3.png`
+- `tests/evidence/webkit-qa-summary.json`
+
+A short software-render sample recorded 76 draw calls and 126,688 triangles.
+Its mean 337 ms frame interval reflects the restricted software driver and
+concurrent automated workloads. It is not an iPad GPU measurement and cannot
+establish the 30 FPS hardware release gate. Story tests teleport between
+objectives and fast-forward cinematics; they use real interaction buttons and
+separate real movement/animation checks. They do not establish a child's
+independent navigation, actual adventure duration, or physical Safari behavior.
+The actual-device checklist above remains open.

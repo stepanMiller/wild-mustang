@@ -1,8 +1,14 @@
 import * as THREE from 'three';
+import { directionAngle, nearestSafeTrailPoint } from './navigation.js';
+import { applyIcons } from './ui-icons.js';
+import { createContactShadows } from './contact-shadows.js';
+import { attachCharacters } from './characters/characters.js';
+import { CHAPTERS, createStoryEnvironment } from './story/index.js';
 import { readSave, writeSave, validateCheckpoint } from './persistence.js';
 (function(){
 'use strict';
 const $ = s => document.querySelector(s);
+applyIcons();
 const clamp = (v,a,b) => v<a?a:(v>b?b:v);
 const lerp = (a,b,t) => a+(b-a)*t;
 const TAU = Math.PI*2;
@@ -25,7 +31,7 @@ const S = {
 };
 const G = {
   chapter:1, completedChapters:[], finished:false,
-  phase:'menu',        // menu | tutorial | meet | quests | cine | done
+  questSteps:0, phase:'menu',        // menu | tutorial | meet | quests | cine | done
   tutStep:0,
   quest:0,             // индекс текущего задания
   trust:0, stamina:100, staminaMax:100,
@@ -68,9 +74,11 @@ function hAt(x,z){
   const dx = x+72, dz = z+64;
   h += 20*Math.exp(-(dx*dx+dz*dz)/720) + 4*Math.exp(-((x+95)*(x+95)+(z+72)*(z+72))/1800);
   // Two broad shallow fords: walking is enough, no mandatory jump.
-  const ford = Math.max(Math.exp(-Math.pow((z+6)/6,4)), Math.exp(-Math.pow((z-60)/7,4)));
+  const ford = Math.max(Math.exp(-Math.pow(Math.max(0,Math.abs(z+6)-4)/6,4)), Math.exp(-Math.pow(Math.max(0,Math.abs(z-60)-4)/7,4)));
   h = Math.max(h, WATER_Y + 0.16*ford - 20*(1-ford));
   h += 12*Math.exp(-((x-88)*(x-88)+(z+76)*(z+76))/650);
+  const reunion=Math.exp(-Math.pow(Math.hypot(x-96,z+92)/17,4));
+  h=lerp(h,21.4,reunion);
   return h;
 }
 function normalAt(x,z){
@@ -87,27 +95,27 @@ const renderer = new THREE.WebGLRenderer({canvas, antialias:true, powerPreferenc
 renderer.setClearColor(0x2b1a0d);
 renderer.outputEncoding = THREE.sRGBEncoding;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 1.12;
+renderer.toneMappingExposure = .92;
 const scene = new THREE.Scene();
-scene.fog = new THREE.FogExp2(0xE9A65C, 0.0062);
+scene.fog = new THREE.FogExp2(0xE9A65C, 0.004);
 const camera = new THREE.PerspectiveCamera(56, 4/3, 0.5, 900);
 
 const sun = new THREE.DirectionalLight(0xffd9a0, 2.0);
 sun.position.set(-60, 40, 40);
 scene.add(sun);
-const hemi = new THREE.HemisphereLight(0xffc98a, 0x6a5a34, 0.85);
+const hemi = new THREE.HemisphereLight(0xc6d9ed, 0x39432b, 0.42);
 scene.add(hemi);
-const fill = new THREE.DirectionalLight(0x9ec4ff, 0.35);
+const fill = new THREE.DirectionalLight(0x9ec4ff, 0.16);
 fill.position.set(50, 25, -40); scene.add(fill);
 // A soft, warm rim separates the characters from the valley without the cost of shadows.
-const rim = new THREE.DirectionalLight(0xff9a52, 0.42);
+const rim = new THREE.DirectionalLight(0xff9a52, 0.22);
 rim.position.set(-35, 12, -55); scene.add(rim);
 
 /* --- небо --- */
 const skyMat = new THREE.ShaderMaterial({
   side:THREE.BackSide, depthWrite:false,
-  uniforms:{ top:{value:new THREE.Color(0x3E6FA8)}, mid:{value:new THREE.Color(0xF0A24E)},
-             bot:{value:new THREE.Color(0xFBE0A0)}, sunDir:{value:new THREE.Vector3(-1,.2,.4)} },
+  uniforms:{ top:{value:new THREE.Color(0x3E6FA8).convertSRGBToLinear()}, mid:{value:new THREE.Color(0xF0A24E).convertSRGBToLinear()},
+             bot:{value:new THREE.Color(0xFBE0A0).convertSRGBToLinear()}, sunDir:{value:new THREE.Vector3(-1,.2,.4)} },
   vertexShader:`varying vec3 vP; void main(){ vP=normalize(position); gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}`,
   fragmentShader:`
    uniform vec3 top,mid,bot,sunDir; varying vec3 vP;
@@ -118,19 +126,21 @@ const skyMat = new THREE.ShaderMaterial({
      c += vec3(1.0,0.72,0.32)*pow(s,7.0)*0.85;
      c += vec3(1.0,0.85,0.55)*pow(s,120.0)*2.2;
      gl_FragColor = vec4(c,1.0);
+     #include <tonemapping_fragment>
+     #include <encodings_fragment>
    }`
 });
 scene.add(new THREE.Mesh(new THREE.SphereGeometry(600,32,20), skyMat));
 
 /* --- земля --- */
-const GSEG = 200, GSIZE = 420;
+const GSEG = 160, GSIZE = 420;
 const groundGeo = new THREE.PlaneGeometry(GSIZE,GSIZE,GSEG,GSEG);
 groundGeo.rotateX(-Math.PI/2);
 (function(){
   const p = groundGeo.attributes.position, cols = [];
-  const cGold = new THREE.Color(0xC9A24E), cGreen = new THREE.Color(0x7E9A50),
-        cDry = new THREE.Color(0xA98A44), cRock = new THREE.Color(0x8B7960),
-        cSand = new THREE.Color(0xC7B285);
+  const cGold = new THREE.Color(0xC9A24E).convertSRGBToLinear(), cGreen = new THREE.Color(0x7E9A50).convertSRGBToLinear(),
+        cDry = new THREE.Color(0xA98A44).convertSRGBToLinear(), cRock = new THREE.Color(0x8B7960).convertSRGBToLinear(),
+        cSand = new THREE.Color(0xC7B285).convertSRGBToLinear();
   for(let i=0;i<p.count;i++){
     const x=p.getX(i), z=p.getZ(i), h=hAt(x,z);
     p.setY(i,h);
@@ -183,22 +193,21 @@ const water = new THREE.Mesh(buildRiverGeometry(), waterMat);
 water.position.y = WATER_Y;
 scene.add(water);
 
-/* --- горы --- */
+/* --- горы: shared instanced silhouettes --- */
 (function(){
-  const rockM = new THREE.MeshLambertMaterial({color:0x7A6B7E, flatShading:true});
-  const snowM = new THREE.MeshLambertMaterial({color:0xF2E4D6, flatShading:true});
+  const rockM=new THREE.MeshLambertMaterial({color:new THREE.Color(0x7a6b7e).convertSRGBToLinear()});
+  const snowM=new THREE.MeshLambertMaterial({color:new THREE.Color(0xf2e4d6).convertSRGBToLinear()});
+  const geometry=new THREE.ConeGeometry(1,1,7).toNonIndexed();geometry.computeVertexNormals();
+  const peaks=new THREE.InstancedMesh(geometry,rockM,30),caps=new THREE.InstancedMesh(geometry,snowM,30);
+  const dummy=new THREE.Object3D();
   for(let i=0;i<30;i++){
-    const a = i/30*TAU + valleyRand()*0.12;
-    const r = 210 + valleyRand()*80;
-    const hgt = 40 + valleyRand()*70, rad = 24 + valleyRand()*30;
-    const m = new THREE.Mesh(new THREE.ConeGeometry(rad,hgt,6+((i%3)|0)), rockM);
-    m.position.set(Math.cos(a)*r, hgt*0.42, Math.sin(a)*r);
-    m.rotation.y = valleyRand()*TAU;
-    scene.add(m);
-    const cap = new THREE.Mesh(new THREE.ConeGeometry(rad*0.36,hgt*0.28,6), snowM);
-    cap.position.set(m.position.x, m.position.y + hgt*0.36, m.position.z);
-    cap.rotation.y = m.rotation.y; scene.add(cap);
+    const a=i/30*TAU+valleyRand()*.12,r=210+valleyRand()*80;
+    const height=40+valleyRand()*70,radius=24+valleyRand()*30,rotation=valleyRand()*TAU;
+    const x=Math.cos(a)*r,z=Math.sin(a)*r;
+    dummy.position.set(x,height*.42,z);dummy.rotation.set(0,rotation,0);dummy.scale.set(radius,height,radius);dummy.updateMatrix();peaks.setMatrixAt(i,dummy.matrix);
+    dummy.position.y=height*.78;dummy.scale.set(radius*.36,height*.28,radius*.36);dummy.updateMatrix();caps.setMatrixAt(i,dummy.matrix);
   }
+  scene.add(peaks,caps);
 })();
 
 /* --- облака --- */
@@ -228,7 +237,7 @@ let grass=null, grassCount=0, grassBase=[], grassAnchor=new THREE.Vector3(9999,0
 const windU = {value:0};
 function buildGrass(){
   if(grass){ scene.remove(grass); grass.geometry.dispose(); grass.material.dispose(); grass=null; }
-  grassCount = [2600, 7000, 12000][S.quality];
+  grassCount = [2200, 4500, 8000][S.quality];
   // Two crossed, tapered ribbons read as fine blades from every camera angle.
   // Unlike PlaneGeometry they finish in a point, removing the old card-like silhouette.
   const verts=[], indices=[];
@@ -243,7 +252,7 @@ function buildGrass(){
   bg.setAttribute('position',new THREE.Float32BufferAttribute(verts,3)); bg.setIndex(indices);
   bg.computeVertexNormals();
   const cols=[]; const pos=bg.attributes.position;
-  const dark=new THREE.Color(0x6B7C38), lite=new THREE.Color(0xE0C066);
+  const dark=new THREE.Color(0x6B7C38).convertSRGBToLinear(), lite=new THREE.Color(0xE0C066).convertSRGBToLinear();
   for(let i=0;i<pos.count;i++){ const t=clamp(pos.getY(i)/1.5,0,1);
     const c=dark.clone().lerp(lite,t*t); cols.push(c.r,c.g,c.b); }
   bg.setAttribute('color', new THREE.Float32BufferAttribute(cols,3));
@@ -281,9 +290,17 @@ function refreshGrass(px,pz){
     let x = ((b.x - px + F*0.5) % F + F) % F - F*0.5 + px;
     let z = ((b.z - pz + F*0.5) % F + F) % F - F*0.5 + pz;
     const y = hAt(x,z);
-    const hide = y < WATER_Y+0.25;
+    const route=CHAPTERS[G.chapter].route;
+    let routeDistance=Infinity;
+    for(let j=1;j<route.length;j++){
+      const a=route[j-1],b=route[j],dx=b[0]-a[0],dz=b[1]-a[1];
+      const t=clamp(((x-a[0])*dx+(z-a[1])*dz)/(dx*dx+dz*dz || 1),0,1);
+      routeDistance=Math.min(routeDistance,Math.hypot(x-a[0]-t*dx,z-a[1]-t*dz));
+    }
+    const hide = y < WATER_Y+0.25 || routeDistance<2;
+    const short=routeDistance<4 || Math.hypot(x-px,z-pz)<4;
     _p.set(x, y, z); _e.set(0,b.r,0); _q.setFromEuler(_e);
-    _s.set(b.s, hide?0.01:b.s*(0.8+0.35*Math.sin(x*0.4+z*0.3)), b.s);
+    _s.set(b.s, hide?0.01:b.s*(short?.25:.68)*(0.8+0.35*Math.sin(x*0.4+z*0.3)), b.s);
     _m.compose(_p,_q,_s); grass.setMatrixAt(i,_m);
   }
   grass.instanceMatrix.needsUpdate = true;
@@ -326,11 +343,12 @@ const M = {
   wood:  new THREE.MeshLambertMaterial({color:0x6B4A2E}),
   leaf:  new THREE.MeshLambertMaterial({color:0x5E7C3E}),
   leafLight: new THREE.MeshLambertMaterial({color:0x83994B}),
-  rock:  new THREE.MeshLambertMaterial({color:0x8B8071, flatShading:true}),
-  paleRock: new THREE.MeshLambertMaterial({color:0xE8E0C8, flatShading:true}),
+  rock:  new THREE.MeshLambertMaterial({color:0x8B8071, }),
+  paleRock: new THREE.MeshLambertMaterial({color:0xE8E0C8, }),
   apple: new THREE.MeshLambertMaterial({color:0xC63A2E}),
   dark:  new THREE.MeshLambertMaterial({color:0x2A1C10, transparent:true, opacity:0.5})
 };
+Object.values(M).forEach(m=>m.color.convertSRGBToLinear());
 function box(w,h,d,m){ return new THREE.Mesh(new THREE.BoxGeometry(w,h,d), m); }
 function sph(r,m,sx,sy,sz){ const s=new THREE.Mesh(new THREE.SphereGeometry(r,12,10),m);
   s.scale.set(sx||1,sy||1,sz||1); return s; }
@@ -638,6 +656,7 @@ function scheduleMusic(){
   const root = 174.6; // F3
   const play = ()=>{
     if(!A.ready) return;
+    if(A.ctx.state==='suspended'){setTimeout(play,1000);return;}
     const t=A.ctx.currentTime;
     // мягкий аккорд-подушка
     [0,7,12,16].forEach((iv,i)=>{
@@ -761,7 +780,7 @@ window.addEventListener('pointerup',onUp);
 window.addEventListener('pointercancel',onUp);
 
 function hold(el, on, off){
-  el.addEventListener('pointerdown', e=>{ if(G.paused) return; e.stopPropagation(); e.preventDefault(); try { el.setPointerCapture(e.pointerId); } catch {} on(); });
+  el.addEventListener('pointerdown', e=>{ if(G.paused) return; e.stopPropagation(); e.preventDefault(); try{el.setPointerCapture(e.pointerId);}catch{} on(); });
   ['pointerup','lostpointercapture','pointercancel'].forEach(ev=>
     el.addEventListener(ev, e=>{ e.stopPropagation(); off && off(); }));
 }
@@ -800,38 +819,33 @@ function resetTo(x,z){
 /* ================================================================
    9. ЗАДАНИЯ
    ================================================================ */
-let QUESTS = [
-  {t:'Найти следы копыт', s:'Гроза размыла тропу. Ищи отпечатки южнее равнины.',
-   target:[-2,-18], kind:'interact', label:'Осмотреть следы'},
-  {t:'Перейти через ручей', s:'Иди к белым камням у брода. Здесь можно перейти шагом.',
-   target:[-34,-6], kind:'zone', radius:7},
-  {t:'Найти три яблока', s:'Яблоки восстанавливают силы и радуют Ветра.',
-   target:[-40,-18], kind:'apples'},
-  {t:'Освободить жеребёнка', s:'Малыш застрял под упавшими ветками. Отодвинь их.',
-   target:[-52,-36], kind:'interact', label:'Отодвинуть ветки'},
-  {t:'Подняться на вершину холма', s:'С высоты видно всю долину.',
-   target:[-72,-64], kind:'zone', radius:9},
-  {t:'Увидеть табун', s:'Он уходит к дальним горам.',
-   target:[-72,-64], kind:'interact', label:'Посмотреть на долину'}
-];
+let QUESTS=CHAPTERS[1].quests;
+const storyWorld=createStoryEnvironment(THREE,scene,hAt);
+const convertedStoryMats=new Set();
+Object.values(storyWorld.groups.chapters).forEach(g=>g.traverse(o=>{if(o.material?.color && !convertedStoryMats.has(o.material)){o.material.color.convertSRGBToLinear();convertedStoryMats.add(o.material);}}));
 function questTarget(){
   if(G.phase==='meet') return [alex.position.x,alex.position.z];
-  if(G.phase==='tutorial') return null;
+  if(['tutorial','done','epilogue','cine','menu'].includes(G.phase)) return null;
   const q = QUESTS[G.quest];
   if(!q) return null;
   if(q.kind==='apples'){
-    const a = apples.find(x=>!x.userData.taken);
+    const a = apples.filter(x=>!x.userData.taken).sort((a,b)=>Math.hypot(P.x-a.userData.bx,P.z-a.userData.bz)-Math.hypot(P.x-b.userData.bx,P.z-b.userData.bz))[0];
     return a ? [a.userData.bx, a.userData.bz] : q.target;
   }
+  if(q.id==='storm-ford' && P.x>riverX(-6)+7 && Math.abs(P.z+6)>4) return [riverX(-6)+9,-6];
   return q.target;
 }
 function updateTracker(){
+  storyWorld.setQuest(['quests'].includes(G.phase)?G.quest:-1);
+  $('#chapterTag').textContent='Глава '+G.chapter+' · '+CHAPTERS[G.chapter].title;
+  $('#log .sub').textContent=CHAPTERS[G.chapter].title;
   const q = QUESTS[G.quest];
   if(G.phase==='tutorial'){ $('#trackTitle').textContent='Обучение';
     $('#trackSub').textContent=TUT[G.tutStep]?TUT[G.tutStep].s:''; return; }
   if(G.phase==='meet'){ $('#trackTitle').textContent='Познакомиться с Алексом';
     $('#trackSub').textContent='Подходи медленно. Не беги.'; return; }
-  if(!q){ $('#trackTitle').textContent='—'; $('#trackSub').textContent=''; return; }
+  if(G.phase==='epilogue'){ $('#trackTitle').textContent='Мы дома'; $('#trackSub').textContent='Гуляй с семьёй. В меню можно повторить любую главу.'; return; }
+  if(!q){ $('#trackTitle').textContent='Путешествие'; $('#trackSub').textContent=''; return; }
   let extra = q.s;
   if(q.kind==='apples') extra = `Собрано ${G.apples} из ${G.applesNeeded}. ${q.s}`;
   $('#trackTitle').textContent = (G.quest+1)+'. '+q.t;
@@ -853,7 +867,10 @@ function completeQuest(){
   if(G.paused || G.phase!=='quests' || questCooldown>0) return;
   questCooldown=0.4;
   SFX.quest(); toast('Задание выполнено'); addTrust(6);
-  G.quest++;
+  const completed=QUESTS[G.quest];
+  if(completed?.effect) storyWorld.applyEffect(completed.effect);
+  completed?.lines?.forEach(line=>say(line.who,line.text));
+  G.questSteps=0; G.quest++;
   if(G.quest>=QUESTS.length){ startFinale(); return; }
   saveCheckpoint(); updateTracker(); hint(QUESTS[G.quest].s);
 }
@@ -879,7 +896,7 @@ function nearestAction(){
   }
   if(G.phase!=='quests' && G.phase!=='epilogue') return null;
   const q=QUESTS[G.quest];
-  if(q && q.kind==='interact' && Math.hypot(P.x-q.target[0],P.z-q.target[1])<5.2)
+  if(G.phase==='quests' && q && q.kind==='interact' && Math.hypot(P.x-q.target[0],P.z-q.target[1])<(q.radius || 5.2))
     return {label:q.label,fn:questInteract};
   for(const a of apples){
     if(!a.userData.taken && Math.hypot(P.x-a.userData.bx,P.z-a.userData.bz)<3.4)
@@ -903,29 +920,23 @@ function takeApple(a){
   else { updateTracker(); saveCheckpoint(); }
 }
 function questInteract(){
-  const q = QUESTS[G.quest];
-  if(q.t==='Найти следы копыт'){
-    say('Алекс','Смотри — свежие следы. Гроза унесла табун к западу.');
-    completeQuest();
-  } else if(q.t==='Освободить жеребёнка'){
-    G.freeProgress++;
-    SFX.snap();
-    if(branchGroup.children[branchGroup.children.length-1])
-      branchGroup.remove(branchGroup.children[branchGroup.children.length-1]);
-    if(branchGroup.children.length) branchGroup.remove(branchGroup.children[branchGroup.children.length-1]);
-    if(G.freeProgress>=3){
-      SFX.neigh();
-      say('Алекс','Ты свободен, малыш! Пойдём с нами, вместе найдём табун.');
-      addTrust(14);
-      // жеребёнок убегает
-      G.foalFreed=true; foal.userData.runAway=false;
-      while(branchGroup.children.length) branchGroup.remove(branchGroup.children[0]);
-      completeQuest();
-    } else {
-      hint('Ещё немного, осталось веток: '+(3-G.freeProgress));
-      questCooldown=0.35; saveCheckpoint();
-    }
-  } else if(q.t==='Увидеть табун'){ completeQuest(); }
+  const q=QUESTS[G.quest]; if(!q || q.kind!=='interact' || G.phase!=='quests') return;
+  G.questSteps++;
+  if(q.effect==='foal-freed'){
+    G.freeProgress=G.questSteps; SFX.snap();
+    originalBranches.slice(0,G.freeProgress*3).forEach(b=>branchGroup.remove(b));
+    if(G.questSteps>=(q.steps || 1)){G.foalFreed=true;branchGroup.clear();addTrust(14);SFX.neigh();}
+  }
+  if(q.effect==='ford-restored' || q.effect==='mountain-obstacle'){
+    SFX.snap(); storyWorld.applyEffect(q.effect,G.questSteps);
+  }
+  if(q.effect==='meadow-rest'){G.stamina=G.staminaMax;SFX.trust();}
+  if(q.effect==='reunion' || q.effect==='mountain-call') SFX.neigh();
+  if(G.questSteps<(q.steps || 1)){
+    hint(q.stepHints?.[G.questSteps-1] || 'Ещё немного, ты помогаешь друзьям.');
+    questCooldown=.4;saveCheckpoint(); return;
+  }
+  completeQuest();
 }
 function pet(){
   addTrust(4); SFX.trust();
@@ -970,7 +981,7 @@ function pauseGame(p){
 /* --- кнопки меню --- */
 $('#btnPlay').onclick = ()=>startGame(false);
 $('#btnContinue').onclick = ()=>{ if(G.hasSave||G.checkpoint) startGame(true); else startGame(false); };
-$('#btnChapters').onclick = ()=>screen('#chapters',true);
+$('#btnChapters').onclick = ()=>{renderChapters();screen('#chapters',true);};
 $('#btnCloseChapters').onclick = ()=>screen('#chapters',false);
 $('#btnSettings1').onclick = ()=>screen('#settings',true);
 $('#btnSettings2').onclick = ()=>screen('#settings',true);
@@ -979,15 +990,22 @@ $('#btnPause').onclick = ()=>{ saveCheckpoint(); pauseGame(true); screen('#pause
 $('#btnResume').onclick = ()=>{ screen('#pause',false); pauseGame(false); };
 $('#btnToMenu').onclick = ()=>{ screen('#pause',false); toMenu(); };
 $('#btnUnstuck').onclick = ()=>{
-  const cp = G.checkpoint;
-  resetTo(cp?cp.x:20, cp?cp.z:24);
+  const chapter = CHAPTERS[G.chapter];
+  const point = nearestSafeTrailPoint(chapter.route,P.x,P.z,(x,z)=>{
+    const ground = hAt(x,z);
+    return ground >= WATER_Y+.1 && !obstacles.some(o=>Math.hypot(x-o.x,z-o.z)<o.r+1.5 && ground<o.top+.25);
+  }) || chapter.spawn;
+  resetTo(...point);
+  saveCheckpoint();
   screen('#pause',false); pauseGame(false); toast('Ветер вернулся на тропу');
 };
 $('#btnMap').onclick = ()=>{ drawMap(); pauseGame(true); screen('#map',true); };
 $('#btnCloseMap').onclick = ()=>{ screen('#map',false); pauseGame(false); };
 $('#btnLog').onclick = ()=>{ renderLog(); pauseGame(true); screen('#log',true); };
 $('#btnCloseLog').onclick = ()=>{ screen('#log',false); pauseGame(false); };
-$('#btnAgain').onclick = ()=>{ screen('#finish',false); startGame(false); };
+$('#btnAgain').onclick = ()=>startGame(false,G.chapter);
+$('#btnNextChapter').onclick=()=>startGame(false,G.chapter+1);
+$('#btnEpilogue').onclick=()=>{screen('#finish',false);G.phase='epilogue';G.finished=true;$('#hud').classList.add('on');pauseGame(false);storyWorld.setQuest(-1);updateTracker();saveCheckpoint();say('Алекс',CHAPTERS[3].epilogue[0].text);};
 $('#btnFinMenu').onclick = ()=>{ screen('#finish',false); toMenu(); };
 
 /* --- настройки --- */
@@ -1024,9 +1042,9 @@ function saveCheckpoint(){
   if(!['tutorial','meet','quests','epilogue'].includes(G.phase)) return;
   const quest=G.phase==='epilogue'?QUESTS.length-1:G.quest;
   G.checkpoint={chapter:G.chapter,x:P.x,z:P.z,heading:P.heading,quest,trust:G.trust,
-    apples:G.apples,phase:G.phase==='epilogue'?'quests':G.phase,tutStep:G.tutStep,
+    apples:G.apples,phase:G.phase,tutStep:G.tutStep,
     alexFollows:G.alexFollows,taken:apples.map(a=>a.userData.taken),
-    freeProgress:G.freeProgress,foalFreed:G.foalFreed,playTime:G.playTime};
+    freeProgress:G.freeProgress,questSteps:G.questSteps,foalFreed:G.foalFreed,playTime:G.playTime};
   G.hasSave=true; persist();
 }
 function loadSave(){
@@ -1043,7 +1061,7 @@ function loadSave(){
   $('#btnContinue').disabled=!G.checkpoint; applyQuality();
 }
 function resetWorld(){
-  clearInput(); questCooldown=0; G.quest=0; G.trust=0; G.apples=0; G.freeProgress=0;
+  clearInput(); questCooldown=0; G.quest=0; G.trust=0; G.apples=0; G.freeProgress=0; G.questSteps=0;
   G.foalFreed=false; G.alexFollows=false; G.finished=false; G.playTime=0;
   G.stamina=100; G.staminaMax=100; G.jumpPower=8.2; G.tutStep=0;
   TUT[TUT.length-1].delay=2.2; alex._offered=false;
@@ -1051,40 +1069,54 @@ function resetWorld(){
   alex.userData.arms.forEach(a=>a.rotation.x=0);
   foal.visible=true; foal.userData.runAway=false; foal.position.set(-52,hAt(-52,-36),-36);
   originalBranches.forEach(b=>branchGroup.add(b)); branchGroup.visible=true;
-  apples.forEach(a=>{a.userData.taken=false;a.visible=true;});
+  apples.forEach((a,i)=>{a.userData.taken=!CHAPTERS[G.chapter].apples[i];a.visible=!a.userData.taken;});
   herd.visible=false; trackPool.forEach(t=>t.visible=false);
   ['#dialog','#hint','#toast','#cine','#fadeOut'].forEach(id=>$(id).classList.remove('on'));
-  G.timeOfDay=0.30; cam.pitch=0.22; cam.dist=9.5; cam.manual=0;
+  G.timeOfDay=CHAPTERS[G.chapter].timeOfDay; cam.pitch=0.22; cam.dist=9.5; cam.manual=0;
 }
 function applyCheckpoint(checkpoint){
   const c=validateCheckpoint(checkpoint); if(!c) return false;
-  resetWorld();
+  configureChapter(c.chapter); resetWorld();
   G.chapter=c.chapter; G.quest=Math.min(c.quest,QUESTS.length-1); G.trust=c.trust;
   G.apples=c.apples; G.phase=c.phase; G.tutStep=c.tutStep;
-  G.alexFollows=c.alexFollows; G.freeProgress=c.freeProgress; G.foalFreed=c.foalFreed;
+  G.alexFollows=c.alexFollows; G.freeProgress=c.freeProgress; G.questSteps=c.questSteps; G.foalFreed=c.foalFreed;
   G.playTime=c.playTime;
   G.staminaMax=G.trust>=40?140:100; G.stamina=G.staminaMax; G.jumpPower=G.trust>=70?9.8:8.2;
-  apples.forEach((a,i)=>{a.userData.taken=c.taken[i];a.visible=!c.taken[i];});
+  apples.forEach((a,i)=>{a.userData.taken=c.taken[i] || !CHAPTERS[c.chapter].apples[i];a.visible=!a.userData.taken;});
   alex.visible=G.alexFollows || G.phase==='meet';
   if(G.alexFollows) alex.position.set(c.x+3,hAt(c.x+3,c.z+2),c.z+2);
   if(G.foalFreed){ branchGroup.clear(); foal.position.set(c.x-4,hAt(c.x-4,c.z+3),c.z+3); }
   else originalBranches.slice(0,G.freeProgress*2).forEach(b=>branchGroup.remove(b));
+  for(let i=0;i<G.quest;i++) if(QUESTS[i].effect) storyWorld.applyEffect(QUESTS[i].effect);
+  if(G.questSteps && QUESTS[G.quest]?.effect) storyWorld.applyEffect(QUESTS[G.quest].effect,G.questSteps);
+  branchGroup.visible=G.chapter===1 && !G.foalFreed; herd.visible=G.chapter===3;
   P.heading=c.heading; resetTo(c.x,c.z); cam.yaw=P.heading+Math.PI;
   return true;
 }
-function startGame(cont){
+function startGame(cont,chapter=1){
+  if(!cont && chapter>1 && !G.completedChapters.includes(chapter-1)) return;
   initAudio();
   ['#start','#finish','#chapters','#pause','#map','#log','#settings'].forEach(id=>screen(id,false));
   $('#hud').classList.add('on'); joyLayout();
   if(cont && G.checkpoint && applyCheckpoint(G.checkpoint)) toast('Продолжаем путь');
-  else {resetWorld(); G.phase='tutorial'; P.heading=Math.PI; resetTo(20,24); cam.yaw=P.heading+Math.PI;}
+  else {
+    configureChapter(chapter);resetWorld();
+    G.phase=chapter===1?'tutorial':'quests'; G.alexFollows=chapter>1; G.foalFreed=chapter>1;
+    G.trust=chapter>1?80:0; G.staminaMax=chapter>1?140:100;G.stamina=G.staminaMax;G.jumpPower=chapter>1?9.8:8.2;
+    const [x,z]=CHAPTERS[chapter].spawn; P.heading=chapter===3?Math.PI:chapter===2?0:Math.PI;resetTo(x,z);cam.yaw=P.heading+Math.PI;
+    alex.visible=chapter>1;alex.position.set(x+3,hAt(x+3,z),z);
+    if(chapter>1) foal.position.set(x-4,hAt(x-4,z+3),z+3);
+    branchGroup.visible=chapter===1;herd.visible=chapter===3;
+    CHAPTERS[chapter].opening.forEach(line=>say(line.who,line.text));
+  }
   pauseGame(false); updateTracker(); saveCheckpoint();
   $('#btnSkipTutorial').hidden=G.phase!=='tutorial';
   hint(G.phase==='tutorial'?TUT[G.tutStep].s:QUESTS[G.quest]?.s || 'Подойди к Алексу.');
 }
 function toMenu(){
   saveCheckpoint(); pauseGame(true); $('#hud').classList.remove('on');
-  screen('#start',true); G.phase='menu';
+  ['#pause','#map','#log','#settings','#finish','#chapters'].forEach(id=>screen(id,false));
+  screen('#start',true); $('#cine').classList.remove('on'); G.phase='menu'; renderChapters();
 }
 function finishTutorial(){
   if(G.phase!=='tutorial') return;
@@ -1103,7 +1135,12 @@ function clearInput(){
   joyBase.style.left=''; joyBase.style.top=''; joyBase.style.bottom='';
 }
 window.addEventListener('blur',()=>{ if(!G.paused && G.phase!=='menu'){saveCheckpoint();pauseGame(true);screen('#pause',true);} clearInput(); });
-document.addEventListener('visibilitychange',()=>{if(document.hidden){saveCheckpoint();pauseGame(true);if(G.phase!=='menu') screen('#pause',true);}});
+document.addEventListener('visibilitychange',()=>{
+  if(!document.hidden) return;
+  saveCheckpoint();
+  if(!G.paused && G.phase!=='menu'){pauseGame(true);screen('#pause',true);}
+  clearInput();
+});
 canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();saveCheckpoint();pauseGame(true);$('#errorText').textContent='Графика остановилась. Перезагрузи игру, чтобы продолжить с сохранённого места.';screen('#error',true);});
 
 /* --- карта --- */
@@ -1147,15 +1184,13 @@ function drawMap(){
    12. ФИНАЛЬНАЯ СЦЕНА
    ================================================================ */
 let cineT=0, cineStep=0;
-const CINE = [
-  'Солнце опускалось за дальние хребты.',
-  'Внизу, в золотой траве, шёл табун — туда, к горам.',
-  'Ветер не побежал следом. Не сегодня.',
-  'Рядом стоял мальчик, и путь у них теперь был один.'
-];
+let CINE=CHAPTERS[1].cinematic;
 function startFinale(){
   G.quest=QUESTS.length-1; saveCheckpoint();
   G.phase='cine'; cineT=0; cineStep=-1;
+  cineStart.set(P.x,P.y,P.z);
+  cineRunDuration=Math.max(1.2,Math.hypot(97-P.x,-94-P.z)/10);
+  if(G.chapter===3){P.heading=Math.atan2(97-P.x,-94-P.z);}
   $('#cine').classList.add('on');
   herd.visible=true;
   IN.move.set(0,0); IN.gallop=false;
@@ -1185,15 +1220,15 @@ function animate(){
   if(!G.paused) G.playTime += dt;
 
   /* --- время суток --- */
-  if(G.phase==='cine') G.timeOfDay = Math.min(0.98, G.timeOfDay + dt*0.035);
+  if(G.phase==='cine') G.timeOfDay = Math.min(0.72, G.timeOfDay + dt*0.005);
   else if(!G.paused) G.timeOfDay += dt*0.0016;
   const tod = G.timeOfDay % 1;
   const sunAng = (tod*0.82 + 0.09)*Math.PI;
   sun.position.set(Math.cos(sunAng)*130, Math.max(Math.sin(sunAng)*90, 6), 40+Math.sin(tod*3)*40);
   const low = clamp(1 - Math.sin(sunAng), 0, 1);
   sun.color.setHSL(lerp(0.11,0.045,low), lerp(0.45,0.8,low), lerp(0.72,0.56,low));
-  sun.intensity = lerp(2.1, 1.35, low);
-  hemi.intensity = lerp(0.9, 0.6, low);
+  sun.intensity = lerp(1.1, .78, low);
+  hemi.intensity = lerp(.42, .30, low);
   skyMat.uniforms.sunDir.value.copy(sun.position).normalize();
   skyMat.uniforms.top.value.setHSL(lerp(0.58,0.66,low), 0.55, lerp(0.46,0.26,low));
   skyMat.uniforms.mid.value.setHSL(lerp(0.09,0.045,low), 0.82, lerp(0.63,0.55,low));
@@ -1210,7 +1245,7 @@ function animate(){
   const galloping=IN.gallop || keys['ShiftLeft'] || keys['ShiftRight'];
   const mag = clamp(Math.hypot(mvx,mvy),0,1);
 
-  const canMove = !G.paused && (G.phase==='tutorial'||G.phase==='meet'||G.phase==='quests');
+  const canMove = !G.paused && (G.phase==='tutorial'||G.phase==='meet'||G.phase==='quests'||G.phase==='epilogue');
 
   /* --- скорость и направление --- */
   let target = 0;
@@ -1354,7 +1389,7 @@ function animate(){
     const tx=P.x-Math.sin(P.heading)*5, tz=P.z-Math.cos(P.heading)*5;
     const dx=tx-foal.position.x,dz=tz-foal.position.z,d=Math.hypot(dx,dz);
     const v=Math.min(12,Math.max(0,d-1)*1.6);
-    if(d>1){foal.position.x+=dx/d*v*dt;foal.position.z+=dz/d*v*dt;foal.rotation.y=Math.atan2(dx,dz);}
+    if(d>1){foal.position.x+=dx/d*v*dt;foal.position.z+=dz/d*v*dt;foal.rotation.y=Math.atan2(dx,dz);foal.userData.travelHeading=foal.rotation.y;}
     foal.position.y=hAt(foal.position.x,foal.position.z);
     foal.userData.legs.forEach(l=>l.hip.rotation.x=Math.sin(windU.value*6+l.phase*TAU)*Math.min(v/6,1)*.6);
   } else if(foal.userData.runAway){
@@ -1445,33 +1480,28 @@ function animate(){
     if(step!==cineStep && step<CINE.length){
       cineStep=step;
       const el=$('#cineText'); el.classList.remove('on');
-      setTimeout(()=>{ el.textContent=CINE[step]; el.classList.add('on'); }, 500);
+      setTimeout(()=>{ if(G.phase==='cine' && !G.paused){el.textContent=CINE[step]; el.classList.add('on');} }, 500);
     }
-    // облёт камеры
-    cam.yaw += dt*0.16;
-    cam.pitch = lerp(cam.pitch, 0.22, dt);
-    cam.dist = lerp(cam.dist, 13, dt*0.8);
-    herd.children.forEach((h,i)=>{
-      h.position.x -= dt*(4+i*0.25); h.position.z -= dt*(3.2+i*0.2);
-      h.position.y = hAt(h.position.x,h.position.z);
-      h.userData.legs.forEach(l=>{ l.hip.rotation.x = Math.sin(windU.value*8+l.phase*6+i)*0.7; });
-    });
-    if(cineT>CINE.length*4.2+2.5 && !G.finished){
-      if(!G.completedChapters.includes(G.chapter)) G.completedChapters.push(G.chapter);
-      persist();
-      G.finished=true;
-      $('#fadeOut').classList.add('on');
-      setTimeout(()=>{
-        $('#cine').classList.remove('on'); $('#hud').classList.remove('on');
-        $('#finTrust').textContent = Math.round(G.trust)+'%';
-        $('#finApples').textContent = G.apples+' из '+G.applesNeeded;
-        const m=Math.floor(G.playTime/60), s=Math.floor(G.playTime%60);
-        $('#finTime').textContent = m+' мин '+s+' сек';
-        screen('#finish',true);
-        $('#fadeOut').classList.remove('on');
-        G.phase='done'; pauseGame(true);
-      }, 1400);
+    cam.yaw+=dt*(G.chapter===3?.08:.12); cam.pitch=lerp(cam.pitch,.19,dt);
+    cam.dist=lerp(cam.dist,G.chapter===3?14:13,dt*.8);
+    if(G.chapter===3){
+      const t=clamp(cineT/cineRunDuration,0,1);
+      P.x=lerp(cineStart.x,97,t); P.z=lerp(cineStart.z,-94,t); P.y=hAt(P.x,P.z);
+      P.speed=t<1?10:0; horse.position.set(P.x,P.y,P.z);horse.rotation.y=P.heading;
+      foal.userData.travelHeading=Math.atan2(102-foal.position.x,-96-foal.position.z);
+      foal.position.x=lerp(foal.position.x,102,dt*.6);foal.position.z=lerp(foal.position.z,-96,dt*.6);
+      foal.position.y=hAt(foal.position.x,foal.position.z);
+      alex.rotation.y=Math.atan2(P.x-alex.position.x,P.z-alex.position.z);
+      alex.userData.arms[1].rotation.x=-2.4+Math.sin(cineT*4)*.12;
+      herd.children.forEach((h,i)=>{
+        const tx=97+Math.cos(i*TAU/5)*4.5,tz=-94+Math.sin(i*TAU/5)*4.5;
+        h.position.x=lerp(h.position.x,tx,dt*.5); h.position.z=lerp(h.position.z,tz,dt*.5);
+        h.position.y=hAt(h.position.x,h.position.z);h.rotation.y=Math.atan2(P.x-h.position.x,P.z-h.position.z);h.userData.travelHeading=h.rotation.y;
+      });
+    }else if(G.chapter===1){
+      herd.children.forEach((h,i)=>{h.position.x-=dt*(1+i*.07);h.position.z-=dt*.5;h.position.y=hAt(h.position.x,h.position.z);});
     }
+    if(cineT>CINE.length*4.2+2.5 && !G.finished && !G.paused) finishChapter();
   }
 
   /* --- UI обновления --- */
@@ -1489,6 +1519,13 @@ function animate(){
   if(toastT>0){ toastT-=dt; if(toastT<=0) $('#toast').classList.remove('on'); }
   if(dlgT>0){ dlgT-=dt; if(dlgT<=0) $('#dialog').classList.remove('on'); }
 
+  alignCompanion(foal,dt); herd.children.forEach(h=>alignCompanion(h,dt));
+  contactShadows.update();
+  storyWorld.update(dt);
+  cast.update(dt,{speed:P.speed,grounded:P.grounded,phase:G.phase,
+    gesture:QUESTS[G.quest]?.effect==='meadow-rest' && G.phase==='quests'?'graze':undefined,
+    herdGesture:G.phase==='cine' && G.chapter===3?'sniff':'graze',
+    alexGesture:G.phase==='cine' && G.chapter===3?'wave':G.phase==='meet' && G.trust>=35?'offer':G.phase==='epilogue'?'wave':undefined});
   updateGuidance();
   renderer.render(scene,camera);
 }
@@ -1514,7 +1551,7 @@ function updateGuidance(){
   if(!beacon.visible) return;
   beacon.position.set(t[0],hAt(...t)+.15,t[1]);diamond.rotation.y=windU.value;
   diamond.position.y=3.1+Math.sin(windU.value*2)*.3;
-  const angle=Math.atan2(t[0]-P.x,t[1]-P.z)-cam.yaw-Math.PI;
+  const angle=directionAngle(P.x,P.z,t[0],t[1],cam.yaw);
   $('#directionArrow').style.transform=`rotate(${angle}rad)`;
   $('#directionDistance').textContent=Math.round(Math.hypot(t[0]-P.x,t[1]-P.z))+' м';
 }
@@ -1523,6 +1560,7 @@ if((import.meta.env.DEV || __TEST_MODE__) && ['localhost','127.0.0.1'].includes(
     snapshot:()=>({phase:G.phase,chapter:G.chapter,quest:G.quest,tutStep:G.tutStep,
       trust:G.trust,apples:G.apples,freeProgress:G.freeProgress,foalFreed:G.foalFreed,
       position:{x:P.x,y:P.y,z:P.z},grounded:P.grounded,speed:P.speed,paused:G.paused,
+      characters:{...cast.status},gaits:cast.horses.map(h=>h.state),
       inputs:{x:IN.move.x,y:IN.move.y,gallop:IN.gallop,jump:IN.jump},completedChapters:G.completedChapters.slice(),
       action:nearestAction()?.label,render:{calls:renderer.info.render.calls,triangles:renderer.info.render.triangles},settings:{...S}}),
     teleport:resetTo,target:questTarget,terrain:hAt,
@@ -1533,16 +1571,69 @@ if((import.meta.env.DEV || __TEST_MODE__) && ['localhost','127.0.0.1'].includes(
   };
 }
 
+const cineStart=new THREE.Vector3();
+let cineRunDuration=2;
+const cast=attachCharacters({THREE,horse,foal,herd,alex});
+const slopeUp=new THREE.Vector3(0,1,0),slopeQ=new THREE.Quaternion(),headingQ=new THREE.Quaternion();
+function alignCompanion(actor,dt){
+  if(!dt || !actor.visible) return;
+  slopeQ.setFromUnitVectors(slopeUp,normalAt(actor.position.x,actor.position.z));
+  headingQ.setFromAxisAngle(slopeUp,actor.userData.travelHeading ?? actor.rotation.y);
+  slopeQ.multiply(headingQ);actor.quaternion.slerp(slopeQ,Math.min(1,dt*8));
+}
+const contactShadows=createContactShadows(THREE,scene,[{actor:horse,width:2.8,length:4.2},{actor:foal,width:1.5,length:2.3},{actor:alex,width:1.1,length:1.1},...herd.children.map(actor=>({actor,width:2.6,length:3.8}))],hAt,normalAt);
+function configureChapter(id){
+  G.chapter=id; QUESTS=CHAPTERS[id].quests; CINE=CHAPTERS[id].cinematic;
+  storyWorld.setChapter(id);
+  const positions=CHAPTERS[id].apples;
+  apples.forEach((a,i)=>{const p=positions[i]; a.visible=!!p; a.userData.taken=!p;
+    if(p){a.userData.bx=p[0];a.userData.bz=p[1];a.position.set(p[0],hAt(...p)+1,p[1]);}});
+  G.applesNeeded=positions.length;
+  herd.children.forEach((h,i)=>{
+    const x=id===3?97+Math.cos(i*TAU/5)*8:-95-i*2;
+    const z=id===3?-94+Math.sin(i*TAU/5)*8:-95-i*3;
+    h.position.set(x,hAt(x,z),z);h.rotation.y=id===3?Math.PI:.75*Math.PI;h.userData.travelHeading=h.rotation.y;
+  });
+}
+function renderChapters(){
+  document.querySelectorAll('[data-chapter]').forEach(b=>{
+    const id=+b.dataset.chapter,done=G.completedChapters.includes(id),unlocked=id===1||G.completedChapters.includes(id-1);
+    b.disabled=!unlocked;b.classList.toggle('done',done);b.classList.toggle('now',id===G.chapter);
+    b.querySelector('span').textContent=done?'Пройдено. Можно повторить.':unlocked?'Можно начать.':'Сначала пройди главу '+(id-1)+'.';
+  });
+}
+document.querySelectorAll('[data-chapter]').forEach(b=>b.onclick=()=>startGame(false,+b.dataset.chapter));
+function finishChapter(){
+  G.finished=true;
+  if(!G.completedChapters.includes(G.chapter)) G.completedChapters.push(G.chapter);
+  if(G.chapter<3){
+    const [x,z]=CHAPTERS[G.chapter+1].spawn;
+    G.checkpoint={chapter:G.chapter+1,x,z,heading:0,quest:0,trust:80,apples:0,taken:[false,false,false],
+      phase:'quests',alexFollows:true,foalFreed:true,freeProgress:0,questSteps:0,tutStep:0,playTime:0};
+  } else {G.phase='epilogue';saveCheckpoint();}
+  persist();renderChapters();
+  $('#cine').classList.remove('on');$('#hud').classList.remove('on');
+  $('#finish h2').textContent=G.chapter===3?'Мы дома':'Глава '+G.chapter+' пройдена';
+  $('#finish .sub').textContent=CHAPTERS[G.chapter].ending;
+  $('#finTrust').textContent=Math.round(G.trust)+'%';$('#finApples').textContent=G.chapter===1?G.apples+' из 3':'Друзья сыты';
+  $('#finTime').textContent=Math.floor(G.playTime/60)+' мин '+Math.floor(G.playTime%60)+' сек';
+  $('#btnNextChapter').hidden=G.chapter===3; $('#btnNextChapter').textContent=G.chapter===1?'К белым камням →':'К дальним горам →';
+  $('#btnEpilogue').hidden=G.chapter!==3; screen('#finish',true);G.phase='done';pauseGame(true);
+}
+
 /* --- старт --- */
 let loaded=0;
-const li = setInterval(()=>{
-  loaded+=14; $('#loadBar').style.width=Math.min(loaded,100)+'%';
-  if(loaded>=100){
-    clearInterval(li);
-    const l=$('#loading'); l.style.opacity=0; setTimeout(()=>l.remove(),700);
-  }
-},110);
+const li=setInterval(()=>{loaded=Math.min(90,loaded+8);$('#loadBar').style.width=loaded+'%';},110);
+let loadingDone=false;
+function revealGame(){
+  if(loadingDone) return;loadingDone=true;clearInterval(li);$('#loadBar').style.width='100%';
+  const loading=$('#loading');if(loading){loading.style.opacity=0;setTimeout(()=>loading.remove(),500);}
+}
+cast.ready.then(revealGame);
+// If the network stalls, the original playable models remain available.
+setTimeout(revealGame,15000);
 loadSave();
+renderChapters();
 updateTracker();
 animate();
 })();

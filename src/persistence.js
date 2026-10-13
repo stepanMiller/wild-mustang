@@ -1,6 +1,6 @@
 export const SAVE_KEY = 'veter-save';
 export const SAVE_VERSION = 2;
-const phases = new Set(['tutorial', 'meet', 'quests']);
+const phases = new Set(['tutorial', 'meet', 'quests', 'epilogue']);
 const finite = (x) => typeof x === 'number' && Number.isFinite(x);
 const bound = (x, a, b) => Math.min(b, Math.max(a, x));
 
@@ -16,9 +16,10 @@ export function validateCheckpoint(raw) {
   const phase = phases.has(raw.phase) ? raw.phase : 'quests';
   return { chapter, x: raw.x, z: raw.z, heading: finite(raw.heading) ? raw.heading : Math.PI,
     quest: raw.quest, trust: bound(raw.trust, 0, 100),
-    apples: raw.taken.filter(Boolean).length, taken: raw.taken.slice(), phase,
+    apples: chapter===1 ? raw.taken.filter(Boolean).length : 0, taken: raw.taken.slice(), phase,
     tutStep: bound(Number.isInteger(raw.tutStep) ? raw.tutStep : 0, 0, 4),
     alexFollows: Boolean(raw.alexFollows),
+    questSteps: bound(Number.isInteger(raw.questSteps) ? raw.questSteps : raw.freeProgress ?? 0, 0, 3),
     freeProgress: bound(Number.isInteger(raw.freeProgress) ? raw.freeProgress : 0, 0, 3),
     foalFreed: Boolean(raw.foalFreed || (chapter === 1 && raw.quest >= 4) || chapter > 1),
     playTime: finite(raw.playTime) ? Math.max(0, raw.playTime) : 0,

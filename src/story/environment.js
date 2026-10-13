@@ -166,7 +166,7 @@ export function createStoryEnvironment(THREE, scene, hAt) {
   }
 
   const c3=chapters[3];
-  for(const [x,z,s] of [[80,30,1.8],[69,20,1.2],[48,3,2.2],[80,-32,2],[69,-47,1.4],[42,-61,2.6],[55,-69,1.5],[81,-67,2],[91,-80,1.7],[100,-95,2.3]])rock(c3,x,z,s,stone);
+  for(const [x,z,s] of [[80,30,1.8],[69,20,1.2],[48,3,2.2],[80,-32,2],[69,-47,1.4],[42,-61,2.6],[55,-69,1.5],[81,-67,2],[91,-80,1.7],[103,-82,2.3]])rock(c3,x,z,s,stone);
   for(const [x,z,s] of [[78,35,1.25],[83,23,1.1],[47,0,1.05],[58,-24,1.1],[78,-36,1.15],[44,-57,1.2],[74,-71,1.15]])pine(c3,x,z,s);
   for(let i=0;i<2;i++){
     const branch=mesh(new THREE.CylinderGeometry(.12,.18,3.2,7),bark,74.5+i,hAt(75,-30)+.45,-30+i*.5);
@@ -177,7 +177,7 @@ export function createStoryEnvironment(THREE, scene, hAt) {
     const peak=mesh(new THREE.ConeGeometry(1,1,5),i%2?stone:white,114+i*8,15+i%3*3,-89-i*6,14,22+i%3*9,16);
     peak.rotation.y=i*.71;c3.add(peak);
   }
-  rock(c3,95,-92,1.4,white);
+  rock(c3,88,-94,1.4,white);
 
   function setChapter(id) {
     chapterId=chapterDefinition(id).id;questIndex=0;

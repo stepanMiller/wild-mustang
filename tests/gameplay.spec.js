@@ -1,6 +1,6 @@
 import { expect } from '@playwright/test';
 import { test } from './fixtures.js';
-import { action, finishCurrentChapter, meetAlex, openGame, pointer, position, skipTutorial, startChapterOne, state, teleport } from './helpers.js';
+import { action, meetAlex, openGame, pointer, position, skipTutorial, startChapterOne, state, teleport } from './helpers.js';
 
 test.beforeEach(async ({ page }) => {
   const errors = [];
@@ -13,10 +13,10 @@ test.afterEach(async ({ page }) => {
   expect(page.__gameErrors, 'Uncaught browser/console errors').toEqual([]);
 });
 
-test('P1 new game renders locally and landscape controls are usable', async ({ page }, testInfo) => {
+test('P1 new game renders locally and landscape controls are usable', async ({ page, baseURL }, testInfo) => {
   const foreignRequests = [];
   page.on('request', request => {
-    if (new URL(request.url()).origin !== 'http://127.0.0.1:4173') foreignRequests.push(request.url());
+    if (new URL(request.url()).origin !== new URL(baseURL).origin) foreignRequests.push(request.url());
   });
   await openGame(page);
   await startChapterOne(page);
@@ -55,7 +55,7 @@ test('P1 keyboard can finish every tutorial step and Shift release stops gallopi
   await page.keyboard.press('Space');
   await expect.poll(async () => (await state(page)).tutStep).toBeGreaterThanOrEqual(4);
   await page.keyboard.up('w');
-  await expect.poll(async () => (await state(page)).phase, { timeout: 30_000 }).toBe('meet');
+  await expect.poll(async () => (await state(page)).phase, { timeout: 90_000 }).toBe('meet');
   expect((await state(page)).inputs.gallop).toBe(false);
 });
 
@@ -118,8 +118,16 @@ test('P1 early apple collection does not softlock the apple objective', async ({
     await action(page, /Взять яблоко/);
   }
   expect((await state(page)).apples).toBe(3);
-  await finishCurrentChapter(page);
-  expect((await state(page)).completedChapters).toContain(1);
+  // This regression concerns advancing past an already satisfied apple task.
+  // The separate story scenario verifies the remaining chapter and its ending.
+  const quests = await page.evaluate(() => window.__WILD_MUSTANG_TEST__.objects().quests);
+  await teleport(page, quests[0].target[0], quests[0].target[1]);
+  await action(page, quests[0].label);
+  await expect.poll(async () => (await state(page)).quest).toBe(1);
+  await teleport(page, quests[1].target[0], quests[1].target[1]);
+  await expect.poll(async () => (await state(page)).quest).toBe(3);
+  expect((await state(page)).phase).toBe('quests');
+  expect((await state(page)).apples).toBe(3);
 });
 
 test('P1 save and reload preserve partially rescued foal and world state', async ({ page }) => {
@@ -127,19 +135,29 @@ test('P1 save and reload preserve partially rescued foal and world state', async
   await startChapterOne(page);
   await skipTutorial(page);
   await meetAlex(page);
-  // Find tracks, ford, and apples using normal in-game action triggers.
-  while ((await state(page)).quest < 3) {
-    const s = await state(page);
-    const target = await page.evaluate(() => window.__WILD_MUSTANG_TEST__.target());
-    const q = await page.evaluate(index => window.__WILD_MUSTANG_TEST__.objects().quests[index], s.quest);
+  // Read progression and destination together, as automatic completion may
+  // happen between browser round-trips after an early apple collection.
+  for (let attempts = 0; attempts < 12; attempts++) {
+    const { s, target, q, allTaken } = await page.evaluate(() => {
+      const api = window.__WILD_MUSTANG_TEST__;
+      const s = api.snapshot(), objects = api.objects();
+      return { s, target: api.target(), q: objects.quests[s.quest],
+        allTaken: objects.apples.every(a => a.taken) };
+    });
+    if (s.quest >= 3) break;
+    if (q.kind === 'apples' && allTaken) {
+      await expect.poll(async () => (await state(page)).quest).not.toBe(s.quest);
+      continue;
+    }
     const travel = q.kind === 'zone' ? q.target : target;
     await teleport(page, travel[0], travel[1]);
     if (q.kind === 'zone') await expect.poll(async () => (await state(page)).quest).not.toBe(s.quest);
-    else await action(page);
+    else await action(page, q.kind === 'apples' ? /Взять яблоко/ : q.label);
   }
+  expect((await state(page)).quest).toBe(3);
   const target = await page.evaluate(() => window.__WILD_MUSTANG_TEST__.target());
   await teleport(page, target[0], target[1]);
-  await action(page, /Отодвинуть ветки/);
+  await action(page, /Отодвинуть ветк/);
   await expect.poll(async () => (await state(page)).freeProgress).toBe(1);
   await page.reload();
   await expect(page.locator('#loading')).toHaveCount(0, { timeout: 20_000 });
@@ -148,8 +166,15 @@ test('P1 save and reload preserve partially rescued foal and world state', async
   expect(loaded.quest).toBe(3);
   expect(loaded.freeProgress).toBe(1);
   expect(loaded.apples).toBe(3);
-  await finishCurrentChapter(page);
+  // Complete the remaining rescue actions after reload. The full story test
+  // owns hill navigation and the chapter ending, avoiding a duplicate playthrough.
+  for (let attempts = 0; attempts < 3 && (await state(page)).quest === 3; attempts++) {
+    await action(page, /Отодвинуть ветк/);
+  }
+  await expect.poll(async () => (await state(page)).quest).toBe(4);
+  expect((await state(page)).phase).toBe('quests');
   expect((await state(page)).foalFreed).toBe(true);
+  expect((await state(page)).freeProgress).toBe(3);
 });
 
 test('P1 corrupted saved data recovers to a playable new game', async ({ page }) => {
@@ -158,4 +183,39 @@ test('P1 corrupted saved data recovers to a playable new game', async ({ page })
   await skipTutorial(page);
   await meetAlex(page);
   expect((await state(page)).quest).toBe(0);
+});
+
+test('P1 return to the trail moves an off-route save without losing quest progress', async ({ page }) => {
+  await openGame(page);
+  await startChapterOne(page);
+  await skipTutorial(page);
+  await meetAlex(page);
+  const progress = await state(page);
+  await teleport(page, 80, 80);
+  await page.locator('#btnPause').click();
+  const offRoute = position(await state(page));
+  expect(offRoute.x).toBe(80);
+  expect(offRoute.z).toBe(80);
+  await page.locator('#btnUnstuck').click();
+  await expect.poll(async () => {
+    const p = position(await state(page));
+    return Math.hypot(p.x - offRoute.x, p.z - offRoute.z);
+  }).toBeGreaterThan(10);
+  const returned = await state(page);
+  expect(returned.grounded).toBe(true);
+  expect(returned.paused).toBe(false);
+  expect(returned.speed).toBeLessThan(0.1);
+  expect(returned.quest).toBe(progress.quest);
+  expect(returned.trust).toBe(progress.trust);
+  const savedPosition = position(returned);
+  await page.reload();
+  await expect(page.locator('#loading')).toHaveCount(0, { timeout: 20_000 });
+  await page.locator('#btnContinue').click();
+  const resumed = await state(page);
+  expect(resumed.quest).toBe(progress.quest);
+  expect(resumed.trust).toBe(progress.trust);
+  expect(resumed.grounded).toBe(true);
+  expect(resumed.paused).toBe(false);
+  expect(position(resumed).x).toBeCloseTo(savedPosition.x, 4);
+  expect(position(resumed).z).toBeCloseTo(savedPosition.z, 4);
 });

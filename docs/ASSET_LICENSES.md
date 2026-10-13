@@ -7,6 +7,7 @@ No imported third-party gameplay asset is approved by this document alone. Every
 | Procedural horse, Alex, terrain and effects in original `index.html` | This project | Project MIT (see LICENSE); validate provenance before external commercial distribution | Existing source | Procedural geometry | Yes (source code) |
 | Vетер, foal and five herd horses | Quaternius Ultimate Animated Animal Pack, [official source](https://quaternius.com/packs/ultimateanimatedanimals.html) | CC0 1.0; source License.txt saved at `public/assets/licenses/quaternius-animals-license.txt` | Horse.gltf, verified 2026-10-13; GLB 761,596 bytes, 2,182 triangles, 50 joints | Bay coats, pale blaze, distinct foal anatomy, original Trot derived from Walk, peaceful clips only | Yes; redistribution permitted, no attribution required, cost $0 |
 | Alex and six skeletal animation clips | Original authored `src/characters/alex.js` | Project MIT; no imported model | Authored 2026-10-13; 18 bones, 3 skinned draw calls | Idle, Walk, Run, Wave, OfferApple, Pet | Yes, cost $0 |
+| Story trails, landmarks, UI SVGs, synthesized audio and contact shadows | Original project source | Project MIT | `src/story/`, `src/ui-icons.js`, `src/contact-shadows.js`, `src/game.js` | Entirely local geometry, textures and Web Audio | Yes |
 | Three.js runtime and bundled glTF utilities | [mrdoob/three.js](https://github.com/mrdoob/three.js/tree/r128) | MIT, preserved dependency license | 0.128.0 pinned in package-lock.json | Bundled with Vite; core play has no CDN/font requirement | Yes |
 
 ## Rules
