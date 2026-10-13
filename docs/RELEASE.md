@@ -1,6 +1,6 @@
 # Ветер прерий, 1.0.0-rc.1
 
-Release candidate prepared 13 October 2026. All three story chapters are implemented, with animated in-engine characters, a family reunion, free-wander epilogue, chapter replay and versioned local saves. The production URL is https://stepanmiller.github.io/wild-mustang/ after the verified Pages deployment.
+Release candidate published and verified 13 October 2026. All three story chapters are implemented, with animated in-engine characters, a family reunion, free-wander epilogue, chapter replay and versioned local saves. Play at https://stepanmiller.github.io/wild-mustang/.
 
 ## Implemented behavior
 
@@ -12,6 +12,7 @@ Horse, foal and five family horses use independently animated CC0 rigs. Alex has
 
 ## Evidence and limits
 
+- Final PR and gated Pages matrices each passed all 42 browser checks without retries. Production deployment and public byte-for-byte SHA-256 verification passed; see the final evidence in `docs/QA.md`.
 - Production build succeeds. Fifteen unit checks validate real glTF skeletons/clips, character behavior/fallback and save migration.
 - Chromium and Linux WebKit exercised real keyboard/pointer handlers, pause, checkpoints, repeat play, all three chapter transitions, reunion, epilogue and reload/replay. Deterministic progression tests teleport between objectives and fast-forward cinematics. They do not prove natural walking-route duration or a seven-year-old's independent comprehension.
 - Actual rendered cast: `public/assets/characters/cast-preview.png`. Integrated family scene: `tests/evidence/reunion-gameplay.png` (visual sampling with a QA save/pose). WebKit story completion: `tests/evidence/webkit-story-ending.png`.

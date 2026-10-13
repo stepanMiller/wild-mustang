@@ -111,3 +111,12 @@ objectives and fast-forward cinematics; they use real interaction buttons and
 separate real movement/animation checks. They do not establish a child's
 independent navigation, actual adventure duration, or physical Safari behavior.
 The actual-device checklist above remains open.
+
+
+## Published candidate verification, 13 October 2026
+
+Final PR [run 38405277258](https://github.com/stepanMiller/wild-mustang/actions/runs/38405277258) and gated Pages [run 38407337306](https://github.com/stepanMiller/wild-mustang/actions/runs/38407337306) each passed 42/42 browser checks across all three projects and 15/15 unit checks, without retries. The Pages run checked main merge `e86aef50bc89701549cc3a590f867b8575460c22` and deployed production successfully.
+
+At 14:00 UTC the canonical public URL https://stepanmiller.github.io/wild-mustang/ returned 200. Public HTML, release.json, three runtime JS bundles and horse GLB matched the production build byte for byte by SHA-256. The manifest names runtime source commit `59528870f2949864fac824ebd09d08789e278d19`; `src/game.js` SHA-256 is `cbe6a458c67e6208d7035e430e75ba8b967c6fbb169dcee5853f51d88cde66b2`.
+
+Public Chromium at 1024 x 768 exercised new game, tutorial skip, pause, menu, save and Continue. The model returned 200, save version was 2, QA hooks were undefined, and there were zero uncaught JavaScript/console errors or failed HTTP responses. This check used the execution environment's network proxy and a desktop tablet viewport. Actual iPad Safari, hardware FPS, independent child navigation and natural chapter durations remain unverified. Issues #8 and #9 track those manual gates.
