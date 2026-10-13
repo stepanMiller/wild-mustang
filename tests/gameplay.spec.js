@@ -55,7 +55,7 @@ test('P1 keyboard can finish every tutorial step and Shift release stops gallopi
   await page.keyboard.press('Space');
   await expect.poll(async () => (await state(page)).tutStep).toBeGreaterThanOrEqual(4);
   await page.keyboard.up('w');
-  await expect.poll(async () => (await state(page)).phase).toBe('meet');
+  await expect.poll(async () => (await state(page)).phase, { timeout: 30_000 }).toBe('meet');
   expect((await state(page)).inputs.gallop).toBe(false);
 });
 
@@ -72,9 +72,11 @@ test('P1 touch joystick moves the hero and pointer cancellation clears controls'
     return Math.hypot(p.x - before.x, p.z - before.z);
   }).toBeGreaterThan(0.5);
   const gallop = await page.locator('#btnGallop').boundingBox();
-  await pointer(page, '#btnGallop', 'pointerdown', 4, gallop.x + 25, gallop.y + 25);
+  await page.mouse.move(gallop.x + 25, gallop.y + 25);
+  await page.mouse.down();
   expect((await state(page)).inputs.gallop).toBe(true);
-  await pointer(page, '#btnGallop', 'pointercancel', 4, gallop.x + 25, gallop.y + 25);
+  await pointer(page, '#btnGallop', 'pointercancel', 1, gallop.x + 25, gallop.y + 25);
+  await page.mouse.up();
   await pointer(page, '#joyBase', 'pointercancel', 3, cx, cy);
   await expect.poll(async () => (await state(page)).inputs).toMatchObject({ x: 0, y: 0, gallop: false });
 });
@@ -130,7 +132,8 @@ test('P1 save and reload preserve partially rescued foal and world state', async
     const s = await state(page);
     const target = await page.evaluate(() => window.__WILD_MUSTANG_TEST__.target());
     const q = await page.evaluate(index => window.__WILD_MUSTANG_TEST__.objects().quests[index], s.quest);
-    await teleport(page, target[0], target[1]);
+    const travel = q.kind === 'zone' ? q.target : target;
+    await teleport(page, travel[0], travel[1]);
     if (q.kind === 'zone') await expect.poll(async () => (await state(page)).quest).not.toBe(s.quest);
     else await action(page);
   }

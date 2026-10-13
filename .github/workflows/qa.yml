@@ -11,6 +11,10 @@ jobs:
   verify:
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        project: [chromium-desktop, chromium-ipad, webkit-ipad]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -25,14 +29,14 @@ jobs:
       - name: Install desktop Chromium and WebKit
         run: npx playwright install --with-deps chromium webkit
       - name: Play gameplay checks on desktop and tablet emulation
-        run: npm test
+        run: npm test -- --project=${{ matrix.project }}
       - name: Rebuild production without test hooks
         run: npm run build
       - name: Keep browser evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: gameplay-qa
+          name: gameplay-qa-${{ matrix.project }}
           path: |
             playwright-report/
             test-results/

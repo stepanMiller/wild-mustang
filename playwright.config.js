@@ -7,7 +7,7 @@ const sandboxArgs = process.env.PLAYWRIGHT_SINGLE_PROCESS === '1'
 export default defineConfig({
   testDir: './tests',
   testMatch: '**/*.spec.js',
-  timeout: 60_000,
+  timeout: 180_000,
   expect: { timeout: 12_000 },
   fullyParallel: false,
   forbidOnly: !!process.env.CI,

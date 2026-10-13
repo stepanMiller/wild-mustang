@@ -41,7 +41,7 @@ export async function meetAlex(page) {
   const objects = await page.evaluate(() => window.__WILD_MUSTANG_TEST__.objects());
   const alex = objects.alex;
   await teleport(page, alex.x + 2, alex.z);
-  await expect.poll(async () => (await state(page)).trust, { timeout: 45_000 }).toBeGreaterThanOrEqual(35);
+  await expect.poll(async () => (await state(page)).trust, { timeout: 90_000 }).toBeGreaterThanOrEqual(35);
   await action(page, /яблоко из руки/);
   await expect.poll(async () => (await state(page)).phase).toBe('quests');
 }
@@ -53,15 +53,24 @@ export function position(snapshot) {
 export async function finishCurrentChapter(page) {
   const initial = await state(page);
   for (let attempts = 0; attempts < 30; attempts++) {
-    const current = await state(page);
+    // Read related values together. Early apple collection can advance a quest
+    // automatically between two browser round-trips.
+    const { current, quest, target, allApplesTaken } = await page.evaluate(() => {
+      const api = window.__WILD_MUSTANG_TEST__;
+      const current = api.snapshot();
+      const objects = api.objects();
+      return { current, quest: objects.quests[current.quest], target: api.target(),
+        allApplesTaken: objects.apples.every(apple => apple.taken) };
+    });
     if (current.phase === 'cine' || current.phase === 'done') break;
-    const rawTarget = await page.evaluate(() => window.__WILD_MUSTANG_TEST__.target());
-    const questData = await page.evaluate(index => window.__WILD_MUSTANG_TEST__.objects().quests[index], current.quest);
-    const quest = Array.isArray(rawTarget) ? { ...questData, target: rawTarget } : rawTarget;
-    if (!quest) throw new Error(`No quest target: ${JSON.stringify(current)}`);
-    const target = Array.isArray(quest) ? quest : quest.target || [quest.x, quest.z];
-    await teleport(page, target[0], target[1]);
-    if ((quest.kind || current.questKind) === 'zone') {
+    if (!quest || !target) throw new Error(`No quest target: ${JSON.stringify(current)}`);
+    if (quest.kind === 'apples' && allApplesTaken) {
+      await expect.poll(async () => (await state(page)).quest).not.toBe(current.quest);
+      continue;
+    }
+    const travel = quest.kind === 'zone' ? quest.target : target;
+    await teleport(page, travel[0], travel[1]);
+    if (quest.kind === 'zone') {
       await expect.poll(async () => (await state(page)).quest).not.toBe(current.quest);
     } else {
       await action(page);

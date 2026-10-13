@@ -365,7 +365,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:32px;heigh
 <div id="orientation">Поверни экран горизонтально ↻</div>
 <div id="loading"><div class="t">Ветер прерий</div><div class="b"><i id="loadBar"></i></div></div>
 
-<script>window.addEventListener('error',function(){document.getElementById('error').classList.add('on');document.getElementById('loading').style.display='none';});</script>
+<script>window.addEventListener('error',function(){document.getElementById('error').classList.add('on');document.getElementById('loading')?.remove();});</script>
 <script type="module" src="/src/boot.js"></script>
 </body>
 </html>

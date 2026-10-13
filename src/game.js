@@ -761,7 +761,7 @@ window.addEventListener('pointerup',onUp);
 window.addEventListener('pointercancel',onUp);
 
 function hold(el, on, off){
-  el.addEventListener('pointerdown', e=>{ if(G.paused) return; e.stopPropagation(); e.preventDefault(); el.setPointerCapture(e.pointerId); on(); });
+  el.addEventListener('pointerdown', e=>{ if(G.paused) return; e.stopPropagation(); e.preventDefault(); try { el.setPointerCapture(e.pointerId); } catch {} on(); });
   ['pointerup','lostpointercapture','pointercancel'].forEach(ev=>
     el.addEventListener(ev, e=>{ e.stopPropagation(); off && off(); }));
 }
