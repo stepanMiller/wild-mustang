@@ -21,7 +21,10 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
   workers: 1,
-  reporter: [['list'], ['html', { open: 'never' }]],
+  reporter: [
+    ...(process.env.GITHUB_ACTIONS ? [['github']] : []),
+    ['list'], ['html', { open: 'never' }],
+  ],
   outputDir: 'test-results',
   use: {
     baseURL,
