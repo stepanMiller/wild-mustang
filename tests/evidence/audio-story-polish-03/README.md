@@ -34,3 +34,12 @@ npx playwright test tests/natural-route.spec.js --grep 'Natural route:' --projec
 ```
 
 The captured cloud run used an isolated config with `webServer` disabled and the frozen port 4184, system Chromium, and single-process software rendering. The evidence directory override preserves the prior Stage A protocol.
+
+The separate scripted story regression initially failed its 90-second crossing
+poll after jumping the hero roughly 150 m ahead of the companions.
+[CI annotations](ci-shortcut-fixture-diagnosis.json) record that failure. The
+scripted helper now restores its existing west-bank checkpoint through public
+Pause/Menu/Continue and checks preserved progress before moving only the hero
+ahead. Companions still cross through ordinary game code; no shipping logic or
+timeout changed. CFT151 full story/replay then passed 1/1 in 4.4 minutes. This
+fixture repair does not alter the natural protocol above.

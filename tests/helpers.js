@@ -70,6 +70,27 @@ export async function finishCurrentChapter(page) {
       continue;
     }
     const travel = quest.kind === 'zone' ? quest.target : target;
+    if (quest.id === 'willow-crossing') {
+      // This scripted helper jumps the hero between distant objectives. Restore
+      // the real west-bank checkpoint through public controls so companions do
+      // not start a 150 m catch-up behind a teleported hero. Only the hero moves
+      // to the next target; the friends still cross through ordinary game code.
+      await page.locator('#btnPause').click();
+      await page.locator('#btnToMenu').click();
+      await page.locator('#btnContinue').click();
+      const continued = await state(page);
+      expect(continued.phase).toBe(current.phase);
+      expect(continued.chapter).toBe(current.chapter);
+      expect(continued.quest).toBe(current.quest);
+      expect(continued.completedChapters).toEqual(current.completedChapters);
+      expect(continued.trust).toBe(current.trust);
+      expect(continued.apples).toBe(current.apples);
+      expect(continued.freeProgress).toBe(current.freeProgress);
+      expect(continued.foalFreed).toBe(true);
+      expect(continued.heading).toBeCloseTo(current.heading, 5);
+      expect(continued.position.x).toBeCloseTo(current.position.x, 2);
+      expect(continued.position.z).toBeCloseTo(current.position.z, 2);
+    }
     await teleport(page, travel[0], travel[1]);
     if (quest.kind === 'zone') {
       await expect.poll(async () => (await state(page)).quest,{timeout:quest.id==='willow-crossing'?90_000:12_000}).not.toBe(current.quest);

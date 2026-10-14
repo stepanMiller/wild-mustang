@@ -244,7 +244,7 @@ can stop just inside the crossing zone while friends physically walk onto the
 bank; sharing starts eating/offer/pet after the action, and Continue preserves
 progress without replaying disposable scenes.
 
-Two new test-fixture errors were corrected without changing gameplay: x=10 was
+Two initial test-fixture errors were corrected without changing gameplay: x=10 was
 exactly outside the strict 7m target radius (the valid edge setup is x=10.2); an
 init script re-seeded its checkpoint on every reload, masking the saved progress
 (the fixture now seeds once per session). The cinematic shortcut helper allows
@@ -272,6 +272,20 @@ apart at reunion. Before/after reload the engine started 5 + 17 voice cues and
 102 + 897 effects; unavailable audio stayed empty. Low-quality observed renderer
 counts peaked at 146,220 triangles/181 calls. The protocol and its derived index
 are linked from `tests/evidence/audio-story-polish-03/README.md`.
+
+Pinned Playwright Chromium 151.0.7922.34 also passed the five new audio/companion
+scenarios, 5/5 in 3.2 minutes, with the ordinary browser fixture. The initial CI
+failed the full scripted story at `willow-crossing`: its hero jumped about 150 m
+from chapter spawn while companions still walked behind. The unchanged 90-second
+poll elapsed on software rendering. Local CFT151 reproduced this exact failure;
+GitHub reporter annotations confirmed it in CI. The driver now uses public
+Pause → Menu → Continue at the existing west-bank checkpoint, asserts unchanged
+chapter/phase/quest/completion/trust/inventory/rescue/heading/position, then moves
+only the hero to the next target. Both companions still cross through ordinary
+game code. No shipping behavior, NPC speed, quality preset, poll or scenario
+limit was changed. The corrected CFT151 full-story scenario passed 1/1 in 4.4
+minutes (4.5-minute runner total), including all chapters and replay. Natural
+touch evidence remains independent and unchanged.
 
 PR #17 remains subject to the GitHub checks on its final head before it is marked
 ready. No physical Safari, hardware FPS, independent child navigation, human
