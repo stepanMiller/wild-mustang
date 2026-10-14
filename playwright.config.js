@@ -6,6 +6,11 @@ const baseURL = `http://127.0.0.1:${port}/wild-mustang/`;
 const sandboxArgs = process.env.PLAYWRIGHT_SINGLE_PROCESS === '1'
   ? ['--no-sandbox', '--no-zygote', '--single-process', '--enable-unsafe-swiftshader']
   : ['--enable-unsafe-swiftshader'];
+const chromiumOptions = {
+  args: sandboxArgs,
+  ...(process.env.WILD_MUSTANG_CHROMIUM_EXECUTABLE
+    ? { executablePath: process.env.WILD_MUSTANG_CHROMIUM_EXECUTABLE } : {}),
+};
 
 export default defineConfig({
   testDir: './tests',
@@ -29,11 +34,11 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium-desktop',
-      use: { browserName: 'chromium', viewport: { width: 1440, height: 900 }, launchOptions: { args: sandboxArgs } },
+      use: { browserName: 'chromium', viewport: { width: 1440, height: 900 }, launchOptions: chromiumOptions },
     },
     {
       name: 'chromium-ipad',
-      use: { ...devices['iPad Pro 11 landscape'], browserName: 'chromium', launchOptions: { args: sandboxArgs } },
+      use: { ...devices['iPad Pro 11 landscape'], browserName: 'chromium', launchOptions: chromiumOptions },
     },
     {
       name: 'webkit-ipad',

@@ -1,0 +1,2561 @@
+{
+  "driver": "Chromium browser native multi-touch protocol",
+  "viewport": {
+    "width": 1194,
+    "height": 834
+  },
+  "browserVersion": "154.0.8037.57",
+  "route": "Authored trail with visible obstacle detours",
+  "tutorial": "Skipped through public UI; tutorial coverage remains in dedicated input tests",
+  "physicalIPad": false,
+  "independentChildNavigation": false,
+  "teleports": 0,
+  "injectedInput": 0,
+  "injectedCheckpoints": 0,
+  "acceleratedCinematics": 0,
+  "checkpoints": [
+    {
+      "chapter": 1,
+      "point": [
+        8,
+        -2
+      ],
+      "phase": "quests",
+      "quest": 0,
+      "tutStep": 0,
+      "trust": 100,
+      "apples": 0,
+      "freeProgress": 0,
+      "foalFreed": false,
+      "position": {
+        "x": 7.934245695240813,
+        "y": 10.15544437351092,
+        "z": -2.1281129778185934
+      },
+      "grounded": true,
+      "speed": 0.7232885163333994,
+      "paused": false,
+      "heading": 3.6178795929925016,
+      "camera": {
+        "yaw": 6.807613008575672,
+        "pitch": 0.22,
+        "dist": 9.5,
+        "position": {
+          "x": 12.731795452091939,
+          "y": 16.47585170678666,
+          "z": 6.164183485346314
+        },
+        "look": {
+          "x": 7.934245695240813,
+          "y": 12.55544437351092,
+          "z": -2.1281129778185934
+        }
+      },
+      "characters": {
+        "horse": "rigged",
+        "foal": "rigged",
+        "herd": "rigged",
+        "alex": "rigged",
+        "error": null
+      },
+      "gaits": [
+        "Walk",
+        "Idle_Headlow",
+        "Eating",
+        "Eating",
+        "Eating",
+        "Eating",
+        "Eating"
+      ],
+      "inputs": {
+        "x": 0,
+        "y": 0,
+        "gallop": false,
+        "jump": false
+      },
+      "completedChapters": [],
+      "render": {
+        "calls": 106,
+        "triangles": 114222
+      },
+      "settings": {
+        "music": 0.55,
+        "sfx": 0.75,
+        "camSens": 1,
+        "hints": true,
+        "subs": true,
+        "easy": false,
+        "quality": 0
+      },
+      "wallTime": "2026-10-14T08:45:19.906Z"
+    },
+    {
+      "chapter": 1,
+      "point": [
+        -2,
+        -18
+      ],
+      "phase": "quests",
+      "quest": 1,
+      "tutStep": 0,
+      "trust": 100,
+      "apples": 0,
+      "freeProgress": 0,
+      "foalFreed": false,
+      "position": {
+        "x": -2.1877177397101812,
+        "y": 8.947670293083034,
+        "z": -18.282436909940596
+      },
+      "grounded": true,
+      "speed": 0,
+      "paused": false,
+      "heading": 3.7177970729889673,
+      "camera": {
+        "yaw": 6.85938972657876,
+        "pitch": 0.22,
+        "dist": 9.5,
+        "position": {
+          "x": 2.8635555512205384,
+          "y": 15.220851712351294,
+          "z": -10.508341660772961
+        },
+        "look": {
+          "x": -2.1877177397101812,
+          "y": 11.347670293083034,
+          "z": -18.282436909940596
+        }
+      },
+      "characters": {
+        "horse": "rigged",
+        "foal": "rigged",
+        "herd": "rigged",
+        "alex": "rigged",
+        "error": null
+      },
+      "gaits": [
+        "Idle",
+        "Idle_Headlow",
+        "Eating",
+        "Eating",
+        "Eating",
+        "Eating",
+        "Eating"
+      ],
+      "inputs": {
+        "x": 0,
+        "y": 0,
+        "gallop": false,
+        "jump": false
+      },
+      "completedChapters": [],
+      "render": {
+        "calls": 51,
+        "triangles": 110464
+      },
+      "settings": {
+        "music": 0.55,
+        "sfx": 0.75,
+        "camSens": 1,
+        "hints": true,
+        "subs": true,
+        "easy": false,
+        "quality": 0
+      },
+      "wallTime": "2026-10-14T08:46:10.144Z"
+    },
+    {
+      "chapter": 1,
+      "point": [
+        -12,
+        -6
+      ],
+      "phase": "quests",
+      "quest": 1,
+      "tutStep": 0,
+      "trust": 100,
+      "apples": 0,
+      "freeProgress": 0,
+      "foalFreed": false,
+      "position": {
+        "x": -12.0502629042254,
+        "y": 1.3100000013058961,
+        "z": -5.954621913938297
+      },
+      "grounded": true,
+      "speed": 0.7620998358507474,
+      "paused": false,
+      "heading": 5.450008976517542,
+      "camera": {
+        "yaw": 8.595038227267176,
+        "pitch": 0.22,
+        "dist": 9.5,
+        "position": {
+          "x": -4.96645113850191,
+          "y": 9.284943671303663,
+          "z": -12.436674493579314
+        },
+        "look": {
+          "x": -12.0502629042254,
+          "y": 3.710000001305896,
+          "z": -5.954621913938297
+        }
+      },
+      "characters": {
+        "horse": "rigged",
+        "foal": "rigged",
+        "herd": "rigged",
+        "alex": "rigged",
+        "error": null
+      },
+      "gaits": [
+        "Walk",
+        "Idle_Headlow",
+        "Eating",
+        "Eating",
+        "Eating",
+        "Eating",
+        "Eating"
+      ],
+      "inputs": {
+        "x": 0,
+        "y": 0,
+        "gallop": false,
+        "jump": false
+      },
+      "completedChapters": [],
+      "render": {
+        "calls": 41,
+        "triangles": 107102
+      },
+      "settings": {
+        "music": 0.55,
+        "sfx": 0.75,
+        "camSens": 1,
+        "hints": true,
+        "subs": true,
+        "easy": false,
+        "quality": 0
+      },
+      "wallTime": "2026-10-14T08:46:32.672Z"
+    },
+    {
+      "chapter": 1,
+      "point": [
+        -34,
+        -6
+      ],
+      "phase": "quests",
+      "quest": 2,
+      "tutStep": 0,
+      "trust": 100,
+      "apples": 0,
+      "freeProgress": 0,
+      "foalFreed": false,
+      "position": {
+        "x": -34.2603199982595,
+        "y": 7.3984531751825955,
+        "z": -5.864973969838736
+      },
+      "grounded": true,
+      "speed": 0.72949870447091,
+      "paused": false,
+      "heading": 5.191662655141358,
+      "camera": {
+        "yaw": 8.174114185968856,
+        "pitch": 0.22,
+        "dist": 9.5,
+        "position": {
+          "x": -25.16370933063907,
+          "y": 13.711859665369406,
+          "z": -8.877459993977078
+        },
+        "look": {
+          "x": -34.2603199982595,
+          "y": 9.798453175182596,
+          "z": -5.864973969838736
+        }
+      },
+      "characters": {
+        "horse": "rigged",
+        "foal": "rigged",
+        "herd": "rigged",
+        "alex": "rigged",
+        "error": null
+      },
+      "gaits": [
+        "Walk",
+        "Idle_Headlow",
+        "Eating",
+        "Eating",
+        "Eating",
+        "Eating",
+        "Eating"
+      ],
+      "inputs": {
+        "x": 0,
+        "y": 0,
+        "gallop": false,
+        "jump": false
+      },
+      "completedChapters": [],
+      "render": {
+        "calls": 46,
+        "triangles": 109851
+      },
+      "settings": {
+        "music": 0.55,
+        "sfx": 0.75,
+        "camSens": 1,
+        "hints": true,
+        "subs": true,
+        "easy": false,
+        "quality": 0
+      },
+      "wallTime": "2026-10-14T08:47:25.465Z"
+    },
+    {
+      "chapter": 1,
+      "point": [
+        -40,
+        -18
+      ],
+      "phase": "quests",
+      "quest": 2,
+      "tutStep": 0,
+      "trust": 100,
+      "apples": 1,
+      "freeProgress": 0,
+      "foalFreed": false,
+      "position": {
+        "x": -40.17467140387636,
+        "y": 7.400652598528591,
+        "z": -18.245996749221256
+      },
+      "grounded": true,
+      "speed": 0.003222469374908682,
+      "paused": false,
+      "heading": 3.7582710087790647,
+      "camera": {
+        "yaw": 6.89602823874813,
+        "pitch": 0.22,
+        "dist": 9.5,
+        "position": {
+          "x": -34.840560054053675,
+          "y": 13.674188786447845,
+          "z": -10.660076344512547
+        },
+        "look": {
+          "x": -40.17467140387636,
+          "y": 9.800652598528591,
+          "z": -18.245996749221256
+        }
+      },
+      "characters": {
+        "horse": "rigged",
+        "foal": "rigged",
+        "herd": "rigged",
+        "alex": "rigged",
+        "error": null
+      },
+      "gaits": [
+        "Idle",
+        "Idle_Headlow",
+        "Eating",
+        "Eating",
+        "Eating",
+        "Eating",
+        "Eating"
+      ],
+      "inputs": {
+        "x": 0,
+        "y": 0,
+        "gallop": false,
+        "jump": false
+      },
+      "completedChapters": [],
+      "render": {
+        "calls": 52,
+        "triangles": 110230
+      },
+      "settings": {
+        "music": 0.55,
+        "sfx": 0.75,
+        "camSens": 1,
+        "hints": true,
+        "subs": true,
+        "easy": false,
+        "quality": 0
+      },
+      "wallTime": "2026-10-14T08:47:43.891Z"
+    },
+    {
+      "chapter": 1,
+      "point": [
+        -49,
+        4
+      ],
+      "phase": "quests",
+      "quest": 2,
+      "tutStep": 0,
+      "trust": 100,
+      "apples": 2,
+      "freeProgress": 0,
+      "foalFreed": false,
+      "position": {
+        "x": -49.13336669329368,
+        "y": 8.287417010451465,
+        "z": 4.257653448164422
+      },
+      "grounded": true,
+      "speed": 0.0032223795700550167,
+      "paused": false,
+      "heading": 5.805505196380025,
+      "camera": {
+        "yaw": 8.946928004702675,
+        "pitch": 0.22,
+        "dist": 9.5,
+        "position": {
+          "x": -44.868724802813645,
+          "y": 14.561018837201704,
+          "z": -3.9771362015077365
+        },
+        "look": {
+          "x": -49.13336669329368,
+          "y": 10.687417010451465,
+          "z": 4.257653448164422
+        }
+      },
+      "characters": {
+        "horse": "rigged",
+        "foal": "rigged",
+        "herd": "rigged",
+        "alex": "rigged",
+        "error": null
+      },
+      "gaits": [
+        "Idle",
+        "Idle_Headlow",
+        "Eating",
+        "Eating",
+        "Eating",
+        "Eating",
+        "Eating"
+      ],
+      "inputs": {
+        "x": 0,
+        "y": 0,
+        "gallop": false,
+        "jump": false
+      },
+      "completedChapters": [],
+      "render": {
+        "calls": 31,
+        "triangles": 107268
+      },
+      "settings": {
+        "music": 0.55,
+        "sfx": 0.75,
+        "camSens": 1,
+        "hints": true,
+        "subs": true,
+        "easy": false,
+        "quality": 0
+      },
+      "wallTime": "2026-10-14T08:48:08.967Z"
+    },
+    {
+      "chapter": 1,
+      "point": [
+        -42,
+        -30
+      ],
+      "phase": "quests",
+      "quest": 3,
+      "tutStep": 0,
+      "trust": 100,
+      "apples": 3,
+      "freeProgress": 0,
+      "foalFreed": false,
+      "position": {
+        "x": -41.967376381026845,
+        "y": 7.700679072822902,
+        "z": -30.26816737057627
+      },
+      "grounded": true,
+      "speed": 0.0007646822436541664,
+      "paused": false,
+      "heading": 3.020533329679745,
+      "camera": {
+        "yaw": 6.162125586434766,
+        "pitch": 0.22,
+        "dist": 9.5,
+        "position": {
+          "x": -43.08705858447827,
+          "y": 13.973947974533413,
+          "z": -21.064387391005383
+        },
+        "look": {
+          "x": -41.967376381026845,
+          "y": 10.100679072822903,
+          "z": -30.26816737057627
+        }
+      },
+      "characters": {
+        "horse": "rigged",
+        "foal": "rigged",
+        "herd": "rigged",
+        "alex": "rigged",
+        "error": null
+      },
+      "gaits": [
+        "Idle",
+        "Idle_Headlow",
+        "Eating",
+        "Eating",
+        "Eating",
+        "Eating",
+        "Eating"
+      ],
+      "inputs": {
+        "x": 0,
+        "y": 0,
+        "gallop": false,
+        "jump": false
+      },
+      "completedChapters": [],
+      "render": {
+        "calls": 37,
+        "triangles": 107884
+      },
+      "settings": {
+        "music": 0.55,
+        "sfx": 0.75,
+        "camSens": 1,
+        "hints": true,
+        "subs": true,
+        "easy": false,
+        "quality": 0
+      },
+      "wallTime": "2026-10-14T08:48:47.961Z"
+    },
+    {
+      "chapter": 1,
+      "point": [
+        -52,
+        -36
+      ],
+      "phase": "quests",
+      "quest": 4,
+      "tutStep": 0,
+      "trust": 100,
+      "apples": 3,
+      "freeProgress": 3,
+      "foalFreed": true,
+      "position": {
+        "x": -52.212560999767724,
+        "y": 11.60093769100311,
+        "z": -36.15627594119343
+      },
+      "grounded": true,
+      "speed": 3.2479191423234074e-10,
+      "paused": false,
+      "heading": 4.075287730510894,
+      "camera": {
+        "yaw": 7.204309081799122,
+        "pitch": 0.22,
+        "dist": 9.5,
+        "position": {
+          "x": -44.83021077381688,
+          "y": 17.87411911027559,
+          "z": -30.547994212438002
+        },
+        "look": {
+          "x": -52.212560999767724,
+          "y": 14.000937691003111,
+          "z": -36.15627594119343
+        }
+      },
+      "characters": {
+        "horse": "rigged",
+        "foal": "rigged",
+        "herd": "rigged",
+        "alex": "rigged",
+        "error": null
+      },
+      "gaits": [
+        "Idle",
+        "Walk",
+        "Eating",
+        "Eating",
+        "Eating",
+        "Eating",
+        "Eating"
+      ],
+      "inputs": {
+        "x": 0,
+        "y": 0,
+        "gallop": false,
+        "jump": false
+      },
+      "completedChapters": [],
+      "render": {
+        "calls": 26,
+        "triangles": 107248
+      },
+      "settings": {
+        "music": 0.55,
+        "sfx": 0.75,
+        "camSens": 1,
+        "hints": true,
+        "subs": true,
+        "easy": false,
+        "quality": 0
+      },
+      "wallTime": "2026-10-14T08:49:18.039Z"
+    },
+    {
+      "chapter": 1,
+      "point": [
+        -61,
+        -47
+      ],
+      "phase": "quests",
+      "quest": 4,
+      "tutStep": 0,
+      "trust": 100,
+      "apples": 3,
+      "freeProgress": 3,
+      "foalFreed": true,
+      "position": {
+        "x": -60.05633449404336,
+        "y": 19.23791303982975,
+        "z": -47.07197894670133
+      },
+      "grounded": true,
+      "speed": 0.7621111212089953,
+      "paused": false,
+      "heading": 3.8045133155755835,
+      "camera": {
+        "yaw": 6.944589263430922,
+        "pitch": 0.22,
+        "dist": 9.5,
+        "position": {
+          "x": -54.15860805795032,
+          "y": 25.490763875400564,
+          "z": -39.49474483117169
+        },
+        "look": {
+          "x": -60.05633449404336,
+          "y": 21.637913039829748,
+          "z": -47.07197894670133
+        }
+      },
+      "characters": {
+        "horse": "rigged",
+        "foal": "rigged",
+        "herd": "rigged",
+        "alex": "rigged",
+        "error": null
+      },
+      "gaits": [
+        "Walk",
+        "Walk",
+        "Eating",
+        "Eating",
+        "Eating",
+        "Eating",
+        "Eating"
+      ],
+      "inputs": {
+        "x": 0,
+        "y": 0,
+        "gallop": false,
+        "jump": false
+      },
+      "completedChapters": [],
+      "render": {
+        "calls": 41,
+        "triangles": 109955
+      },
+      "settings": {
+        "music": 0.55,
+        "sfx": 0.75,
+        "camSens": 1,
+        "hints": true,
+        "subs": true,
+        "easy": false,
+        "quality": 0
+      },
+      "wallTime": "2026-10-14T08:49:31.666Z"
+    },
+    {
+      "chapter": 1,
+      "point": [
+        -72,
+        -64
+      ],
+      "phase": "cine",
+      "quest": 5,
+      "tutStep": 0,
+      "trust": 100,
+      "apples": 3,
+      "freeProgress": 3,
+      "foalFreed": true,
+      "position": {
+        "x": -72.18118411616192,
+        "y": 30.098553439057987,
+        "z": -64.29117582752247
+      },
+      "grounded": true,
+      "speed": 0,
+      "paused": false,
+      "heading": 3.6896347415074082,
+      "camera": {
+        "yaw": 6.698867960252671,
+        "pitch": 0.2070640027682938,
+        "dist": 10.766162343068556,
+        "position": {
+          "x": -68.19860638566514,
+          "y": 36.48164076815825,
+          "z": -54.84515038650431
+        },
+        "look": {
+          "x": -72.18118411616192,
+          "y": 32.498553439057986,
+          "z": -64.29117582752247
+        }
+      },
+      "characters": {
+        "horse": "rigged",
+        "foal": "rigged",
+        "herd": "rigged",
+        "alex": "rigged",
+        "error": null
+      },
+      "gaits": [
+        "Idle",
+        "Eating",
+        "Walk",
+        "Walk",
+        "Walk",
+        "Walk",
+        "Walk"
+      ],
+      "inputs": {
+        "x": 0,
+        "y": 0,
+        "gallop": false,
+        "jump": false
+      },
+      "completedChapters": [],
+      "render": {
+        "calls": 49,
+        "triangles": 120601
+      },
+      "settings": {
+        "music": 0.55,
+        "sfx": 0.75,
+        "camSens": 1,
+        "hints": true,
+        "subs": true,
+        "easy": false,
+        "quality": 0
+      },
+      "wallTime": "2026-10-14T08:50:13.597Z"
+    },
+    {
+      "chapter": 2,
+      "point": [
+        -81,
+        -46
+      ],
+      "phase": "quests",
+      "quest": 0,
+      "tutStep": 0,
+      "trust": 80,
+      "apples": 0,
+      "freeProgress": 0,
+      "foalFreed": true,
+      "position": {
+        "x": -81.02455098610785,
+        "y": 21.343465755100635,
+        "z": -45.94685635971619
+      },
+      "grounded": true,
+      "speed": 1.0161329750106156,
+      "paused": false,
+      "heading": -0.4329110097244675,
+      "camera": {
+        "yaw": 2.708546323215014,
+        "pitch": 0.22,
+        "dist": 9.5,
+        "position": {
+          "x": -76.9736637898414,
+          "y": 29.40843090166988,
+          "z": -54.70903968920123
+        },
+        "look": {
+          "x": -81.02455098610785,
+          "y": 23.743465755100633,
+          "z": -45.94685635971619
+        }
+      },
+      "characters": {
+        "horse": "rigged",
+        "foal": "rigged",
+        "herd": "rigged",
+        "alex": "rigged",
+        "error": null
+      },
+      "gaits": [
+        "Walk",
+        "Walk",
+        "Walk",
+        "Walk",
+        "Walk",
+        "Walk",
+        "Walk"
+      ],
+      "inputs": {
+        "x": 0,
+        "y": 0,
+        "gallop": false,
+        "jump": false
+      },
+      "completedChapters": [
+        1
+      ],
+      "render": {
+        "calls": 62,
+        "triangles": 114698
+      },
+      "settings": {
+        "music": 0.55,
+        "sfx": 0.75,
+        "camSens": 1,
+        "hints": true,
+        "subs": true,
+        "easy": false,
+        "quality": 0
+      },
+      "wallTime": "2026-10-14T08:51:45.360Z"
+    },
+    {
+      "chapter": 2,
+      "point": [
+        -77,
+        -16
+      ],
+      "phase": "quests",
+      "quest": 1,
+      "tutStep": 0,
+      "trust": 86,
+      "apples": 0,
+      "freeProgress": 0,
+      "foalFreed": true,
+      "position": {
+        "x": -76.97850634204143,
+        "y": 8.025245552603467,
+        "z": -15.806388500813254
+      },
+      "grounded": true,
+      "speed": 0.0007646933668032749,
+      "paused": false,
+      "heading": 0.11056177339599493,
+      "camera": {
+        "yaw": 3.2521552206551334,
+        "pitch": 0.22,
+        "dist": 9.5,
+        "position": {
+          "x": -78.00151513938481,
+          "y": 14.298538309049084,
+          "z": -25.021414670989266
+        },
+        "look": {
+          "x": -76.97850634204143,
+          "y": 10.425245552603467,
+          "z": -15.806388500813254
+        }
+      },
+      "characters": {
+        "horse": "rigged",
+        "foal": "rigged",
+        "herd": "rigged",
+        "alex": "rigged",
+        "error": null
+      },
+      "gaits": [
+        "Idle",
+        "Walk",
+        "Walk",
+        "Walk",
+        "Walk",
+        "Walk",
+        "Walk"
+      ],
+      "inputs": {
+        "x": 0,
+        "y": 0,
+        "gallop": false,
+        "jump": false
+      },
+      "completedChapters": [
+        1
+      ],
+      "render": {
+        "calls": 85,
+        "triangles": 117642
+      },
+      "settings": {
+        "music": 0.55,
+        "sfx": 0.75,
+        "camSens": 1,
+        "hints": true,
+        "subs": true,
+        "easy": false,
+        "quality": 0
+      },
+      "wallTime": "2026-10-14T08:52:15.395Z"
+    },
+    {
+      "chapter": 2,
+      "point": [
+        -63,
+        9
+      ],
+      "phase": "quests",
+      "quest": 1,
+      "tutStep": 0,
+      "trust": 86,
+      "apples": 0,
+      "freeProgress": 0,
+      "foalFreed": true,
+      "position": {
+        "x": -62.86384616260686,
+        "y": 8.235862174759971,
+        "z": 9.25332006118128
+      },
+      "grounded": true,
+      "speed": 0.7621444730660785,
+      "paused": false,
+      "heading": 0.49317850948553565,
+      "camera": {
+        "yaw": 3.63477275041274,
+        "pitch": 0.22,
+        "dist": 9.5,
+        "position": {
+          "x": -67.40970947713643,
+          "y": 14.564014649444527,
+          "z": 0.7955844841655129
+        },
+        "look": {
+          "x": -62.86384616260686,
+          "y": 10.635862174759971,
+          "z": 9.25332006118128
+        }
+      },
+      "characters": {
+        "horse": "rigged",
+        "foal": "rigged",
+        "herd": "rigged",
+        "alex": "rigged",
+        "error": null
+      },
+      "gaits": [
+        "Walk",
+        "Walk",
+        "Walk",
+        "Walk",
+        "Walk",
+        "Walk",
+        "Walk"
+      ],
+      "inputs": {
+        "x": 0,
+        "y": 0,
+        "gallop": false,
+        "jump": false
+      },
+      "completedChapters": [
+        1
+      ],
+      "render": {
+        "calls": 104,
+        "triangles": 118760
+      },
+      "settings": {
+        "music": 0.55,
+        "sfx": 0.75,
+        "camSens": 1,
+        "hints": true,
+        "subs": true,
+        "easy": false,
+        "quality": 0
+      },
+      "wallTime": "2026-10-14T08:52:36.547Z"
+    },
+    {
+      "chapter": 2,
+      "point": [
+        -55,
+        36
+      ],
+      "phase": "quests",
+      "quest": 2,
+      "tutStep": 0,
+      "trust": 92,
+      "apples": 0,
+      "freeProgress": 0,
+      "foalFreed": true,
+      "position": {
+        "x": -54.95561148335286,
+        "y": 6.769262628638885,
+        "z": 36.14581821000886
+      },
+      "grounded": true,
+      "speed": 0.7621088441836397,
+      "paused": false,
+      "heading": 0.29549742530864254,
+      "camera": {
+        "yaw": 3.4370892852290913,
+        "pitch": 0.22,
+        "dist": 9.5,
+        "position": {
+          "x": -57.75184577972752,
+          "y": 13.098574079949058,
+          "z": 26.960031138825826
+        },
+        "look": {
+          "x": -54.95561148335286,
+          "y": 9.169262628638885,
+          "z": 36.14581821000886
+        }
+      },
+      "characters": {
+        "horse": "rigged",
+        "foal": "rigged",
+        "herd": "rigged",
+        "alex": "rigged",
+        "error": null
+      },
+      "gaits": [
+        "Walk",
+        "Walk",
+        "Walk",
+        "Walk",
+        "Walk",
+        "Walk",
+        "Walk"
+      ],
+      "inputs": {
+        "x": 0,
+        "y": 0,
+        "gallop": false,
+        "jump": false
+      },
+      "completedChapters": [
+        1
+      ],
+      "render": {
+        "calls": 67,
+        "triangles": 115488
+      },
+      "settings": {
+        "music": 0.55,
+        "sfx": 0.75,
+        "camSens": 1,
+        "hints": true,
+        "subs": true,
+        "easy": false,
+        "quality": 0
+      },
+      "wallTime": "2026-10-14T08:52:59.688Z"
+    },
+    {
+      "chapter": 2,
+      "point": [
+        -37,
+        51
+      ],
+      "phase": "quests",
+      "quest": 2,
+      "tutStep": 0,
+      "trust": 92,
+      "apples": 0,
+      "freeProgress": 0,
+      "foalFreed": true,
+      "position": {
+        "x": -36.92856699707679,
+        "y": 4.299126656102968,
+        "z": 51.063119422826894
+      },
+      "grounded": true,
+      "speed": 0.7621003894505542,
+      "paused": false,
+      "heading": 0.8470942689729584,
+      "camera": {
+        "yaw": 3.9886670808253424,
+        "pitch": 0.22,
+        "dist": 9.5,
+        "position": {
+          "x": -44.12375422700482,
+          "y": 10.631914290044458,
+          "z": 44.70491531644934
+        },
+        "look": {
+          "x": -36.92856699707679,
+          "y": 6.699126656102967,
+          "z": 51.063119422826894
+        }
+      },
+      "characters": {
+        "horse": "rigged",
+        "foal": "rigged",
+        "herd": "rigged",
+        "alex": "rigged",
+        "error": null
+      },
+      "gaits": [
+        "Walk",
+        "Walk",
+        "Walk",
+        "Walk",
+        "Walk",
+        "Walk",
+        "Walk"
+      ],
+      "inputs": {
+        "x": 0,
+        "y": 0,
+        "gallop": false,
+        "jump": false
+      },
+      "completedChapters": [
+        1
+      ],
+      "render": {
+        "calls": 95,
+        "triangles": 118060
+      },
+      "settings": {
+        "music": 0.55,
+        "sfx": 0.75,
+        "camSens": 1,
+        "hints": true,
+        "subs": true,
+        "easy": false,
+        "quality": 0
+      },
+      "wallTime": "2026-10-14T08:53:23.836Z"
+    },
+    {
+      "chapter": 2,
+      "point": [
+        -14,
+        60
+      ],
+      "phase": "quests",
+      "quest": 3,
+      "tutStep": 0,
+      "trust": 98,
+      "apples": 0,
+      "freeProgress": 0,
+      "foalFreed": true,
+      "position": {
+        "x": -13.741340625298411,
+        "y": 6.169730317446593,
+        "z": 60.10632339862806
+      },
+      "grounded": true,
+      "speed": 3.248392773851869e-10,
+      "paused": false,
+      "heading": 1.1807966895599558,
+      "camera": {
+        "yaw": 4.322394105155093,
+        "pitch": 0.22,
+        "dist": 9.5,
+        "position": {
+          "x": -22.316214416481863,
+          "y": 12.442911736749238,
+          "z": 56.58163074919543
+        },
+        "look": {
+          "x": -13.741340625298411,
+          "y": 8.569730317446593,
+          "z": 60.10632339862806
+        }
+      },
+      "characters": {
+        "horse": "rigged",
+        "foal": "rigged",
+        "herd": "rigged",
+        "alex": "rigged",
+        "error": null
+      },
+      "gaits": [
+        "Idle_2",
+        "Idle_Headlow",
+        "Walk",
+        "Walk",
+        "Walk",
+        "Walk",
+        "Walk"
+      ],
+      "inputs": {
+        "x": 0,
+        "y": 0,
+        "gallop": false,
+        "jump": false
+      },
+      "completedChapters": [
+        1
+      ],
+      "render": {
+        "calls": 90,
+        "triangles": 117851
+      },
+      "settings": {
+        "music": 0.55,
+        "sfx": 0.75,
+        "camSens": 1,
+        "hints": true,
+        "subs": true,
+        "easy": false,
+        "quality": 0
+      },
+      "wallTime": "2026-10-14T08:53:55.492Z"
+    },
+    {
+      "chapter": 2,
+      "point": [
+        1,
+        60
+      ],
+      "phase": "quests",
+      "quest": 3,
+      "tutStep": 0,
+      "trust": 98,
+      "apples": 0,
+      "freeProgress": 0,
+      "foalFreed": true,
+      "position": {
+        "x": 1.0969370608582072,
+        "y": 1.3099999999999998,
+        "z": 59.94764136997271
+      },
+      "grounded": true,
+      "speed": 0.7232894787725347,
+      "paused": false,
+      "heading": 2.050654974916446,
+      "camera": {
+        "yaw": 4.989282201912667,
+        "pitch": 0.22,
+        "dist": 9.5,
+        "position": {
+          "x": -8.117323432751261,
+          "y": 8.341532028712827,
+          "z": 62.56303911224546
+        },
+        "look": {
+          "x": 1.0969370608582072,
+          "y": 3.71,
+          "z": 59.94764136997271
+        }
+      },
+      "characters": {
+        "horse": "rigged",
+        "foal": "rigged",
+        "herd": "rigged",
+        "alex": "rigged",
+        "error": null
+      },
+      "gaits": [
+        "Walk",
+        "Walk",
+        "Walk",
+        "Walk",
+        "Walk",
+        "Walk",
+        "Walk"
+      ],
+      "inputs": {
+        "x": 0,
+        "y": 0,
+        "gallop": false,
+        "jump": false
+      },
+      "completedChapters": [
+        1
+      ],
+      "render": {
+        "calls": 68,
+        "triangles": 115394
+      },
+      "settings": {
+        "music": 0.55,
+        "sfx": 0.75,
+        "camSens": 1,
+        "hints": true,
+        "subs": true,
+        "easy": false,
+        "quality": 0
+      },
+      "wallTime": "2026-10-14T08:54:50.977Z"
+    },
+    {
+      "chapter": 2,
+      "point": [
+        17,
+        60
+      ],
+      "phase": "quests",
+      "quest": 4,
+      "tutStep": 0,
+      "trust": 100,
+      "apples": 0,
+      "freeProgress": 0,
+      "foalFreed": true,
+      "position": {
+        "x": 17.138968193436693,
+        "y": 11.691623559283675,
+        "z": 60.10542599462001
+      },
+      "grounded": true,
+      "speed": 0.7366167143703929,
+      "paused": false,
+      "heading": 0.9673576757135351,
+      "camera": {
+        "yaw": 4.600459526867268,
+        "pitch": 0.22,
+        "dist": 9.5,
+        "position": {
+          "x": 7.621568605704093,
+          "y": 17.990034228051694,
+          "z": 59.05002346955168
+        },
+        "look": {
+          "x": 17.138968193436693,
+          "y": 14.091623559283676,
+          "z": 60.10542599462001
+        }
+      },
+      "characters": {
+        "horse": "rigged",
+        "foal": "rigged",
+        "herd": "rigged",
+        "alex": "rigged",
+        "error": null
+      },
+      "gaits": [
+        "Walk",
+        "Walk",
+        "Walk",
+        "Walk",
+        "Walk",
+        "Walk",
+        "Walk"
+      ],
+      "inputs": {
+        "x": 0,
+        "y": 0,
+        "gallop": false,
+        "jump": false
+      },
+      "completedChapters": [
+        1
+      ],
+      "render": {
+        "calls": 58,
+        "triangles": 113577
+      },
+      "settings": {
+        "music": 0.55,
+        "sfx": 0.75,
+        "camSens": 1,
+        "hints": true,
+        "subs": true,
+        "easy": false,
+        "quality": 0
+      },
+      "wallTime": "2026-10-14T08:55:30.840Z"
+    },
+    {
+      "chapter": 2,
+      "point": [
+        27,
+        75
+      ],
+      "phase": "quests",
+      "quest": 5,
+      "tutStep": 0,
+      "trust": 100,
+      "apples": 0,
+      "freeProgress": 0,
+      "foalFreed": true,
+      "position": {
+        "x": 27.100211030574517,
+        "y": 11.298983802772751,
+        "z": 75.12990748016384
+      },
+      "grounded": true,
+      "speed": 0.0007647433396001325,
+      "paused": false,
+      "heading": 0.6577115500819812,
+      "camera": {
+        "yaw": 3.800823288784126,
+        "pitch": 0.22,
+        "dist": 9.5,
+        "position": {
+          "x": 21.42125118701235,
+          "y": 17.572269692835373,
+          "z": 67.80101464699415
+        },
+        "look": {
+          "x": 27.100211030574517,
+          "y": 13.698983802772752,
+          "z": 75.12990748016384
+        }
+      },
+      "characters": {
+        "horse": "rigged",
+        "foal": "rigged",
+        "herd": "rigged",
+        "alex": "rigged",
+        "error": null
+      },
+      "gaits": [
+        "Idle",
+        "Walk",
+        "Walk",
+        "Walk",
+        "Walk",
+        "Walk",
+        "Walk"
+      ],
+      "inputs": {
+        "x": 0,
+        "y": 0,
+        "gallop": false,
+        "jump": false
+      },
+      "completedChapters": [
+        1
+      ],
+      "render": {
+        "calls": 47,
+        "triangles": 112891
+      },
+      "settings": {
+        "music": 0.55,
+        "sfx": 0.75,
+        "camSens": 1,
+        "hints": true,
+        "subs": true,
+        "easy": false,
+        "quality": 0
+      },
+      "wallTime": "2026-10-14T08:55:48.900Z"
+    },
+    {
+      "chapter": 2,
+      "point": [
+        40,
+        74
+      ],
+      "phase": "quests",
+      "quest": 5,
+      "tutStep": 0,
+      "trust": 100,
+      "apples": 0,
+      "freeProgress": 0,
+      "foalFreed": true,
+      "position": {
+        "x": 40.113751315223425,
+        "y": 11.694774232904374,
+        "z": 74.00514646657986
+      },
+      "grounded": true,
+      "speed": 0.7622944077224396,
+      "paused": false,
+      "heading": 1.5276798870367934,
+      "camera": {
+        "yaw": 4.672880156606356,
+        "pitch": 0.22,
+        "dist": 9.5,
+        "position": {
+          "x": 30.519131712838348,
+          "y": 18.015582204861783,
+          "z": 73.62600349022802
+        },
+        "look": {
+          "x": 40.113751315223425,
+          "y": 14.094774232904374,
+          "z": 74.00514646657986
+        }
+      },
+      "characters": {
+        "horse": "rigged",
+        "foal": "rigged",
+        "herd": "rigged",
+        "alex": "rigged",
+        "error": null
+      },
+      "gaits": [
+        "Walk",
+        "Walk",
+        "Walk",
+        "Walk",
+        "Walk",
+        "Walk",
+        "Walk"
+      ],
+      "inputs": {
+        "x": 0,
+        "y": 0,
+        "gallop": false,
+        "jump": false
+      },
+      "completedChapters": [
+        1
+      ],
+      "render": {
+        "calls": 37,
+        "triangles": 112301
+      },
+      "settings": {
+        "music": 0.55,
+        "sfx": 0.75,
+        "camSens": 1,
+        "hints": true,
+        "subs": true,
+        "easy": false,
+        "quality": 0
+      },
+      "wallTime": "2026-10-14T08:56:03.199Z"
+    },
+    {
+      "chapter": 2,
+      "point": [
+        48,
+        58
+      ],
+      "phase": "cine",
+      "quest": 5,
+      "tutStep": 0,
+      "trust": 100,
+      "apples": 0,
+      "freeProgress": 0,
+      "foalFreed": true,
+      "position": {
+        "x": 48.09053416562156,
+        "y": 12.686571501300568,
+        "z": 57.851452432327335
+      },
+      "grounded": true,
+      "speed": 0,
+      "paused": false,
+      "heading": 2.593501579341919,
+      "camera": {
+        "yaw": 5.799283870775064,
+        "pitch": 0.2070640027682938,
+        "dist": 10.766162343068556,
+        "position": {
+          "x": 43.170551187385094,
+          "y": 19.069662398867735,
+          "z": 66.84490345046551
+        },
+        "look": {
+          "x": 48.09053416562156,
+          "y": 15.086571501300568,
+          "z": 57.851452432327335
+        }
+      },
+      "characters": {
+        "horse": "rigged",
+        "foal": "rigged",
+        "herd": "rigged",
+        "alex": "rigged",
+        "error": null
+      },
+      "gaits": [
+        "Idle",
+        "Eating",
+        "Eating",
+        "Eating",
+        "Eating",
+        "Eating",
+        "Eating"
+      ],
+      "inputs": {
+        "x": 0,
+        "y": 0,
+        "gallop": false,
+        "jump": false
+      },
+      "completedChapters": [
+        1
+      ],
+      "render": {
+        "calls": 69,
+        "triangles": 128076
+      },
+      "settings": {
+        "music": 0.55,
+        "sfx": 0.75,
+        "camSens": 1,
+        "hints": true,
+        "subs": true,
+        "easy": false,
+        "quality": 0
+      },
+      "wallTime": "2026-10-14T08:56:22.316Z"
+    },
+    {
+      "chapter": 3,
+      "point": [
+        64,
+        45
+      ],
+      "phase": "quests",
+      "quest": 0,
+      "tutStep": 0,
+      "trust": 80,
+      "apples": 0,
+      "freeProgress": 0,
+      "foalFreed": true,
+      "position": {
+        "x": 64.18081143064731,
+        "y": 11.485599513878864,
+        "z": 44.83419241750325
+      },
+      "grounded": true,
+      "speed": 0.7621174825947862,
+      "paused": false,
+      "heading": 2.3129809254509563,
+      "camera": {
+        "yaw": 5.454758107125219,
+        "pitch": 0.22,
+        "dist": 9.5,
+        "position": {
+          "x": 57.10542488907553,
+          "y": 17.824042944494796,
+          "z": 51.3254673233045
+        },
+        "look": {
+          "x": 64.18081143064731,
+          "y": 13.885599513878864,
+          "z": 44.83419241750325
+        }
+      },
+      "characters": {
+        "horse": "rigged",
+        "foal": "rigged",
+        "herd": "rigged",
+        "alex": "rigged",
+        "error": null
+      },
+      "gaits": [
+        "Walk",
+        "Walk",
+        "Eating",
+        "Eating",
+        "Eating",
+        "Eating",
+        "Eating"
+      ],
+      "inputs": {
+        "x": 0,
+        "y": 0,
+        "gallop": false,
+        "jump": false
+      },
+      "completedChapters": [
+        1,
+        2
+      ],
+      "render": {
+        "calls": 73,
+        "triangles": 119988
+      },
+      "settings": {
+        "music": 0.55,
+        "sfx": 0.75,
+        "camSens": 1,
+        "hints": true,
+        "subs": true,
+        "easy": false,
+        "quality": 0
+      },
+      "wallTime": "2026-10-14T08:57:53.719Z"
+    },
+    {
+      "chapter": 3,
+      "point": [
+        75,
+        26
+      ],
+      "phase": "quests",
+      "quest": 1,
+      "tutStep": 0,
+      "trust": 86,
+      "apples": 0,
+      "freeProgress": 0,
+      "foalFreed": true,
+      "position": {
+        "x": 75.08494112487192,
+        "y": 8.973825264936982,
+        "z": 25.85850257293215
+      },
+      "grounded": true,
+      "speed": 0.7621174663665814,
+      "paused": false,
+      "heading": 2.6009415459480643,
+      "camera": {
+        "yaw": 5.742507611619993,
+        "pitch": 0.22,
+        "dist": 9.5,
+        "position": {
+          "x": 70.14264404011027,
+          "y": 15.30841345420617,
+          "z": 34.09084391858868
+        },
+        "look": {
+          "x": 75.08494112487192,
+          "y": 11.373825264936983,
+          "z": 25.85850257293215
+        }
+      },
+      "characters": {
+        "horse": "rigged",
+        "foal": "rigged",
+        "herd": "rigged",
+        "alex": "rigged",
+        "error": null
+      },
+      "gaits": [
+        "Walk",
+        "Walk",
+        "Eating",
+        "Eating",
+        "Eating",
+        "Eating",
+        "Eating"
+      ],
+      "inputs": {
+        "x": 0,
+        "y": 0,
+        "gallop": false,
+        "jump": false
+      },
+      "completedChapters": [
+        1,
+        2
+      ],
+      "render": {
+        "calls": 70,
+        "triangles": 119640
+      },
+      "settings": {
+        "music": 0.55,
+        "sfx": 0.75,
+        "camSens": 1,
+        "hints": true,
+        "subs": true,
+        "easy": false,
+        "quality": 0
+      },
+      "wallTime": "2026-10-14T08:58:12.845Z"
+    },
+    {
+      "chapter": 3,
+      "point": [
+        66,
+        13
+      ],
+      "phase": "quests",
+      "quest": 1,
+      "tutStep": 0,
+      "trust": 86,
+      "apples": 0,
+      "freeProgress": 0,
+      "foalFreed": true,
+      "position": {
+        "x": 65.97700543188749,
+        "y": 10.712875158904083,
+        "z": 12.958799256849176
+      },
+      "grounded": true,
+      "speed": 0.7620983208316157,
+      "paused": false,
+      "heading": 3.6511769855340233,
+      "camera": {
+        "yaw": 6.793156156166771,
+        "pitch": 0.22,
+        "dist": 9.5,
+        "position": {
+          "x": 70.66422627347102,
+          "y": 17.02555985331013,
+          "z": 21.338978650693925
+        },
+        "look": {
+          "x": 65.97700543188749,
+          "y": 13.112875158904084,
+          "z": 12.958799256849176
+        }
+      },
+      "characters": {
+        "horse": "rigged",
+        "foal": "rigged",
+        "herd": "rigged",
+        "alex": "rigged",
+        "error": null
+      },
+      "gaits": [
+        "Walk",
+        "Walk",
+        "Eating",
+        "Eating",
+        "Eating",
+        "Eating",
+        "Eating"
+      ],
+      "inputs": {
+        "x": 0,
+        "y": 0,
+        "gallop": false,
+        "jump": false
+      },
+      "completedChapters": [
+        1,
+        2
+      ],
+      "render": {
+        "calls": 119,
+        "triangles": 125749
+      },
+      "settings": {
+        "music": 0.55,
+        "sfx": 0.75,
+        "camSens": 1,
+        "hints": true,
+        "subs": true,
+        "easy": false,
+        "quality": 0
+      },
+      "wallTime": "2026-10-14T08:58:37.557Z"
+    },
+    {
+      "chapter": 3,
+      "point": [
+        51,
+        -4
+      ],
+      "phase": "quests",
+      "quest": 2,
+      "tutStep": 0,
+      "trust": 92,
+      "apples": 0,
+      "freeProgress": 0,
+      "foalFreed": true,
+      "position": {
+        "x": 50.82112985202703,
+        "y": 13.083762440575166,
+        "z": -4.207746404616298
+      },
+      "grounded": true,
+      "speed": 0.0007649456047121317,
+      "paused": false,
+      "heading": 3.85243926493965,
+      "camera": {
+        "yaw": 6.994030331199773,
+        "pitch": 0.22,
+        "dist": 9.5,
+        "position": {
+          "x": 56.87063557511817,
+          "y": 19.357036041112654,
+          "z": 2.8184003785263325
+        },
+        "look": {
+          "x": 50.82112985202703,
+          "y": 15.483762440575166,
+          "z": -4.207746404616298
+        }
+      },
+      "characters": {
+        "horse": "rigged",
+        "foal": "rigged",
+        "herd": "rigged",
+        "alex": "rigged",
+        "error": null
+      },
+      "gaits": [
+        "Idle",
+        "Walk",
+        "Eating",
+        "Eating",
+        "Eating",
+        "Eating",
+        "Eating"
+      ],
+      "inputs": {
+        "x": 0,
+        "y": 0,
+        "gallop": false,
+        "jump": false
+      },
+      "completedChapters": [
+        1,
+        2
+      ],
+      "render": {
+        "calls": 103,
+        "triangles": 126208
+      },
+      "settings": {
+        "music": 0.55,
+        "sfx": 0.75,
+        "camSens": 1,
+        "hints": true,
+        "subs": true,
+        "easy": false,
+        "quality": 0
+      },
+      "wallTime": "2026-10-14T08:59:00.074Z"
+    },
+    {
+      "chapter": 3,
+      "point": [
+        62,
+        -19
+      ],
+      "phase": "quests",
+      "quest": 2,
+      "tutStep": 0,
+      "trust": 92,
+      "apples": 0,
+      "freeProgress": 0,
+      "foalFreed": true,
+      "position": {
+        "x": 62.15392385559406,
+        "y": 10.150115944876116,
+        "z": -19.257051477566286
+      },
+      "grounded": true,
+      "speed": 0.7621802597330467,
+      "paused": false,
+      "heading": 2.6022036852142656,
+      "camera": {
+        "yaw": 5.744472147053712,
+        "pitch": 0.22,
+        "dist": 9.5,
+        "position": {
+          "x": 57.2278048756526,
+          "y": 16.49121682372239,
+          "z": -11.014959929063847
+        },
+        "look": {
+          "x": 62.15392385559406,
+          "y": 12.550115944876117,
+          "z": -19.257051477566286
+        }
+      },
+      "characters": {
+        "horse": "rigged",
+        "foal": "rigged",
+        "herd": "rigged",
+        "alex": "rigged",
+        "error": null
+      },
+      "gaits": [
+        "Walk",
+        "Walk",
+        "Eating",
+        "Eating",
+        "Eating",
+        "Eating",
+        "Eating"
+      ],
+      "inputs": {
+        "x": 0,
+        "y": 0,
+        "gallop": false,
+        "jump": false
+      },
+      "completedChapters": [
+        1,
+        2
+      ],
+      "render": {
+        "calls": 69,
+        "triangles": 119178
+      },
+      "settings": {
+        "music": 0.55,
+        "sfx": 0.75,
+        "camSens": 1,
+        "hints": true,
+        "subs": true,
+        "easy": false,
+        "quality": 0
+      },
+      "wallTime": "2026-10-14T08:59:19.850Z"
+    },
+    {
+      "chapter": 3,
+      "point": [
+        75,
+        -30
+      ],
+      "phase": "quests",
+      "quest": 3,
+      "tutStep": 0,
+      "trust": 98,
+      "apples": 0,
+      "freeProgress": 0,
+      "foalFreed": true,
+      "position": {
+        "x": 75.26459372242759,
+        "y": 7.776262083293974,
+        "z": -30.234247387272855
+      },
+      "grounded": true,
+      "speed": 7.672838833982382e-7,
+      "paused": false,
+      "heading": 2.2954714230443876,
+      "camera": {
+        "yaw": 5.437272811681717,
+        "pitch": 0.22,
+        "dist": 9.5,
+        "position": {
+          "x": 68.32452167554528,
+          "y": 14.049443615658566,
+          "z": -24.087107375205928
+        },
+        "look": {
+          "x": 75.26459372242759,
+          "y": 10.176262083293974,
+          "z": -30.234247387272855
+        }
+      },
+      "characters": {
+        "horse": "rigged",
+        "foal": "rigged",
+        "herd": "rigged",
+        "alex": "rigged",
+        "error": null
+      },
+      "gaits": [
+        "Idle_2",
+        "Idle_Headlow",
+        "Eating",
+        "Eating",
+        "Eating",
+        "Eating",
+        "Eating"
+      ],
+      "inputs": {
+        "x": 0,
+        "y": 0,
+        "gallop": false,
+        "jump": false
+      },
+      "completedChapters": [
+        1,
+        2
+      ],
+      "render": {
+        "calls": 43,
+        "triangles": 117940
+      },
+      "settings": {
+        "music": 0.55,
+        "sfx": 0.75,
+        "camSens": 1,
+        "hints": true,
+        "subs": true,
+        "easy": false,
+        "quality": 0
+      },
+      "wallTime": "2026-10-14T08:59:44.204Z"
+    },
+    {
+      "chapter": 3,
+      "point": [
+        63,
+        -46
+      ],
+      "phase": "quests",
+      "quest": 3,
+      "tutStep": 0,
+      "trust": 98,
+      "apples": 0,
+      "freeProgress": 0,
+      "foalFreed": true,
+      "position": {
+        "x": 62.87988006526958,
+        "y": 8.734658876383449,
+        "z": -46.19505808000436
+      },
+      "grounded": true,
+      "speed": 0.7622085435667917,
+      "paused": false,
+      "heading": 3.6934616903569513,
+      "camera": {
+        "yaw": 6.834694018892405,
+        "pitch": 0.22,
+        "dist": 9.5,
+        "position": {
+          "x": 67.91107699866531,
+          "y": 15.065644357436348,
+          "z": -38.016658729180975
+        },
+        "look": {
+          "x": 62.87988006526958,
+          "y": 11.13465887638345,
+          "z": -46.19505808000436
+        }
+      },
+      "characters": {
+        "horse": "rigged",
+        "foal": "rigged",
+        "herd": "rigged",
+        "alex": "rigged",
+        "error": null
+      },
+      "gaits": [
+        "Walk",
+        "Walk",
+        "Eating",
+        "Eating",
+        "Eating",
+        "Eating",
+        "Eating"
+      ],
+      "inputs": {
+        "x": 0,
+        "y": 0,
+        "gallop": false,
+        "jump": false
+      },
+      "completedChapters": [
+        1,
+        2
+      ],
+      "render": {
+        "calls": 46,
+        "triangles": 118231
+      },
+      "settings": {
+        "music": 0.55,
+        "sfx": 0.75,
+        "camSens": 1,
+        "hints": true,
+        "subs": true,
+        "easy": false,
+        "quality": 0
+      },
+      "wallTime": "2026-10-14T09:00:02.350Z"
+    },
+    {
+      "chapter": 3,
+      "point": [
+        48,
+        -60
+      ],
+      "phase": "quests",
+      "quest": 4,
+      "tutStep": 0,
+      "trust": 100,
+      "apples": 0,
+      "freeProgress": 0,
+      "foalFreed": true,
+      "position": {
+        "x": 47.92689217307724,
+        "y": 4.664837521151168,
+        "z": -60.07036978214144
+      },
+      "grounded": true,
+      "speed": 0.7620992414352841,
+      "paused": false,
+      "heading": 3.946021544370189,
+      "camera": {
+        "yaw": 7.08753244999991,
+        "pitch": 0.22,
+        "dist": 9.5,
+        "position": {
+          "x": 54.843924261848095,
+          "y": 11.014401080804031,
+          "z": -53.41063045486248
+        },
+        "look": {
+          "x": 47.92689217307724,
+          "y": 7.064837521151167,
+          "z": -60.07036978214144
+        }
+      },
+      "characters": {
+        "horse": "rigged",
+        "foal": "rigged",
+        "herd": "rigged",
+        "alex": "rigged",
+        "error": null
+      },
+      "gaits": [
+        "Walk",
+        "Walk",
+        "Eating",
+        "Eating",
+        "Eating",
+        "Eating",
+        "Eating"
+      ],
+      "inputs": {
+        "x": 0,
+        "y": 0,
+        "gallop": false,
+        "jump": false
+      },
+      "completedChapters": [
+        1,
+        2
+      ],
+      "render": {
+        "calls": 35,
+        "triangles": 117313
+      },
+      "settings": {
+        "music": 0.55,
+        "sfx": 0.75,
+        "camSens": 1,
+        "hints": true,
+        "subs": true,
+        "easy": false,
+        "quality": 0
+      },
+      "wallTime": "2026-10-14T09:00:20.540Z"
+    },
+    {
+      "chapter": 3,
+      "point": [
+        61,
+        -68
+      ],
+      "phase": "quests",
+      "quest": 4,
+      "tutStep": 0,
+      "trust": 100,
+      "apples": 0,
+      "freeProgress": 0,
+      "foalFreed": true,
+      "position": {
+        "x": 61.03994212274997,
+        "y": 9.012088976248249,
+        "z": -68.0345908735568
+      },
+      "grounded": true,
+      "speed": 0.7621232625751142,
+      "paused": false,
+      "heading": 2.2854696559236953,
+      "camera": {
+        "yaw": 5.427825422186529,
+        "pitch": 0.22,
+        "dist": 9.5,
+        "position": {
+          "x": 53.79232457293279,
+          "y": 15.303267401834738,
+          "z": -61.736188278624866
+        },
+        "look": {
+          "x": 61.03994212274997,
+          "y": 11.41208897624825,
+          "z": -68.0345908735568
+        }
+      },
+      "characters": {
+        "horse": "rigged",
+        "foal": "rigged",
+        "herd": "rigged",
+        "alex": "rigged",
+        "error": null
+      },
+      "gaits": [
+        "Walk",
+        "Walk",
+        "Eating",
+        "Eating",
+        "Eating",
+        "Eating",
+        "Eating"
+      ],
+      "inputs": {
+        "x": 0,
+        "y": 0,
+        "gallop": false,
+        "jump": false
+      },
+      "completedChapters": [
+        1,
+        2
+      ],
+      "render": {
+        "calls": 45,
+        "triangles": 117619
+      },
+      "settings": {
+        "music": 0.55,
+        "sfx": 0.75,
+        "camSens": 1,
+        "hints": true,
+        "subs": true,
+        "easy": false,
+        "quality": 0
+      },
+      "wallTime": "2026-10-14T09:00:39.885Z"
+    },
+    {
+      "chapter": 3,
+      "point": [
+        77,
+        -62
+      ],
+      "phase": "quests",
+      "quest": 4,
+      "tutStep": 0,
+      "trust": 100,
+      "apples": 0,
+      "freeProgress": 0,
+      "foalFreed": true,
+      "position": {
+        "x": 77.26436558880141,
+        "y": 13.409794828111083,
+        "z": -61.92797369835172
+      },
+      "grounded": true,
+      "speed": 0.762111464508195,
+      "paused": false,
+      "heading": 1.3052729511146717,
+      "camera": {
+        "yaw": 4.44853667919797,
+        "pitch": 0.22,
+        "dist": 9.5,
+        "position": {
+          "x": 67.99468879708374,
+          "y": 19.72074278012012,
+          "z": -64.43212002764339
+        },
+        "look": {
+          "x": 77.26436558880141,
+          "y": 15.809794828111084,
+          "z": -61.92797369835172
+        }
+      },
+      "characters": {
+        "horse": "rigged",
+        "foal": "rigged",
+        "herd": "rigged",
+        "alex": "rigged",
+        "error": null
+      },
+      "gaits": [
+        "Walk",
+        "Walk",
+        "Eating",
+        "Eating",
+        "Eating",
+        "Eating",
+        "Eating"
+      ],
+      "inputs": {
+        "x": 0,
+        "y": 0,
+        "gallop": false,
+        "jump": false
+      },
+      "completedChapters": [
+        1,
+        2
+      ],
+      "render": {
+        "calls": 40,
+        "triangles": 117806
+      },
+      "settings": {
+        "music": 0.55,
+        "sfx": 0.75,
+        "camSens": 1,
+        "hints": true,
+        "subs": true,
+        "easy": false,
+        "quality": 0
+      },
+      "wallTime": "2026-10-14T09:00:55.867Z"
+    },
+    {
+      "chapter": 3,
+      "point": [
+        86,
+        -78
+      ],
+      "phase": "cine",
+      "quest": 5,
+      "tutStep": 0,
+      "trust": 100,
+      "apples": 0,
+      "freeProgress": 0,
+      "foalFreed": true,
+      "position": {
+        "x": 89.30486586385537,
+        "y": 20.574657551998158,
+        "z": -82.80788460620293
+      },
+      "grounded": true,
+      "speed": 10,
+      "paused": false,
+      "heading": 2.539271647377052,
+      "camera": {
+        "yaw": 5.712069921741595,
+        "pitch": 0.2070640027682938,
+        "dist": 11.127923012516714,
+        "position": {
+          "x": 81.74938504299806,
+          "y": 27.023886018990897,
+          "z": -71.3048972470507
+        },
+        "look": {
+          "x": 89.02158758391467,
+          "y": 22.85430220179379,
+          "z": -82.39587317903879
+        }
+      },
+      "characters": {
+        "horse": "rigged",
+        "foal": "rigged",
+        "herd": "rigged",
+        "alex": "rigged",
+        "error": null
+      },
+      "gaits": [
+        "Gallop",
+        "Gallop",
+        "Walk",
+        "Walk",
+        "Walk",
+        "Walk",
+        "Walk"
+      ],
+      "inputs": {
+        "x": 0,
+        "y": 0,
+        "gallop": false,
+        "jump": false
+      },
+      "completedChapters": [
+        1,
+        2
+      ],
+      "render": {
+        "calls": 36,
+        "triangles": 117548
+      },
+      "settings": {
+        "music": 0.55,
+        "sfx": 0.75,
+        "camSens": 1,
+        "hints": true,
+        "subs": true,
+        "easy": false,
+        "quality": 0
+      },
+      "wallTime": "2026-10-14T09:01:18.576Z"
+    },
+    {
+      "chapter": 3,
+      "point": [
+        95,
+        -88
+      ],
+      "phase": "cine",
+      "quest": 5,
+      "tutStep": 0,
+      "trust": 100,
+      "apples": 0,
+      "freeProgress": 0,
+      "foalFreed": true,
+      "position": {
+        "x": 94.6871531827285,
+        "y": 21.39891915940055,
+        "z": -90.63610172232188
+      },
+      "grounded": true,
+      "speed": 10,
+      "paused": false,
+      "heading": 2.539271647377052,
+      "camera": {
+        "yaw": 5.7291669224401165,
+        "pitch": 0.19643916291828817,
+        "dist": 12.677640605461823,
+        "position": {
+          "x": 86.23689236683968,
+          "y": 28.46536863038744,
+          "z": -77.24148935629832
+        },
+        "look": {
+          "x": 94.4038749027878,
+          "y": 23.797327284854006,
+          "z": -90.22409029515774
+        }
+      },
+      "characters": {
+        "horse": "rigged",
+        "foal": "rigged",
+        "herd": "rigged",
+        "alex": "rigged",
+        "error": null
+      },
+      "gaits": [
+        "Gallop",
+        "Trot",
+        "Walk",
+        "Walk",
+        "Walk",
+        "Walk",
+        "Walk"
+      ],
+      "inputs": {
+        "x": 0,
+        "y": 0,
+        "gallop": false,
+        "jump": false
+      },
+      "completedChapters": [
+        1,
+        2
+      ],
+      "render": {
+        "calls": 31,
+        "triangles": 117092
+      },
+      "settings": {
+        "music": 0.55,
+        "sfx": 0.75,
+        "camSens": 1,
+        "hints": true,
+        "subs": true,
+        "easy": false,
+        "quality": 0
+      },
+      "wallTime": "2026-10-14T09:01:21.554Z"
+    }
+  ],
+  "began": "2026-10-14T08:43:31.826Z",
+  "quality": 0,
+  "navigationObservation": {
+    "minimumGroundHeight": 0.75,
+    "sampledCellSpacing": 1,
+    "unsafeCells": 256
+  },
+  "result": "passed",
+  "errors": [],
+  "ended": "2026-10-14T09:03:04.237Z"
+}

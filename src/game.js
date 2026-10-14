@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { directionAngle, nearestSafeTrailPoint } from './navigation.js';
+import { followCameraPosition, constrainCameraPosition } from './camera.js';
 import { applyIcons } from './ui-icons.js';
 import { createContactShadows } from './contact-shadows.js';
 import { attachCharacters } from './characters/characters.js';
@@ -711,6 +712,7 @@ const IN = { move:new THREE.Vector2(), gallop:false, jump:false, act:false };
 const joyBase=$('#joyBase'), joyKnob=$('#joyKnob');
 let joyId=null, joyHome={x:0,y:0}, joyOrigin={x:0,y:0}, joyR=68;
 const pointers = new Map();
+const heldButtons = new Map();
 let camPointer=null, pinch=null;
 
 function joyLayout(){
@@ -718,13 +720,16 @@ function joyLayout(){
   joyHome = {x:r.left+r.width/2, y:r.top+r.height/2};
   joyR = r.width*0.45;
 }
-window.addEventListener('resize', ()=>{ joyLayout(); resize(); });
+window.addEventListener('resize', ()=>{ clearInput(); joyLayout(); resize(); });
 
 function onDown(e){
   if(G.paused) return;
   const t = e.target;
   if(t.closest && t.closest('.btn')) return;
+  if(e.pointerType==='mouse' && e.button!==0) return;
+  e.preventDefault();
   pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
+  try{ e.currentTarget.setPointerCapture(e.pointerId); }catch{}
   const leftZone = e.clientX < window.innerWidth*0.45;
   if(joyId===null && leftZone){
     joyId=e.pointerId;
@@ -750,7 +755,7 @@ function onMove(e){
     if(d>max){ dx=dx/d*max; dy=dy/d*max; }
     joyKnob.style.transform = `translate(${dx}px,${dy}px)`;
     IN.move.set(dx/max, dy/max);
-  } else if(e.pointerId===camPointer && pointers.size<2){
+  } else if(e.pointerId===camPointer && (joyId!==null || pointers.size===1)){
     cam.yaw   += (e.clientX-prev.x)*0.0055*S.camSens;
     cam.pitch  = clamp(cam.pitch - (e.clientY-prev.y)*0.004*S.camSens, -0.25, 0.85);
     cam.manual = 1.4;
@@ -775,14 +780,25 @@ function onUp(e){
 }
 canvas.addEventListener('pointerdown',onDown);
 joyBase.addEventListener('pointerdown',onDown);
+[canvas,joyBase].forEach(el=>el.addEventListener('lostpointercapture',onUp));
 window.addEventListener('pointermove',onMove);
 window.addEventListener('pointerup',onUp);
 window.addEventListener('pointercancel',onUp);
 
 function hold(el, on, off){
-  el.addEventListener('pointerdown', e=>{ if(G.paused) return; e.stopPropagation(); e.preventDefault(); try{el.setPointerCapture(e.pointerId);}catch{} on(); });
+  el.addEventListener('pointerdown', e=>{
+    if(G.paused || heldButtons.has(el)) return;
+    e.stopPropagation(); e.preventDefault();
+    heldButtons.set(el,e.pointerId);
+    try{el.setPointerCapture(e.pointerId);}catch{}
+    on();
+  });
   ['pointerup','lostpointercapture','pointercancel'].forEach(ev=>
-    el.addEventListener(ev, e=>{ e.stopPropagation(); off && off(); }));
+    el.addEventListener(ev, e=>{
+      e.stopPropagation();
+      if(heldButtons.get(el)!==e.pointerId) return;
+      heldButtons.delete(el); off && off();
+    }));
 }
 hold($('#btnGallop'), ()=>IN.gallop=true, ()=>IN.gallop=false);
 hold($('#btnJump'),   ()=>{ IN.jump=true; }, ()=>{});
@@ -814,6 +830,10 @@ const P = {
 function resetTo(x,z){
   P.x=x; P.z=z; P.y=hAt(x,z); P.vy=0; P.speed=0; P.grounded=true;
   horse.position.set(x,P.y,z);
+  cam.yaw=P.heading+Math.PI; cam.manual=0;
+  cam.look.set(P.x,P.y+2.4,P.z);
+  cam.pos.copy(constrainCameraPosition(cam.look,followCameraPosition(P,cam.yaw,cam.pitch,cam.dist),hAt,obstacles));
+  camera.position.copy(cam.pos); camera.lookAt(cam.look);
 }
 
 /* ================================================================
@@ -1131,6 +1151,10 @@ function clearInput(){
   IN.move.set(0,0); IN.gallop=false; IN.jump=false;
   Object.keys(keys).forEach(k=>delete keys[k]);
   pointers.clear(); joyId=null; camPointer=null; pinch=null;
+  for(const [el,id] of heldButtons){
+    try{el.releasePointerCapture(id);}catch{}
+  }
+  heldButtons.clear();
   joyKnob.style.transform='translate(0,0)'; joyBase.classList.remove('active');
   joyBase.style.left=''; joyBase.style.top=''; joyBase.style.bottom='';
 }
@@ -1428,16 +1452,10 @@ function animate(){
     let diff = ((P.heading + Math.PI - cam.yaw + Math.PI*3)%TAU)-Math.PI;
     cam.yaw += diff*clamp(dt*1.5*clamp(sp/6,0,1),0,0.2);
   }
-  const targetDist = cam.dist*(1+clamp(sp/12,0,1)*0.28);
-  const cy = Math.cos(cam.pitch), sy = Math.sin(cam.pitch);
-  cam.pos.set(
-    P.x + Math.sin(cam.yaw)*targetDist*cy,
-    P.y + 3.0 + sy*targetDist + 1.2,
-    P.z + Math.cos(cam.yaw)*targetDist*cy);
-  const minY = hAt(cam.pos.x,cam.pos.z)+2.0;
-  if(cam.pos.y<minY) cam.pos.y=minY;
+  cam.look.set(P.x,P.y+2.4,P.z);
+  cam.pos.copy(constrainCameraPosition(cam.look,followCameraPosition(P,cam.yaw,cam.pitch,cam.dist,sp),hAt,obstacles));
   camera.position.lerp(cam.pos, clamp(dt*7,0,1));
-  cam.look.set(P.x, P.y+2.4, P.z);
+  camera.position.copy(constrainCameraPosition(cam.look,camera.position,hAt,obstacles));
   camera.lookAt(cam.look);
 
   /* --- аудио позиционно --- */
@@ -1560,6 +1578,9 @@ if((import.meta.env.DEV || __TEST_MODE__) && ['localhost','127.0.0.1'].includes(
     snapshot:()=>({phase:G.phase,chapter:G.chapter,quest:G.quest,tutStep:G.tutStep,
       trust:G.trust,apples:G.apples,freeProgress:G.freeProgress,foalFreed:G.foalFreed,
       position:{x:P.x,y:P.y,z:P.z},grounded:P.grounded,speed:P.speed,paused:G.paused,
+      heading:P.heading,camera:{yaw:cam.yaw,pitch:cam.pitch,dist:cam.dist,
+        position:{x:camera.position.x,y:camera.position.y,z:camera.position.z},
+        look:{x:cam.look.x,y:cam.look.y,z:cam.look.z}},
       characters:{...cast.status},gaits:cast.horses.map(h=>h.state),
       inputs:{x:IN.move.x,y:IN.move.y,gallop:IN.gallop,jump:IN.jump},completedChapters:G.completedChapters.slice(),
       action:nearestAction()?.label,render:{calls:renderer.info.render.calls,triangles:renderer.info.render.triangles},settings:{...S}}),
@@ -1567,7 +1588,7 @@ if((import.meta.env.DEV || __TEST_MODE__) && ['localhost','127.0.0.1'].includes(
     setInput:({x=0,y=0,gallop=false,jump=false})=>{IN.move.set(x,y);IN.gallop=gallop;IN.jump=jump;},
     cameraLook:()=>cam.manual=2,interact:doInteract,save:saveCheckpoint,
     finishCinematic:()=>cineT=CINE.length*4.2+3,
-    objects:()=>({alex:{x:alex.position.x,z:alex.position.z},apples:apples.map(a=>({x:a.userData.bx,z:a.userData.bz,taken:a.userData.taken})),quests:QUESTS.map(q=>({...q}))})
+    objects:()=>({alex:{x:alex.position.x,z:alex.position.z},apples:apples.map(a=>({x:a.userData.bx,z:a.userData.bz,taken:a.userData.taken})),quests:QUESTS.map(q=>({...q})),obstacles:obstacles.map(o=>({...o}))})
   };
 }
 

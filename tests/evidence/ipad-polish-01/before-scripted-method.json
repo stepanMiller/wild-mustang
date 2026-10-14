@@ -1,0 +1,75 @@
+{
+  "method": "Existing localhost QA teleportation and cinematic fast-forward",
+  "purpose": "Untouched visual screenshot comparison only",
+  "naturalRoute": false,
+  "physicalIPad": false,
+  "independentChildNavigation": false,
+  "browserVersion": "154.0.8037.57",
+  "viewport": {
+    "width": 1194,
+    "height": 834
+  },
+  "verifiedUntouchedAssets": {
+    "assets/index-nID7_dDJ.js": "74887082ad606538025b6d0b9fbf9d03d088e5fce7aab49e5674969703aa8597",
+    "assets/game-Cbn5Hv0z.js": "3ff9cdae3c0ff39454266af7b962dee748565e28824c8129731f44a398831aee"
+  },
+  "baselineURL": "http://127.0.0.1:4175/wild-mustang/",
+  "finalState": {
+    "phase": "epilogue",
+    "chapter": 3,
+    "quest": 5,
+    "tutStep": 0,
+    "trust": 100,
+    "apples": 0,
+    "freeProgress": 0,
+    "foalFreed": true,
+    "position": {
+      "x": 97,
+      "y": 21.397493725944358,
+      "z": -94
+    },
+    "grounded": true,
+    "speed": 0,
+    "paused": false,
+    "characters": {
+      "horse": "rigged",
+      "foal": "rigged",
+      "herd": "rigged",
+      "alex": "rigged",
+      "error": null
+    },
+    "gaits": [
+      "Idle_2",
+      "Gallop",
+      "Eating",
+      "Eating",
+      "Eating",
+      "Eating",
+      "Eating"
+    ],
+    "inputs": {
+      "x": 0,
+      "y": 0,
+      "gallop": false,
+      "jump": false
+    },
+    "completedChapters": [
+      1,
+      2,
+      3
+    ],
+    "render": {
+      "calls": 29,
+      "triangles": 144629
+    },
+    "settings": {
+      "music": 0.55,
+      "sfx": 0.75,
+      "camSens": 1,
+      "hints": true,
+      "subs": true,
+      "easy": false,
+      "quality": 1
+    }
+  }
+}
