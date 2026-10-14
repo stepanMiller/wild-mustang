@@ -216,3 +216,44 @@ and JSON use one verified frozen B runtime. Both final Chromium visual scenarios
 37.53% of the tablet viewport and uses blur(14px); B covers about 12.02%, no blur,
 with statistics collapsed by default. Physical Safari/FPS and child play remain
 unverified. Original local geometry uses project MIT; no external art or cost.
+
+## Issue #14 Stage C evidence — 14 October 2026
+
+Feature branch `codex/audio-story-polish-03`, stacked on B. Local audio consists
+of 23 original Russian HMM cue recordings and 12 sound/theme files, totaling
+1,676,808 bytes. Every shipped file has a source/license/derivation hash in
+`public/assets/audio/audio-manifest.json`; accessible game credits link to
+`assets/licenses/audio-credits.html`. No speech engine/model/backend ships.
+Full provenance: AUDIO_LICENSES.md. Primary source category for the horse call
+was not independently accessible; pinned VoxeLibre confirms its per-file BY3
+redistribution rights. A separate recorded snort is not claimed. Human listening
+and physical iPad remain required. Cost: $0.
+
+The voice cache retains at most three buffers/3 MiB; short effects are bounded
+to 1 MiB and eight active voices. Ambience/music are media streams, with browser
+internal memory unmeasured. Isolated Chromium/WebKit each decoded all 46 audited
+candidates and passed 13 playback checks. In-game guidance now retains original
+story dialogue: voice captions temporarily use the tracker description area.
+Voice repeat resumes AudioContext synchronously inside its user gesture.
+
+63 unit checks and production build pass. Before the final caption/getter
+refinement, full WebKit passed 21 relevant scenarios/6 explicit skips, including
+all chapters, save, Continue and replay. The latest frozen build on 4184 passes
+all three audio scenarios and both actual companion scenarios in WebKit and Chromium: the child
+can stop just inside the crossing zone while friends physically walk onto the
+bank; sharing starts eating/offer/pet after the action, and Continue preserves
+progress without replaying disposable scenes.
+
+Two new test-fixture errors were corrected without changing gameplay: x=10 was
+exactly outside the strict 7m target radius (the valid edge setup is x=10.2); an
+init script re-seeded its checkpoint on every reload, masking the saved progress
+(the fixture now seeds once per session). The cinematic shortcut helper allows
+90 seconds only for the new actual companion crossing, retaining every other
+assertion, poll limit and scenario timeout.
+
+The final native touch journey, matching runtime/asset hashes and new mini-scene
+frames are recorded under `tests/evidence/audio-story-polish-03`. Initial aborted
+diagnostic-getter attempt is parked separately in cache; it is not a successful
+three-chapter result. Chromium final focus passed 5/5; WebKit final focus passed 5 unique scenarios (three audio, two companion). The final full route and current CI must pass before this
+PR is marked ready. No physical Safari, hardware FPS, independent child navigation
+or measured 10–15 minute chapter claim is inferred from these checks.

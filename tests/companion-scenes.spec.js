@@ -9,15 +9,22 @@ function savedChapterTwo(quest,x,z){
     alexFollows:true,foalFreed:true,freeProgress:0,questSteps:0,tutStep:0,playTime:0,
   }});
 }
+async function openCheckpoint(page,save){
+  await page.addInitScript(value=>{
+    if(sessionStorage.getItem('companion-fixture-seeded'))return;
+    localStorage.setItem('veter-save',value);sessionStorage.setItem('companion-fixture-seeded','yes');
+  },save);
+  await openGame(page);
+}
 const bank=z=>-18+Math.sin(z*.035)*16+Math.cos(z*.012)*8+Math.sin(z*.082+1.1)*4.5
   +5.2+Math.sin(z*.045+.7)*1.1+Math.cos(z*.018)*.9;
 
 test('Friends actually cross the ford while the player waits at the first edge of the goal',async({page})=>{
-  await openGame(page,{save:savedChapterTwo(2,-14,60)});
+  await openCheckpoint(page,savedChapterTwo(2,-14,60));
   await page.locator('#btnContinue').click();
   for(let i=0;i<3;i++)await action(page,/Подвинуть камень/);
   await expect.poll(async()=>(await state(page)).quest).toBe(3);
-  await teleport(page,10,60);
+  await teleport(page,10.2,60);
   const entered=await state(page);
   expect(entered.quest).toBe(3);
   expect(entered.companions.foal.x).toBeLessThan(bank(entered.companions.foal.z));
@@ -25,12 +32,12 @@ test('Friends actually cross the ford while the player waits at the first edge o
   await expect.poll(async()=>(await state(page)).quest,{timeout:90_000}).toBe(4);
   const crossed=await state(page);
   for(const actor of [crossed.companions.foal,crossed.companions.alex])expect(actor.x).toBeGreaterThanOrEqual(bank(actor.z)+.6);
-  expect(crossed.position.x).toBeCloseTo(10,2);
+  expect(crossed.position.x).toBeCloseTo(10.2,2);
   expect(crossed.position.z).toBeCloseTo(60,2);
 });
 
 test('Sharing starts real reactions after the action, and Continue preserves progress without replaying the scene',async({page,browserName},testInfo)=>{
-  await openGame(page,{save:savedChapterTwo(4,27,75)});
+  await openCheckpoint(page,savedChapterTwo(4,27,75));
   await page.locator('#btnContinue').click();
   await expect.poll(async()=>(await state(page)).gaits[0]).toMatch(/^Idle/);
   const capture=process.env.WILD_MUSTANG_COMPANION_EVIDENCE==='1'&&testInfo.project.use.hasTouch;
