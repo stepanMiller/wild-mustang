@@ -3,7 +3,7 @@
 ## Mission
 Build a **finished, polished, playable 3D story adventure for Luka (age 7)** that runs in Safari on iPad (landscape, touch-first). The user wants a working game, not a mockup, a concept image, a framework scaffold, or only a plan.
 
-Source of truth: the existing browser game in `index.html`, this document, `docs/GameDesign.md` and `docs/Roadmap.md`. Preserve and improve the existing game; don't silently replace its characters, quest flow, look, repository or live site. The repository also contains a mostly scaffold-only Unity project and an unrelated `english-loop` directory. **Do not delete or modify either; prioritize the browser Three.js build**.
+Source of truth: the existing browser game in `src/game.js`, `src/story/`, `src/characters/`, `src/persistence.js` and the UI shell `index.html`, this document, `docs/GameDesign.md`, `docs/QA.md`, `docs/RELEASE.md` and `docs/Roadmap.md`. Preserve and improve the existing published game; don't silently replace its characters, quest flow, look, repository or live site. The repository also contains a mostly scaffold-only Unity project and an unrelated `english-loop` directory. **Do not delete or modify either; prioritize the browser Three.js build**.
 
 ## Product boundaries
 - Genre: peaceful third-person exploration and storytelling, not a shooter, RPG combat game or preschool mini-game.
@@ -16,7 +16,7 @@ Source of truth: the existing browser game in `index.html`, this document, `docs
 
 ## Technical approach
 - Browser game stays primary: Three.js, no required auth, no backend, deployable to GitHub Pages at repository subpath `/wild-mustang/`.
-- Current `index.html` is a monolithic working proof of concept using a Three.js r128 CDN. First preserve gameplay and measure regressions; then incrementally transition to pinned dependencies, TypeScript + Vite and maintainable modules, only if verified.
+- As of 14 October 2026 the browser version is already a three-chapter release candidate built by Vite 6 with pinned Three.js r128 installed locally. `index.html` is the UI shell, `src/game.js` is still the large main runtime module; story/environment, characters, persistence and navigation live under `src/`. Keep the existing build and 3 chapters; avoid starting a new engine or redoing the already completed migration. Refactor only incrementally with proven regression tests.
 - Use clean separation: rendering/world, hero movement/animation, input/camera, quest & chapter state, dialogue/audio, UI, persistence. Favor existing libraries over inventing a game engine. Never strand a build mid-migration.
 - Version localStorage save schema and preserve or gracefully migrate existing save `veter-save`. Make chapters repeatable without corrupting progress.
 - Main branch must remain deployable. Work on feature branches; PRs with tests/screenshots and explicit limitations. Do not push experimental breakage to `main`.
@@ -41,4 +41,4 @@ Lead agent owns architecture/integration, merges after review; agents must not e
 A new player can open the static URL on iPad Safari, start and complete **all three** chapters without a developer, meet characters in coherent 3D, save/continue, reach the family herd and a genuine ending, then replay a chapter. No dead buttons/placeholders, errors, broken assets, punitive failures or undisclosed asset-license issues. Include screenshots or screen capture, working game URL, tested build and any outstanding manual Safari caveats.
 
 ## Work order
-Read the actual code first and record its working behavior. Update a live implementation checklist in `docs/Roadmap.md`. Implement feature branches with verified deliverables. Do not stop at docs or architecture; ship a playable build.
+Read the actual code first and record its working behavior. **Current phase is Codex post-release polish, not first implementation**: follow GitHub issue #14 for verified iPad camera/touch UX, scene art, natural localized sound and natural-route playtesting; #8 and #9 remain manual release gates. PRs #10–#13 are already merged. Update a live implementation checklist in `docs/Roadmap.md`. Implement scoped feature branches with verified deliverables. Do not stop at docs or architecture; ship a playable build.
