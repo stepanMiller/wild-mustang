@@ -41,3 +41,20 @@ The original browser world is preserved. Unity and English Loop are unchanged. T
 - [ ] Independent Luka playthrough and observed chapter durations against the 10-15 minute design target.
 
 Current release classification: 1.0.0-rc.1. Do not close #8 or master #9 as a fully certified iPad release until the outstanding physical/child gates are recorded. The public candidate can be tested immediately after deployment.
+
+## Post-release polish, issue #14 — 14 October 2026
+
+Stage A is implemented on `codex/ipad-polish-01`, based on main `188f152`. The published main release remains unchanged.
+
+- [x] Reproduce native browser two-finger input: holding the joystick suppressed camera swipe; retain before/after game screenshots.
+- [x] Allow independent joystick/camera pointers; preserve gallop ownership and clear canceled/capture-lost/rotated/backgrounded inputs.
+- [x] Reset the actual camera position with the hero; constrain the desired and smoothed boom against terrain and movement obstacle envelopes, preserving visible hero distance.
+- [x] Add ten camera unit checks and four cross-engine touch/camera regressions; focused Chromium tablet checks pass.
+- [x] Fix the confirmed missing favicon request with a local original SVG.
+- [x] All 56 relevant Chromium desktop/tablet and WebKit tablet scenarios pass; two desktop timing-only retries use the documented single-process runner.
+- [ ] Record a complete three-chapter journey through native touch controls, save/reload and natural cinematics, with no teleport or simulation/input mutation.
+- [ ] Open Stage A PR with before/after evidence and exact validation limits.
+- [ ] Stage B: distinctive scene art, locomotion presentation and a compact emotional ending, in its own PR after Stage A.
+- [ ] Stage C: verified local natural audio/Russian cues and expressive companion scenes, in its own PR after Stage B.
+
+Physical iPad Safari, hardware FPS, independent child comprehension and 10–15-minute chapter durations remain separate unverified gates. Automated route planning around observed colliders is not a child's independent playthrough.

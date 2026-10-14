@@ -1,0 +1,37 @@
+{
+  "baseURL": "http://127.0.0.1:4180/wild-mustang/",
+  "captured": "2026-10-14T08:21:31.884Z",
+  "htmlSha256": "18ff76e8205b69b7bc0dc4c21ecdd2225050e6aebc55af73b70ee468704b4887",
+  "runtime": {
+    "assets/characters/horse.glb": {
+      "sha256": "591007f38ed01f46a2141806abd2500c34b90eb3e509ce7ee56cf46d440508d3",
+      "bytes": 761596,
+      "matchesFrozenCopy": true
+    },
+    "assets/game-DYSD2A7q.js": {
+      "sha256": "95b3501f574fee74fc68eacf4a95669a7c2a87cd03f1aac1df1b035dd9a447e2",
+      "bytes": 149274,
+      "matchesFrozenCopy": true
+    },
+    "assets/index-CmM8VezL.js": {
+      "sha256": "46f01c3ab12c14167e75f0cb6a4f12adca2c4399676fcf9f7073fdc779bce35c",
+      "bytes": 2167,
+      "matchesFrozenCopy": true
+    },
+    "assets/three--cl_U19j.js": {
+      "sha256": "d27acaac7d5bf987710c80856da09bd20303a27e52d6ec2a373e6ae34479726e",
+      "bytes": 600807,
+      "matchesFrozenCopy": true
+    }
+  },
+  "source": {
+    "src/game.js": "7ce6fa7534832e0254a18d36edccadb852ce8e754f588c62abca36704d74cd17",
+    "src/camera.js": "3e362889f144e77e19164d95f7a3409f2918677fccbbc610e71c8f3d30881ffc",
+    "src/story/chapters.js": "ab066ab7c71af8e18e0fb36eeea4f87a166e92cf0adc885437dc8786c8df6c91",
+    "index.html": "ad5d9d589349ba80e7f53d898d6d112bfd49702732c628b244e2dc6742071569"
+  },
+  "sourceSnapshot": "/workspace/.cache/wild-mustang-qa/frozen-stage-a-source",
+  "entryBundle": "assets/index-CmM8VezL.js",
+  "note": "index is the HTML entry bundle; all runtime JS chunks and GLB assets were fetched and compared to the frozen distribution.",
+  "sourceMapVerification": "game.js, camera.js and story/chapters.js snapshots match the frozen runtime source map byte-for-byte"
+}

@@ -1,17 +1,19 @@
 {
   "version": "1.0.0-rc.1",
   "game": "Ветер прерий",
-  "sourceCommit": "59528870f2949864fac824ebd09d08789e278d19",
-  "date": "2026-10-13",
+  "sourceCommit": "c9c7e07f01fa6facbe9e04da4e7e876da92c4ffc",
+  "date": "2026-10-14",
   "chapters": 3,
   "manualIPadSafari": "pending",
   "sourceSha256": {
-    "src/game.js": "cbe6a458c67e6208d7035e430e75ba8b967c6fbb169dcee5853f51d88cde66b2",
+    "src/game.js": "7ce6fa7534832e0254a18d36edccadb852ce8e754f588c62abca36704d74cd17",
     "src/story/chapters.js": "ab066ab7c71af8e18e0fb36eeea4f87a166e92cf0adc885437dc8786c8df6c91",
     "src/story/environment.js": "8b93c9f91e4c6965f61cf4dd0ac402b6de671b7bb5dea240da175fdf8a9d41b7",
     "src/characters/characters.js": "aa608b6544bdb3ed27b0f80cdd0c99c41de2ccddc22d26668fc3fa6be5f5a5ac",
-    "index.html": "3dd860cdd95d94d1f1e88d5dd78e226aa0e264096e2b25b0f3db524204ba8eba",
-    "src/navigation.js": "775c7d6c405fa219afbfa02ddf64fab83eb910077f7f260d9dea14c3646685a3"
+    "index.html": "ad5d9d589349ba80e7f53d898d6d112bfd49702732c628b244e2dc6742071569",
+    "src/navigation.js": "775c7d6c405fa219afbfa02ddf64fab83eb910077f7f260d9dea14c3646685a3",
+    "src/camera.js": "3e362889f144e77e19164d95f7a3409f2918677fccbbc610e71c8f3d30881ffc",
+    "public/favicon.svg": "ed893d80a35efa7a602ac6a44c7f763a3ba4dda7cc8aa5af99bc86d46cca483a"
   },
   "toolchain": {
     "three": "0.128.0",
