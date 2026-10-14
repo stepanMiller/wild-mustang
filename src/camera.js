@@ -18,7 +18,8 @@ export function followCameraPosition(player, yaw, pitch, distance, speed = 0) {
 
 // First intersection of the view segment with an inflated vertical cylinder.
 // Solve the horizontal interval exactly so thin tree trunks cannot fall
-// between terrain samples. Obstacles' top values already include world Y.
+// between terrain samples. Bounds include world Y; an omitted bottom retains
+// the movement obstacles' existing envelope extending down to the terrain.
 function obstacleEntry(look, delta, obstacle) {
   const x = look.x - obstacle.x, z = look.z - obstacle.z;
   const radius = obstacle.r + CAMERA_RADIUS;
@@ -36,12 +37,15 @@ function obstacleEntry(look, delta, obstacle) {
   } else if (c > 0) return 1;
 
   const top = obstacle.top + CAMERA_RADIUS;
-  if (look.y + delta.y * entry <= top) return entry;
-  if (delta.y < 0) {
-    const crossing = (top - look.y) / delta.y;
-    if (crossing <= exit) return Math.max(entry, crossing);
+  const bottom = Number.isFinite(obstacle.bottom) ? obstacle.bottom - CAMERA_RADIUS : -Infinity;
+  if (Math.abs(delta.y) < 1e-10) {
+    return look.y >= bottom && look.y <= top ? entry : 1;
   }
-  return 1;
+  const bottomCrossing = (bottom - look.y) / delta.y;
+  const topCrossing = (top - look.y) / delta.y;
+  entry = Math.max(entry, Math.min(bottomCrossing, topCrossing));
+  exit = Math.min(exit, Math.max(bottomCrossing, topCrossing));
+  return entry <= exit ? entry : 1;
 }
 
 /**
@@ -89,7 +93,12 @@ export function constrainCameraPosition(look, candidate, terrain, obstacles = []
     // movement joystick still agrees with the image when the view rises.
     const horizontalSquared = (position.x - look.x) ** 2 + (position.z - look.z) ** 2;
     if (horizontalSquared < MIN_VISIBLE_DISTANCE ** 2) {
-      position.y = Math.max(position.y, look.y + Math.sqrt(MIN_VISIBLE_DISTANCE ** 2 - horizontalSquared));
+      const raisedY = Math.max(position.y, look.y + Math.sqrt(MIN_VISIBLE_DISTANCE ** 2 - horizontalSquared));
+      const raisedDelta = { x: position.x - look.x, y: raisedY - look.y, z: position.z - look.z };
+      // Canopies have an underside: raising a clear view beneath one can put
+      // the lens back inside its leaves. Keep the clear lower pose in that case.
+      const entersCanopy = obstacles.some(obstacle => Number.isFinite(obstacle.bottom) && obstacleEntry(look, raisedDelta, obstacle) < 1);
+      if (!entersCanopy) position.y = raisedY;
     }
   }
   return position;
