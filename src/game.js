@@ -2,6 +2,10 @@ import * as THREE from 'three';
 import { directionAngle, nearestSafeTrailPoint } from './navigation.js';
 import { followCameraPosition, constrainCameraPosition } from './camera.js';
 import { LANDSCAPE_STYLES, paintLandscape, ridgeGeometry, prairieFlowerGeometry } from './scene-style.js';
+import { createAdventureAudio } from './audio.js';
+import { AUDIO_CUE_TEXT } from './audio-cues.js';
+import { createCompanionScenes } from './story/companion-scenes.js';
+import { fordEscort } from './story/ford-escort.js';
 import { applyIcons } from './ui-icons.js';
 import { createContactShadows } from './contact-shadows.js';
 import { attachCharacters } from './characters/characters.js';
@@ -29,7 +33,7 @@ const valleyRand = hashRand(0x57A1C0DE);
    1. НАСТРОЙКИ И СОСТОЯНИЕ
    ================================================================ */
 const S = {
-  music:0.55, sfx:0.75, camSens:1.0, hints:true, subs:true, easy:false, quality:1
+  music:0.55, sfx:0.75, camSens:1.0, hints:true, subs:true, voice:true, easy:false, quality:1
 };
 const G = {
   chapter:1, completedChapters:[], finished:false,
@@ -613,103 +617,37 @@ const birds=[];
 /* ================================================================
    5. АУДИО
    ================================================================ */
-const A = { ctx:null, master:null, mus:null, sfx:null, ready:false };
+const A=createAdventureAudio({baseURL:import.meta.env.BASE_URL,settings:S});
+let lastNarration=null,narrationGeneration=0,escortHintShown=false;
+const tutorialCues=['tutorial-move','tutorial-look','tutorial-gallop','tutorial-jump','tutorial-alex'];
+function currentCue(){
+  return G.phase==='tutorial'?tutorialCues[G.tutStep]:G.phase==='meet'?'tutorial-alex':G.phase==='quests'?QUESTS[G.quest]?.id:null;
+}
+function narrateGuide(force=false){
+  const id=currentCue();if(!id||G.paused)return;
+  const key=G.chapter+':'+G.phase+':'+id;
+  if(!force && lastNarration===key)return;
+  if(A.status().context!=='running')return;
+  lastNarration=key;const generation=++narrationGeneration;
+  if(S.subs && AUDIO_CUE_TEXT[id])say('Алекс',AUDIO_CUE_TEXT[id]);
+  if(S.voice)A.playCue(id).then(played=>{if(!played&&generation===narrationGeneration&&lastNarration===key)lastNarration=null;});
+}
 function initAudio(){
-  if(A.ready) return;
-  try{
-    const C = window.AudioContext || window.webkitAudioContext;
-    A.ctx = new C();
-    A.master = A.ctx.createGain(); A.master.gain.value=1; A.master.connect(A.ctx.destination);
-    A.mus = A.ctx.createGain(); A.mus.gain.value=S.music*0.5; A.mus.connect(A.master);
-    A.sfx = A.ctx.createGain(); A.sfx.gain.value=S.sfx; A.sfx.connect(A.master);
-    // шум ветра
-    const len = A.ctx.sampleRate*2, buf = A.ctx.createBuffer(1,len,A.ctx.sampleRate);
-    const d = buf.getChannelData(0);
-    for(let i=0;i<len;i++) d[i]=Math.random()*2-1;
-    const src = A.ctx.createBufferSource(); src.buffer=buf; src.loop=true;
-    const bp = A.ctx.createBiquadFilter(); bp.type='bandpass'; bp.frequency.value=440; bp.Q.value=0.7;
-    A.windGain = A.ctx.createGain(); A.windGain.gain.value=0.10;
-    src.connect(bp); bp.connect(A.windGain); A.windGain.connect(A.sfx); src.start();
-    // вода
-    const src2 = A.ctx.createBufferSource(); src2.buffer=buf; src2.loop=true;
-    const hp = A.ctx.createBiquadFilter(); hp.type='highpass'; hp.frequency.value=1800;
-    A.waterGain = A.ctx.createGain(); A.waterGain.gain.value=0;
-    src2.connect(hp); hp.connect(A.waterGain); A.waterGain.connect(A.sfx); src2.start();
-    A.noiseBuf = buf;
-    A.ready=true;
-    scheduleMusic(); scheduleBirds();
-  }catch(e){ console.warn('audio off', e); }
+  A.reset();lastNarration=null;A.setSettings(S);
 }
-function tone(f,dur,type,gain,slide){
-  if(!A.ready) return;
-  const o=A.ctx.createOscillator(), g=A.ctx.createGain(), t=A.ctx.currentTime;
-  o.type=type||'sine'; o.frequency.setValueAtTime(f,t);
-  if(slide) o.frequency.exponentialRampToValueAtTime(Math.max(40,slide), t+dur);
-  g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(gain||0.2,t+0.02);
-  g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
-  o.connect(g); g.connect(A.sfx); o.start(t); o.stop(t+dur+0.05);
+function hoofSurface(){
+  const bank=Math.abs(P.x-riverX(P.z));
+  if(bank<riverWidth(P.z)+3)return 'sand';
+  if(hAt(P.x,P.z)>17)return 'hard';
+  const route=CHAPTERS[G.chapter].route;
+  const trail=nearestSafeTrailPoint(route,P.x,P.z,()=>true);
+  return trail && Math.hypot(P.x-trail[0],P.z-trail[1])<2.6?'ground':'grass';
 }
-function noiseHit(dur,freq,gain){
-  if(!A.ready) return;
-  const s=A.ctx.createBufferSource(); s.buffer=A.noiseBuf;
-  const f=A.ctx.createBiquadFilter(); f.type='lowpass'; f.frequency.value=freq||300;
-  const g=A.ctx.createGain(); const t=A.ctx.currentTime;
-  g.gain.setValueAtTime(gain||0.16,t); g.gain.exponentialRampToValueAtTime(0.001,t+dur);
-  s.connect(f); f.connect(g); g.connect(A.sfx);
-  s.start(t); s.stop(t+dur+0.02);
-}
-const SCALE = [0,2,4,7,9,12,14,16];
-function scheduleMusic(){
-  if(!A.ready) return;
-  const root = 174.6; // F3
-  const play = ()=>{
-    if(!A.ready) return;
-    if(A.ctx.state==='suspended'){setTimeout(play,1000);return;}
-    const t=A.ctx.currentTime;
-    // мягкий аккорд-подушка
-    [0,7,12,16].forEach((iv,i)=>{
-      const o=A.ctx.createOscillator(), g=A.ctx.createGain();
-      o.type = i<2?'sine':'triangle';
-      o.frequency.value = root*Math.pow(2,iv/12)*(1+ (Math.random()-0.5)*0.004);
-      g.gain.setValueAtTime(0,t);
-      g.gain.linearRampToValueAtTime(0.055,t+2.2);
-      g.gain.linearRampToValueAtTime(0.0001,t+7.5);
-      o.connect(g); g.connect(A.mus); o.start(t); o.stop(t+7.8);
-    });
-    // короткая мелодия
-    for(let i=0;i<4;i++){
-      const n = SCALE[(Math.random()*SCALE.length)|0];
-      const o=A.ctx.createOscillator(), g=A.ctx.createGain();
-      o.type='triangle'; o.frequency.value = root*2*Math.pow(2,n/12);
-      const st = t+1.2+i*1.15;
-      g.gain.setValueAtTime(0,st); g.gain.linearRampToValueAtTime(0.05,st+0.08);
-      g.gain.exponentialRampToValueAtTime(0.0001,st+1.1);
-      o.connect(g); g.connect(A.mus); o.start(st); o.stop(st+1.2);
-    }
-    setTimeout(play, 8600);
-  };
-  play();
-}
-function scheduleBirds(){
-  const go = ()=>{
-    if(A.ready && !G.paused && Math.random()<0.75){
-      const f = 1500+Math.random()*1400;
-      tone(f,0.09,'sine',0.05,f*1.6);
-      setTimeout(()=>tone(f*1.2,0.07,'sine',0.04,f*0.8), 130);
-    }
-    setTimeout(go, 2600+Math.random()*5200);
-  };
-  setTimeout(go, 2400);
-}
-const SFX = {
-  pick(){ tone(880,0.12,'sine',0.16,1320); setTimeout(()=>tone(1320,0.16,'sine',0.13),90); },
-  quest(){ [523,659,784,1046].forEach((f,i)=>setTimeout(()=>tone(f,0.3,'triangle',0.13),i*110)); },
-  jump(){ noiseHit(0.12,600,0.12); tone(320,0.14,'sine',0.07,520); },
-  land(){ noiseHit(0.16,220,0.2); },
-  step(){ noiseHit(0.09,260,0.13); },
-  neigh(){ tone(420,0.5,'sawtooth',0.06,180); setTimeout(()=>tone(360,0.4,'sawtooth',0.05,150),160); },
-  trust(){ [659,880,1174].forEach((f,i)=>setTimeout(()=>tone(f,0.4,'sine',0.1),i*130)); },
-  snap(){ noiseHit(0.2,900,0.2); }
+const SFX={
+  pick(){A.playChime('pick');},quest(){A.playChime('quest');},trust(){A.playChime('trust');},
+  jump(){A.playEffect('foliage',{gain:.25});},land(){A.playStep(hoofSurface(),7);},
+  step(){A.playStep(hoofSurface(),P.speed);},snap(){A.playEffect('branch-creak',{gain:.5});},
+  neigh(){A.playEffect('horse-call',{gain:.55});}
 };
 
 /* ================================================================
@@ -873,6 +811,7 @@ function questTarget(){
   return q.target;
 }
 function updateTracker(){
+  narrateGuide();
   storyWorld.setQuest(['quests'].includes(G.phase)?G.quest:-1);
   $('#chapterTag').textContent='Глава '+G.chapter+' · '+CHAPTERS[G.chapter].title;
   $('#log .sub').textContent=CHAPTERS[G.chapter].title;
@@ -905,7 +844,7 @@ function completeQuest(){
   questCooldown=0.4;
   SFX.quest(); toast('Задание выполнено'); addTrust(6);
   const completed=QUESTS[G.quest];
-  if(completed?.effect) storyWorld.applyEffect(completed.effect);
+  if(completed?.effect){storyWorld.applyEffect(completed.effect);companionScenes.trigger(completed.effect,G.chapter);}
   completed?.lines?.forEach(line=>say(line.who,line.text));
   G.questSteps=0; G.quest++;
   if(G.quest>=QUESTS.length){ startFinale(); return; }
@@ -939,7 +878,7 @@ function nearestAction(){
     if(!a.userData.taken && Math.hypot(P.x-a.userData.bx,P.z-a.userData.bz)<3.4)
       return {label:'Взять яблоко',fn:()=>takeApple(a)};
   }
-  if(G.alexFollows && Math.hypot(P.x-alex.position.x,P.z-alex.position.z)<3.4 && P.speed<1.2)
+  if(G.alexFollows && Math.hypot(P.x-alex.position.x,P.z-alex.position.z)<4.5 && P.speed<1.2)
     return {label:'Погладить Ветра',fn:pet};
   return null;
 }
@@ -976,7 +915,7 @@ function questInteract(){
   completeQuest();
 }
 function pet(){
-  addTrust(4); SFX.trust();
+  addTrust(4); SFX.trust();companionScenes.trigger('pet-hero',G.chapter);
   say('Алекс', ['Ты уже совсем не боишься.','Хороший мальчик, Ветер.','Мы найдём твой табун. Обещаю.'][(Math.random()*3)|0]);
 }
 function acceptApple(){
@@ -1011,8 +950,8 @@ function say(who,text){
 function screen(id,on){ $(id).classList[on?'add':'remove']('on'); }
 function pauseGame(p){
   G.paused=p;
-  if(p){ clearInput(); if(A.ctx?.state==='running') A.ctx.suspend(); }
-  else if(A.ctx?.state==='suspended') A.ctx.resume().catch(()=>{});
+  if(p){clearInput();lastNarration=null;++narrationGeneration;A.pause();}
+  else A.resume().then(ok=>{if(ok&&!G.paused)narrateGuide();});
 }
 
 /* --- кнопки меню --- */
@@ -1046,8 +985,8 @@ $('#btnEpilogue').onclick=()=>{screen('#finish',false);G.phase='epilogue';G.fini
 $('#btnFinMenu').onclick = ()=>{ screen('#finish',false); toMenu(); };
 
 /* --- настройки --- */
-$('#volMusic').oninput = e=>{ S.music=e.target.value/100; if(A.mus) A.mus.gain.value=S.music*0.5; };
-$('#volSfx').oninput = e=>{ S.sfx=e.target.value/100; if(A.sfx) A.sfx.gain.value=S.sfx; };
+$('#volMusic').oninput=e=>{S.music=e.target.value/100;A.setSettings(S);};
+$('#volSfx').oninput=e=>{S.sfx=e.target.value/100;A.setSettings(S);};
 $('#camSens').oninput = e=>{ S.camSens=e.target.value/100; };
 function tg(id,key,after){
   $(id).addEventListener('pointerdown',e=>{ e.stopPropagation();
@@ -1055,6 +994,8 @@ function tg(id,key,after){
 }
 tg('#tgHints','hints',()=>{ if(!S.hints) $('#hint').classList.remove('on'); });
 tg('#tgSubs','subs');
+tg('#tgVoice','voice',()=>{A.setSettings(S);if(S.voice)narrateGuide(true);});
+$('#btnListen').onclick=()=>A.resume().then(ok=>{if(ok&&!G.paused)narrateGuide(true);});
 tg('#tgEasy','easy',()=>{ toast(S.easy?'Упрощённое управление включено':'Обычное управление'); });
 document.querySelectorAll('.seg button').forEach(b=>{
   b.addEventListener('pointerdown',e=>{ e.stopPropagation();
@@ -1091,13 +1032,14 @@ function loadSave(){
   G.completedChapters=saved.completedChapters;
   for(const key of ['music','sfx','camSens','quality']) if(Number.isFinite(saved.settings[key]))
     S[key]=clamp(saved.settings[key],key==='camSens'?0.2:0,key==='quality'?2:key==='camSens'?2:1);
-  for(const key of ['hints','subs','easy']) if(typeof saved.settings[key]==='boolean') S[key]=saved.settings[key];
+  for(const key of ['hints','subs','voice','easy']) if(typeof saved.settings[key]==='boolean') S[key]=saved.settings[key];
   $('#volMusic').value=S.music*100; $('#volSfx').value=S.sfx*100; $('#camSens').value=S.camSens*100;
-  for(const [id,key] of [['#tgHints','hints'],['#tgSubs','subs'],['#tgEasy','easy']]) $(id).classList.toggle('on',S[key]);
+  for(const [id,key] of [['#tgHints','hints'],['#tgSubs','subs'],['#tgVoice','voice'],['#tgEasy','easy']]) $(id).classList.toggle('on',S[key]);
   document.querySelectorAll('[data-q]').forEach(b=>b.classList.toggle('sel',+b.dataset.q===S.quality));
   $('#btnContinue').disabled=!G.checkpoint; applyQuality();
 }
 function resetWorld(){
+  companionScenes.reset(G.chapter);escortHintShown=false;
   clearInput(); questCooldown=0; G.quest=0; G.trust=0; G.apples=0; G.freeProgress=0; G.questSteps=0;
   G.foalFreed=false; G.alexFollows=false; G.finished=false; G.playTime=0;
   G.stamina=100; G.staminaMax=100; G.jumpPower=8.2; G.tutStep=0;
@@ -1228,7 +1170,7 @@ let cineT=0, cineStep=0;
 let CINE=CHAPTERS[1].cinematic;
 function startFinale(){
   G.quest=QUESTS.length-1; saveCheckpoint();
-  G.phase='cine'; cineT=0; cineStep=-1;
+  G.phase='cine'; cineT=0; cineStep=-1;A.reset();lastNarration=null;++narrationGeneration;
   cineStart.set(P.x,P.y,P.z);
   cineRunDuration=Math.max(1.2,Math.hypot(97-P.x,-94-P.z)/10);
   if(G.chapter===3){P.heading=Math.atan2(97-P.x,-94-P.z);}
@@ -1393,6 +1335,10 @@ function animate(){
     t.material.opacity = clamp(t.userData.life/8,0,1)*0.55;
     if(t.userData.life<=0) t.visible=false; } });
 
+  const companionFrame=companionScenes.update(dt,{chapter:G.chapter,phase:G.phase,player:P,foalFreed:G.foalFreed,paused:G.paused});
+
+  const escort=escortFrame();
+
   /* --- Алекс --- */
   if(G.phase==='meet'){
     const d = Math.hypot(P.x-alex.position.x, P.z-alex.position.z);
@@ -1411,15 +1357,16 @@ function animate(){
     }
   }
   if(G.alexFollows && G.phase!=='cine'){
-    const tx = P.x - Math.sin(P.heading)*3.6 - Math.cos(P.heading)*1.4;
-    const tz = P.z - Math.cos(P.heading)*3.6 + Math.sin(P.heading)*1.4;
+    const goal=escort.goals.alex ?? companionFrame.goals.alex;
+    const tx=goal?.x ?? P.x-Math.sin(P.heading)*3.6-Math.cos(P.heading)*1.4;
+    const tz=goal?.z ?? P.z-Math.cos(P.heading)*3.6+Math.sin(P.heading)*1.4;
     const dx = tx-alex.position.x, dz = tz-alex.position.z;
     const d = Math.hypot(dx,dz);
-    const asp = clamp(d*1.5, 0, Math.max(3.5, sp*1.05));
+    const asp = clamp(d*1.5, 0, goal?.maxSpeed ?? Math.max(3.5, sp*1.05));
     if(d>0.5){
       alex.position.x += dx/d*asp*dt; alex.position.z += dz/d*asp*dt;
       alex.rotation.y = Math.atan2(dx,dz);
-    }
+    }else if(goal?.heading!==undefined)alex.rotation.y=goal.heading;
     alex.position.y = lerp(alex.position.y, hAt(alex.position.x,alex.position.z), dt*10);
     const ua = alex.userData, w = windU.value*asp*2.2;
     ua.legs[0].rotation.x = Math.sin(w)*0.5*clamp(asp/3,0,1);
@@ -1430,10 +1377,12 @@ function animate(){
 
   /* --- жеребёнок --- */
   if(G.foalFreed && G.phase!=='cine'){
-    const tx=P.x-Math.sin(P.heading)*5, tz=P.z-Math.cos(P.heading)*5;
+    const goal=escort.goals.foal ?? companionFrame.goals.foal;
+    const tx=goal?.x ?? P.x-Math.sin(P.heading)*5, tz=goal?.z ?? P.z-Math.cos(P.heading)*5;
     const dx=tx-foal.position.x,dz=tz-foal.position.z,d=Math.hypot(dx,dz);
-    const v=Math.min(12,Math.max(0,d-1)*1.6);
-    if(d>1){foal.position.x+=dx/d*v*dt;foal.position.z+=dz/d*v*dt;foal.userData.travelHeading=Math.atan2(dx,dz);}
+    const v=goal?Math.min(goal.maxSpeed,d*1.6):Math.min(12,Math.max(0,d-1)*1.6);
+    if(d>(goal?.arrivalRadius ?? 1)){foal.position.x+=dx/d*v*dt;foal.position.z+=dz/d*v*dt;foal.userData.travelHeading=Math.atan2(dx,dz);}
+    else if(goal?.heading!==undefined)foal.userData.travelHeading=goal.heading;
     foal.position.y=hAt(foal.position.x,foal.position.z);
     foal.userData.legs.forEach(l=>l.hip.rotation.x=Math.sin(windU.value*6+l.phase*TAU)*Math.min(v/6,1)*.6);
   } else if(foal.userData.runAway){
@@ -1478,12 +1427,7 @@ function animate(){
   camera.position.copy(constrainCameraPosition(cam.look,camera.position,hAt,cameraBlocks));
   camera.lookAt(cam.look);
 
-  /* --- аудио позиционно --- */
-  if(A.ready){
-    const dRiver = Math.abs(P.x - riverX(P.z));
-    A.waterGain.gain.value = clamp((1 - dRiver/26),0,1)*0.10*S.sfx;
-    A.windGain.gain.value = (0.055 + clamp(sp/12,0,1)*0.1)*S.sfx;
-  }
+  A.setEnvironment({chapter:G.chapter,creek:clamp(1-Math.abs(P.x-riverX(P.z))/26,0,1),movement:clamp(sp/12,0,1)});
 
   /* --- прогресс сценария --- */
   if(G.phase==='tutorial' && !G.paused){
@@ -1506,7 +1450,11 @@ function animate(){
   if(G.phase==='quests' && !G.paused){
     const q = QUESTS[G.quest];
     if(q && q.kind==='zone'){
-      if(Math.hypot(P.x-q.target[0], P.z-q.target[1]) < q.radius) completeQuest();
+      if(Math.hypot(P.x-q.target[0], P.z-q.target[1]) < q.radius){
+        if(q.id==='willow-crossing' && !escortFrame().ready){
+          if(!escortHintShown){hint('Друзья переходят ручей. Подожди у светлого камня.');escortHintShown=true;}
+        }else completeQuest();
+      }
     }
     if(q && q.kind==='apples' && G.apples>=G.applesNeeded) completeQuest();
   }
@@ -1529,16 +1477,12 @@ function animate(){
       slopeQ.setFromUnitVectors(slopeUp,normalAt(P.x,P.z));
       headingQ.setFromAxisAngle(slopeUp,P.heading);slopeQ.multiply(headingQ);
       horse.quaternion.slerp(slopeQ,clamp(dt*8,0,1));
-      foal.userData.travelHeading=Math.atan2(102-foal.position.x,-96-foal.position.z);
-      foal.position.x=lerp(foal.position.x,102,dt*.6);foal.position.z=lerp(foal.position.z,-96,dt*.6);
-      foal.position.y=hAt(foal.position.x,foal.position.z);
-      alex.rotation.y=Math.atan2(P.x-alex.position.x,P.z-alex.position.z);
-      alex.userData.arms[1].rotation.x=-2.4+Math.sin(cineT*4)*.12;
-      herd.children.forEach((h,i)=>{
-        const tx=97+Math.cos(i*TAU/5)*4.5,tz=-94+Math.sin(i*TAU/5)*4.5;
-        h.position.x=lerp(h.position.x,tx,dt*.5); h.position.z=lerp(h.position.z,tz,dt*.5);
-        h.position.y=hAt(h.position.x,h.position.z);h.userData.travelHeading=Math.atan2(P.x-h.position.x,P.z-h.position.z);
-      });
+      const formation=companionFrame.formation || companionScenes.reunionGoals();
+      if(formation){
+        moveCompanionTo(foal,formation.foal,dt);
+        moveCompanionTo(alex,formation.alex,dt);
+        formation.herd.forEach(goal=>moveCompanionTo(goal.actor,goal,dt));
+      }
     }else if(G.chapter===1){
       herd.children.forEach((h,i)=>{h.position.x-=dt*(1+i*.07);h.position.z-=dt*.5;h.position.y=hAt(h.position.x,h.position.z);});
     }
@@ -1564,9 +1508,10 @@ function animate(){
   contactShadows.update();
   storyWorld.update(dt);
   cast.update(dt,{speed:P.speed,grounded:P.grounded,phase:G.phase,
-    gesture:QUESTS[G.quest]?.effect==='meadow-rest' && G.phase==='quests'?'graze':undefined,
+    gesture:companionFrame.gestures.hero,foalGesture:companionFrame.gestures.foal,
+    parentGesture:companionFrame.gestures.parent,foalFreed:G.foalFreed,
     herdGesture:G.phase==='cine' && G.chapter===3?'sniff':'graze',
-    alexGesture:G.phase==='cine' && G.chapter===3?'wave':G.phase==='meet' && G.trust>=35?'offer':G.phase==='epilogue'?'wave':undefined});
+    alexGesture:companionFrame.gestures.alex ?? (G.phase==='meet' && G.trust>=35?'offer':G.phase==='epilogue'?'wave':undefined)});
   updateGuidance();
   renderer.render(scene,camera);
 }
@@ -1609,6 +1554,10 @@ if((import.meta.env.DEV || __TEST_MODE__) && ['localhost','127.0.0.1'].includes(
         heroUp:new THREE.Vector3(0,1,0).applyQuaternion(horse.quaternion).toArray(),
         terrainUp:normalAt(P.x,P.z).toArray()},
       inputs:{x:IN.move.x,y:IN.move.y,gallop:IN.gallop,jump:IN.jump},completedChapters:G.completedChapters.slice(),
+      audio:A.status(),presentation:companionScenes.inspect(),
+      companions:{foal:{x:foal.position.x,z:foal.position.z,animation:foal.userData.animationState},
+        alex:{x:alex.position.x,z:alex.position.z,animation:cast.alex?.state},
+        herd:herd.children.map(h=>({x:h.position.x,z:h.position.z,role:h.userData.familyRole,animation:h.userData.animationState}))},
       action:nearestAction()?.label,render:{calls:renderer.info.render.calls,triangles:renderer.info.render.triangles},settings:{...S}}),
     teleport:resetTo,target:questTarget,terrain:hAt,
     setInput:({x=0,y=0,gallop=false,jump=false})=>{IN.move.set(x,y);IN.gallop=gallop;IN.jump=jump;},
@@ -1621,6 +1570,21 @@ if((import.meta.env.DEV || __TEST_MODE__) && ['localhost','127.0.0.1'].includes(
 const cineStart=new THREE.Vector3();
 let cineRunDuration=2;
 const cast=attachCharacters({THREE,horse,foal,herd,alex});
+const companionScenes=createCompanionScenes({THREE,horse,foal,alex,herd,hAt,
+  isSafeGoal:goal=>!obstacles.some(o=>Math.hypot(goal.x-o.x,goal.z-o.z)<o.r+goal.radius+.2 && goal.y<o.top)});
+function escortFrame(){
+  return fordEscort(P,{foal,alex},{chapter:G.chapter,phase:G.phase,questId:QUESTS[G.quest]?.id,
+    riverX,riverWidth,hAt,waterY:WATER_Y,isSafeGoal:goal=>!obstacles.some(o=>Math.hypot(goal.x-o.x,goal.z-o.z)<o.r+goal.radius+.2 && goal.y<o.top)});
+}
+function moveCompanionTo(actor,goal,dt){
+  if(!goal||!dt)return;
+  const dx=goal.x-actor.position.x,dz=goal.z-actor.position.z,d=Math.hypot(dx,dz);
+  if(d>goal.arrivalRadius){
+    const step=Math.min(d,goal.maxSpeed*dt);actor.position.x+=dx/d*step;actor.position.z+=dz/d*step;
+    const heading=Math.atan2(dx,dz);if(actor===alex)actor.rotation.y=heading;else actor.userData.travelHeading=heading;
+  }else if(goal.heading!==undefined){if(actor===alex)actor.rotation.y=goal.heading;else actor.userData.travelHeading=goal.heading;}
+  actor.position.y=hAt(actor.position.x,actor.position.z);
+}
 const slopeUp=new THREE.Vector3(0,1,0),slopeQ=new THREE.Quaternion(),headingQ=new THREE.Quaternion();
 function alignCompanion(actor,dt){
   if(!dt || !actor.visible) return;

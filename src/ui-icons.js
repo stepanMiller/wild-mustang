@@ -1,4 +1,5 @@
 const paths = {
+  btnListen:'<path d="M3 9h4l5-4v14l-5-4H3V9zm13-1c3 2 3 6 0 8m3-11c5 4 5 10 0 14"/>',
   btnMap: '<path d="M3 6l6-3 6 3 6-3v15l-6 3-6-3-6 3V6zm6-3v15m6-12v15"/>',
   btnLog: '<path d="M12 5C9 3 5 3 2 5v15c3-2 7-2 10 0 3-2 7-2 10 0V5c-3-2-7-2-10 0zm0 0v15"/>',
   btnPause: '<path d="M8 4v16m8-16v16" stroke-width="4"/>',

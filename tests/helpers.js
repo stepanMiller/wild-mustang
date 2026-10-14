@@ -72,7 +72,7 @@ export async function finishCurrentChapter(page) {
     const travel = quest.kind === 'zone' ? quest.target : target;
     await teleport(page, travel[0], travel[1]);
     if (quest.kind === 'zone') {
-      await expect.poll(async () => (await state(page)).quest).not.toBe(current.quest);
+      await expect.poll(async () => (await state(page)).quest,{timeout:quest.id==='willow-crossing'?90_000:12_000}).not.toBe(current.quest);
     } else {
       await action(page);
       // Some tasks have several visible actions (apples / moving branches).
