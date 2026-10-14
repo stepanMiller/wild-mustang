@@ -212,7 +212,7 @@ explicitly scripted pose setup, with public controls for movement and camera.
 They do not substitute for the native three-chapter route recorded under Stage A.
 
 Matched before frames: `tests/evidence/prairie-polish-02/before-*`; after frames
-and JSON are added after the final visual run. The former finish card covers
+and JSON use one verified frozen B runtime. Both final Chromium visual scenarios passed; idle/slope plus Walk/Trot/Gallop were captured from three distinct displayed camera angles with native touch controls. Maximum gait calls: 170; maximum gait triangles: 138655. The final scene peak is 149,559 triangles. The former finish card covers
 37.53% of the tablet viewport and uses blur(14px); B covers about 12.02%, no blur,
 with statistics collapsed by default. Physical Safari/FPS and child play remain
 unverified. Original local geometry uses project MIT; no external art or cost.

@@ -3,6 +3,7 @@ import { createHash } from 'node:crypto';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { test } from './fixtures.js';
 import { finishCurrentChapter, meetAlex, openGame, skipTutorial, startChapterOne, state, teleport } from './helpers.js';
+import { BrowserTouches } from './natural-route.helpers.js';
 
 const EVIDENCE = 'tests/evidence/prairie-polish-02';
 const mode = process.env.WILD_MUSTANG_SCENE_MODE || 'polish';
@@ -150,9 +151,12 @@ test('Scene polish: real movement gaits and slope alignment at three camera angl
     'Explicit tablet visual gait run on the polished hero');
   test.setTimeout(900_000);
   await mkdir(EVIDENCE, { recursive: true });
-  const errors = [], report = { method: 'QA position-only setup, real mouse joystick/keyboard locomotion and camera drags',
-    injectedInput: 0, physicalIPad: false, naturalRoute: false, quality: 1, frames: [] };
+  const errors = [], report = { method: 'QA position-only setup, real pointer camera drags, browser touch joystick and second camera contact; keyboard Shift for gallop',
+    injectedInput: 0, physicalIPad: false, naturalRoute: false, quality: 1,
+    viewport: page.viewportSize(), browserVersion: page.context().browser().version(), frames: [] };
   page.on('pageerror', error => errors.push(error.message));
+  page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
+  const touches = await BrowserTouches.create(page);
   try {
     await openGame(page);
     report.runtime = await provenance(page, baseURL);
@@ -181,11 +185,19 @@ test('Scene polish: real movement gaits and slope alignment at three camera angl
           const magnitude = gait === 'Walk' ? .28 : .8, radius = joy.width * .45;
           // Keep a world direction while orbiting; forward-only input would turn
           // the hero toward each new camera and produce three identical rear views.
-          await page.mouse.move(x, y); await page.mouse.down();
-          await page.mouse.move(x - Math.sin(relative) * magnitude * radius,
-            y - Math.cos(relative) * magnitude * radius, { steps: 4 });
+          await touches.down(1, x, y);
+          await touches.move(1, x - Math.sin(relative) * magnitude * radius,
+            y - Math.cos(relative) * magnitude * radius);
+          const cameraX = page.viewportSize().width * .61, cameraY = page.viewportSize().height * .45;
+          await touches.down(2, cameraX, cameraY);
           if (gait === 'Gallop') await page.keyboard.down('Shift');
-          await expect.poll(async () => (await state(page)).gaits[0], { timeout: 60_000 }).toBe(gait);
+          let nudge = 1;
+          await expect.poll(async () => {
+            // A real second finger keeps manual orbit active while the animation
+            // accelerates; otherwise normal camera auto-follow erases side views.
+            await touches.move(2, cameraX + nudge, cameraY); nudge *= -1;
+            return (await state(page)).gaits[0];
+          }, { timeout: 60_000 }).toBe(gait);
           const frame = await measure(page, `${gait}-angle-${angle}`);
           expect(frame.speed, `${gait} produces physical movement`).toBeGreaterThan(.2);
           expect(frame.upAlignment, `${gait} stays aligned to terrain`).toBeGreaterThan(.985);
@@ -195,12 +207,13 @@ test('Scene polish: real movement gaits and slope alignment at three camera angl
           report.frames.push(frame);
           await screenshot(page, `${gait.toLowerCase()}-angle-${angle}`);
         } finally {
-          await page.mouse.up(); await page.keyboard.up('Shift'); await page.keyboard.up('w');
+          await touches.release(); await page.keyboard.up('Shift');
         }
       }
     }
     expect(errors).toEqual([]);
     report.result = 'passed';
   } catch (error) { report.result = 'failed'; report.failure = error.message; throw error; }
-  finally { report.errors = errors; await writeFile(`${EVIDENCE}/after-gaits.json`, JSON.stringify(report, null, 2)); }
+  finally { report.errors = errors; report.ended = new Date().toISOString();
+    await writeFile(`${EVIDENCE}/after-gaits.json`, JSON.stringify(report, null, 2)); }
 });

@@ -54,7 +54,7 @@ Stage A is implemented on `codex/ipad-polish-01`, based on main `188f152`. The p
 - [x] All 56 relevant Chromium desktop/tablet and WebKit tablet scenarios pass; two desktop timing-only retries use the documented single-process runner.
 - [x] Complete three-chapter native touch journey, both fords, save/reload, natural cinematics and epilogue passed in 19.6 minutes of automated software-runner wall time; no teleport or simulation/input mutation.
 - [x] Stage A PR #15 ready for review; GitHub run 38540716117 passed all three profiles on 79b037a. Before/after evidence and frozen build hashes included.
-- [x] Stage B implemented: chapter palettes, layered ridges, flowers, willows/pines, batched scenery, slope-aligned cast and compact emotional endings. Final visual/CI validation is running on `codex/prairie-polish-02`.
+- [x] Stage B implemented: chapter palettes, layered ridges, flowers, willows/pines, batched scenery, slope-aligned cast and compact emotional endings. Both final Chromium visual cases pass; 33 unit checks, full WebKit story regression and camera focus pass. PR #16 is open; current GitHub CI must pass before review completion.
 - [ ] Stage C: verified local natural audio/Russian cues and expressive companion scenes, in its own PR after Stage B.
 
 Physical iPad Safari, hardware FPS, independent child comprehension and 10–15-minute chapter durations remain separate unverified gates. Automated route planning around observed colliders is not a child's independent playthrough.
