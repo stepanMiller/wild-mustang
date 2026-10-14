@@ -216,3 +216,101 @@ and JSON use one verified frozen B runtime. Both final Chromium visual scenarios
 37.53% of the tablet viewport and uses blur(14px); B covers about 12.02%, no blur,
 with statistics collapsed by default. Physical Safari/FPS and child play remain
 unverified. Original local geometry uses project MIT; no external art or cost.
+
+## Issue #14 Stage C evidence — 14 October 2026
+
+Feature branch `codex/audio-story-polish-03`, stacked on B. Local audio consists
+of 23 original Russian HMM cue recordings and 12 sound/theme files, totaling
+1,676,808 bytes. Every shipped file has a source/license/derivation hash in
+`public/assets/audio/audio-manifest.json`; accessible game credits link to
+`assets/licenses/audio-credits.html`. No speech engine/model/backend ships.
+Full provenance: AUDIO_LICENSES.md. Primary source category for the horse call
+was not independently accessible; pinned VoxeLibre confirms its per-file BY3
+redistribution rights. A separate recorded snort is not claimed. Human listening
+and physical iPad remain required. Cost: $0.
+
+The voice cache retains at most three buffers/3 MiB; short effects are bounded
+to 1 MiB and eight active voices. Ambience/music are media streams, with browser
+internal memory unmeasured. Isolated Chromium/WebKit each decoded all 46 audited
+candidates and passed 13 playback checks. In-game guidance now retains original
+story dialogue: voice captions temporarily use the tracker description area.
+Voice repeat resumes AudioContext synchronously inside its user gesture.
+
+63 unit checks and production build pass. Before the final caption/getter
+refinement, full WebKit passed 21 relevant scenarios/6 explicit skips, including
+all chapters, save, Continue and replay. The latest frozen build on 4184 passes
+all three audio scenarios and both actual companion scenarios in WebKit and Chromium: the child
+can stop just inside the crossing zone while friends physically walk onto the
+bank; sharing starts eating/offer/pet after the action, and Continue preserves
+progress without replaying disposable scenes.
+
+Two initial test-fixture errors were corrected without changing gameplay: x=10 was
+exactly outside the strict 7m target radius (the valid edge setup is x=10.2); an
+init script re-seeded its checkpoint on every reload, masking the saved progress
+(the fixture now seeds once per session). The cinematic shortcut helper allows
+90 seconds only for the new actual companion crossing, retaining every other
+assertion, poll limit and scenario timeout.
+
+The final native touch journey, matching runtime/asset hashes and new mini-scene
+frames are recorded under `tests/evidence/audio-story-polish-03`. Initial aborted
+diagnostic-getter attempt is parked separately in cache; it is not a successful
+three-chapter result. Chromium final focus passed 5/5; WebKit final focus passed
+five unique scenarios (three audio, two companion).
+
+The final native journey passed 1/1 in 25.7 minutes of automated software-runner
+wall time (10:11:11.141–10:36:51.118 UTC). It completed all 18 objectives, public
+save/Pause/reload/Continue, both fords, ordinary cinematics, the family reunion
+and touch movement in epilogue. The frozen runtime is core `acd008e`, game bundle
+SHA-256 `76c3a1566358be18b1f6c67c1bbdc48319ba7650f0fdf219c6778086fba79605`;
+HTTP hashes match all 41 recorded files, including every audio file. There are
+33 checkpoints, 47 story events, no browser errors and no teleport, injected
+input/checkpoint or cinematic acceleration.
+
+Actual reaction observations include Alex `Pet`, hero/foal `Eating` after public
+sharing, both companions on dry ground beyond the ford, and foal/parent 1.783 m
+apart at reunion. Before/after reload the engine started 5 + 17 voice cues and
+102 + 897 effects; unavailable audio stayed empty. Low-quality observed renderer
+counts peaked at 146,220 triangles/181 calls. The protocol and its derived index
+are linked from `tests/evidence/audio-story-polish-03/README.md`.
+
+Pinned Playwright Chromium 151.0.7922.34 also passed the five new audio/companion
+scenarios, 5/5 in 3.2 minutes, with the ordinary browser fixture. The initial CI
+failed the full scripted story at `willow-crossing`: its hero jumped about 150 m
+from chapter spawn while companions still walked behind. The unchanged 90-second
+poll elapsed on software rendering. Local CFT151 reproduced this exact failure;
+GitHub reporter annotations confirmed it in CI. The driver now uses public
+Pause → Menu → Continue at the existing west-bank checkpoint, asserts unchanged
+chapter/phase/quest/completion/trust/inventory/rescue/heading/position, then moves
+only the hero to the next target. Both companions still cross through ordinary
+game code. No shipping behavior, NPC speed, poll or scenario limit was changed. The corrected CFT151 full-story scenario passed 1/1 in 4.4
+minutes (4.5-minute runner total), including all chapters and replay. Natural
+touch evidence remains independent and unchanged.
+
+On the corrected fixture, run 38555068059 passed all 23 Chromium desktop and
+23 WebKit scenarios without retries. Chromium tablet was canceled by the
+workflow's 20-minute overall cap, with no reported assertion failure. The suite
+now discovers 29 scenarios per profile (opt-in/engine-specific skips apply), so
+the job cap is 30 minutes to include install/build and the larger software-
+rendered browser run. Per-scenario and assertion limits remain unchanged. The
+whole matrix is rerun on this configuration before review readiness.
+
+With the 30-minute job budget, run 38557587397 passed 23 desktop and 23 WebKit
+scenarios without retries. Chromium tablet passed its other 24 scenarios; the
+full-story case hit its global 300-second limit while replaying chapter two,
+after completing the initial three chapters, epilogue and reload. The annotation
+identifies `story.spec.js`'s replay call, not an exhausted 90-second crossing
+poll. Both attempts reached that same scope; the raw annotations are retained in
+`tests/evidence/audio-story-polish-03/ci-replay-timeout-diagnosis.json`.
+
+Only this long 24-objective story/replay case now selects the public low graphics
+preset through the settings menu and asserts the applied setting. Progress,
+save/Continue, companions, every assertion and all scenario/poll limits remain
+unchanged. Fresh per-test contexts leave UI/camera/characters/performance and the
+new companion scenarios on default medium quality. The corrected CFT151 full
+story/replay passed 1/1 in 3.0 minutes. These story screenshots are low quality;
+medium visual budgets/captures remain separate evidence. No physical FPS claim
+follows from the software-runner timing.
+
+PR #17 remains subject to the GitHub checks on its final head before it is marked
+ready. No physical Safari, hardware FPS, independent child navigation, human
+listening or measured 10–15 minute chapter claim is inferred from these checks.

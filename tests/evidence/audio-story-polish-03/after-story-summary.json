@@ -1,0 +1,533 @@
+{
+  "method": "Derived from the unchanged after-natural-route.json and matching frozen-build metadata; no new browser or game state writes",
+  "result": "passed",
+  "coreCommit": "acd008e",
+  "gameSha256": "76c3a1566358be18b1f6c67c1bbdc48319ba7650f0fdf219c6778086fba79605",
+  "began": "2026-10-14T10:11:11.141Z",
+  "ended": "2026-10-14T10:36:51.118Z",
+  "checkpoints": 33,
+  "storyEvents": 47,
+  "quality": 0,
+  "browserVersion": "154.0.8037.57",
+  "viewport": {
+    "width": 1194,
+    "height": 834
+  },
+  "physicalIPad": false,
+  "independentChildNavigation": false,
+  "errors": [],
+  "forbiddenDriverActions": {
+    "teleports": 0,
+    "injectedInput": 0,
+    "injectedCheckpoints": 0,
+    "acceleratedCinematics": 0
+  },
+  "audioSessions": [
+    {
+      "session": 0,
+      "cueStarts": 5,
+      "effectStarts": 102,
+      "decodeCount": 11,
+      "streamStarts": 9,
+      "unavailable": []
+    },
+    {
+      "session": 1,
+      "cueStarts": 17,
+      "effectStarts": 897,
+      "decodeCount": 24,
+      "streamStarts": 22,
+      "unavailable": []
+    }
+  ],
+  "fordCrossing": {
+    "hero": {
+      "x": 17.16369269425779,
+      "y": 11.698741551003225,
+      "z": 60.14308373809465
+    },
+    "actors": {
+      "foal": {
+        "x": 14.448951932867898,
+        "z": 57.17775734582672,
+        "animation": "Walk",
+        "groundHeight": 10.71202671729645,
+        "eastBankX": 6.113956309477607,
+        "eastBankClearance": 8.334995623390292
+      },
+      "alex": {
+        "x": 14.13326498256669,
+        "z": 60.153123641673204,
+        "animation": "Walk",
+        "groundHeight": 10.461746463370964,
+        "eastBankX": 5.99013322377254,
+        "eastBankClearance": 8.14313175879415
+      }
+    },
+    "quest": 4,
+    "presentation": {
+      "effect": "foal-crossed",
+      "chapter": 2,
+      "elapsed": 2.799999999999998,
+      "duration": 4.2
+    }
+  },
+  "reactions": [
+    {
+      "label": "reaction-pet-hero-start",
+      "elapsed": 0.15000000000000002,
+      "hero": "Idle_Headlow",
+      "foal": "Idle_Headlow",
+      "alex": "Walk",
+      "companions": {
+        "foal": {
+          "x": -52,
+          "z": -36,
+          "animation": "Idle_Headlow"
+        },
+        "alex": {
+          "x": 15.698476506117558,
+          "z": 9.759732887189848,
+          "animation": "Walk"
+        },
+        "herd": [
+          {
+            "x": -95,
+            "z": -95,
+            "role": "parent"
+          },
+          {
+            "x": -97,
+            "z": -98,
+            "role": "member"
+          },
+          {
+            "x": -99,
+            "z": -101,
+            "role": "member"
+          },
+          {
+            "x": -101,
+            "z": -104,
+            "role": "member"
+          },
+          {
+            "x": -103,
+            "z": -107,
+            "role": "member"
+          }
+        ]
+      },
+      "disposition": null
+    },
+    {
+      "label": "reaction-pet-hero-observed",
+      "elapsed": 3.399999999999996,
+      "hero": "Idle_Headlow",
+      "foal": "Idle_Headlow",
+      "alex": "Pet",
+      "companions": {
+        "foal": {
+          "x": -52,
+          "z": -36,
+          "animation": "Idle_Headlow"
+        },
+        "alex": {
+          "x": 12.267836047672779,
+          "z": 10.516561236975681,
+          "animation": "Pet"
+        },
+        "herd": [
+          {
+            "x": -95,
+            "z": -95,
+            "role": "parent"
+          },
+          {
+            "x": -97,
+            "z": -98,
+            "role": "member"
+          },
+          {
+            "x": -99,
+            "z": -101,
+            "role": "member"
+          },
+          {
+            "x": -101,
+            "z": -104,
+            "role": "member"
+          },
+          {
+            "x": -103,
+            "z": -107,
+            "role": "member"
+          }
+        ]
+      },
+      "disposition": "active-at-observation"
+    },
+    {
+      "label": "reaction-foal-freed-start",
+      "elapsed": 0.65,
+      "hero": "Idle",
+      "foal": "Walk",
+      "alex": "Walk",
+      "companions": {
+        "foal": {
+          "x": -52.27114557084491,
+          "z": -34.23077768262432,
+          "animation": "Walk"
+        },
+        "alex": {
+          "x": -50.18763699653408,
+          "z": -34.851289149808906,
+          "animation": "Walk"
+        },
+        "herd": [
+          {
+            "x": -95,
+            "z": -95,
+            "role": "parent"
+          },
+          {
+            "x": -97,
+            "z": -98,
+            "role": "member"
+          },
+          {
+            "x": -99,
+            "z": -101,
+            "role": "member"
+          },
+          {
+            "x": -101,
+            "z": -104,
+            "role": "member"
+          },
+          {
+            "x": -103,
+            "z": -107,
+            "role": "member"
+          }
+        ]
+      },
+      "disposition": null
+    },
+    {
+      "label": "reaction-foal-freed-observed",
+      "elapsed": 2.799999999999998,
+      "hero": "Idle",
+      "foal": "Idle_Headlow",
+      "alex": "Walk",
+      "companions": {
+        "foal": {
+          "x": -54.71437730770021,
+          "z": -34.88588888155849,
+          "animation": "Idle_Headlow"
+        },
+        "alex": {
+          "x": -56.087061671621626,
+          "z": -34.449142861339524,
+          "animation": "Walk"
+        },
+        "herd": [
+          {
+            "x": -95,
+            "z": -95,
+            "role": "parent"
+          },
+          {
+            "x": -97,
+            "z": -98,
+            "role": "member"
+          },
+          {
+            "x": -99,
+            "z": -101,
+            "role": "member"
+          },
+          {
+            "x": -101,
+            "z": -104,
+            "role": "member"
+          },
+          {
+            "x": -103,
+            "z": -107,
+            "role": "member"
+          }
+        ]
+      },
+      "disposition": "active-at-observation"
+    },
+    {
+      "label": "reaction-meadow-rest-start",
+      "elapsed": 0.6,
+      "hero": "Eating",
+      "foal": "Walk",
+      "alex": "Walk",
+      "companions": {
+        "foal": {
+          "x": 24.68817607224479,
+          "z": 71.08392901011973,
+          "animation": "Walk"
+        },
+        "alex": {
+          "x": 25.37094908266204,
+          "z": 73.08682954336462,
+          "animation": "Walk"
+        },
+        "herd": [
+          {
+            "x": -95,
+            "z": -95,
+            "role": "parent",
+            "animation": "Walk"
+          },
+          {
+            "x": -97,
+            "z": -98,
+            "role": "member",
+            "animation": "Walk"
+          },
+          {
+            "x": -99,
+            "z": -101,
+            "role": "member",
+            "animation": "Walk"
+          },
+          {
+            "x": -101,
+            "z": -104,
+            "role": "member",
+            "animation": "Walk"
+          },
+          {
+            "x": -103,
+            "z": -107,
+            "role": "member",
+            "animation": "Walk"
+          }
+        ]
+      },
+      "disposition": null
+    },
+    {
+      "label": "reaction-meadow-rest-observed",
+      "elapsed": 4.749999999999991,
+      "hero": "Eating",
+      "foal": "Eating",
+      "alex": "Pet",
+      "companions": {
+        "foal": {
+          "x": 29.171396450559165,
+          "z": 74.13961611796655,
+          "animation": "Eating"
+        },
+        "alex": {
+          "x": 30.845461157868037,
+          "z": 73.99567467929533,
+          "animation": "Pet"
+        },
+        "herd": [
+          {
+            "x": -95,
+            "z": -95,
+            "role": "parent",
+            "animation": "Walk"
+          },
+          {
+            "x": -97,
+            "z": -98,
+            "role": "member",
+            "animation": "Walk"
+          },
+          {
+            "x": -99,
+            "z": -101,
+            "role": "member",
+            "animation": "Walk"
+          },
+          {
+            "x": -101,
+            "z": -104,
+            "role": "member",
+            "animation": "Walk"
+          },
+          {
+            "x": -103,
+            "z": -107,
+            "role": "member",
+            "animation": "Walk"
+          }
+        ]
+      },
+      "disposition": "active-at-observation"
+    },
+    {
+      "label": "reaction-mountain-obstacle-start",
+      "elapsed": 0.6,
+      "hero": "Idle",
+      "foal": "Trot",
+      "alex": "Walk",
+      "companions": {
+        "foal": {
+          "x": 71.69576232223486,
+          "z": -28.831319861538603,
+          "animation": "Trot"
+        },
+        "alex": {
+          "x": 73.44704218186884,
+          "z": -28.338645043525233,
+          "animation": "Walk"
+        },
+        "herd": [
+          {
+            "x": 105,
+            "z": -94,
+            "role": "parent",
+            "animation": "Eating"
+          },
+          {
+            "x": 99.47213595499957,
+            "z": -86.39154786963877,
+            "role": "member",
+            "animation": "Eating"
+          },
+          {
+            "x": 90.52786404500043,
+            "z": -89.29771798166021,
+            "role": "member",
+            "animation": "Eating"
+          },
+          {
+            "x": 90.52786404500041,
+            "z": -98.70228201833979,
+            "role": "member",
+            "animation": "Eating"
+          },
+          {
+            "x": 99.47213595499957,
+            "z": -101.60845213036123,
+            "role": "member",
+            "animation": "Eating"
+          }
+        ]
+      },
+      "disposition": null
+    },
+    {
+      "label": "reaction-mountain-obstacle-observed",
+      "elapsed": 2.9499999999999975,
+      "hero": "Idle",
+      "foal": "Idle_Headlow",
+      "alex": "Walk",
+      "companions": {
+        "foal": {
+          "x": 74.52466075551983,
+          "z": -32.87246673569503,
+          "animation": "Idle_Headlow"
+        },
+        "alex": {
+          "x": 74.41711312776893,
+          "z": -34.4758899071627,
+          "animation": "Walk"
+        },
+        "herd": [
+          {
+            "x": 105,
+            "z": -94,
+            "role": "parent",
+            "animation": "Eating"
+          },
+          {
+            "x": 99.47213595499957,
+            "z": -86.39154786963877,
+            "role": "member",
+            "animation": "Eating"
+          },
+          {
+            "x": 90.52786404500043,
+            "z": -89.29771798166021,
+            "role": "member",
+            "animation": "Eating"
+          },
+          {
+            "x": 90.52786404500041,
+            "z": -98.70228201833979,
+            "role": "member",
+            "animation": "Eating"
+          },
+          {
+            "x": 99.47213595499957,
+            "z": -101.60845213036123,
+            "role": "member",
+            "animation": "Eating"
+          }
+        ]
+      },
+      "disposition": "active-at-observation"
+    }
+  ],
+  "finalFormation": {
+    "foal": {
+      "x": 102.10785317342643,
+      "z": -96.8431920076586,
+      "animation": "Idle_Headlow"
+    },
+    "alex": {
+      "x": 93.98127771115882,
+      "z": -92.15877694246262,
+      "animation": "Idle"
+    },
+    "herd": [
+      {
+        "x": 101.98243093253473,
+        "z": -95.06502437675246,
+        "role": "parent",
+        "animation": "Idle_Headlow"
+      },
+      {
+        "x": 92.57948478614307,
+        "z": -95.72167969424186,
+        "role": "member",
+        "animation": "Eating"
+      },
+      {
+        "x": 95.33109123161516,
+        "z": -99.63643205033297,
+        "role": "member",
+        "animation": "Eating"
+      },
+      {
+        "x": 99.66293638913187,
+        "z": -100.91823627497172,
+        "role": "member",
+        "animation": "Eating"
+      },
+      {
+        "x": 103.85097968082006,
+        "z": -91.73597890300599,
+        "role": "member",
+        "animation": "Eating"
+      }
+    ]
+  },
+  "foalParentDistance": 1.7825854431450547,
+  "completedChapters": [
+    1,
+    2,
+    3
+  ],
+  "epiloguePosition": {
+    "x": 94.37373317482593,
+    "y": 21.397805864143628,
+    "z": -90.41397911660383
+  },
+  "renderObserved": {
+    "triangles": 146220,
+    "calls": 181
+  },
+  "actionTraceNote": "In this captured run, event.action is the current available interaction after the press; questId/effect identify the validated public objective action. Future recorder runs retain performedAction separately."
+}

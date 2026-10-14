@@ -1,0 +1,22 @@
+Source: https://github.com/luanti-org/minetest_game/tree/c42e4d0c0ff9d27ff7b9b308c3cfc14098dd3a0f/mods/env_sounds
+Verified source SHA256: 4c6a076478e5bf4ec28a5979a15d45327f4953091b589352640b242f7a9e3a8c
+
+# Minetest Game mod: env_sounds
+
+See `license.txt` for license information.
+
+## Authors of source code
+
+- paramat (MIT)
+
+## Authors of media (sounds)
+
+Yuval (CC0 1.0)
+https://freesound.org/people/Yuval/sounds/197023/
+
+- `env_sounds_water.*.ogg`
+
+Halion (CC0 1.0)
+https://freesound.org/people/Halion/sounds/17785/
+
+- `env_sounds_lava.*.ogg`

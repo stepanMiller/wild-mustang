@@ -119,6 +119,28 @@ test('neck counter-turn follows travel heading when slope quaternions fold the a
   }
 });
 
+test('foal and parent reactions stay independent while a freed foal rests upright beside grazing herd', async () => {
+  const { cast, foal } = await loadCast();
+  const baby = cast.horses.find(entry => entry.actor === foal);
+  const parent = cast.horses.find(entry => entry.actor.userData.familyRole === 'parent');
+  const others = cast.horses.filter(entry => entry.actor.userData.familyRole === 'member');
+  try {
+    cast.update(.02, { speed: 0, grounded: true, phase: 'quests', foalFreed: true,
+      gesture: 'graze', foalGesture: 'sniff', parentGesture: 'sniff', herdGesture: 'graze' });
+    assert.equal(cast.horses[0].state, 'Eating');
+    assert.equal(baby.state, 'Idle_Headlow');
+    assert.equal(parent.state, 'Idle_Headlow');
+    assert.ok(others.length > 0);
+    assert.ok(others.every(entry => entry.state === 'Eating'));
+    cast.update(.02, { speed: 0, grounded: true, phase: 'quests', foalFreed: true, herdGesture: 'graze' });
+    assert.equal(baby.state, 'Idle', 'A freed foal does not retain its worried head-low idle');
+    assert.equal(parent.state, 'Eating');
+    assert.ok(others.every(entry => entry.state === 'Eating'));
+    cast.update(.02, { speed: 0, grounded: true, phase: 'quests', foalFreed: false, herdGesture: 'graze' });
+    assert.equal(baby.state, 'Idle_Headlow', 'The unreleased foal retains its existing worried pose');
+  } finally { cast.dispose(); }
+});
+
 test('missing GLB resolves a fallback state without hiding the playable horses', async () => {
   const { cast, horse, foal } = await loadCast({}, true);
   assert.equal(cast.status.horse, 'fallback');

@@ -233,6 +233,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:32px;heigh
 #finishDetails .row label{font-size:13px;}
 #trustPct{display:none;}
 #tracker{width:245px;border-radius:0 18px 18px 0;}
+#btnListen{float:right;width:44px;height:44px;margin:-4px -4px 4px 8px;padding:7px;border-radius:50%;}
 #tracker p{font-size:17px;line-height:1.35;}
 #tracker span{font-size:13px;line-height:1.45;}
 @media(max-height:600px){#chapterTag{display:none;}#finish .panel{width:min(330px,44vw);padding:14px 18px;}#finish h2{font-size:26px;margin-bottom:8px;}#finish .sub{font-size:14px;margin-bottom:6px;}#finish .wide{min-height:48px;font-size:16px;}#finishDetails{margin-top:4px;}#tracker{width:190px;}}
@@ -262,10 +263,10 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:32px;heigh
     </div>
     <button class="btn pe" id="btnSkipTutorial" hidden>Я умею, к Алексу →</button>
     <div id="direction" hidden><b id="directionArrow">↑</b><span id="directionDistance"></span></div>
-    <div id="tracker">
+    <div id="tracker"><button class="btn pe" id="btnListen" aria-label="Повторить подсказку"><span class="ic"></span></button>
       <h4>Задание</h4>
       <p id="trackTitle">—</p>
-      <span id="trackSub"></span>
+      <span id="trackSub"></span><span id="voiceCaption" hidden aria-live="polite"></span>
     </div>
     <div id="hint"></div>
     <div id="toast"></div>
@@ -317,6 +318,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:32px;heigh
       <div class="row"><label>Громкость звуков</label><input type="range" id="volSfx" min="0" max="100" value="75"></div>
       <div class="row"><label>Чувствительность камеры</label><input type="range" id="camSens" min="20" max="200" value="100"></div>
       <div class="row"><label>Подсказки</label><div class="toggle on pe" id="tgHints"><i></i></div></div>
+      <div class="row"><label>Голосовые подсказки</label><div class="toggle on pe" id="tgVoice"><i></i></div></div>
       <div class="row"><label>Субтитры</label><div class="toggle on pe" id="tgSubs"><i></i></div></div>
       <div class="row"><label>Упрощённое управление</label><div class="toggle pe" id="tgEasy"><i></i></div></div>
       <div class="row"><label>Качество графики</label>
@@ -326,6 +328,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:32px;heigh
           <button class="pe" data-q="2">Высокое</button>
         </div>
       </div>
+      <a class="btn wide pe" href="./assets/licenses/audio-credits.html" target="_blank" rel="noopener">Авторы звука</a>
       <button class="btn wide primary pe" id="btnCloseSettings">Готово</button>
     </div>
   </div>

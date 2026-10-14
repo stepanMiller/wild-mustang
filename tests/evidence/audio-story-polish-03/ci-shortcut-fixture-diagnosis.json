@@ -1,0 +1,75 @@
+{
+  "run": 38552781727,
+  "head": "05557cb0032fa0f7b92aacfddc490e2b6eba3654",
+  "purpose": "Raw GitHub annotations diagnose the scripted helper failure; this is not a natural-route failure or successful validation.",
+  "checks": [
+    {
+      "project": "chromium-desktop",
+      "api": "https://api.github.com/repos/stepanMiller/wild-mustang/check-runs/115814503757/annotations",
+      "annotations": [
+        {
+          "annotation_level": "failure",
+          "message": "Process completed with exit code 1.",
+          "path": ".github",
+          "start_line": 213,
+          "title": ""
+        },
+        {
+          "annotation_level": "notice",
+          "message": "  1 failed\n    [chromium-desktop] › tests/story.spec.js:5:1 › Story all three chapters unlock, save, reunite and replay without losing completion \n  6 skipped\n  22 passed (12.6m)",
+          "path": ".github",
+          "start_line": 133,
+          "title": "🎭 Playwright Run Summary"
+        },
+        {
+          "annotation_level": "failure",
+          "message": "  1) [chromium-desktop] › tests/story.spec.js:5:1 › Story all three chapters unlock, save, reunite and replay without losing completion \n\n    Retry #1 ───────────────────────────────────────────────────────────────────────────────────────\n    Error: expect(received).not.toBe(expected) // Object.is equality\n\n    Expected: not 3\n\n    Call Log:\n    - Timeout 90000ms exceeded while waiting on the predicate\n\n       at helpers.js:75\n\n      73 |     await teleport(page, travel[0], travel[1]);\n      74 |     if (quest.kind === 'zone') {\n    > 75 |       await expect.poll(async () => (await state(page)).quest,{timeout:quest.id==='willow-crossing'?90_000:12_000}).not.toBe(current.quest);\n         |                                                                                                                         ^\n      76 |     } else {\n      77 |       await action(page);\n      78 |       // Some tasks have several visible actions (apples / moving branches).\n        at finishCurrentChapter (/home/runner/work/wild-mustang/wild-mustang/tests/helpers.js:75:121)\n        at /home/runner/work/wild-mustang/wild-mustang/tests/story.spec.js:20:5",
+          "path": "tests/helpers.js",
+          "start_line": 75,
+          "title": "[chromium-desktop] › tests/story.spec.js:5:1 › Story all three chapters unlock"
+        },
+        {
+          "annotation_level": "failure",
+          "message": "  1) [chromium-desktop] › tests/story.spec.js:5:1 › Story all three chapters unlock, save, reunite and replay without losing completion \n    Error: expect(received).not.toBe(expected) // Object.is equality\n\n    Expected: not 3\n\n    Call Log:\n    - Timeout 90000ms exceeded while waiting on the predicate\n\n       at helpers.js:75\n\n      73 |     await teleport(page, travel[0], travel[1]);\n      74 |     if (quest.kind === 'zone') {\n    > 75 |       await expect.poll(async () => (await state(page)).quest,{timeout:quest.id==='willow-crossing'?90_000:12_000}).not.toBe(current.quest);\n         |                                                                                                                         ^\n      76 |     } else {\n      77 |       await action(page);\n      78 |       // Some tasks have several visible actions (apples / moving branches).\n        at finishCurrentChapter (/home/runner/work/wild-mustang/wild-mustang/tests/helpers.js:75:121)\n        at /home/runner/work/wild-mustang/wild-mustang/tests/story.spec.js:20:5",
+          "path": "tests/helpers.js",
+          "start_line": 75,
+          "title": "[chromium-desktop] › tests/story.spec.js:5:1 › Story all three chapters unlock"
+        }
+      ]
+    },
+    {
+      "project": "webkit-ipad",
+      "api": "https://api.github.com/repos/stepanMiller/wild-mustang/check-runs/115814504087/annotations",
+      "annotations": [
+        {
+          "annotation_level": "failure",
+          "message": "Process completed with exit code 1.",
+          "path": ".github",
+          "start_line": 213,
+          "title": ""
+        },
+        {
+          "annotation_level": "notice",
+          "message": "  1 failed\n    [webkit-ipad] › tests/story.spec.js:5:1 › Story all three chapters unlock, save, reunite and replay without losing completion \n  6 skipped\n  22 passed (10.1m)",
+          "path": ".github",
+          "start_line": 133,
+          "title": "🎭 Playwright Run Summary"
+        },
+        {
+          "annotation_level": "failure",
+          "message": "  1) [webkit-ipad] › tests/story.spec.js:5:1 › Story all three chapters unlock, save, reunite and replay without losing completion \n\n    Retry #1 ───────────────────────────────────────────────────────────────────────────────────────\n    Error: expect(received).not.toBe(expected) // Object.is equality\n\n    Expected: not 3\n\n    Call Log:\n    - Timeout 90000ms exceeded while waiting on the predicate\n\n       at helpers.js:75\n\n      73 |     await teleport(page, travel[0], travel[1]);\n      74 |     if (quest.kind === 'zone') {\n    > 75 |       await expect.poll(async () => (await state(page)).quest,{timeout:quest.id==='willow-crossing'?90_000:12_000}).not.toBe(current.quest);\n         |                                                                                                                         ^\n      76 |     } else {\n      77 |       await action(page);\n      78 |       // Some tasks have several visible actions (apples / moving branches).\n        at finishCurrentChapter (/home/runner/work/wild-mustang/wild-mustang/tests/helpers.js:75:121)\n        at /home/runner/work/wild-mustang/wild-mustang/tests/story.spec.js:20:5",
+          "path": "tests/helpers.js",
+          "start_line": 75,
+          "title": "[webkit-ipad] › tests/story.spec.js:5:1 › Story all three chapters unlock"
+        },
+        {
+          "annotation_level": "failure",
+          "message": "  1) [webkit-ipad] › tests/story.spec.js:5:1 › Story all three chapters unlock, save, reunite and replay without losing completion \n    Error: expect(received).not.toBe(expected) // Object.is equality\n\n    Expected: not 3\n\n    Call Log:\n    - Timeout 90000ms exceeded while waiting on the predicate\n\n       at helpers.js:75\n\n      73 |     await teleport(page, travel[0], travel[1]);\n      74 |     if (quest.kind === 'zone') {\n    > 75 |       await expect.poll(async () => (await state(page)).quest,{timeout:quest.id==='willow-crossing'?90_000:12_000}).not.toBe(current.quest);\n         |                                                                                                                         ^\n      76 |     } else {\n      77 |       await action(page);\n      78 |       // Some tasks have several visible actions (apples / moving branches).\n        at finishCurrentChapter (/home/runner/work/wild-mustang/wild-mustang/tests/helpers.js:75:121)\n        at /home/runner/work/wild-mustang/wild-mustang/tests/story.spec.js:20:5",
+          "path": "tests/helpers.js",
+          "start_line": 75,
+          "title": "[webkit-ipad] › tests/story.spec.js:5:1 › Story all three chapters unlock"
+        }
+      ]
+    }
+  ]
+}

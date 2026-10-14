@@ -153,10 +153,10 @@ function buildHorse(THREE, actor, gltf, role, index) {
       } else {
         if (!lastGrounded) blendBack = elapsed + 0.18;
         const gesturing = input.gesture === 'graze' || input.gesture === 'sniff';
-        let desired = speed < 0.18 ? (gesturing ? 'Eating' : 'Idle')
+        let desired = speed < 0.18 ? (input.gesture==='graze'?'Eating':input.gesture==='sniff'?'Idle_Headlow':'Idle')
           : speed < 3.8 ? 'Walk' : speed < 7.8 ? 'Trot' : 'Gallop';
-        if (role === 'herd' && speed < 0.18) desired = 'Eating';
-        if (role === 'foal' && speed < 0.18 && input.phase === 'quests') desired = 'Idle_Headlow';
+        if (role === 'herd' && speed < 0.18 && !gesturing) desired = 'Eating';
+        if (role === 'foal' && speed < 0.18 && input.phase === 'quests' && !input.freed && !gesturing) desired = 'Idle_Headlow';
         if (speed < 0.18 && !gesturing && role === 'hero' && Math.floor(elapsed / 9) % 3 === 2) desired = 'Idle_2';
         if (!blendBack || elapsed > blendBack || lastGrounded) {
           if (state !== desired || current.loop === THREE.LoopOnce) play(desired);
@@ -248,7 +248,8 @@ export function attachCharacters({ THREE, horse, foal, herd, alex, onReady, asse
     ready, status, horses, alex: human,
     update(dt, input = {}) {
       horses.forEach((entry) => entry.update(dt, entry.actor === horse ? input : { phase: input.phase,
-        gesture: input.herdGesture, grounded: true }));
+        gesture: entry.actor===foal?input.foalGesture:entry.actor.userData.familyRole==='parent'?(input.parentGesture ?? input.herdGesture):input.herdGesture,
+        freed:input.foalFreed,grounded:true }));
       human?.update(dt, { phase: input.phase, gesture: input.alexGesture });
     },
     dispose() {

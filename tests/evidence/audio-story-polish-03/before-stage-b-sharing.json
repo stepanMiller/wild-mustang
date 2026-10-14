@@ -1,0 +1,160 @@
+{
+  "sourceURL": "http://127.0.0.1:4182/wild-mustang/",
+  "capturedUTC": "2026-10-14T10:27:58.986Z",
+  "method": "A single valid chapter2 quest4 checkpoint is seeded before loading frozen Stage B; public Continue only, no action, teleport, input, animation or cinematic injection. This visual before comparison is separate from natural-route evidence.",
+  "verifiedFiles": [
+    {
+      "path": "index.html",
+      "bytes": 24905,
+      "sha256": "104de930983e3997986c4a996df31f434ee59b79c5db4ce566fd85018e468d78",
+      "matchesFrozenStageB": true
+    },
+    {
+      "path": "assets/game-CnPFdERh.js",
+      "bytes": 157363,
+      "sha256": "063e62606e7ba1247c9953280ece90ce1a478575e7136677b300446fe0505799",
+      "matchesFrozenStageB": true
+    },
+    {
+      "path": "assets/three-BL-DKq3J.js",
+      "bytes": 600807,
+      "sha256": "5e3507a10f824375a1f65e00dd8a4d20c236826e1701798dc65637137f077c12",
+      "matchesFrozenStageB": true
+    },
+    {
+      "path": "assets/index-L16GBNtV.js",
+      "bytes": 2167,
+      "sha256": "d1f6a0c007a4cac6a20cb5736ab865f8fba695ed4c4f7560026d7479c7127fef",
+      "matchesFrozenStageB": true
+    },
+    {
+      "path": "assets/characters/horse.glb",
+      "bytes": 761596,
+      "sha256": "591007f38ed01f46a2141806abd2500c34b90eb3e509ce7ee56cf46d440508d3",
+      "matchesFrozenStageB": true
+    }
+  ],
+  "errors": [],
+  "loadedAssets": [
+    "/wild-mustang/assets/index-L16GBNtV.js",
+    "/wild-mustang/assets/game-CnPFdERh.js",
+    "/wild-mustang/assets/three-BL-DKq3J.js",
+    "/wild-mustang/assets/characters/horse.glb"
+  ],
+  "seededCheckpoint": {
+    "version": 2,
+    "completedChapters": [
+      1
+    ],
+    "settings": {
+      "quality": 1
+    },
+    "checkpoint": {
+      "chapter": 2,
+      "x": 27,
+      "z": 75,
+      "heading": 1.5707963267948966,
+      "quest": 4,
+      "trust": 80,
+      "apples": 0,
+      "taken": [
+        true,
+        true,
+        true
+      ],
+      "phase": "quests",
+      "alexFollows": true,
+      "foalFreed": true,
+      "freeProgress": 0,
+      "questSteps": 0,
+      "tutStep": 0,
+      "playTime": 0
+    }
+  },
+  "snapshot": {
+    "phase": "quests",
+    "chapter": 2,
+    "quest": 4,
+    "tutStep": 0,
+    "trust": 80,
+    "apples": 0,
+    "freeProgress": 0,
+    "foalFreed": true,
+    "position": {
+      "x": 27,
+      "y": 11.30584282279433,
+      "z": 75
+    },
+    "grounded": true,
+    "speed": 0,
+    "paused": false,
+    "heading": 1.5707963267948966,
+    "camera": {
+      "yaw": 4.71238898038469,
+      "pitch": 0.22,
+      "dist": 11.5,
+      "position": {
+        "x": 15.777179332698037,
+        "y": 18.01548348822433,
+        "z": 75
+      },
+      "look": {
+        "x": 27,
+        "y": 13.705842822794331,
+        "z": 75
+      }
+    },
+    "characters": {
+      "horse": "rigged",
+      "foal": "rigged",
+      "herd": "rigged",
+      "alex": "rigged",
+      "error": null
+    },
+    "gaits": [
+      "Eating",
+      "Walk",
+      "Eating",
+      "Eating",
+      "Eating",
+      "Eating",
+      "Eating"
+    ],
+    "world": {
+      "rescuePieces": 0,
+      "heroUp": [
+        -0.007834307243693266,
+        0.9982009702906354,
+        0.05944280058043852
+      ],
+      "terrainUp": [
+        -0.007834307243693264,
+        0.9982009702906351,
+        0.059442800580438514
+      ]
+    },
+    "inputs": {
+      "x": 0,
+      "y": 0,
+      "gallop": false,
+      "jump": false
+    },
+    "completedChapters": [
+      1
+    ],
+    "action": "Поделиться яблоком",
+    "render": {
+      "calls": 34,
+      "triangles": 137162
+    },
+    "settings": {
+      "music": 0.55,
+      "sfx": 0.75,
+      "camSens": 1,
+      "hints": true,
+      "subs": true,
+      "easy": false,
+      "quality": 1
+    }
+  }
+}
