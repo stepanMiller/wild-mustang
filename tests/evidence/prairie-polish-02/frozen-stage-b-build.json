@@ -1,0 +1,83 @@
+{
+  "server": "http://127.0.0.1:4182/wild-mustang/",
+  "capturedUTC": "2026-10-14T09:43:20.823740+00:00",
+  "method": "HTTP bytes matched to frozen dist; source extracted from its game source map",
+  "files": [
+    {
+      "path": "index.html",
+      "bytes": 24905,
+      "sha256": "104de930983e3997986c4a996df31f434ee59b79c5db4ce566fd85018e468d78",
+      "httpMatchesFrozenFile": true
+    },
+    {
+      "path": "assets/game-CnPFdERh.js",
+      "bytes": 157363,
+      "sha256": "063e62606e7ba1247c9953280ece90ce1a478575e7136677b300446fe0505799",
+      "httpMatchesFrozenFile": true
+    },
+    {
+      "path": "assets/three-BL-DKq3J.js",
+      "bytes": 600807,
+      "sha256": "5e3507a10f824375a1f65e00dd8a4d20c236826e1701798dc65637137f077c12",
+      "httpMatchesFrozenFile": true
+    },
+    {
+      "path": "assets/index-L16GBNtV.js",
+      "bytes": 2167,
+      "sha256": "d1f6a0c007a4cac6a20cb5736ab865f8fba695ed4c4f7560026d7479c7127fef",
+      "httpMatchesFrozenFile": true
+    },
+    {
+      "path": "assets/characters/horse.glb",
+      "bytes": 761596,
+      "sha256": "591007f38ed01f46a2141806abd2500c34b90eb3e509ce7ee56cf46d440508d3",
+      "httpMatchesFrozenFile": true
+    }
+  ],
+  "sources": [
+    {
+      "path": "src/navigation.js",
+      "sha256": "775c7d6c405fa219afbfa02ddf64fab83eb910077f7f260d9dea14c3646685a3"
+    },
+    {
+      "path": "src/camera.js",
+      "sha256": "bb814827c09c59659a41fef946c1a23bdfc68abc4ae41a92a35eee215df528d0"
+    },
+    {
+      "path": "src/scene-style.js",
+      "sha256": "e7bfa7c22284d6f553f943ce63a2d314186b69e45274b4dc4f0d9216188e19cf"
+    },
+    {
+      "path": "src/ui-icons.js",
+      "sha256": "672efdeabc0250425966269ce6745cc861e6555a3d3a4dce2371ce0f50ff216d"
+    },
+    {
+      "path": "src/contact-shadows.js",
+      "sha256": "c2255293dcbe0cb3b3ae26f50da8791743e3e9597ed3888028a6818df15597e0"
+    },
+    {
+      "path": "src/characters/alex.js",
+      "sha256": "5a9fd9a750febd79460c71c6373073d4e4eb346632e6ff5380ceab66d107acad"
+    },
+    {
+      "path": "src/characters/characters.js",
+      "sha256": "b1fa1ec93fe808858f3910f8c216dbced93abd18a3319c150e5b9864d3eca6b6"
+    },
+    {
+      "path": "src/story/chapters.js",
+      "sha256": "ab066ab7c71af8e18e0fb36eeea4f87a166e92cf0adc885437dc8786c8df6c91"
+    },
+    {
+      "path": "src/story/environment.js",
+      "sha256": "fcdeae884b35ea7596c9f61ffbde4a1b929869b9b3ea242aee9c9cc6b9f4d4c8"
+    },
+    {
+      "path": "src/persistence.js",
+      "sha256": "79e0e511a2e35bef7ba20a64454666c62aa3a02ad32d5731fb84fe1c2eceed47"
+    },
+    {
+      "path": "src/game.js",
+      "sha256": "aa72be4a83406b47393d8d5d49e9940dadf33e5fdfb46e42a961bc231999ee00"
+    }
+  ]
+}
