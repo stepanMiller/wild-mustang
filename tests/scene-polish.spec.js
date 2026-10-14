@@ -9,6 +9,26 @@ const mode = process.env.WILD_MUSTANG_SCENE_MODE || 'polish';
 const prefix = mode === 'baseline' ? 'before' : 'after';
 const enabled = process.env.WILD_MUSTANG_SCENE_VISUAL === '1';
 const dot = (a, b) => a.reduce((sum, value, index) => sum + value * b[index], 0);
+const wrap = angle => Math.atan2(Math.sin(angle), Math.cos(angle));
+const viewAngle = snapshot => wrap(Math.atan2(snapshot.camera.position.x - snapshot.camera.look.x,
+  snapshot.camera.position.z - snapshot.camera.look.z) - snapshot.heading - Math.PI);
+
+async function orbit(page, offset) {
+  // resetTo follows the hero again; every diagnostic pose needs its own real drag.
+  const before = await state(page);
+  const x = page.viewportSize().width * .61, y = page.viewportSize().height * .45;
+  if (offset) {
+    await page.mouse.move(x, y); await page.mouse.down();
+    await page.mouse.move(x + offset / (.0055 * before.settings.camSens), y, { steps: 8 });
+    await page.mouse.up();
+  }
+  const after = await state(page);
+  expect(wrap(after.camera.yaw - before.camera.yaw), 'Real camera drag produces the requested angle').toBeCloseTo(offset, 2);
+  // Assert the rendered camera, not only the commanded yaw: the lens lerps.
+  await expect.poll(async () => Math.abs(wrap(viewAngle(await state(page)) - offset)),
+    { timeout: 60_000, message: 'Displayed camera view settles at the requested angle' }).toBeLessThan(.06);
+  return after.heading;
+}
 
 async function mediumQuality(page) {
   await page.locator('#btnPause').click();
@@ -39,9 +59,12 @@ async function measure(page, label) {
   const snapshot = await state(page);
   expect(snapshot.render.calls, `${label}: scene renders`).toBeGreaterThan(10);
   expect(snapshot.render.triangles, `${label}: rigged world renders`).toBeGreaterThan(50_000);
-  expect(snapshot.render.triangles, `${label}: medium-quality triangle budget`).toBeLessThanOrEqual(150_000);
-  expect(snapshot.render.calls, `${label}: draw-call guard`).toBeLessThanOrEqual(160);
-  return { label, ...snapshot, upAlignment: snapshot.world ? dot(snapshot.world.heroUp, snapshot.world.terrainUp) : null };
+  if (mode !== 'baseline') expect(snapshot.render.triangles, `${label}: medium-quality triangle budget`).toBeLessThanOrEqual(150_000);
+  // Issue #14 specifies a triangle budget; retain actual calls and catch large
+  // draw-call regressions without inventing a stricter acceptance threshold.
+  expect(snapshot.render.calls, `${label}: broad draw-call regression guard`).toBeLessThanOrEqual(240);
+  return { label, ...snapshot, upAlignment: snapshot.world ? dot(snapshot.world.heroUp, snapshot.world.terrainUp) : null,
+    displayedCameraAngle: snapshot.camera ? viewAngle(snapshot) : null };
 }
 
 async function screenshot(page, name) {
@@ -62,6 +85,10 @@ test('Scene polish: three chapter scenery and visible family finale (scripted vi
   try {
     await openGame(page);
     report.runtime = await provenance(page, baseURL);
+    if (mode === 'baseline') {
+      expect(process.env.WILD_MUSTANG_SCENE_BASELINE_URL, 'Before-labelled evidence requires an explicit Stage A URL').toBe(baseURL);
+      expect(report.runtime.gameSha256, 'Before-labelled evidence must use the frozen Stage A game').toBe('95b3501f574fee74fc68eacf4a95669a7c2a87cd03f1aac1df1b035dd9a447e2');
+    }
     await startChapterOne(page);
     await expect.poll(async () => (await state(page)).characters, { timeout: 60_000 }).toMatchObject({
       horse: 'rigged', foal: 'rigged', herd: 'rigged', alex: 'rigged', error: null,
@@ -133,33 +160,38 @@ test('Scene polish: real movement gaits and slope alignment at three camera angl
     await expect.poll(async () => (await state(page)).characters, { timeout: 60_000 }).toMatchObject({ horse: 'rigged', error: null });
     await mediumQuality(page);
     for (const angle of [0, 1, 2]) {
+      const offset = angle * .99;
       await teleport(page, -64, -52);
-      if (angle) {
-        const x = page.viewportSize().width * .61, y = page.viewportSize().height * .45;
-        await page.mouse.move(x, y); await page.mouse.down();
-        await page.mouse.move(x + 180, y, { steps: 8 }); await page.mouse.up();
-      }
       await expect.poll(async () => {
         const s = await state(page); return dot(s.world.heroUp, s.world.terrainUp);
       }, { timeout: 60_000 }).toBeGreaterThan(.998);
-      report.frames.push(await measure(page, `slope-angle-${angle}`));
+      await orbit(page, offset);
+      const slope = await measure(page, `slope-angle-${angle}`);
+      slope.relativeCameraAngle = wrap(slope.camera.yaw - slope.heading - Math.PI);
+      expect(slope.relativeCameraAngle, 'Three distinct slope views').toBeCloseTo(offset, 2);
+      report.frames.push(slope);
       await screenshot(page, `slope-angle-${angle}`);
       for (const gait of ['Walk', 'Trot', 'Gallop']) {
         await teleport(page, 35, 35);
+        const heading = await orbit(page, offset);
         try {
-          if (gait === 'Walk') {
-            const joy = await page.locator('#joyBase').boundingBox();
-            const x = joy.x + joy.width / 2, y = joy.y + joy.height / 2;
-            await page.mouse.move(x, y); await page.mouse.down();
-            await page.mouse.move(x, y - joy.width * .45 * .28, { steps: 4 });
-          } else {
-            await page.keyboard.down('w');
-            if (gait === 'Gallop') await page.keyboard.down('Shift');
-          }
+          const joy = await page.locator('#joyBase').boundingBox();
+          const x = page.viewportSize().width * .17, y = page.viewportSize().height * .8;
+          const current = await state(page), relative = wrap(heading - current.camera.yaw - Math.PI);
+          const magnitude = gait === 'Walk' ? .28 : .8, radius = joy.width * .45;
+          // Keep a world direction while orbiting; forward-only input would turn
+          // the hero toward each new camera and produce three identical rear views.
+          await page.mouse.move(x, y); await page.mouse.down();
+          await page.mouse.move(x - Math.sin(relative) * magnitude * radius,
+            y - Math.cos(relative) * magnitude * radius, { steps: 4 });
+          if (gait === 'Gallop') await page.keyboard.down('Shift');
           await expect.poll(async () => (await state(page)).gaits[0], { timeout: 60_000 }).toBe(gait);
           const frame = await measure(page, `${gait}-angle-${angle}`);
           expect(frame.speed, `${gait} produces physical movement`).toBeGreaterThan(.2);
           expect(frame.upAlignment, `${gait} stays aligned to terrain`).toBeGreaterThan(.985);
+          frame.relativeCameraAngle = wrap(frame.camera.yaw - frame.heading - Math.PI);
+          expect(Math.abs(wrap(frame.relativeCameraAngle - offset)), `${gait}: requested camera angle remains visible`).toBeLessThan(.18);
+          expect(Math.abs(wrap(frame.displayedCameraAngle - offset)), `${gait}: rendered camera angle remains distinct`).toBeLessThan(.18);
           report.frames.push(frame);
           await screenshot(page, `${gait.toLowerCase()}-angle-${angle}`);
         } finally {

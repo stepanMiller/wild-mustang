@@ -186,3 +186,33 @@ Final PR [run 38405277258](https://github.com/stepanMiller/wild-mustang/actions/
 At 14:00 UTC the canonical public URL https://stepanmiller.github.io/wild-mustang/ returned 200. Public HTML, release.json, three runtime JS bundles and horse GLB matched the production build byte for byte by SHA-256. The manifest names runtime source commit `59528870f2949864fac824ebd09d08789e278d19`; `src/game.js` SHA-256 is `cbe6a458c67e6208d7035e430e75ba8b967c6fbb169dcee5853f51d88cde66b2`.
 
 Public Chromium at 1024 x 768 exercised new game, tutorial skip, pause, menu, save and Continue. The model returned 200, save version was 2, QA hooks were undefined, and there were zero uncaught JavaScript/console errors or failed HTTP responses. This check used the execution environment's network proxy and a desktop tablet viewport. Actual iPad Safari, hardware FPS, independent child navigation and natural chapter durations remain unverified. Issues #8 and #9 track those manual gates.
+
+## Issue #14 Stage B evidence — 14 October 2026
+
+Feature branch `codex/prairie-polish-02`, stacked on Stage A. The three existing
+terrain height functions, quest routes and saves remain. One prairie tree moves
+from (22,34) to (27,39), with its matching movement collider, to clear the initial
+wide camera. Other movement obstacles remain at their previous seeded positions.
+Camera-only bounds include the actual global and chapter foliage, with finite
+lower/upper limits so a view can still pass below a crown.
+
+Production build and 33 unit checks pass. The integrated B WebKit suite passed
+18 relevant scenarios (4 explicit skips), including full chapter/reload/replay.
+After finite canopy bounds and the medium grass adjustment, all five WebKit
+camera/performance focus scenarios passed again; the subsequent tree relocation
+is covered by final screenshot capture and CI.
+
+The first visual run found an opaque canopy at spawn and 151,603 triangles in
+the first ending. These were fixed; assertions for the 150,000 medium triangle
+budget remain. Medium grass is 4,000 blades; low/high presets remain supported.
+Provisional draw-call ceiling was calibrated separately from the issue's actual
+physical FPS gate; actual counts and matching before/after runtime hashes are
+recorded rather than inferred from object counts. Final scene/gait captures use
+explicitly scripted pose setup, with public controls for movement and camera.
+They do not substitute for the native three-chapter route recorded under Stage A.
+
+Matched before frames: `tests/evidence/prairie-polish-02/before-*`; after frames
+and JSON are added after the final visual run. The former finish card covers
+37.53% of the tablet viewport and uses blur(14px); B covers about 12.02%, no blur,
+with statistics collapsed by default. Physical Safari/FPS and child play remain
+unverified. Original local geometry uses project MIT; no external art or cost.
