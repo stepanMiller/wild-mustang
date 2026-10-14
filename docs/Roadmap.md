@@ -52,8 +52,8 @@ Stage A is implemented on `codex/ipad-polish-01`, based on main `188f152`. The p
 - [x] Add ten camera unit checks and four cross-engine touch/camera regressions; focused Chromium tablet checks pass.
 - [x] Fix the confirmed missing favicon request with a local original SVG.
 - [x] All 56 relevant Chromium desktop/tablet and WebKit tablet scenarios pass; two desktop timing-only retries use the documented single-process runner.
-- [ ] Record a complete three-chapter journey through native touch controls, save/reload and natural cinematics, with no teleport or simulation/input mutation.
-- [ ] Open Stage A PR with before/after evidence and exact validation limits.
+- [x] Complete three-chapter native touch journey, both fords, save/reload, natural cinematics and epilogue passed in 19.6 minutes of automated software-runner wall time; no teleport or simulation/input mutation.
+- [x] Open Stage A PR #15 with before/after evidence, frozen build hashes and exact validation limits.
 - [ ] Stage B: distinctive scene art, locomotion presentation and a compact emotional ending, in its own PR after Stage A.
 - [ ] Stage C: verified local natural audio/Russian cues and expressive companion scenes, in its own PR after Stage B.
 

@@ -38,9 +38,23 @@ native multi-contact input protocol, real joystick/buttons, public quality
 settings, public pause/Continue, and normal cinematic timing. Read-only diagnostic
 positions, route definitions, collider geometry and saved partial progress guide
 the automated driver; no game state/input/save/cinematic injection is permitted.
-It does not measure independent child comprehension. Failed harness attempts
-must be distinguished from game defects; the complete successful protocol is
-required before marking the natural journey passed.
+It does not measure independent child comprehension. A complete fresh journey
+passed 1/1 in 19.6 minutes of automated wall time with the documented single-
+process runner and a sole software renderer: all 18 objectives, both fords,
+first-goal save/reload/Continue, three normal cinematics, reunion, completion
+`[1,2,3]` and real joystick movement in the epilogue. No page/console errors,
+teleports, injected inputs/checkpoints, unstuck or cinematic fast-forward occurred.
+The public quality menu selected the low preset after the initial normal-quality
+menu/start screenshots. See `after-natural-route.json`, driver preflight and
+frozen build hashes under `tests/evidence/ipad-polish-01/`.
+
+This wall time includes automated path observation/steering and software GPU
+latency; it does not establish 10–15 minutes per chapter on iPad or a child
+playthrough. Earlier incomplete harness runs exposed empty-contact cancellation
+and a final-action phase predicate; these were corrected in the driver while
+shipping gameplay remained unchanged. Baseline visual comparison uses a separately
+guarded, explicitly scripted diagnostic capture and is not counted as natural
+play.
 
 Playwright WebKit 26.5 is installed in the workspace cache. Its missing Debian
 libraries were obtained from signed Release/Packages metadata, SHA256 checked,

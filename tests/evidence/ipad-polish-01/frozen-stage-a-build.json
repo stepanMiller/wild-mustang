@@ -28,10 +28,18 @@
     "src/game.js": "7ce6fa7534832e0254a18d36edccadb852ce8e754f588c62abca36704d74cd17",
     "src/camera.js": "3e362889f144e77e19164d95f7a3409f2918677fccbbc610e71c8f3d30881ffc",
     "src/story/chapters.js": "ab066ab7c71af8e18e0fb36eeea4f87a166e92cf0adc885437dc8786c8df6c91",
-    "index.html": "ad5d9d589349ba80e7f53d898d6d112bfd49702732c628b244e2dc6742071569"
+    "index.html": "ad5d9d589349ba80e7f53d898d6d112bfd49702732c628b244e2dc6742071569",
+    "src/navigation.js": "775c7d6c405fa219afbfa02ddf64fab83eb910077f7f260d9dea14c3646685a3",
+    "src/ui-icons.js": "672efdeabc0250425966269ce6745cc861e6555a3d3a4dce2371ce0f50ff216d",
+    "src/contact-shadows.js": "c041edae7c9d77ab212f21ff6d89f8d486266a42b7b437bfb2c8a4013c5533f7",
+    "src/characters/alex.js": "5a9fd9a750febd79460c71c6373073d4e4eb346632e6ff5380ceab66d107acad",
+    "src/characters/characters.js": "aa608b6544bdb3ed27b0f80cdd0c99c41de2ccddc22d26668fc3fa6be5f5a5ac",
+    "src/story/environment.js": "8b93c9f91e4c6965f61cf4dd0ac402b6de671b7bb5dea240da175fdf8a9d41b7",
+    "src/persistence.js": "79e0e511a2e35bef7ba20a64454666c62aa3a02ad32d5731fb84fe1c2eceed47"
   },
   "sourceSnapshot": "/workspace/.cache/wild-mustang-qa/frozen-stage-a-source",
   "entryBundle": "assets/index-CmM8VezL.js",
   "note": "index is the HTML entry bundle; all runtime JS chunks and GLB assets were fetched and compared to the frozen distribution.",
-  "sourceMapVerification": "game.js, camera.js and story/chapters.js snapshots match the frozen runtime source map byte-for-byte"
+  "sourceMapVerification": "All bundled project src modules were preserved from the frozen runtime source map, independently of later checkout changes; initial index.html snapshot was captured before Stage B.",
+  "projectSourceModulesFromFrozenMap": 10
 }
