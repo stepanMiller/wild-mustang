@@ -629,8 +629,12 @@ function narrateGuide(force=false){
   if(!force && lastNarration===key)return;
   if(A.status().context!=='running')return;
   lastNarration=key;const generation=++narrationGeneration;
-  if(S.subs && AUDIO_CUE_TEXT[id])say('Алекс',AUDIO_CUE_TEXT[id]);
   if(S.voice)A.playCue(id).then(played=>{if(!played&&generation===narrationGeneration&&lastNarration===key)lastNarration=null;});
+}
+function updateVoiceCaption(){
+  const id=A.cue,caption=$('#voiceCaption'),shown=!!id && S.subs && !G.paused;
+  caption.hidden=!shown;$('#trackSub').hidden=shown;
+  if(shown && caption.textContent!==AUDIO_CUE_TEXT[id])caption.textContent=AUDIO_CUE_TEXT[id];
 }
 function initAudio(){
   A.reset();lastNarration=null;A.setSettings(S);
@@ -1489,6 +1493,8 @@ function animate(){
     if(cineT>CINE.length*4.2+2.5 && !G.finished && !G.paused) finishChapter();
   }
 
+  updateVoiceCaption();
+
   /* --- UI обновления --- */
   $('#staminaFill').style.width = (G.stamina/G.staminaMax*100)+'%';
   $('#trustFill').style.width = G.trust+'%';
@@ -1556,7 +1562,7 @@ if((import.meta.env.DEV || __TEST_MODE__) && ['localhost','127.0.0.1'].includes(
       inputs:{x:IN.move.x,y:IN.move.y,gallop:IN.gallop,jump:IN.jump},completedChapters:G.completedChapters.slice(),
       audio:A.status(),presentation:companionScenes.inspect(),
       companions:{foal:{x:foal.position.x,z:foal.position.z,animation:foal.userData.animationState},
-        alex:{x:alex.position.x,z:alex.position.z,animation:cast.alex?.state},
+        alex:{x:alex.position.x,z:alex.position.z,animation:cast.alex?.root.userData.animation},
         herd:herd.children.map(h=>({x:h.position.x,z:h.position.z,role:h.userData.familyRole,animation:h.userData.animationState}))},
       action:nearestAction()?.label,render:{calls:renderer.info.render.calls,triangles:renderer.info.render.triangles},settings:{...S}}),
     teleport:resetTo,target:questTarget,terrain:hAt,

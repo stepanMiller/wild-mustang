@@ -58,6 +58,9 @@ test('Local Russian guidance unlocks, ducks background, repeats, and survives pa
     return spoken.cueStarts > beforeRepeat && spoken.musicDucked;
   }).toBe(true);
   expect(spoken.cue).toBe('tutorial-move');
+  await expect(page.locator('#voiceCaption')).toHaveText('Двигай круг слева. Ветер пойдёт.');
+  await expect(page.locator('#voiceCaption')).toBeVisible();
+  await expect(page.locator('#dlgText')).toContainText('Гроза стихла');
   expect(spoken.cueDuration, 'Decoded recorded cue lasts several seconds').toBeGreaterThan(2);
   expect(spoken.sampleRate).toBeGreaterThanOrEqual(24000);
   await expect.poll(async () => (await audioState(page)).cue).toBeNull();

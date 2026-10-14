@@ -443,5 +443,5 @@ export function createAdventureAudio({
     });
   }
 
-  return Object.freeze({ unlock, resume: unlock, pause, reset, playCue, playEffect, playStep, playChime, setSettings, setEnvironment, status, dispose });
+  return Object.freeze({ get cue(){return voiceId;}, unlock, resume: unlock, pause, reset, playCue, playEffect, playStep, playChime, setSettings, setEnvironment, status, dispose });
 }
