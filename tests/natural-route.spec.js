@@ -233,7 +233,7 @@ test('Natural route: real touch movement completes all three chapters, reload an
               s.freeProgress !== originalRescue || s.questSteps !== originalSteps;
           }).toBe(true);
           await expect(page.locator('#btnAct')).toBeEnabled({ timeout: 90_000 });
-          await trace('public-objective-action', { questId: quest.id, effect: quest.effect, action: expected });
+          await trace('public-objective-action', { questId: quest.id, effect: quest.effect, performedAction: expected });
           if (storyTrace && (await state(page)).presentation?.effect === quest.effect
             && ['foal-freed', 'meadow-rest', 'mountain-obstacle'].includes(quest.effect)) {
             await reaction(quest.effect, `reaction-${quest.effect}`);
