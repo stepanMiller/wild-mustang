@@ -282,8 +282,7 @@ GitHub reporter annotations confirmed it in CI. The driver now uses public
 Pause → Menu → Continue at the existing west-bank checkpoint, asserts unchanged
 chapter/phase/quest/completion/trust/inventory/rescue/heading/position, then moves
 only the hero to the next target. Both companions still cross through ordinary
-game code. No shipping behavior, NPC speed, quality preset, poll or scenario
-limit was changed. The corrected CFT151 full-story scenario passed 1/1 in 4.4
+game code. No shipping behavior, NPC speed, poll or scenario limit was changed. The corrected CFT151 full-story scenario passed 1/1 in 4.4
 minutes (4.5-minute runner total), including all chapters and replay. Natural
 touch evidence remains independent and unchanged.
 
@@ -294,6 +293,23 @@ now discovers 29 scenarios per profile (opt-in/engine-specific skips apply), so
 the job cap is 30 minutes to include install/build and the larger software-
 rendered browser run. Per-scenario and assertion limits remain unchanged. The
 whole matrix is rerun on this configuration before review readiness.
+
+With the 30-minute job budget, run 38557587397 passed 23 desktop and 23 WebKit
+scenarios without retries. Chromium tablet passed its other 24 scenarios; the
+full-story case hit its global 300-second limit while replaying chapter two,
+after completing the initial three chapters, epilogue and reload. The annotation
+identifies `story.spec.js`'s replay call, not an exhausted 90-second crossing
+poll. Both attempts reached that same scope; the raw annotations are retained in
+`tests/evidence/audio-story-polish-03/ci-replay-timeout-diagnosis.json`.
+
+Only this long 24-objective story/replay case now selects the public low graphics
+preset through the settings menu and asserts the applied setting. Progress,
+save/Continue, companions, every assertion and all scenario/poll limits remain
+unchanged. Fresh per-test contexts leave UI/camera/characters/performance and the
+new companion scenarios on default medium quality. The corrected CFT151 full
+story/replay passed 1/1 in 3.0 minutes. These story screenshots are low quality;
+medium visual budgets/captures remain separate evidence. No physical FPS claim
+follows from the software-runner timing.
 
 PR #17 remains subject to the GitHub checks on its final head before it is marked
 ready. No physical Safari, hardware FPS, independent child navigation, human

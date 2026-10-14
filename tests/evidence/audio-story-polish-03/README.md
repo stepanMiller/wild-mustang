@@ -43,3 +43,10 @@ Pause/Menu/Continue and checks preserved progress before moving only the hero
 ahead. Companions still cross through ordinary game code; no shipping logic or
 timeout changed. CFT151 full story/replay then passed 1/1 in 4.4 minutes. This
 fixture repair does not alter the natural protocol above.
+
+The later [tablet CI timeout](ci-replay-timeout-diagnosis.json) occurred at the
+300-second whole-story limit during chapter-two replay, after the initial ending
+and reload. Only that scripted 24-objective test now selects the public low
+preset in the menu; other checks retain default medium quality. All assertions
+and timeouts remain, and CFT151 story/replay then passed in 3.0 minutes. The
+natural journey already used public low quality; its protocol is unchanged.

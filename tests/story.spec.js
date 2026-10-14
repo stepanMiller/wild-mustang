@@ -7,6 +7,13 @@ test('Story all three chapters unlock, save, reunite and replay without losing c
   const errors = [];
   page.on('pageerror', error => errors.push(error.message));
   await openGame(page);
+  // This long story/replay check exercises 24 objectives on a software GPU.
+  // Use the supported public low preset; UI, camera, character and performance
+  // scenarios continue to cover the default medium preset independently.
+  await page.locator('#btnSettings1').click();
+  await page.locator('[data-q="0"]').click();
+  await page.locator('#btnCloseSettings').click();
+  expect((await state(page)).settings.quality).toBe(0);
   await page.locator('#btnChapters').click();
   await expect(page.locator('[data-chapter="1"]')).toBeEnabled();
   await expect(page.locator('[data-chapter="2"]')).toBeDisabled();
