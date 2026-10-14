@@ -241,7 +241,7 @@ let grass=null, grassCount=0, grassBase=[], grassAnchor=new THREE.Vector3(9999,0
 const windU = {value:0};
 function buildGrass(){
   if(grass){ scene.remove(grass); grass.geometry.dispose(); grass.material.dispose(); grass=null; }
-  grassCount = [2200, 4500, 8000][S.quality];
+  grassCount = [2200, 4000, 8000][S.quality];
   // Two crossed, tapered ribbons read as fine blades from every camera angle.
   // Unlike PlaneGeometry they finish in a point, removing the old card-like silhouette.
   const verts=[], indices=[];
@@ -488,7 +488,7 @@ scene.add(branchGroup);
 const originalBranches = branchGroup.children.slice();
 
 /* --- препятствия: брёвна, камни, деревья --- */
-const obstacles = [];
+const obstacles = [], cameraCanopies = [];
 function addLog(x,z,rot){
   const y = hAt(x,z);
   const l = cyl(0.55,0.5,5.4,M.wood);
@@ -510,7 +510,11 @@ function addTree(x,z){
     const f = sph(.8+valleyRand()*.55, i%3?M.leaf:M.leafLight,
       1.25+valleyRand()*.35,.55+valleyRand()*.28,1.0+valleyRand()*.3);
     f.position.set(x+Math.cos(a)*reach, y+3.65+valleyRand()*1.65, z+Math.sin(a)*reach);
-    f.rotation.y=a; scene.add(f);
+    f.rotation.y=a; scene.add(f);f.updateMatrix();
+    f.geometry.computeBoundingBox();
+    const bounds=f.geometry.boundingBox.clone().applyMatrix4(f.matrix);
+    cameraCanopies.push({x:(bounds.min.x+bounds.max.x)/2,z:(bounds.min.z+bounds.max.z)/2,
+      r:Math.hypot(bounds.max.x-bounds.min.x,bounds.max.z-bounds.min.z)/2,bottom:bounds.min.y,top:bounds.max.y});
   }
   obstacles.push({x,z,r:0.9,top:y+3.5});
 }
@@ -837,7 +841,7 @@ function resetTo(x,z){
   headingQ.setFromAxisAngle(slopeUp,P.heading);slopeQ.multiply(headingQ);horse.quaternion.copy(slopeQ);
   cam.yaw=P.heading+Math.PI; cam.manual=0;
   cameraLookPoint();
-  cam.pos.copy(constrainCameraPosition(cam.look,followCameraPosition(P,cam.yaw,cam.pitch,cam.dist),hAt,obstacles));
+  cam.pos.copy(constrainCameraPosition(cam.look,followCameraPosition(P,cam.yaw,cam.pitch,cam.dist),hAt,cameraBlocks));
   camera.position.copy(cam.pos); camera.lookAt(cam.look);
 }
 function cameraLookPoint(){
@@ -853,6 +857,7 @@ function cameraLookPoint(){
    ================================================================ */
 let QUESTS=CHAPTERS[1].quests;
 const storyWorld=createStoryEnvironment(THREE,scene,hAt);
+const cameraBlocks=[...obstacles,...cameraCanopies,...storyWorld.cameraObstacles()];
 const convertedStoryMats=new Set();
 Object.values(storyWorld.groups.chapters).forEach(g=>g.traverse(o=>{if(o.material?.color && !convertedStoryMats.has(o.material)){o.material.color.convertSRGBToLinear();convertedStoryMats.add(o.material);}}));
 function questTarget(){
@@ -1468,9 +1473,9 @@ function animate(){
     cam.yaw += diff*clamp(dt*1.5*clamp(sp/6,0,1),0,0.2);
   }
   cameraLookPoint();
-  cam.pos.copy(constrainCameraPosition(cam.look,followCameraPosition(P,cam.yaw,cam.pitch,cam.dist,sp),hAt,obstacles));
+  cam.pos.copy(constrainCameraPosition(cam.look,followCameraPosition(P,cam.yaw,cam.pitch,cam.dist,sp),hAt,cameraBlocks));
   camera.position.lerp(cam.pos, clamp(dt*7,0,1));
-  camera.position.copy(constrainCameraPosition(cam.look,camera.position,hAt,obstacles));
+  camera.position.copy(constrainCameraPosition(cam.look,camera.position,hAt,cameraBlocks));
   camera.lookAt(cam.look);
 
   /* --- аудио позиционно --- */
@@ -1626,6 +1631,7 @@ function alignCompanion(actor,dt){
 const contactShadows=createContactShadows(THREE,scene,[{actor:horse,width:2.8,length:4.2},{actor:foal,width:1.5,length:2.3},{actor:alex,width:1.1,length:1.1},...herd.children.map(actor=>({actor,width:2.6,length:3.8}))],hAt,normalAt);
 function configureChapter(id){
   G.chapter=id; QUESTS=CHAPTERS[id].quests; CINE=CHAPTERS[id].cinematic;
+  cameraBlocks.splice(0,cameraBlocks.length,...obstacles,...cameraCanopies,...storyWorld.cameraObstacles(id));
   paintLandscape(THREE,groundGeo,id,riverX);
   if(grass){
     const tones=LANDSCAPE_STYLES[id],dark=new THREE.Color(tones.grassDark).convertSRGBToLinear(),light=new THREE.Color(tones.grassLight).convertSRGBToLinear();
@@ -1670,7 +1676,7 @@ function finishChapter(){
   $('#finishDetails').open=false;
   $('#btnEpilogue').hidden=G.chapter!==3; screen('#finish',true);G.phase='done';pauseGame(true);
   cam.dist=G.chapter===3?19:16;cam.pitch=.32;cameraLookPoint();
-  cam.pos.copy(constrainCameraPosition(cam.look,followCameraPosition(P,cam.yaw,cam.pitch,cam.dist),hAt,obstacles));
+  cam.pos.copy(constrainCameraPosition(cam.look,followCameraPosition(P,cam.yaw,cam.pitch,cam.dist),hAt,cameraBlocks));
   camera.position.copy(cam.pos);camera.lookAt(cam.look);
 }
 

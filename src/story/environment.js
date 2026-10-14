@@ -11,7 +11,7 @@ export function createStoryEnvironment(THREE, scene, hAt) {
   const root = new THREE.Group();
   root.name = 'story-landmarks';
   scene.add(root);
-  const chapters = {}, routes = {}, landmarks = {}, staticBatches = {}, routeSamples = {};
+  const chapters = {}, routes = {}, landmarks = {}, staticBatches = {}, routeSamples = {}, cameraBounds = {1:[],2:[],3:[]};
   const white = new THREE.MeshLambertMaterial({ color:0xe8dec9 });
   const bark = new THREE.MeshLambertMaterial({ color:0x62503a });
   const gold = new THREE.MeshLambertMaterial({ color:0xeabd56, emissive:0x4d310c });
@@ -74,6 +74,12 @@ export function createStoryEnvironment(THREE, scene, hAt) {
     if(!batch){batch={geometry:geo,material,items:[]};batches.push(batch);}
     dummy.position.set(x,y,z);dummy.scale.set(sx,sy,sz);dummy.rotation.set(rx,ry,rz);dummy.updateMatrix();
     batch.items.push({matrix:dummy.matrix.clone(),color});
+    if(geo===leafGeo || geo===coneGeo){
+      if(!geo.boundingBox)geo.computeBoundingBox();
+      const bounds=geo.boundingBox.clone().applyMatrix4(dummy.matrix);
+      cameraBounds[group.userData.chapter].push({x:(bounds.min.x+bounds.max.x)/2,z:(bounds.min.z+bounds.max.z)/2,
+        r:Math.hypot(bounds.max.x-bounds.min.x,bounds.max.z-bounds.min.z)/2,bottom:bounds.min.y,top:bounds.max.y});
+    }
   }
   function finishBatches(group) {
     const batches=staticBatches[group.userData.chapter];
@@ -286,5 +292,5 @@ export function createStoryEnvironment(THREE, scene, hAt) {
     });
   }
   setChapter(1);
-  return {setChapter,setQuest,applyEffect,update,groups:{root,chapters,routes,landmarks,fordStones,mountainBranches}};
+  return {setChapter,setQuest,applyEffect,update,cameraObstacles:(id=chapterId)=>cameraBounds[id],groups:{root,chapters,routes,landmarks,fordStones,mountainBranches}};
 }
