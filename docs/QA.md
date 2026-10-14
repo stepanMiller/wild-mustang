@@ -287,6 +287,14 @@ limit was changed. The corrected CFT151 full-story scenario passed 1/1 in 4.4
 minutes (4.5-minute runner total), including all chapters and replay. Natural
 touch evidence remains independent and unchanged.
 
+On the corrected fixture, run 38555068059 passed all 23 Chromium desktop and
+23 WebKit scenarios without retries. Chromium tablet was canceled by the
+workflow's 20-minute overall cap, with no reported assertion failure. The suite
+now discovers 29 scenarios per profile (opt-in/engine-specific skips apply), so
+the job cap is 30 minutes to include install/build and the larger software-
+rendered browser run. Per-scenario and assertion limits remain unchanged. The
+whole matrix is rerun on this configuration before review readiness.
+
 PR #17 remains subject to the GitHub checks on its final head before it is marked
 ready. No physical Safari, hardware FPS, independent child navigation, human
 listening or measured 10–15 minute chapter claim is inferred from these checks.
