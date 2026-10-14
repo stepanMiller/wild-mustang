@@ -96,7 +96,7 @@ function buildHorse(THREE, actor, gltf, role, index) {
   const neck = rig.getObjectByName('Neck3');
   const turnQuaternion = new THREE.Quaternion();
   const turnAxis = new THREE.Vector3(0, 0, 1);
-  let lastHeading = actor.rotation.y;
+  let lastHeading = actor.userData.travelHeading ?? actor.rotation.y;
   let smoothTurn = 0;
 
   function play(name, fade = 0.22, once = false) {
@@ -175,9 +175,10 @@ function buildHorse(THREE, actor, gltf, role, index) {
       }
       // Fine neck counter-turn adds a readable glance without turning the entire
       // visual away from the gameplay heading. Animation poses are reapplied first.
-      let deltaHeading = actor.rotation.y - lastHeading;
+      const heading = actor.userData.travelHeading ?? actor.rotation.y;
+      let deltaHeading = heading - lastHeading;
       deltaHeading = Math.atan2(Math.sin(deltaHeading), Math.cos(deltaHeading));
-      lastHeading = actor.rotation.y;
+      lastHeading = heading;
       smoothTurn += (Math.max(-0.16, Math.min(0.16, deltaHeading / dt * 0.045)) - smoothTurn) * Math.min(1, dt * 7);
       if (neck && grounded && speed > 0.2) {
         turnQuaternion.setFromAxisAngle(turnAxis, smoothTurn);

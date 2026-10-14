@@ -99,6 +99,26 @@ test('speed and airborne state drive distinct clips; controls own jump height', 
   cast.dispose();
 });
 
+test('neck counter-turn follows travel heading when slope quaternions fold the actor Euler yaw', async () => {
+  const flat = await loadCast(), slope = await loadCast();
+  const up = new THREE.Vector3(0, 1, 0), normal = new THREE.Vector3(.25, 1, -.2).normalize();
+  try {
+    for (const heading of [2.8, 3, 3.2, 3.4]) {
+      flat.horse.rotation.y = heading;
+      flat.horse.userData.travelHeading = heading;
+      slope.horse.quaternion.setFromUnitVectors(up, normal).multiply(new THREE.Quaternion().setFromAxisAngle(up, heading));
+      slope.horse.userData.travelHeading = heading;
+      flat.cast.update(.02, { speed: 2.2, grounded: true });
+      slope.cast.update(.02, { speed: 2.2, grounded: true });
+      const flatNeck = flat.cast.horses[0].rig.getObjectByName('Neck3').quaternion;
+      const slopeNeck = slope.cast.horses[0].rig.getObjectByName('Neck3').quaternion;
+      assert.ok(1 - Math.abs(flatNeck.dot(slopeNeck)) < 1e-9, 'Slope must not reverse the character glance');
+    }
+  } finally {
+    flat.cast.dispose(); slope.cast.dispose();
+  }
+});
+
 test('missing GLB resolves a fallback state without hiding the playable horses', async () => {
   const { cast, horse, foal } = await loadCast({}, true);
   assert.equal(cast.status.horse, 'fallback');

@@ -16,7 +16,7 @@ export function createContactShadows(THREE, scene, actors, hAt, normalAt) {
         let visible=true;for(let node=actor;node;node=node.parent) if(!node.visible) visible=false;
         const x=actor.position.x,z=actor.position.z;
         dummy.position.set(x,hAt(x,z)+.05,z);
-        dummy.quaternion.setFromUnitVectors(up,normalAt(x,z));dummy.rotateY(actor.rotation.y);
+        dummy.quaternion.setFromUnitVectors(up,normalAt(x,z));dummy.rotateY(actor.userData.travelHeading ?? actor.rotation.y);
         const distance=Math.max(0,actor.position.y-hAt(x,z));const scale=visible?1/(1+distance*.16):0;
         dummy.scale.set(width*scale,1,length*scale);dummy.updateMatrix();shadows.setMatrixAt(index,dummy.matrix);
       });shadows.instanceMatrix.needsUpdate=true;
