@@ -153,3 +153,9 @@ capture after river after-final-river "$WILD_MUSTANG_GRAPHICS_EVIDENCE_DIR/befor
 [Production build proof](production-build-proof.json): Safari 15 target, все 18 release fingerprints совпали, три runtime JS без QA hook symbol. [Production WebKit smoke](production-webkit-smoke.json) PASS с первого запуска: public touch New Game, HUD, local horse 200, hooks undefined даже с `?qa=1`, page/console/HTTP errors пусты. Все пять проверенных HTTP файлов совпали с production dist.
 
 Production game SHA-256 `27feb88708aa07eaa9b7868caccfcb692d7e9a5597b7c5d2ef5be1f64a34b02f` отличается от frozen QA game `99f481…`. После финальной пересборки порт 4187 раздаёт production; для повторения capture-команд выше необходимо снова раздать immutable `after-final-dist`, сохранив expected QA hashes. Опубликованная Pages-версия этим feature branch не изменяется.
+
+## Публикация
+
+Ветка `codex/graphics-polish-04` опубликована. Before/after start PNG дополнительно проверены через публичный raw GitHub: HTTP 200 и SHA-256 совпадают с локальными файлами. [Описание draft PR](PR.md) готово с inline before/after.
+
+Создание PR командой `gh pr create` заблокировано: `Post https://api.github.com/graphql: Forbidden`. Runtime policy в 15:04 UTC сообщает `domain is not in allowlist` для `api.github.com`; сохранённая конфигурация с этим доменом ещё не применяется активной средой. Реальный PR этим запуском не создан, GitHub CI не подтверждён. [Форма создания отдельного PR](https://github.com/stepanMiller/wild-mustang/pull/new/codex/graphics-polish-04); подготовленное название: **Polish chapter lighting and hero scenes within the medium render budget**. Regression и ручной iPad gates выше остаются открыты.

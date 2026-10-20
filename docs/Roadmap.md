@@ -78,4 +78,5 @@ and release metadata in `18ae9dc`.
 - [x] Production rebuild without QA hooks passes; all 18 release fingerprints match and runtime JS contains no QA hook symbol.
 - [x] Production WebKit smoke passes: public touch New Game/HUD/local model, no QA hooks even with the query, matching served asset hashes and no errors.
 - [ ] Clean WebKit regression and physical iPad FPS gates remain open; no performance-equality claim is inferred from the software runner.
-- [ ] Separate PR with screenshots and explicit software/hardware measurement limits. No merge or deployment in this pass.
+- [x] Publish `codex/graphics-polish-04` with code, before/after screenshots, production proof and explicit software/hardware limits; prepare the [PR body](../tests/evidence/graphics-polish-04/PR.md).
+- [ ] Create the separate draft PR: `gh pr create` returned `Forbidden` on 20 October. The active cloud allowlist blocks `api.github.com`; the saved environment configuration must be applied before API publication works. No PR number or green CI result is claimed. No merge or deployment in this pass.
