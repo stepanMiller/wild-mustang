@@ -55,6 +55,11 @@ export function batchStaticScenery(THREE, scene, roots, { tileSize = 48 } = {}) 
         geometry.computeBoundingSphere();
       } finally { copies.forEach(copy => copy.dispose()); }
       const first = objects[0], mesh = new THREE.Mesh(geometry, first.material);
+      // Three sorts opaque objects by their origin. Keep the tile's origin at
+      // its real centre while retaining the original world-space surfaces.
+      const center = geometry.boundingSphere.center.clone();
+      geometry.translate(-center.x, -center.y, -center.z);
+      mesh.position.copy(center);
       mesh.name = 'static-scenery-tile';
       mesh.layers.mask = first.layers.mask;
       mesh.renderOrder = first.renderOrder;

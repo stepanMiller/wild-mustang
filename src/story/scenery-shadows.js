@@ -14,31 +14,56 @@ export function createSceneryShadows(THREE,hAt,groundGeometry=null) {
   const ground=groundGeometry?.attributes.position,index=groundGeometry?.index,parameters=groundGeometry?.parameters;
   const columns=(parameters?.widthSegments||0)+1,rows=(parameters?.heightSegments||0)+1;
   const hasGround=ground&&index&&columns>1&&rows>1&&ground.count===columns*rows;
+  const boundary=Array.from({length:8},(_,i)=>({u:.5+Math.cos(i*Math.PI/4)*.5,v:.5+Math.sin(i*Math.PI/4)*.5}));
+  function clipToOval(polygon){
+    for(let i=0;i<boundary.length&&polygon.length;i++){
+      const a=boundary[i],b=boundary[(i+1)%boundary.length],output=[];
+      const signed=point=>(b.u-a.u)*(point.v-a.v)-(b.v-a.v)*(point.u-a.u);
+      let previous=polygon[polygon.length-1],previousDistance=signed(previous);
+      for(const current of polygon){
+        const currentDistance=signed(current),inside=currentDistance>=-1e-9,previousInside=previousDistance>=-1e-9;
+        if(inside!==previousInside){
+          const t=Math.max(0,Math.min(1,previousDistance/(previousDistance-currentDistance)));
+          output.push({x:previous.x+(current.x-previous.x)*t,y:previous.y+(current.y-previous.y)*t,
+            z:previous.z+(current.z-previous.z)*t,u:previous.u+(current.u-previous.u)*t,v:previous.v+(current.v-previous.v)*t});
+        }
+        if(inside)output.push(current);
+        previous=current;previousDistance=currentDistance;
+      }
+      polygon=output;
+    }
+    return polygon;
+  }
   return (group,patches)=>{
     if(!patches.length)return null;
     const positions=[],uvs=[],indices=[],sides=8;
     for(const patch of patches){
       const start=positions.length/3,ca=Math.cos(patch.angle||0),sa=Math.sin(patch.angle||0);
       if(hasGround){
-        // Copy the renderer's triangles, not only analytical hAt samples. Even
-        // vertices on the right height can form a different surface between
-        // them near a steep riverbank. UVs project one soft oval onto this grid.
+        // Clip the renderer's triangles to the visible oval. Interpolation
+        // preserves the exact ground plane without rasterizing whole large
+        // grid cells for tiny contact patches with mostly transparent texels.
         const x0=ground.getX(0),z0=ground.getZ(0),dx=ground.getX(1)-x0,dz=ground.getZ(columns)-z0;
         const halfX=(Math.abs(ca*patch.width)+Math.abs(sa*patch.length))*.5;
         const halfZ=(Math.abs(sa*patch.width)+Math.abs(ca*patch.length))*.5;
         const minX=Math.max(0,Math.floor((patch.x-halfX-x0)/dx)),maxX=Math.min(columns-2,Math.floor((patch.x+halfX-x0)/dx));
         const minZ=Math.max(0,Math.floor((patch.z-halfZ-z0)/dz)),maxZ=Math.min(rows-2,Math.floor((patch.z+halfZ-z0)/dz));
-        const vertices=new Map();
         function vertex(source){
-          if(vertices.has(source))return vertices.get(source);
-          const target=positions.length/3,x=ground.getX(source),z=ground.getZ(source),ox=x-patch.x,oz=z-patch.z;
-          positions.push(x,ground.getY(source)+.035,z);
-          uvs.push(.5+(ox*ca+oz*sa)/patch.width,.5+(-ox*sa+oz*ca)/patch.length);
-          vertices.set(source,target);return target;
+          const x=ground.getX(source),z=ground.getZ(source),ox=x-patch.x,oz=z-patch.z;
+          return {x,y:ground.getY(source)+.035,z,u:.5+(ox*ca+oz*sa)/patch.width,v:.5+(-ox*sa+oz*ca)/patch.length};
         }
         for(let z=minZ;z<=maxZ;z++)for(let x=minX;x<=maxX;x++){
           const offset=(z*(columns-1)+x)*6;
-          for(let k=0;k<6;k++)indices.push(vertex(index.getX(offset+k)));
+          for(let k=0;k<6;k+=3){
+            const polygon=clipToOval([vertex(index.getX(offset+k)),vertex(index.getX(offset+k+1)),vertex(index.getX(offset+k+2))]);
+            if(polygon.length<3)continue;
+            const first=positions.length/3;
+            for(const point of polygon){positions.push(point.x,point.y,point.z);uvs.push(point.u,point.v);}
+            for(let i=1;i<polygon.length-1;i++){
+              const a=polygon[0],b=polygon[i],c=polygon[i+1];
+              if(Math.abs((b.x-a.x)*(c.z-a.z)-(b.z-a.z)*(c.x-a.x))>1e-8)indices.push(first,first+i,first+i+1);
+            }
+          }
         }
         continue;
       }
