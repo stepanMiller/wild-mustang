@@ -1,5 +1,71 @@
 # Wild Mustang QA
 
+## Issue #14 Stage A evidence — 14 October 2026
+
+Base: main `188f152`; feature branch `codex/ipad-polish-01`. Node.js 24.19.0,
+npm 11.9.0, Debian 13, installed Chromium 154.0.8037.57, tablet viewport
+1194 × 834 / DPR 2. These are desktop software browser measurements.
+
+Native Chromium multi-touch reproduced the held-joystick camera defect: a
+100px horizontal / 30px upward second-finger swipe changed yaw by only
+0.00005976 rad. After correction the same gesture changed yaw by 0.55 rad and
+pitch by 0.12 rad while retaining joystick input `{x:0,y:-0.4}`. Screenshots:
+`tests/evidence/ipad-polish-01/{before,after}-camera-two-fingers.png` and
+`{before,after}-camera-start.png`.
+
+The new camera helper checks the complete boom and its smoothed endpoint against
+terrain and the existing movement collider envelopes. Near an obstruction it
+raises the view to keep at least 5.5m from the look point. It does not assert
+collision against every decorative leaf or story mesh. Ten camera unit tests
+pass; the full unit suite now has 25 passing checks. The four focused Chromium
+tablet camera/touch/capture/rotation/background scenarios pass.
+
+The first broader Chromium run correctly failed its console-error assertions on
+the pre-existing `/favicon.ico` 404. A local original SVG and an explicit icon
+link fix the cause; the error assertions are retained. The subsequent Chromium
+run passed 36 scenarios and skipped four; two desktop story scenarios exceeded
+their global wall-clock budgets under three concurrent software renderers. Both
+passed unchanged assertions/timeouts on an isolated documented single-process
+retry (2.5 minutes and 59.4 seconds). All 20 tablet scenarios passed on the full
+run. Thus all 38 unique relevant Chromium scenarios passed, with these two
+timing-only retries explicitly recorded. WebKit passed 18 scenarios, skipped
+four optional/browser-specific diagnostics, and had zero failures/retries.
+Together this validates 56 distinct relevant browser scenarios.
+
+`tests/natural-route.spec.js` is deliberately opt-in with
+`WILD_MUSTANG_NATURAL_ROUTE=1` on the Chromium touch project. It uses Chrome's
+native multi-contact input protocol, real joystick/buttons, public quality
+settings, public pause/Continue, and normal cinematic timing. Read-only diagnostic
+positions, route definitions, collider geometry and saved partial progress guide
+the automated driver; no game state/input/save/cinematic injection is permitted.
+It does not measure independent child comprehension. A complete fresh journey
+passed 1/1 in 19.6 minutes of automated wall time with the documented single-
+process runner and a sole software renderer: all 18 objectives, both fords,
+first-goal save/reload/Continue, three normal cinematics, reunion, completion
+`[1,2,3]` and real joystick movement in the epilogue. No page/console errors,
+teleports, injected inputs/checkpoints, unstuck or cinematic fast-forward occurred.
+The public quality menu selected the low preset after the initial normal-quality
+menu/start screenshots. See `after-natural-route.json`, driver preflight and
+frozen build hashes under `tests/evidence/ipad-polish-01/`.
+
+This wall time includes automated path observation/steering and software GPU
+latency; it does not establish 10–15 minutes per chapter on iPad or a child
+playthrough. Earlier incomplete harness runs exposed empty-contact cancellation
+and a final-action phase predicate; these were corrected in the driver while
+shipping gameplay remained unchanged. Baseline visual comparison uses a separately
+guarded, explicitly scripted diagnostic capture and is not counted as natural
+play.
+
+Playwright WebKit 26.5 is installed in the workspace cache. Its missing Debian
+libraries were obtained from signed Release/Packages metadata, SHA256 checked,
+and extracted locally with additive links into the unmodified browser bundle.
+The system `ldconfig` cache cannot see these local libraries, so this instance
+uses the supported host-cache preflight override after all eight subprocesses
+passed `ldd` and WebGL launch/readPixels checks. No TLS or package verification
+was disabled. Actual Safari hardware remains untested.
+
+## Standard validation
+
 The automated suites load the built game at its real GitHub Pages subpath
 `/wild-mustang/`. They exercise public menu/action controls, keyboard movement,
 touch PointerEvent handlers, cancellation, pause, quest progression, save/reload,
