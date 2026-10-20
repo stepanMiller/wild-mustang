@@ -163,12 +163,13 @@ groundGeo.rotateX(-Math.PI/2);
   groundGeo.setAttribute('color', new THREE.Float32BufferAttribute(cols,3));
   groundGeo.computeVertexNormals();
 })();
+paintLandscape(THREE,groundGeo,1,riverX,riverWidth,WATER_Y);
 const ground = new THREE.Mesh(groundGeo, new THREE.MeshLambertMaterial({vertexColors:true}));
 scene.add(ground);
 
 /* --- вода --- */
 const waterEdge={value:new THREE.Color(LANDSCAPE_STYLES[1].waterEdge).convertSRGBToLinear()};
-const waterMat = new THREE.MeshPhongMaterial({color:0x4d8f91, transparent:true, opacity:0.88,
+const waterMat = new THREE.MeshPhongMaterial({color:new THREE.Color(LANDSCAPE_STYLES[1].water).convertSRGBToLinear(), transparent:true, opacity:0.88,
   shininess:90, specular:new THREE.Color(0xd8ebe8).convertSRGBToLinear(), side:THREE.DoubleSide});
 // World-anchored ripples and a shallow edge share the existing single water pass.
 waterMat.defines={USE_UV:''};
@@ -214,7 +215,7 @@ water.position.y = WATER_Y;
 scene.add(water);
 
 /* --- горы: shared instanced silhouettes --- */
-const mountainMaterial=new THREE.MeshLambertMaterial({color:0xffffff,vertexColors:true});
+const mountainMaterial=new THREE.MeshLambertMaterial({color:new THREE.Color(LANDSCAPE_STYLES[1].mountain).convertSRGBToLinear(),vertexColors:true});
 (function(){
   const snowM=new THREE.MeshLambertMaterial({color:new THREE.Color(0xe0e7e6).convertSRGBToLinear(),vertexColors:true});
   const peaks=new THREE.InstancedMesh(ridgeGeometry(THREE),mountainMaterial,30);
