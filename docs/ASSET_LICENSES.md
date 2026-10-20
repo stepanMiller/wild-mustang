@@ -19,3 +19,11 @@ No imported third-party gameplay asset is approved by this document alone. Every
 - For paid AI models, keep a record of generation tool/version, commercial reuse rights, total credit cost and Blender/GLB rig and animation QA. Free placeholder art is not proof of final visual quality.
 
 Machine-readable provenance and SHA256 checksums: `public/assets/licenses/characters.json`. Animation names, durations, import tooling and screenshot evidence: `docs/CHARACTERS.md`. No purchase, paid generation or credit debit occurred.
+
+<!-- Wild Mustang verified audio appendix -->
+
+## Local recorded audio and Russian cues, issue #14 Stage C
+
+The selected 35 local audio files have an individual source/licence/hash register in [AUDIO_LICENSES.md](AUDIO_LICENSES.md) and `public/assets/audio/audio-manifest.json`. Russian cue recordings use the specifically licensed RHVoice Aleksandr-HQ voice and are distributed as CC-BY-SA4.0 audio with full speaker/team attribution. Environmental sound/Foley retains its per-file CC0/BY3.0/BY4.0 rights and modification notices. Accessible local credits: `public/assets/licenses/audio-credits.html`; original voice-model licence snapshot is included. Engine/models are offline authoring tools and do not ship. Cost $0; human listening and physical iPad gates remain open.
+
+<!-- End Wild Mustang verified audio appendix -->

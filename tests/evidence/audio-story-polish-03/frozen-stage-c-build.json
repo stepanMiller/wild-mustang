@@ -1,0 +1,316 @@
+{
+  "server": "http://127.0.0.1:4184/wild-mustang/",
+  "capturedUTC": "2026-10-14T10:11:10.646275+00:00",
+  "coreCommit": "acd008e",
+  "method": "HTTP bytes matched to frozen final dist; source extracted from the final frozen Vite game map",
+  "files": [
+    {
+      "path": "index.html",
+      "bytes": 25453,
+      "sha256": "38f52ce4852586abe5b0e6392aaac886a57864a0f8e06ccd73d8ee15a127848d",
+      "httpMatchesFrozenFile": true
+    },
+    {
+      "path": "assets/game-Cf9JkzMZ.js",
+      "bytes": 174723,
+      "sha256": "76c3a1566358be18b1f6c67c1bbdc48319ba7650f0fdf219c6778086fba79605",
+      "httpMatchesFrozenFile": true
+    },
+    {
+      "path": "assets/three-BL-DKq3J.js",
+      "bytes": 600807,
+      "sha256": "5e3507a10f824375a1f65e00dd8a4d20c236826e1701798dc65637137f077c12",
+      "httpMatchesFrozenFile": true
+    },
+    {
+      "path": "assets/index-CiRBMQX5.js",
+      "bytes": 2167,
+      "sha256": "202f79d4ef067ba5a3921aa807fb3f110f4e4c72eb1b5bad1f8bbe364a88a154",
+      "httpMatchesFrozenFile": true
+    },
+    {
+      "path": "assets/characters/horse.glb",
+      "bytes": 761596,
+      "sha256": "591007f38ed01f46a2141806abd2500c34b90eb3e509ce7ee56cf46d440508d3",
+      "httpMatchesFrozenFile": true
+    },
+    {
+      "path": "assets/audio/audio-manifest.json",
+      "bytes": 55419,
+      "sha256": "341838b4dbb3b7e7e77bdcd269380679f632d9226ea1cb5592dfce0ed99d4c0d",
+      "httpMatchesFrozenFile": true
+    },
+    {
+      "path": "assets/audio/sfx/wind.mp3",
+      "bytes": 391724,
+      "sha256": "b0acb9d913070d70d47da6551507bf55850a1f8f83a14e15ea3d6e486d892060",
+      "httpMatchesFrozenFile": true
+    },
+    {
+      "path": "assets/audio/sfx/bird.mp3",
+      "bytes": 24620,
+      "sha256": "e4cff17886a8f32157b7b3671baacdbe812c790df2dc87e81b96f67d129b7a9a",
+      "httpMatchesFrozenFile": true
+    },
+    {
+      "path": "assets/audio/sfx/music-option.mp3",
+      "bytes": 358508,
+      "sha256": "bfe611f696536dcc9015e210ef4a1c68417103257d37611847e9d17d5e79a25f",
+      "httpMatchesFrozenFile": true
+    },
+    {
+      "path": "assets/audio/sfx/branch-creak.wav",
+      "bytes": 31808,
+      "sha256": "9750c824f910302d1485daf0c20116aa3e314b335f63f92d937b65a72bcc4b7d",
+      "httpMatchesFrozenFile": true
+    },
+    {
+      "path": "assets/audio/sfx/horse-call.wav",
+      "bytes": 53070,
+      "sha256": "99e97ed0f7109b06d8292dae9f955b50d2f1eadec53b92c9963d7dfe5090b66c",
+      "httpMatchesFrozenFile": true
+    },
+    {
+      "path": "assets/audio/sfx/foliage.wav",
+      "bytes": 31110,
+      "sha256": "ad194d0ba5b92edee8bb1f70a3ec06ca228f19f59446ca218fde9ced3aa288fd",
+      "httpMatchesFrozenFile": true
+    },
+    {
+      "path": "assets/audio/sfx/horse-surface-ground.wav",
+      "bytes": 18868,
+      "sha256": "4ac5e070587c34c345b186953d944abeb7fb92c9a8230448905c79bcf699e171",
+      "httpMatchesFrozenFile": true
+    },
+    {
+      "path": "assets/audio/sfx/horse-surface-grass.wav",
+      "bytes": 22166,
+      "sha256": "7c99495d78847f816c0ef4bf9a74ceb8b631345cbf6d9c552ffef837d7342b5b",
+      "httpMatchesFrozenFile": true
+    },
+    {
+      "path": "assets/audio/sfx/horse-surface-hall.wav",
+      "bytes": 25934,
+      "sha256": "def9cb9229654bb17ea63a6b70b404a7ea4f1a789b3c06d2a451b5669b1ab1be",
+      "httpMatchesFrozenFile": true
+    },
+    {
+      "path": "assets/audio/sfx/horse-surface-muffled.wav",
+      "bytes": 25548,
+      "sha256": "3ad399f75f4c764e2b1a4514cf339249be02aeea57b1f8f0ec1df4266835e76f",
+      "httpMatchesFrozenFile": true
+    },
+    {
+      "path": "assets/audio/sfx/forest.mp3",
+      "bytes": 80684,
+      "sha256": "e49772833ddecd4cdefc6188eb04eb4c422c110f3080694106223deb9851bb3c",
+      "httpMatchesFrozenFile": true
+    },
+    {
+      "path": "assets/audio/sfx/creek.mp3",
+      "bytes": 48812,
+      "sha256": "05109e3d7e910ecbc6d940079b409eedaa79f77c5a8c2cd6f9aff980db71dc51",
+      "httpMatchesFrozenFile": true
+    },
+    {
+      "path": "assets/audio/voice/tutorial-move.mp3",
+      "bytes": 23660,
+      "sha256": "90c10a3c3c7ea748835518ce4f6b883a4579bcd946481a4a6f92a94186f18076",
+      "httpMatchesFrozenFile": true
+    },
+    {
+      "path": "assets/audio/voice/willow-meadow.mp3",
+      "bytes": 18284,
+      "sha256": "b9527476bffc543d5479208c07503bb9264098a48c785c2504a8e455e7907d85",
+      "httpMatchesFrozenFile": true
+    },
+    {
+      "path": "assets/audio/voice/mountain-family.mp3",
+      "bytes": 28076,
+      "sha256": "0162ec4932a19094764ec502299b5df6e2a76d4be83880d863d939e70ed6fb1e",
+      "httpMatchesFrozenFile": true
+    },
+    {
+      "path": "assets/audio/voice/mountain-foal.mp3",
+      "bytes": 25772,
+      "sha256": "77df1a2b57cc352bb397c15f4feddcd8fb5b1f0d1ed5e4b19a4dc1c78a33b0b0",
+      "httpMatchesFrozenFile": true
+    },
+    {
+      "path": "assets/audio/voice/tutorial-gallop.mp3",
+      "bytes": 21548,
+      "sha256": "d0183676e69d51fa28aeef96492366bf06767945b0500bff36b563f19ff8411a",
+      "httpMatchesFrozenFile": true
+    },
+    {
+      "path": "assets/audio/voice/storm-apples.mp3",
+      "bytes": 20204,
+      "sha256": "9c2621847169fee298c9dd07ce5356f9cb415cf44b63b55217f890039db24e95",
+      "httpMatchesFrozenFile": true
+    },
+    {
+      "path": "assets/audio/voice/storm-ford.mp3",
+      "bytes": 25580,
+      "sha256": "008b72e1decaf2250c1db9c2e8ee78a79bbccffb6ae54b4cb62554370a0bbdcf",
+      "httpMatchesFrozenFile": true
+    },
+    {
+      "path": "assets/audio/voice/storm-tracks.mp3",
+      "bytes": 18860,
+      "sha256": "21bd9b4106227e4cf12942055a63b843d2625458898f6ac01d3a5d7676602639",
+      "httpMatchesFrozenFile": true
+    },
+    {
+      "path": "assets/audio/voice/willow-rest.mp3",
+      "bytes": 33644,
+      "sha256": "d048c6cb4cbec8423bb98b83bb23bf8044457c83f8638441087ace42544737b9",
+      "httpMatchesFrozenFile": true
+    },
+    {
+      "path": "assets/audio/voice/mountain-call.mp3",
+      "bytes": 28844,
+      "sha256": "f207eb8b5945e0df50102cdd4d1cca188d629fee426e42ed4e0078572efc4046",
+      "httpMatchesFrozenFile": true
+    },
+    {
+      "path": "assets/audio/voice/storm-foal.mp3",
+      "bytes": 20972,
+      "sha256": "a8f7b3413bd35625cf8cadddcde6c13356ca41f6692c82539f1faaa8edbb3039",
+      "httpMatchesFrozenFile": true
+    },
+    {
+      "path": "assets/audio/voice/tutorial-alex.mp3",
+      "bytes": 26732,
+      "sha256": "550a6852019534b8dbbb0c70f1c8b184f1e6f6836b8ff699418a7b1f536bb365",
+      "httpMatchesFrozenFile": true
+    },
+    {
+      "path": "assets/audio/voice/mountain-home.mp3",
+      "bytes": 24428,
+      "sha256": "435de71a28d24a6e7a307f30824758f4cdde9947d0d26ded6738a204df0eeb0d",
+      "httpMatchesFrozenFile": true
+    },
+    {
+      "path": "assets/audio/voice/mountain-tracks.mp3",
+      "bytes": 23660,
+      "sha256": "684c913165c41aa593bfd3f9871be03831ed4d4d4237cd7df64943c63a4259e6",
+      "httpMatchesFrozenFile": true
+    },
+    {
+      "path": "assets/audio/voice/willow-clue.mp3",
+      "bytes": 25580,
+      "sha256": "a7b3a8d8d55c984b48008578935c597dc4a794d6bd233c447a7c8f8dc57c95ab",
+      "httpMatchesFrozenFile": true
+    },
+    {
+      "path": "assets/audio/voice/mountain-crest.mp3",
+      "bytes": 28076,
+      "sha256": "3cb1fdbfaeb19c110479b763353ce93a02102fa41afe6f283e0eb4476f596ce9",
+      "httpMatchesFrozenFile": true
+    },
+    {
+      "path": "assets/audio/voice/willow-tracks.mp3",
+      "bytes": 25388,
+      "sha256": "238843288e10ab84771092624998e6e005f796589cb720a2c06e65158021e134",
+      "httpMatchesFrozenFile": true
+    },
+    {
+      "path": "assets/audio/voice/storm-lookout.mp3",
+      "bytes": 22508,
+      "sha256": "0ac075569fdb930efb9b5e11e4d69edfa23bd1de5a56a4e69903b67a551e1a76",
+      "httpMatchesFrozenFile": true
+    },
+    {
+      "path": "assets/audio/voice/willow-ford.mp3",
+      "bytes": 23084,
+      "sha256": "e317f1959a90d60f0f47520d2bec3b17136d3049a22aada479100fc7f5b8a61d",
+      "httpMatchesFrozenFile": true
+    },
+    {
+      "path": "assets/audio/voice/tutorial-look.mp3",
+      "bytes": 27884,
+      "sha256": "e3bc0128348c592943b75accd288b0cff3b636acfe8f453de1e5fe4ce3c31291",
+      "httpMatchesFrozenFile": true
+    },
+    {
+      "path": "assets/audio/voice/willow-crossing.mp3",
+      "bytes": 29228,
+      "sha256": "6bb4b6f7fff6af86bb3b2ace28160b1d9381ef636dce3d545bff0649334276f4",
+      "httpMatchesFrozenFile": true
+    },
+    {
+      "path": "assets/audio/voice/storm-hill.mp3",
+      "bytes": 21932,
+      "sha256": "a7662e9bbc0446eadec5e7041ff8e5648443d099b7ffeb7ea1e730000e126265",
+      "httpMatchesFrozenFile": true
+    },
+    {
+      "path": "assets/audio/voice/tutorial-jump.mp3",
+      "bytes": 20012,
+      "sha256": "bf3d3aaea669c234979ca0fb528e315bc45eaf6eeaa42b48e2640f9d6137b8f0",
+      "httpMatchesFrozenFile": true
+    }
+  ],
+  "sources": [
+    {
+      "path": "src/navigation.js",
+      "sha256": "775c7d6c405fa219afbfa02ddf64fab83eb910077f7f260d9dea14c3646685a3"
+    },
+    {
+      "path": "src/camera.js",
+      "sha256": "bb814827c09c59659a41fef946c1a23bdfc68abc4ae41a92a35eee215df528d0"
+    },
+    {
+      "path": "src/scene-style.js",
+      "sha256": "e7bfa7c22284d6f553f943ce63a2d314186b69e45274b4dc4f0d9216188e19cf"
+    },
+    {
+      "path": "src/audio.js",
+      "sha256": "ff0c04c89bae6118e6639f1e6a8f2e09cd90306c546d339b04e087832dc87a9d"
+    },
+    {
+      "path": "src/audio-cues.js",
+      "sha256": "85d1ef6e2db83d927447514c40e4f1f8d84c437d1f9d7d69bed691cf5b41ce74"
+    },
+    {
+      "path": "src/story/companion-scenes.js",
+      "sha256": "e207b1e347c5a1d1d4f911250c8351bfd331d85add2eaff3d24caaef877d87a1"
+    },
+    {
+      "path": "src/story/ford-escort.js",
+      "sha256": "5bb6951b2f395e64851056df23b4daf1d19a35ec9abc94ab6f4a0be84ffde681"
+    },
+    {
+      "path": "src/ui-icons.js",
+      "sha256": "c327c7798767d04e01a8e006f6c6ae5de2b00b4e5e0b4f09cc9bf86efdd14139"
+    },
+    {
+      "path": "src/contact-shadows.js",
+      "sha256": "c2255293dcbe0cb3b3ae26f50da8791743e3e9597ed3888028a6818df15597e0"
+    },
+    {
+      "path": "src/characters/alex.js",
+      "sha256": "5a9fd9a750febd79460c71c6373073d4e4eb346632e6ff5380ceab66d107acad"
+    },
+    {
+      "path": "src/characters/characters.js",
+      "sha256": "691bee28155136b706beb60b5d0e585ce04ec06352383113557be7611f12b28f"
+    },
+    {
+      "path": "src/story/chapters.js",
+      "sha256": "ab066ab7c71af8e18e0fb36eeea4f87a166e92cf0adc885437dc8786c8df6c91"
+    },
+    {
+      "path": "src/story/environment.js",
+      "sha256": "fcdeae884b35ea7596c9f61ffbde4a1b929869b9b3ea242aee9c9cc6b9f4d4c8"
+    },
+    {
+      "path": "src/persistence.js",
+      "sha256": "79e0e511a2e35bef7ba20a64454666c62aa3a02ad32d5731fb84fe1c2eceed47"
+    },
+    {
+      "path": "src/game.js",
+      "sha256": "07bf1b0f23455b1a418d551717b732cc45e973eb7cdf6bdfbf3d508690d84822"
+    }
+  ]
+}

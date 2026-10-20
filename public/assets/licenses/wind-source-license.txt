@@ -1,0 +1,105 @@
+Source: https://opengameart.org/content/wind-loop
+Verified source SHA256: f10b038e5fb7505a731f3641d84226ddc263204ae00291ae35843fed78d22026
+
+Wind Loop | OpenGameArt.org
+Skip to main content
+User login
+OpenID
+What is OpenID?
+Username or e-mail
+*
+Password
+*
+Log in using OpenID
+Cancel OpenID login
+Create new account
+Request new password
+Register
+Home
+Browse
+2D Art
+3D Art
+Concept Art
+Textures
+Music
+Sound Effects
+Documents
+Featured Tutorials
+Submit Art
+Collect
+My Collections
+Art Collections
+Forums
+FAQ
+Leaderboards
+All Time
+Total Points
+Comments
+Favorites (All)
+Favorites (2D)
+Favorites (3D)
+Favorites (Concept Art)
+Favorites (Music)
+Favorites (Sound)
+Favorites (Textures)
+Weekly
+Total Points
+Comments
+Favorites (All)
+Favorites (2D)
+Favorites (3D)
+Favorites (Concept Art)
+Favorites (Music)
+Favorites (Sound)
+Favorites (Textures)
+❤ Donate
+Search
+Wind Loop
+Author:
+AntumDeluge
+Tuesday, October 8, 2019 - 20:22
+Art Type:
+Sound Effect
+Tags:
+wind
+ambiance
+blow
+nature
+gust
+air
+License(s):
+CC-BY 3.0
+Collections:
+Impyrean options
+Sounds
+Favorites:
+7
+Preview:
+Description:
+This wind audio was
+originally created by InspectorJ
+. I modified it into a loop.
+Formats:
+96k 44100Hz stereo OGG/Vorbis
+lossless 44100Hz stereo FLAC
+Licensing:
+Creative Commons Attribution (CC BY) version 3.0
+Canonical link:
+https://opengameart.org/node/101110
+Copyright/Attribution Notice:
+Created by Jonathan Shaw (InspectorJ): https://freesound.org/people/InspectorJ/sounds/376415/
+File(s):
+wind-01.ogg
+570.2 Kb
+[
+698
+download(s)]
+wind-01.flac
+4.4 Mb
+[
+137
+download(s)]
+Log in
+or
+register
+to post comments
