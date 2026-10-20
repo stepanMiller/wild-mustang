@@ -159,6 +159,7 @@ test('P1 save and reload preserve partially rescued foal and world state', async
   await teleport(page, target[0], target[1]);
   await action(page, /Отодвинуть ветк/);
   await expect.poll(async () => (await state(page)).freeProgress).toBe(1);
+  const visibleRescuePieces = (await state(page)).world.rescuePieces;
   await page.reload();
   await expect(page.locator('#loading')).toHaveCount(0, { timeout: 20_000 });
   await page.locator('#btnContinue').click();
@@ -166,6 +167,7 @@ test('P1 save and reload preserve partially rescued foal and world state', async
   expect(loaded.quest).toBe(3);
   expect(loaded.freeProgress).toBe(1);
   expect(loaded.apples).toBe(3);
+  expect(loaded.world.rescuePieces).toBe(visibleRescuePieces);
   // Complete the remaining rescue actions after reload. The full story test
   // owns hill navigation and the chapter ending, avoiding a duplicate playthrough.
   for (let attempts = 0; attempts < 3 && (await state(page)).quest === 3; attempts++) {

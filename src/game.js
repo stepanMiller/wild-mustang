@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { directionAngle, nearestSafeTrailPoint } from './navigation.js';
 import { followCameraPosition, constrainCameraPosition } from './camera.js';
+import { LANDSCAPE_STYLES, paintLandscape, ridgeGeometry, prairieFlowerGeometry } from './scene-style.js';
 import { applyIcons } from './ui-icons.js';
 import { createContactShadows } from './contact-shadows.js';
 import { attachCharacters } from './characters/characters.js';
@@ -198,16 +199,18 @@ scene.add(water);
 (function(){
   const rockM=new THREE.MeshLambertMaterial({color:new THREE.Color(0x7a6b7e).convertSRGBToLinear()});
   const snowM=new THREE.MeshLambertMaterial({color:new THREE.Color(0xf2e4d6).convertSRGBToLinear()});
-  const geometry=new THREE.ConeGeometry(1,1,7).toNonIndexed();geometry.computeVertexNormals();
-  const peaks=new THREE.InstancedMesh(geometry,rockM,30),caps=new THREE.InstancedMesh(geometry,snowM,30);
+  const peaks=new THREE.InstancedMesh(ridgeGeometry(THREE),rockM,30);
+  const snowGeometry=ridgeGeometry(THREE,true),snowPeaks=[];
   const dummy=new THREE.Object3D();
   for(let i=0;i<30;i++){
     const a=i/30*TAU+valleyRand()*.12,r=210+valleyRand()*80;
     const height=40+valleyRand()*70,radius=24+valleyRand()*30,rotation=valleyRand()*TAU;
     const x=Math.cos(a)*r,z=Math.sin(a)*r;
     dummy.position.set(x,height*.42,z);dummy.rotation.set(0,rotation,0);dummy.scale.set(radius,height,radius);dummy.updateMatrix();peaks.setMatrixAt(i,dummy.matrix);
-    dummy.position.y=height*.78;dummy.scale.set(radius*.36,height*.28,radius*.36);dummy.updateMatrix();caps.setMatrixAt(i,dummy.matrix);
+    if(height>78)snowPeaks.push(dummy.matrix.clone());
   }
+  const caps=new THREE.InstancedMesh(snowGeometry,snowM,snowPeaks.length);
+  snowPeaks.forEach((matrix,i)=>caps.setMatrixAt(i,matrix));
   scene.add(peaks,caps);
 })();
 
@@ -238,7 +241,7 @@ let grass=null, grassCount=0, grassBase=[], grassAnchor=new THREE.Vector3(9999,0
 const windU = {value:0};
 function buildGrass(){
   if(grass){ scene.remove(grass); grass.geometry.dispose(); grass.material.dispose(); grass=null; }
-  grassCount = [2200, 4500, 8000][S.quality];
+  grassCount = [2200, 4000, 8000][S.quality];
   // Two crossed, tapered ribbons read as fine blades from every camera angle.
   // Unlike PlaneGeometry they finish in a point, removing the old card-like silhouette.
   const verts=[], indices=[];
@@ -253,7 +256,8 @@ function buildGrass(){
   bg.setAttribute('position',new THREE.Float32BufferAttribute(verts,3)); bg.setIndex(indices);
   bg.computeVertexNormals();
   const cols=[]; const pos=bg.attributes.position;
-  const dark=new THREE.Color(0x6B7C38).convertSRGBToLinear(), lite=new THREE.Color(0xE0C066).convertSRGBToLinear();
+  const grassStyle=LANDSCAPE_STYLES[G.chapter];
+  const dark=new THREE.Color(grassStyle.grassDark).convertSRGBToLinear(), lite=new THREE.Color(grassStyle.grassLight).convertSRGBToLinear();
   for(let i=0;i<pos.count;i++){ const t=clamp(pos.getY(i)/1.5,0,1);
     const c=dark.clone().lerp(lite,t*t); cols.push(c.r,c.g,c.b); }
   bg.setAttribute('color', new THREE.Float32BufferAttribute(cols,3));
@@ -310,9 +314,8 @@ function refreshGrass(px,pz){
 
 /* --- цветы (люпины из референса) --- */
 (function(){
-  const g = new THREE.ConeGeometry(0.13,0.62,5);
-  g.translate(0,0.4,0);
-  const m = new THREE.MeshLambertMaterial({color:0x7C6BB0});
+  const g = prairieFlowerGeometry(THREE);
+  const m = new THREE.MeshLambertMaterial({vertexColors:true,side:THREE.DoubleSide});
   const im = new THREE.InstancedMesh(g,m,420);
   for(let i=0;i<420;i++){
     const cluster = i%3;
@@ -485,7 +488,7 @@ scene.add(branchGroup);
 const originalBranches = branchGroup.children.slice();
 
 /* --- препятствия: брёвна, камни, деревья --- */
-const obstacles = [];
+const obstacles = [], cameraCanopies = [];
 function addLog(x,z,rot){
   const y = hAt(x,z);
   const l = cyl(0.55,0.5,5.4,M.wood);
@@ -507,7 +510,11 @@ function addTree(x,z){
     const f = sph(.8+valleyRand()*.55, i%3?M.leaf:M.leafLight,
       1.25+valleyRand()*.35,.55+valleyRand()*.28,1.0+valleyRand()*.3);
     f.position.set(x+Math.cos(a)*reach, y+3.65+valleyRand()*1.65, z+Math.sin(a)*reach);
-    f.rotation.y=a; scene.add(f);
+    f.rotation.y=a; scene.add(f);f.updateMatrix();
+    f.geometry.computeBoundingBox();
+    const bounds=f.geometry.boundingBox.clone().applyMatrix4(f.matrix);
+    cameraCanopies.push({x:(bounds.min.x+bounds.max.x)/2,z:(bounds.min.z+bounds.max.z)/2,
+      r:Math.hypot(bounds.max.x-bounds.min.x,bounds.max.z-bounds.min.z)/2,bottom:bounds.min.y,top:bounds.max.y});
   }
   obstacles.push({x,z,r:0.9,top:y+3.5});
 }
@@ -527,7 +534,7 @@ function addBush(x,z,s){
 }
 addLog(14,14,0.2); addLog(2,-14,1.1); addLog(-40,-24,0.5);
 [[-18,-6,0.9],[-24,-16,0.7],[-33,-25,0.8],[-47,-29,0.75],[-62,-45,1.1],[-78,-61,1.25],[10,5,0.65],[32,-46,1.0],[-10,60,0.9],[38,42,0.8]].forEach(p=>addRock(p[0],p[1],p[2]));
-[[-30,12],[-56,-8],[-68,-58],[-90,-70],[22,34],[48,-20],[-6,74]].forEach(p=>addTree(p[0],p[1]));
+[[-30,12],[-56,-8],[-68,-58],[-90,-70],[27,39],[48,-20],[-6,74]].forEach(p=>addTree(p[0],p[1]));
 [[-6,-18,0.8],[-42,-12,0.9],[-58,-34,0.7],[16,25,0.7],[50,30,0.8],[-84,-52,0.8]].forEach(p=>addBush(p[0],p[1],p[2]));
 // Белые камни обозначают будущий брод: это только визуальный ориентир первой главы.
 for(let i=0;i<9;i++){
@@ -818,7 +825,7 @@ window.addEventListener('keyup',e=>{ keys[e.code]=false; });
 /* ================================================================
    7. КАМЕРА
    ================================================================ */
-const cam = { yaw:Math.PI, pitch:0.22, dist:9.5, manual:0, pos:new THREE.Vector3(), look:new THREE.Vector3() };
+const cam = { yaw:Math.PI, pitch:0.22, dist:11.5, manual:0, pos:new THREE.Vector3(), look:new THREE.Vector3() };
 
 /* ================================================================
    8. ЛОГИКА ГЕРОЯ
@@ -830,10 +837,19 @@ const P = {
 function resetTo(x,z){
   P.x=x; P.z=z; P.y=hAt(x,z); P.vy=0; P.speed=0; P.grounded=true;
   horse.position.set(x,P.y,z);
+  slopeQ.setFromUnitVectors(slopeUp,normalAt(x,z));
+  headingQ.setFromAxisAngle(slopeUp,P.heading);slopeQ.multiply(headingQ);horse.quaternion.copy(slopeQ);
   cam.yaw=P.heading+Math.PI; cam.manual=0;
-  cam.look.set(P.x,P.y+2.4,P.z);
-  cam.pos.copy(constrainCameraPosition(cam.look,followCameraPosition(P,cam.yaw,cam.pitch,cam.dist),hAt,obstacles));
+  cameraLookPoint();
+  cam.pos.copy(constrainCameraPosition(cam.look,followCameraPosition(P,cam.yaw,cam.pitch,cam.dist),hAt,cameraBlocks));
   camera.position.copy(cam.pos); camera.lookAt(cam.look);
+}
+function cameraLookPoint(){
+  cam.look.set(P.x,P.y+2.4,P.z);
+  if(G.phase==='done'){
+    cam.look.x+=Math.cos(cam.yaw)*3.5;
+    cam.look.z-=Math.sin(cam.yaw)*3.5;
+  }
 }
 
 /* ================================================================
@@ -841,6 +857,7 @@ function resetTo(x,z){
    ================================================================ */
 let QUESTS=CHAPTERS[1].quests;
 const storyWorld=createStoryEnvironment(THREE,scene,hAt);
+const cameraBlocks=[...obstacles,...cameraCanopies,...storyWorld.cameraObstacles()];
 const convertedStoryMats=new Set();
 Object.values(storyWorld.groups.chapters).forEach(g=>g.traverse(o=>{if(o.material?.color && !convertedStoryMats.has(o.material)){o.material.color.convertSRGBToLinear();convertedStoryMats.add(o.material);}}));
 function questTarget(){
@@ -868,7 +885,7 @@ function updateTracker(){
   if(!q){ $('#trackTitle').textContent='Путешествие'; $('#trackSub').textContent=''; return; }
   let extra = q.s;
   if(q.kind==='apples') extra = `Собрано ${G.apples} из ${G.applesNeeded}. ${q.s}`;
-  $('#trackTitle').textContent = (G.quest+1)+'. '+q.t;
+  $('#trackTitle').textContent = q.t;
   $('#trackSub').textContent = extra;
 }
 function renderLog(){
@@ -944,7 +961,7 @@ function questInteract(){
   G.questSteps++;
   if(q.effect==='foal-freed'){
     G.freeProgress=G.questSteps; SFX.snap();
-    originalBranches.slice(0,G.freeProgress*3).forEach(b=>branchGroup.remove(b));
+    originalBranches.slice(0,G.freeProgress*2).forEach(b=>branchGroup.remove(b));
     if(G.questSteps>=(q.steps || 1)){G.foalFreed=true;branchGroup.clear();addTrust(14);SFX.neigh();}
   }
   if(q.effect==='ford-restored' || q.effect==='mountain-obstacle'){
@@ -1092,7 +1109,7 @@ function resetWorld(){
   apples.forEach((a,i)=>{a.userData.taken=!CHAPTERS[G.chapter].apples[i];a.visible=!a.userData.taken;});
   herd.visible=false; trackPool.forEach(t=>t.visible=false);
   ['#dialog','#hint','#toast','#cine','#fadeOut'].forEach(id=>$(id).classList.remove('on'));
-  G.timeOfDay=CHAPTERS[G.chapter].timeOfDay; cam.pitch=0.22; cam.dist=9.5; cam.manual=0;
+  G.timeOfDay=CHAPTERS[G.chapter].timeOfDay; cam.pitch=0.22; cam.dist=11.5; cam.manual=0;
 }
 function applyCheckpoint(checkpoint){
   const c=validateCheckpoint(checkpoint); if(!c) return false;
@@ -1250,14 +1267,17 @@ function animate(){
   const sunAng = (tod*0.82 + 0.09)*Math.PI;
   sun.position.set(Math.cos(sunAng)*130, Math.max(Math.sin(sunAng)*90, 6), 40+Math.sin(tod*3)*40);
   const low = clamp(1 - Math.sin(sunAng), 0, 1);
-  sun.color.setHSL(lerp(0.11,0.045,low), lerp(0.45,0.8,low), lerp(0.72,0.56,low));
-  sun.intensity = lerp(1.1, .78, low);
-  hemi.intensity = lerp(.42, .30, low);
+  const style=LANDSCAPE_STYLES[G.chapter];
+  sun.color.setHex(style.light).convertSRGBToLinear();
+  sun.intensity = lerp(1.05,.85,low);
+  hemi.intensity = lerp(.60,.46,low);
+  fill.color.setHex(style.fill).convertSRGBToLinear();
+  rim.color.setHex(style.rim).convertSRGBToLinear();
   skyMat.uniforms.sunDir.value.copy(sun.position).normalize();
-  skyMat.uniforms.top.value.setHSL(lerp(0.58,0.66,low), 0.55, lerp(0.46,0.26,low));
-  skyMat.uniforms.mid.value.setHSL(lerp(0.09,0.045,low), 0.82, lerp(0.63,0.55,low));
-  skyMat.uniforms.bot.value.setHSL(lerp(0.12,0.07,low), 0.85, lerp(0.78,0.62,low));
-  scene.fog.color.setHSL(lerp(0.09,0.05,low), 0.7, lerp(0.68,0.5,low));
+  skyMat.uniforms.top.value.setHex(style.sky).convertSRGBToLinear();
+  skyMat.uniforms.mid.value.setHex(style.horizon).convertSRGBToLinear();
+  skyMat.uniforms.bot.value.setHex(style.fog).convertSRGBToLinear();
+  scene.fog.color.setHex(style.fog).convertSRGBToLinear();
   renderer.setClearColor(scene.fog.color);
 
   /* --- ввод --- */
@@ -1329,10 +1349,10 @@ function animate(){
   }
 
   horse.position.set(P.x,P.y,P.z);
-  horse.rotation.y = P.heading;
-  const n = normalAt(P.x,P.z);
-  horse.rotation.x = lerp(horse.rotation.x, -Math.atan2(n.z, n.y)*0.6, dt*5);
-  horse.rotation.z = lerp(horse.rotation.z, Math.atan2(n.x, n.y)*0.6, dt*5);
+  horse.userData.travelHeading=P.heading;
+  slopeQ.setFromUnitVectors(slopeUp,normalAt(P.x,P.z));
+  headingQ.setFromAxisAngle(slopeUp,P.heading);slopeQ.multiply(headingQ);
+  horse.quaternion.slerp(slopeQ,clamp(dt*8,0,1));
 
   /* --- анимация лошади --- */
   const sp = P.speed;
@@ -1413,13 +1433,13 @@ function animate(){
     const tx=P.x-Math.sin(P.heading)*5, tz=P.z-Math.cos(P.heading)*5;
     const dx=tx-foal.position.x,dz=tz-foal.position.z,d=Math.hypot(dx,dz);
     const v=Math.min(12,Math.max(0,d-1)*1.6);
-    if(d>1){foal.position.x+=dx/d*v*dt;foal.position.z+=dz/d*v*dt;foal.rotation.y=Math.atan2(dx,dz);foal.userData.travelHeading=foal.rotation.y;}
+    if(d>1){foal.position.x+=dx/d*v*dt;foal.position.z+=dz/d*v*dt;foal.userData.travelHeading=Math.atan2(dx,dz);}
     foal.position.y=hAt(foal.position.x,foal.position.z);
     foal.userData.legs.forEach(l=>l.hip.rotation.x=Math.sin(windU.value*6+l.phase*TAU)*Math.min(v/6,1)*.6);
   } else if(foal.userData.runAway){
     foal.position.x -= 6*dt; foal.position.z -= 5*dt;
     foal.position.y = hAt(foal.position.x, foal.position.z);
-    foal.rotation.y = Math.atan2(-6,-5);
+    foal.userData.travelHeading = Math.atan2(-6,-5);
     foal.userData.legs.forEach(l=>{ l.hip.rotation.x=Math.sin((windU.value*7+l.phase*6))*0.7; });
     if(foal.position.x<-100) foal.visible=false;
   } else {
@@ -1452,10 +1472,10 @@ function animate(){
     let diff = ((P.heading + Math.PI - cam.yaw + Math.PI*3)%TAU)-Math.PI;
     cam.yaw += diff*clamp(dt*1.5*clamp(sp/6,0,1),0,0.2);
   }
-  cam.look.set(P.x,P.y+2.4,P.z);
-  cam.pos.copy(constrainCameraPosition(cam.look,followCameraPosition(P,cam.yaw,cam.pitch,cam.dist,sp),hAt,obstacles));
+  cameraLookPoint();
+  cam.pos.copy(constrainCameraPosition(cam.look,followCameraPosition(P,cam.yaw,cam.pitch,cam.dist,sp),hAt,cameraBlocks));
   camera.position.lerp(cam.pos, clamp(dt*7,0,1));
-  camera.position.copy(constrainCameraPosition(cam.look,camera.position,hAt,obstacles));
+  camera.position.copy(constrainCameraPosition(cam.look,camera.position,hAt,cameraBlocks));
   camera.lookAt(cam.look);
 
   /* --- аудио позиционно --- */
@@ -1505,7 +1525,10 @@ function animate(){
     if(G.chapter===3){
       const t=clamp(cineT/cineRunDuration,0,1);
       P.x=lerp(cineStart.x,97,t); P.z=lerp(cineStart.z,-94,t); P.y=hAt(P.x,P.z);
-      P.speed=t<1?10:0; horse.position.set(P.x,P.y,P.z);horse.rotation.y=P.heading;
+      P.speed=t<1?10:0; horse.position.set(P.x,P.y,P.z);horse.userData.travelHeading=P.heading;
+      slopeQ.setFromUnitVectors(slopeUp,normalAt(P.x,P.z));
+      headingQ.setFromAxisAngle(slopeUp,P.heading);slopeQ.multiply(headingQ);
+      horse.quaternion.slerp(slopeQ,clamp(dt*8,0,1));
       foal.userData.travelHeading=Math.atan2(102-foal.position.x,-96-foal.position.z);
       foal.position.x=lerp(foal.position.x,102,dt*.6);foal.position.z=lerp(foal.position.z,-96,dt*.6);
       foal.position.y=hAt(foal.position.x,foal.position.z);
@@ -1514,7 +1537,7 @@ function animate(){
       herd.children.forEach((h,i)=>{
         const tx=97+Math.cos(i*TAU/5)*4.5,tz=-94+Math.sin(i*TAU/5)*4.5;
         h.position.x=lerp(h.position.x,tx,dt*.5); h.position.z=lerp(h.position.z,tz,dt*.5);
-        h.position.y=hAt(h.position.x,h.position.z);h.rotation.y=Math.atan2(P.x-h.position.x,P.z-h.position.z);h.userData.travelHeading=h.rotation.y;
+        h.position.y=hAt(h.position.x,h.position.z);h.userData.travelHeading=Math.atan2(P.x-h.position.x,P.z-h.position.z);
       });
     }else if(G.chapter===1){
       herd.children.forEach((h,i)=>{h.position.x-=dt*(1+i*.07);h.position.z-=dt*.5;h.position.y=hAt(h.position.x,h.position.z);});
@@ -1571,7 +1594,7 @@ function updateGuidance(){
   diamond.position.y=3.1+Math.sin(windU.value*2)*.3;
   const angle=directionAngle(P.x,P.z,t[0],t[1],cam.yaw);
   $('#directionArrow').style.transform=`rotate(${angle}rad)`;
-  $('#directionDistance').textContent=Math.round(Math.hypot(t[0]-P.x,t[1]-P.z))+' м';
+  $('#directionDistance').textContent=Math.hypot(t[0]-P.x,t[1]-P.z)<10?'Рядом':'По тропе';
 }
 if((import.meta.env.DEV || __TEST_MODE__) && ['localhost','127.0.0.1'].includes(location.hostname) && new URLSearchParams(location.search).has('qa')){
   window.__WILD_MUSTANG_TEST__={
@@ -1582,6 +1605,9 @@ if((import.meta.env.DEV || __TEST_MODE__) && ['localhost','127.0.0.1'].includes(
         position:{x:camera.position.x,y:camera.position.y,z:camera.position.z},
         look:{x:cam.look.x,y:cam.look.y,z:cam.look.z}},
       characters:{...cast.status},gaits:cast.horses.map(h=>h.state),
+      world:{rescuePieces:branchGroup.children.length,
+        heroUp:new THREE.Vector3(0,1,0).applyQuaternion(horse.quaternion).toArray(),
+        terrainUp:normalAt(P.x,P.z).toArray()},
       inputs:{x:IN.move.x,y:IN.move.y,gallop:IN.gallop,jump:IN.jump},completedChapters:G.completedChapters.slice(),
       action:nearestAction()?.label,render:{calls:renderer.info.render.calls,triangles:renderer.info.render.triangles},settings:{...S}}),
     teleport:resetTo,target:questTarget,terrain:hAt,
@@ -1605,6 +1631,14 @@ function alignCompanion(actor,dt){
 const contactShadows=createContactShadows(THREE,scene,[{actor:horse,width:2.8,length:4.2},{actor:foal,width:1.5,length:2.3},{actor:alex,width:1.1,length:1.1},...herd.children.map(actor=>({actor,width:2.6,length:3.8}))],hAt,normalAt);
 function configureChapter(id){
   G.chapter=id; QUESTS=CHAPTERS[id].quests; CINE=CHAPTERS[id].cinematic;
+  cameraBlocks.splice(0,cameraBlocks.length,...obstacles,...cameraCanopies,...storyWorld.cameraObstacles(id));
+  paintLandscape(THREE,groundGeo,id,riverX);
+  if(grass){
+    const tones=LANDSCAPE_STYLES[id],dark=new THREE.Color(tones.grassDark).convertSRGBToLinear(),light=new THREE.Color(tones.grassLight).convertSRGBToLinear();
+    const p=grass.geometry.attributes.position,c=grass.geometry.attributes.color,tint=new THREE.Color();
+    for(let i=0;i<p.count;i++){const t=clamp(p.getY(i)/1.5,0,1);tint.copy(dark).lerp(light,t*t);c.setXYZ(i,tint.r,tint.g,tint.b);}
+    c.needsUpdate=true;
+  }
   storyWorld.setChapter(id);
   const positions=CHAPTERS[id].apples;
   apples.forEach((a,i)=>{const p=positions[i]; a.visible=!!p; a.userData.taken=!p;
@@ -1634,12 +1668,16 @@ function finishChapter(){
   } else {G.phase='epilogue';saveCheckpoint();}
   persist();renderChapters();
   $('#cine').classList.remove('on');$('#hud').classList.remove('on');
-  $('#finish h2').textContent=G.chapter===3?'Мы дома':'Глава '+G.chapter+' пройдена';
+  $('#finish h2').textContent=G.chapter===3?'Мы дома':G.chapter===1?'Мы идём вместе':'Малыш снова смелый';
   $('#finish .sub').textContent=CHAPTERS[G.chapter].ending;
   $('#finTrust').textContent=Math.round(G.trust)+'%';$('#finApples').textContent=G.chapter===1?G.apples+' из 3':'Друзья сыты';
   $('#finTime').textContent=Math.floor(G.playTime/60)+' мин '+Math.floor(G.playTime%60)+' сек';
   $('#btnNextChapter').hidden=G.chapter===3; $('#btnNextChapter').textContent=G.chapter===1?'К белым камням →':'К дальним горам →';
+  $('#finishDetails').open=false;
   $('#btnEpilogue').hidden=G.chapter!==3; screen('#finish',true);G.phase='done';pauseGame(true);
+  cam.dist=G.chapter===3?19:16;cam.pitch=.32;cameraLookPoint();
+  cam.pos.copy(constrainCameraPosition(cam.look,followCameraPosition(P,cam.yaw,cam.pitch,cam.dist),hAt,cameraBlocks));
+  camera.position.copy(cam.pos);camera.lookAt(cam.look);
 }
 
 /* --- старт --- */

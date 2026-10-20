@@ -82,6 +82,40 @@ test('the camera may pass above or beside an obstacle without zooming in', () =>
   assert.deepEqual(constrainCameraPosition(look, candidate, flat, [{ x: 5, z: 4, r: 1, top: 8 }]), candidate);
 });
 
+test('the camera passes below an overhead canopy without treating it as a ground obstacle', () => {
+  const look = { x: 0, y: 2.4, z: 0 }, candidate = { x: 10, y: 2.8, z: 0 };
+  const canopy = { x: 5, z: 0, r: 2, bottom: 4, top: 7 };
+  assert.deepEqual(constrainCameraPosition(look, candidate, flat, [canopy]), candidate);
+  // Omitting the bottom preserves the existing solid movement envelope.
+  const solid = constrainCameraPosition(look, candidate, flat, [{ x: 5, z: 0, r: 2, top: 7 }]);
+  assert.ok(solid.x < canopy.x - canopy.r - 0.7);
+});
+
+test('an ascending look-to-camera ray stops before entering the canopy side', () => {
+  const look = { x: 0, y: 2.4, z: 0 };
+  const canopy = { x: 5, z: 0, r: 1, bottom: 4, top: 7 };
+  const position = constrainCameraPosition(look, { x: 10, y: 8, z: 0 }, flat, [canopy]);
+  assert.ok(position.x < canopy.x - canopy.r - 0.7);
+  assert.ok(position.x > 3);
+});
+
+test('a view entering the canopy underside stays clear when minimum framing would lift it into leaves', () => {
+  const look = { x: 0, y: 2.4, z: 0 };
+  const canopy = { x: 4, z: 0, r: 2, bottom: 4, top: 7 };
+  const position = constrainCameraPosition(look, { x: 10, y: 4.2, z: 0 }, flat, [canopy]);
+  assert.ok(position.x > canopy.x - canopy.r - 0.7);
+  assert.ok(position.x < canopy.x + canopy.r + 0.7);
+  assert.ok(position.y < canopy.bottom - 0.7, 'A framing lift must not re-enter the canopy');
+});
+
+test('a level view through a finite canopy clips while a view entirely above it remains clear', () => {
+  const canopy = { x: 5, z: 0, r: 1, bottom: 4, top: 7 };
+  const insideLook = { x: 0, y: 5, z: 0 }, insideCandidate = { x: 10, y: 5, z: 0 };
+  assert.ok(constrainCameraPosition(insideLook, insideCandidate, flat, [canopy]).x < 3.3);
+  const aboveLook = { x: 0, y: 8, z: 0 }, aboveCandidate = { x: 10, y: 8, z: 0 };
+  assert.deepEqual(constrainCameraPosition(aboveLook, aboveCandidate, flat, [canopy]), aboveCandidate);
+});
+
 test('descending view detects an obstacle top after entering its horizontal radius', () => {
   const look = { x: 0, y: 10, z: 0 };
   const candidate = { x: 10, y: 2, z: 0 };

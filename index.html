@@ -216,6 +216,27 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:32px;heigh
 .toggle,input[type="range"],.seg button{min-height:44px;}
 .toggle i{top:50%;transform:translateY(-50%);}
 </style>
+<style>
+/* The ending leaves the friends and the landscape visible beside a small card. */
+#finish{background:linear-gradient(90deg,transparent 45%,rgba(24,35,28,.30));backdrop-filter:none;-webkit-backdrop-filter:none;align-items:flex-end;justify-content:flex-end;padding:var(--safe-t) var(--safe-r) var(--safe-b) var(--safe-l);}
+#finish .panel{width:min(360px,35vw);padding:23px 25px;border-radius:24px;background:linear-gradient(155deg,rgba(41,56,40,.94),rgba(37,44,35,.95));border-color:#dbca9380;box-shadow:0 12px 38px #18211755;}
+#finish h2{font-size:32px;line-height:1.08;margin-bottom:12px;}
+#finish .sub{font-size:16px;line-height:1.5;margin-bottom:14px;opacity:.95;}
+#finish .wide{height:auto;min-height:60px;margin-top:8px;font-size:18px;padding:10px 12px;}
+.finish-secondary{display:flex;gap:8px;margin-top:10px;}
+#finish .finish-secondary .btn{min-height:48px;flex:1;padding:8px;font-size:14px;line-height:1.25;}
+#finishDetails{margin-top:12px;opacity:.8;}
+#finishDetails summary{cursor:pointer;min-height:44px;display:flex;align-items:center;gap:8px;font-size:13px;}
+#finishDetails summary::before{content:'+';font-size:20px;}
+#finishDetails[open] summary::before{content:'−';}
+#finishDetails .row{font-size:13px;padding:8px 0;}
+#finishDetails .row label{font-size:13px;}
+#trustPct{display:none;}
+#tracker{width:245px;border-radius:0 18px 18px 0;}
+#tracker p{font-size:17px;line-height:1.35;}
+#tracker span{font-size:13px;line-height:1.45;}
+@media(max-height:600px){#chapterTag{display:none;}#finish .panel{width:min(330px,44vw);padding:14px 18px;}#finish h2{font-size:26px;margin-bottom:8px;}#finish .sub{font-size:14px;margin-bottom:6px;}#finish .wide{min-height:48px;font-size:16px;}#finishDetails{margin-top:4px;}#tracker{width:190px;}}
+</style>
 </head>
 <body>
 <canvas id="scene"></canvas>
@@ -225,11 +246,11 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:32px;heigh
   <div id="hud">
     <div id="gauges">
       <div class="gauge">
-        <div class="lab"><span>Выносливость</span></div>
+        <div class="lab"><span>Силы</span></div>
         <div class="bar"><i id="staminaFill"></i></div>
       </div>
       <div class="gauge">
-        <div class="lab"><span>Доверие</span><span id="trustPct">0%</span></div>
+        <div class="lab"><span>Дружба</span><span id="trustPct">0%</span></div>
         <div class="bar"><i id="trustFill" style="width:0%"></i></div>
       </div>
     </div>
@@ -352,13 +373,18 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:32px;heigh
     <div class="panel">
       <h2>Конец первой главы</h2>
       <div class="sub">Табун ушёл к горам — но теперь Ветер знает дорогу. И он больше не один.</div>
-      <div class="row"><label>Доверие</label><b id="finTrust">—</b></div>
-      <div class="row"><label>Собрано яблок</label><b id="finApples">—</b></div>
-      <div class="row"><label>Время в пути</label><b id="finTime">—</b></div>
       <button class="btn wide primary pe" id="btnNextChapter" hidden>Продолжить путь →</button>
       <button class="btn wide primary pe" id="btnEpilogue" hidden>Гулять с табуном</button>
-      <button class="btn wide pe" id="btnAgain">Пройти главу заново</button>
-      <button class="btn wide pe" id="btnFinMenu">В главное меню</button>
+      <div class="finish-secondary">
+        <button class="btn pe" id="btnAgain">Ещё раз</button>
+        <button class="btn pe" id="btnFinMenu">В меню</button>
+      </div>
+      <details id="finishDetails">
+        <summary>Наше путешествие</summary>
+        <div class="row"><label>Дружба</label><b id="finTrust">—</b></div>
+        <div class="row"><label>Яблоки для друзей</label><b id="finApples">—</b></div>
+        <div class="row"><label>Время в пути</label><b id="finTime">—</b></div>
+      </details>
     </div>
   </div>
 
