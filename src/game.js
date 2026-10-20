@@ -8,6 +8,7 @@ import { createCompanionScenes } from './story/companion-scenes.js';
 import { fordEscort } from './story/ford-escort.js';
 import { applyIcons } from './ui-icons.js';
 import { createContactShadows } from './contact-shadows.js';
+import { batchStaticScenery } from './static-scenery.js';
 import { attachCharacters } from './characters/characters.js';
 import { CHAPTERS, createStoryEnvironment } from './story/index.js';
 import { readSave, writeSave, validateCheckpoint } from './persistence.js';
@@ -127,10 +128,10 @@ const skyMat = new THREE.ShaderMaterial({
    uniform vec3 top,mid,bot,sunDir; varying vec3 vP;
    void main(){
      float y = clamp(vP.y*1.15+0.06,-1.,1.);
-     vec3 c = y>0.0 ? mix(mid,top,pow(y,0.72)) : mix(mid,bot,pow(-y,0.55));
+     vec3 c = y>0.0 ? mix(mid,top,pow(y,0.48)) : mix(mid,bot,pow(-y,0.55));
      float s = max(dot(normalize(vP), normalize(sunDir)),0.0);
-     c += vec3(1.0,0.72,0.32)*pow(s,7.0)*0.85;
-     c += vec3(1.0,0.85,0.55)*pow(s,120.0)*2.2;
+     c += vec3(1.0,0.76,0.43)*pow(s,24.0)*0.24;
+     c += vec3(1.0,0.88,0.64)*pow(s,420.0)*1.6;
      gl_FragColor = vec4(c,1.0);
      #include <tonemapping_fragment>
      #include <encodings_fragment>
@@ -166,20 +167,33 @@ const ground = new THREE.Mesh(groundGeo, new THREE.MeshLambertMaterial({vertexCo
 scene.add(ground);
 
 /* --- вода --- */
-const waterMat = new THREE.MeshPhongMaterial({color:0x3F91A0, transparent:true, opacity:0.82,
-  shininess:150, specular:0xffe6a8, side:THREE.DoubleSide});
+const waterEdge={value:new THREE.Color(LANDSCAPE_STYLES[1].waterEdge).convertSRGBToLinear()};
+const waterMat = new THREE.MeshPhongMaterial({color:0x4d8f91, transparent:true, opacity:0.88,
+  shininess:90, specular:new THREE.Color(0xd8ebe8).convertSRGBToLinear(), side:THREE.DoubleSide});
+// World-anchored ripples and a shallow edge share the existing single water pass.
+waterMat.defines={USE_UV:''};
 waterMat.onBeforeCompile = sh => {
   sh.uniforms.uWaterTime = windU;
-  sh.vertexShader = 'uniform float uWaterTime;\n' + sh.vertexShader.replace('#include <begin_vertex>', `
+  sh.uniforms.uWaterEdge = waterEdge;
+  sh.vertexShader = 'uniform float uWaterTime; varying vec2 vWaterPosition;\n' + sh.vertexShader.replace('#include <begin_vertex>', `
     #include <begin_vertex>
+    vWaterPosition = position.xz;
     transformed.y += sin(position.z*.34 + uWaterTime*1.7)*.055;
     transformed.y += sin(position.z*.91 - uWaterTime*2.2)*.022;
   `);
-  sh.fragmentShader = 'uniform float uWaterTime;\n' + sh.fragmentShader.replace('#include <dithering_fragment>', `
-    float glint = pow(.5 + .5*sin(vViewPosition.z*1.7 + uWaterTime*2.4), 12.0);
-    gl_FragColor.rgb += vec3(1.0,.72,.38)*glint*.13;
-    #include <dithering_fragment>
-  `);
+  sh.fragmentShader = 'uniform float uWaterTime; uniform vec3 uWaterEdge; varying vec2 vWaterPosition;\n' + sh.fragmentShader
+    .replace('#include <color_fragment>', `
+      #include <color_fragment>
+      float shallow = pow(abs(vUv.x*2.0-1.0),3.0);
+      diffuseColor.rgb = mix(diffuseColor.rgb,uWaterEdge,shallow*.65);
+    `).replace('#include <tonemapping_fragment>', `
+      float ripple = .5+.5*sin(vWaterPosition.y*2.9+sin(vWaterPosition.x*.8)-uWaterTime*1.4);
+      float crossRipple = .5+.5*sin(vWaterPosition.x*3.8+vWaterPosition.y*.7+uWaterTime*.8);
+      float glint = pow(ripple,18.0)*pow(crossRipple,4.0);
+      float facing = 1.0-clamp(dot(normalize(normal),normalize(vViewPosition)),0.0,1.0);
+      gl_FragColor.rgb += vec3(.72,.88,.87)*(glint*.045+pow(facing,3.0)*.025);
+      #include <tonemapping_fragment>
+    `);
 };
 function buildRiverGeometry(){
   const seg=96, verts=[], uvs=[], idx=[];
@@ -200,17 +214,20 @@ water.position.y = WATER_Y;
 scene.add(water);
 
 /* --- горы: shared instanced silhouettes --- */
+const mountainMaterial=new THREE.MeshLambertMaterial({color:0xffffff,vertexColors:true});
 (function(){
-  const rockM=new THREE.MeshLambertMaterial({color:new THREE.Color(0x7a6b7e).convertSRGBToLinear()});
-  const snowM=new THREE.MeshLambertMaterial({color:new THREE.Color(0xf2e4d6).convertSRGBToLinear()});
-  const peaks=new THREE.InstancedMesh(ridgeGeometry(THREE),rockM,30);
+  const snowM=new THREE.MeshLambertMaterial({color:new THREE.Color(0xe0e7e6).convertSRGBToLinear(),vertexColors:true});
+  const peaks=new THREE.InstancedMesh(ridgeGeometry(THREE),mountainMaterial,30);
   const snowGeometry=ridgeGeometry(THREE,true),snowPeaks=[];
   const dummy=new THREE.Object3D();
   for(let i=0;i<30;i++){
     const a=i/30*TAU+valleyRand()*.12,r=210+valleyRand()*80;
     const height=40+valleyRand()*70,radius=24+valleyRand()*30,rotation=valleyRand()*TAU;
     const x=Math.cos(a)*r,z=Math.sin(a)*r;
-    dummy.position.set(x,height*.42,z);dummy.rotation.set(0,rotation,0);dummy.scale.set(radius,height,radius);dummy.updateMatrix();peaks.setMatrixAt(i,dummy.matrix);
+    // Keep the seeded sequence intact: only the distant, non-colliding silhouettes change.
+    const skylineHeight=height*(i%5===0?.55:.40),layer=i%2?1.15:1;
+    dummy.position.set(x*layer,skylineHeight*.40,z*layer);dummy.rotation.set(0,rotation,0);dummy.scale.set(radius*1.15,skylineHeight,radius);dummy.updateMatrix();peaks.setMatrixAt(i,dummy.matrix);
+    peaks.setColorAt(i,new THREE.Color().setRGB(.88+(i%3)*.04,.91+(i%3)*.025,.95+(i%3)*.015));
     if(height>78)snowPeaks.push(dummy.matrix.clone());
   }
   const caps=new THREE.InstancedMesh(snowGeometry,snowM,snowPeaks.length);
@@ -249,13 +266,16 @@ function buildGrass(){
   // Two crossed, tapered ribbons read as fine blades from every camera angle.
   // Unlike PlaneGeometry they finish in a point, removing the old card-like silhouette.
   const verts=[], indices=[];
-  function blade(angle, height, width){
+  function blade(angle, height, width, detailed){
     const ca=Math.cos(angle), sa=Math.sin(angle), base=verts.length/3;
-    const levels=[[0,width*.62],[height*.42,width*.48],[height*.78,width*.27],[height,0]];
+    const levels=detailed?[[0,width*.62],[height*.42,width*.48],[height*.78,width*.27]]:[[0,width*.62],[height*.65,width*.35]];
     levels.forEach(v=>{ verts.push(-v[1]*ca,v[0],-v[1]*sa, v[1]*ca,v[0],v[1]*sa); });
-    for(let j=0;j<3;j++){ const a=base+j*2; indices.push(a,a+1,a+2,a+1,a+3,a+2); }
+    for(let j=0;j<levels.length-1;j++){ const a=base+j*2; indices.push(a,a+1,a+2,a+1,a+3,a+2); }
+    const tip=verts.length/3;verts.push(0,height,0);
+    indices.push(tip-2,tip-1,tip);
   }
-  blade(0,1.55,.23); blade(Math.PI/2,1.18,.17);
+  // Eight triangles rather than twelve, with the same crossed, pointed silhouette.
+  blade(0,1.55,.23,true); blade(Math.PI/2,1.18,.17,false);
   const bg = new THREE.BufferGeometry();
   bg.setAttribute('position',new THREE.Float32BufferAttribute(verts,3)); bg.setIndex(indices);
   bg.computeVertexNormals();
@@ -309,7 +329,8 @@ function refreshGrass(px,pz){
     const hide = y < WATER_Y+0.25 || routeDistance<2;
     const short=routeDistance<4 || Math.hypot(x-px,z-pz)<4;
     _p.set(x, y, z); _e.set(0,b.r,0); _q.setFromEuler(_e);
-    _s.set(b.s, hide?0.01:b.s*(short?.25:.68)*(0.8+0.35*Math.sin(x*0.4+z*0.3)), b.s);
+    const patch=.78+.28*Math.sin(x*.38+Math.sin(z*.21))*Math.cos(z*.32);
+    _s.set(b.s, hide?0.01:b.s*(short?.25:.88)*patch, b.s);
     _m.compose(_p,_q,_s); grass.setMatrixAt(i,_m);
   }
   grass.instanceMatrix.needsUpdate = true;
@@ -493,6 +514,7 @@ const originalBranches = branchGroup.children.slice();
 
 /* --- препятствия: брёвна, камни, деревья --- */
 const obstacles = [], cameraCanopies = [];
+const staticSceneryRoots=[];
 function addLog(x,z,rot){
   const y = hAt(x,z);
   const l = cyl(0.55,0.5,5.4,M.wood);
@@ -503,18 +525,19 @@ function addRock(x,z,s){
   const y=hAt(x,z);
   const r = sph(1.1*s, M.rock, 1, 0.75, 1.1);
   r.position.set(x,y+0.5*s,z); r.rotation.y=valleyRand()*TAU;
-  scene.add(r); obstacles.push({x,z,r:1.1*s,top:y+1.1*s});
+  scene.add(r);staticSceneryRoots.push(r); obstacles.push({x,z,r:1.1*s,top:y+1.1*s});
 }
 function addTree(x,z){
   const y=hAt(x,z);
   const t = cyl(0.27,0.48,4.1,M.wood); t.position.set(x,y+2.05,z); t.rotation.z=(valleyRand()-.5)*.1; scene.add(t);
+  staticSceneryRoots.push(t);
   // Open, irregular prairie crowns let sunset light through instead of reading as snowmen.
   for(let i=0;i<7;i++){
     const a=valleyRand()*TAU, reach=.3+valleyRand()*1.25;
     const f = sph(.8+valleyRand()*.55, i%3?M.leaf:M.leafLight,
       1.25+valleyRand()*.35,.55+valleyRand()*.28,1.0+valleyRand()*.3);
     f.position.set(x+Math.cos(a)*reach, y+3.65+valleyRand()*1.65, z+Math.sin(a)*reach);
-    f.rotation.y=a; scene.add(f);f.updateMatrix();
+    f.rotation.y=a; scene.add(f);staticSceneryRoots.push(f);f.updateMatrix();
     f.geometry.computeBoundingBox();
     const bounds=f.geometry.boundingBox.clone().applyMatrix4(f.matrix);
     cameraCanopies.push({x:(bounds.min.x+bounds.max.x)/2,z:(bounds.min.z+bounds.max.z)/2,
@@ -534,7 +557,7 @@ function addBush(x,z,s){
     const b=sph(0.55*s,M.leaf,1.25,0.55,1.0);
     b.position.set((valleyRand()-0.5)*0.7,y+0.32*s,(valleyRand()-0.5)*0.7); g.add(b);
   }
-  g.position.set(x,0,z); scene.add(g);
+  g.position.set(x,0,z); scene.add(g);staticSceneryRoots.push(g);
 }
 addLog(14,14,0.2); addLog(2,-14,1.1); addLog(-40,-24,0.5);
 [[-18,-6,0.9],[-24,-16,0.7],[-33,-25,0.8],[-47,-29,0.75],[-62,-45,1.1],[-78,-61,1.25],[10,5,0.65],[32,-46,1.0],[-10,60,0.9],[38,42,0.8]].forEach(p=>addRock(p[0],p[1],p[2]));
@@ -552,6 +575,9 @@ for(let i=0;i<18;i++){
 }
 
 /* --- следы копыт --- */
+// Build collision/canopy data first, then batch only the immutable scenery.
+batchStaticScenery(THREE,scene,staticSceneryRoots,{tileSize:32});
+staticSceneryRoots.length=0;
 const trackPool=[];
 (function(){
   const g = new THREE.CircleGeometry(0.19,7); g.rotateX(-Math.PI/2);
@@ -798,7 +824,7 @@ function cameraLookPoint(){
    9. ЗАДАНИЯ
    ================================================================ */
 let QUESTS=CHAPTERS[1].quests;
-const storyWorld=createStoryEnvironment(THREE,scene,hAt);
+const storyWorld=createStoryEnvironment(THREE,scene,hAt,groundGeo);
 const cameraBlocks=[...obstacles,...cameraCanopies,...storyWorld.cameraObstacles()];
 const convertedStoryMats=new Set();
 Object.values(storyWorld.groups.chapters).forEach(g=>g.traverse(o=>{if(o.material?.color && !convertedStoryMats.has(o.material)){o.material.color.convertSRGBToLinear();convertedStoryMats.add(o.material);}}));
@@ -1210,20 +1236,26 @@ function animate(){
   if(G.phase==='cine') G.timeOfDay = Math.min(0.72, G.timeOfDay + dt*0.005);
   else if(!G.paused) G.timeOfDay += dt*0.0016;
   const tod = G.timeOfDay % 1;
-  const sunAng = (tod*0.82 + 0.09)*Math.PI;
-  sun.position.set(Math.cos(sunAng)*130, Math.max(Math.sin(sunAng)*90, 6), 40+Math.sin(tod*3)*40);
-  const low = clamp(1 - Math.sin(sunAng), 0, 1);
   const style=LANDSCAPE_STYLES[G.chapter];
+  // A small visual drift preserves the chapter's mood even on a long exploration.
+  sun.position.set(style.sun[0],style.sun[1]+Math.sin(tod*TAU)*4,style.sun[2]);
   sun.color.setHex(style.light).convertSRGBToLinear();
-  sun.intensity = lerp(1.05,.85,low);
-  hemi.intensity = lerp(.60,.46,low);
+  sun.intensity = G.chapter===3?1.48:1.4;
+  hemi.color.setHex(style.ambientSky).convertSRGBToLinear();
+  hemi.groundColor.setHex(style.ambientGround).convertSRGBToLinear();
+  hemi.intensity = .48;
   fill.color.setHex(style.fill).convertSRGBToLinear();
+  fill.intensity = .12;
   rim.color.setHex(style.rim).convertSRGBToLinear();
+  rim.intensity = G.chapter===3?.25:.16;
+  renderer.toneMappingExposure=style.exposure;
   skyMat.uniforms.sunDir.value.copy(sun.position).normalize();
   skyMat.uniforms.top.value.setHex(style.sky).convertSRGBToLinear();
   skyMat.uniforms.mid.value.setHex(style.horizon).convertSRGBToLinear();
   skyMat.uniforms.bot.value.setHex(style.fog).convertSRGBToLinear();
-  scene.fog.color.setHex(style.fog).convertSRGBToLinear();
+  // Three r128 applies fog AFTER output encoding: its colour is already sRGB.
+  scene.fog.color.setHex(style.fog);
+  scene.fog.density=style.fogDensity;
   renderer.setClearColor(scene.fog.color);
 
   /* --- ввод --- */
@@ -1602,7 +1634,10 @@ const contactShadows=createContactShadows(THREE,scene,[{actor:horse,width:2.8,le
 function configureChapter(id){
   G.chapter=id; QUESTS=CHAPTERS[id].quests; CINE=CHAPTERS[id].cinematic;
   cameraBlocks.splice(0,cameraBlocks.length,...obstacles,...cameraCanopies,...storyWorld.cameraObstacles(id));
-  paintLandscape(THREE,groundGeo,id,riverX);
+  const style=paintLandscape(THREE,groundGeo,id,riverX,riverWidth,WATER_Y);
+  mountainMaterial.color.setHex(style.mountain).convertSRGBToLinear();
+  waterMat.color.setHex(style.water).convertSRGBToLinear();
+  waterEdge.value.setHex(style.waterEdge).convertSRGBToLinear();
   if(grass){
     const tones=LANDSCAPE_STYLES[id],dark=new THREE.Color(tones.grassDark).convertSRGBToLinear(),light=new THREE.Color(tones.grassLight).convertSRGBToLinear();
     const p=grass.geometry.attributes.position,c=grass.geometry.attributes.color,tint=new THREE.Color();

@@ -1,4 +1,5 @@
 import { CHAPTERS, chapterDefinition } from './chapters.js';
+import { createSceneryShadows } from './scenery-shadows.js';
 
 /** Original, deterministic scenery. Static pieces share geometry and draw batches. */
 export const SCENERY_PALETTES = {
@@ -7,16 +8,17 @@ export const SCENERY_PALETTES = {
   3: { stone:0xa7afb4, shade:0x75868e, bark:0x665344, leaf:0x43675d, leafLight:0x698779, flowers:0xe7c888, trail:0xc9b58b }
 };
 
-export function createStoryEnvironment(THREE, scene, hAt) {
+export function createStoryEnvironment(THREE, scene, hAt, groundGeometry=null) {
   const root = new THREE.Group();
   root.name = 'story-landmarks';
   scene.add(root);
   const chapters = {}, routes = {}, landmarks = {}, staticBatches = {}, routeSamples = {}, cameraBounds = {1:[],2:[],3:[]};
+  const shadowPatches={1:[],2:[],3:[]},addShadows=createSceneryShadows(THREE,hAt,groundGeometry);
   const white = new THREE.MeshLambertMaterial({ color:0xe8dec9 });
   const bark = new THREE.MeshLambertMaterial({ color:0x62503a });
   const gold = new THREE.MeshLambertMaterial({ color:0xeabd56, emissive:0x4d310c });
   // Instance colors provide natural variation without a material/draw for every shade.
-  const natural = new THREE.MeshLambertMaterial({ color:0xffffff });
+  const natural = new THREE.MeshLambertMaterial({ color:0xffffff, vertexColors:true });
   const flowerMat = new THREE.MeshLambertMaterial({ color:0xffffff, vertexColors:true, side:THREE.DoubleSide });
   const rockGeo = new THREE.DodecahedronGeometry(1,0);
   const trunkGeo = new THREE.CylinderGeometry(.2,.34,1,7);
@@ -30,6 +32,7 @@ export function createStoryEnvironment(THREE, scene, hAt) {
   const markerRingGeo = new THREE.RingGeometry(1.8,2.08,30);
   const markerBeaconGeo = new THREE.OctahedronGeometry(.30,0);
   const flowerGeo = flowerGeometry();
+  const fernGeo = fernGeometry();
   const dummy = new THREE.Object3D(), tint = new THREE.Color();
   let chapterId = 1, questIndex = 0, elapsed = 0;
   const fordStones = [], mountainBranches = [], restRipples = [];
@@ -55,6 +58,35 @@ export function createStoryEnvironment(THREE, scene, hAt) {
     geo.setAttribute('color',new THREE.Float32BufferAttribute(colors,3));
     geo.computeVertexNormals();return geo;
   }
+  function fernGeometry() {
+    const vertices=[],colors=[];
+    function triangle(a,b,c,color){for(const p of [a,b,c]){vertices.push(...p);colors.push(...color);}}
+    // Folded fronds catch the light at different angles; no grass cards or shader.
+    for(let i=0;i<6;i++){
+      const angle=i*Math.PI/3,dx=Math.cos(angle),dz=Math.sin(angle),nx=-dz,nz=dx;
+      const start=[0,.025,0],middle=[dx*.25,.38,dz*.25],tip=[dx*.59,.25,dz*.59];
+      const left=[dx*.23+nx*.13,.27,dz*.23+nz*.13],right=[dx*.23-nx*.13,.27,dz*.23-nz*.13];
+      triangle(start,left,middle,[.53,.68,.42]);triangle(start,middle,right,[.73,.86,.61]);
+      triangle(middle,left,tip,[.76,.91,.62]);triangle(middle,tip,right,[.91,1,.78]);
+    }
+    const geometry=new THREE.BufferGeometry();
+    geometry.setAttribute('position',new THREE.Float32BufferAttribute(vertices,3));
+    geometry.setAttribute('color',new THREE.Float32BufferAttribute(colors,3));geometry.computeVertexNormals();return geometry;
+  }
+  function shadeGeometry(geometry) {
+    if(geometry.attributes.color)return;
+    geometry.computeBoundingBox();
+    const positions=geometry.attributes.position,normals=geometry.attributes.normal,colors=[];
+    const box=geometry.boundingBox,height=box.max.y-box.min.y||1;
+    for(let i=0;i<positions.count;i++){
+      const t=(positions.getY(i)-box.min.y)/height,n=normals?.getY(i)||0;
+      let light=.79+t*.23;
+      if(geometry===leafGeo||geometry===coneGeo)light=.65+t*.39+Math.max(0,n)*.07;
+      else if(geometry===rockGeo)light=.69+t*.32+Math.max(0,n)*.06;
+      colors.push(light*.98,light,light*.94);
+    }
+    geometry.setAttribute('color',new THREE.Float32BufferAttribute(colors,3));
+  }
   function mesh(geo,mat,x,y,z,sx=1,sy=sx,sz=sx) {
     const item=new THREE.Mesh(geo,mat);
     item.position.set(x,y,z);item.scale.set(sx,sy,sz);return item;
@@ -68,13 +100,14 @@ export function createStoryEnvironment(THREE, scene, hAt) {
       return ((t^(t>>>14))>>>0)/4294967296;
     };
   }
-  function staticPiece(group,geo,color,x,y,z,sx=1,sy=sx,sz=sx,rx=0,ry=0,rz=0,material=natural) {
+  function staticPiece(group,geo,color,x,y,z,sx=1,sy=sx,sz=sx,rx=0,ry=0,rz=0,material=natural,cameraEnvelope=true) {
+    if(material===natural)shadeGeometry(geo);
     const batches=staticBatches[group.userData.chapter];
     let batch=batches.find(item=>item.geometry===geo&&item.material===material);
     if(!batch){batch={geometry:geo,material,items:[]};batches.push(batch);}
     dummy.position.set(x,y,z);dummy.scale.set(sx,sy,sz);dummy.rotation.set(rx,ry,rz);dummy.updateMatrix();
     batch.items.push({matrix:dummy.matrix.clone(),color});
-    if(geo===leafGeo || geo===coneGeo){
+    if(cameraEnvelope&&(geo===leafGeo || geo===coneGeo)){
       if(!geo.boundingBox)geo.computeBoundingBox();
       const bounds=geo.boundingBox.clone().applyMatrix4(dummy.matrix);
       cameraBounds[group.userData.chapter].push({x:(bounds.min.x+bounds.max.x)/2,z:(bounds.min.z+bounds.max.z)/2,
@@ -97,6 +130,7 @@ export function createStoryEnvironment(THREE, scene, hAt) {
   }
   function stone(group,x,z,size=1,color=SCENERY_PALETTES[group.userData.chapter].stone) {
     staticPiece(group,rockGeo,color,x,hAt(x,z)+size*.28,z,size*1.14,size*.70,size*.84,.14,Math.sin(x*1.8+z)*2,.1);
+    shadowPatches[group.userData.chapter].push({x,z,width:size*2.15,length:size*1.8,angle:Math.sin(x*1.8+z)*2});
   }
   function movingStone(group,x,z,size=.75) {
     const item=mesh(rockGeo,white,x,hAt(x,z)+size*.28,z,size*1.14,size*.70,size*.84);
@@ -161,6 +195,7 @@ export function createStoryEnvironment(THREE, scene, hAt) {
         staticPiece(group,trunkGeo,p.bark,x+Math.cos(a)*reach*.45,y+4.0*scale,z+Math.sin(a)*reach*.45,.38*scale,2.6*scale,.38*scale,Math.sin(a)*.85,0,-Math.cos(a)*.85);
       }
     }
+    shadowPatches[group.userData.chapter].push({x:x+.45*scale,z:z-.30*scale,width:5.5*scale,length:4.5*scale,angle:-.3});
   }
   function pine(group,x,z,scale=1,seed=1) {
     const y=hAt(x,z),p=SCENERY_PALETTES[3],random=seeded(seed),lean=(random()-.5)*.08;
@@ -169,6 +204,7 @@ export function createStoryEnvironment(THREE, scene, hAt) {
       const spread=(2.25-i*.45)*scale,ox=(random()-.5)*.34*scale,oz=(random()-.5)*.34*scale;
       staticPiece(group,coneGeo,i%2?p.leaf:p.leafLight,x+ox,y+(2.7+i*1.22)*scale,z+oz,spread,2.5*scale,spread*(.84+random()*.12),lean,random()*Math.PI*2,lean*.5);
     }
+    shadowPatches[group.userData.chapter].push({x:x+.65*scale,z:z-.45*scale,width:3.4*scale,length:5.2*scale,angle:.5});
   }
   function appleTree(group,x,z) {
     willow(group,x,z,.9,759);
@@ -210,6 +246,43 @@ export function createStoryEnvironment(THREE, scene, hAt) {
       const a=random()*Math.PI*2,r=scale*(.8+random()*.45),size=scale*(.25+random()*.25);
       const ox=x+Math.cos(a)*r,oz=z+Math.sin(a)*r;
       if(routeDistance(group.userData.chapter,ox,oz)>2.2+size*1.14)stone(group,ox,oz,size,i===0?p.shade:p.stone);
+    }
+  }
+  function accentClear(group,x,z,radius) {
+    const id=group.userData.chapter;
+    if(hAt(x,z)<1.65||routeDistance(id,x,z)<2.2+radius)return false;
+    if(CHAPTERS[id].quests.some(q=>Math.hypot(x-q.target[0],z-q.target[1])<3.2+radius))return false;
+    if(id===1&&Math.hypot(x-20,z-24)<3.7+radius)return false;
+    // Keep the final hero, Alex and all family slots in one clean open meadow.
+    if(id===3&&Math.pow((x-97)/(8.2+radius),2)+Math.pow((z+94)/(7.0+radius),2)<1)return false;
+    return true;
+  }
+  function accentClump(group,x,z,seed,scale=1) {
+    const id=group.userData.chapter,p=SCENERY_PALETTES[id],random=seeded(seed);
+    for(let i=0;i<3;i++){
+      const a=i*2.4+random()*.35,cx=x+Math.cos(a)*.8*scale,cz=z+Math.sin(a)*.8*scale;
+      if(!accentClear(group,cx,cz,.8*scale))continue;
+      for(let k=0;k<2;k++){
+        const ox=cx+(k?-.23:.23)*scale,oz=cz+(k?.12:-.12)*scale;
+        staticPiece(group,leafGeo,k?p.leaf:p.leafLight,ox,hAt(ox,oz)+.26*scale,oz,
+          (.49+random()*.14)*scale,(.25+random()*.09)*scale,.47*scale,.08,a,.05,natural,false);
+      }
+      shadowPatches[id].push({x:cx,z:cz,width:1.65*scale,length:1.3*scale,angle:a});
+    }
+    for(let i=0;i<3;i++){
+      const a=i*2.2+.9,r=(1.2+random()*.35)*scale,ox=x+Math.cos(a)*r,oz=z+Math.sin(a)*r;
+      if(accentClear(group,ox,oz,.6*scale))staticPiece(group,fernGeo,p.leafLight,ox,hAt(ox,oz)+.025,oz,
+        scale,scale,scale,0,a,0,flowerMat,false);
+    }
+    for(let i=0;i<2;i++){
+      const a=i*2.8+random(),r=(1.5+random()*.4)*scale,ox=x+Math.cos(a)*r,oz=z+Math.sin(a)*r,size=(.27+random()*.15)*scale;
+      if(accentClear(group,ox,oz,size*1.14))stone(group,ox,oz,size,i?p.shade:p.stone);
+    }
+    // Small flowers among the undergrowth, kept out of every interaction area.
+    for(let i=0;i<8;i++){
+      const a=random()*Math.PI*2,r=Math.sqrt(random())*1.9*scale,ox=x+Math.cos(a)*r,oz=z+Math.sin(a)*r;
+      if(accentClear(group,ox,oz,.25*scale))staticPiece(group,flowerGeo,i%4?p.flowers:0xe9dfb9,
+        ox,hAt(ox,oz)+.025,oz,.85*scale,1.1*scale,.85*scale,0,a,0,flowerMat,false);
     }
   }
 
@@ -262,7 +335,13 @@ export function createStoryEnvironment(THREE, scene, hAt) {
     staticPiece(c3,rockGeo,color,x-3,11+i%3*2,z+7,12,15+i%3*3,10,.12,i*.63,.18);
   }
   stone(c3,88,-94,1.4,0xe8dec9);
-  for(const id of [1,2,3])finishBatches(chapters[id]);
+  // Art-directed low foreground groups frame the five story views. Existing tree
+  // matrices/camera envelopes stay exact; new decoration adds no stems/colliders.
+  for(const [x,z,seed] of [[25,24,401],[25,17,402],[18,29,403],[9,16,404],[-45,-31,405],[-70,-57,406]])accentClump(c1,x,z,seed);
+  for(const [x,z,seed] of [[23,60,411],[22,55,412],[12,68,413],[13,52,414],[20,74,415],[34,68,416],[28,84,417],[37,82,418]])accentClump(c2,x,z,seed);
+  for(const [x,z,seed] of [[68,29,421],[76,18,422],[64,28,423],[68,24,424]])accentClump(c3,x,z,seed);
+  for(const [x,z,seed] of [[87,-97,431],[90,-101,432],[108,-88,433],[108,-101,434]])accentClump(c3,x,z,seed,.85);
+  for(const id of [1,2,3]){finishBatches(chapters[id]);addShadows(chapters[id],shadowPatches[id]);}
 
   function setChapter(id) {
     chapterId=chapterDefinition(id).id;questIndex=0;
