@@ -1,0 +1,49 @@
+{
+  "artifactSourceCommit": "e0e0fd36e9b78c2b6fe2c0536697b7e968dfd21a",
+  "mainParent": "6bd97a7",
+  "allMappedRuntimeSourcesMatchMainParent": true,
+  "sourceProofSHA256": "f8b6705055ad3751f36ba04059199dda582300b9ffcc7623a292f33813154408",
+  "profile": "Same Playwright WebKit26.5 iPad1194x834, originalmedium newgame / public low fullstory, original20s loading /90s ford /300s story budgets",
+  "stats": {
+    "startTime": "2026-10-20T14:36:18.835Z",
+    "duration": 296422.074,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  },
+  "cases": [
+    {
+      "file": "gameplay.spec.js",
+      "name": "P1 new game renders locally and landscape controls are usable",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 36422,
+          "retry": 0,
+          "failureLocation": null
+        }
+      ]
+    },
+    {
+      "file": "story.spec.js",
+      "name": "Story all three chapters unlock, save, reunite and replay without losing completion",
+      "status": "unexpected",
+      "attempts": [
+        {
+          "status": "failed",
+          "durationMs": 248193,
+          "retry": 0,
+          "failureLocation": {
+            "file": "/workspace/wild-mustang/tests/helpers.js",
+            "column": 121,
+            "line": 96
+          }
+        }
+      ]
+    }
+  ],
+  "rawReport": "/workspace/.cache/graphics-polish-04/webkit-baseline-control-report.json",
+  "interpretation": "Baseline reproduces ford wall-time timeout. This rules out treating that failure alone as a new blocked-NPC bug; one sequential before/after control does not establish equal graphics performance."
+}

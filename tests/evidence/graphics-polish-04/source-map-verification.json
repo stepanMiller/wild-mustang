@@ -1,0 +1,146 @@
+{
+  "before": {
+    "map": "game-Cf9JkzMZ.js.map",
+    "mapSha256": "417cf6d61034e002bf035a02ec9b387fc6314554a4a3f33a8c1c1078809c378a",
+    "matchedModules": [
+      {
+        "path": "src/navigation.js",
+        "sha256": "775c7d6c405fa219afbfa02ddf64fab83eb910077f7f260d9dea14c3646685a3"
+      },
+      {
+        "path": "src/camera.js",
+        "sha256": "bb814827c09c59659a41fef946c1a23bdfc68abc4ae41a92a35eee215df528d0"
+      },
+      {
+        "path": "src/scene-style.js",
+        "sha256": "e7bfa7c22284d6f553f943ce63a2d314186b69e45274b4dc4f0d9216188e19cf"
+      },
+      {
+        "path": "src/audio.js",
+        "sha256": "ff0c04c89bae6118e6639f1e6a8f2e09cd90306c546d339b04e087832dc87a9d"
+      },
+      {
+        "path": "src/audio-cues.js",
+        "sha256": "85d1ef6e2db83d927447514c40e4f1f8d84c437d1f9d7d69bed691cf5b41ce74"
+      },
+      {
+        "path": "src/story/companion-scenes.js",
+        "sha256": "e207b1e347c5a1d1d4f911250c8351bfd331d85add2eaff3d24caaef877d87a1"
+      },
+      {
+        "path": "src/story/ford-escort.js",
+        "sha256": "5bb6951b2f395e64851056df23b4daf1d19a35ec9abc94ab6f4a0be84ffde681"
+      },
+      {
+        "path": "src/ui-icons.js",
+        "sha256": "c327c7798767d04e01a8e006f6c6ae5de2b00b4e5e0b4f09cc9bf86efdd14139"
+      },
+      {
+        "path": "src/contact-shadows.js",
+        "sha256": "c2255293dcbe0cb3b3ae26f50da8791743e3e9597ed3888028a6818df15597e0"
+      },
+      {
+        "path": "src/characters/alex.js",
+        "sha256": "5a9fd9a750febd79460c71c6373073d4e4eb346632e6ff5380ceab66d107acad"
+      },
+      {
+        "path": "src/characters/characters.js",
+        "sha256": "691bee28155136b706beb60b5d0e585ce04ec06352383113557be7611f12b28f"
+      },
+      {
+        "path": "src/story/chapters.js",
+        "sha256": "ab066ab7c71af8e18e0fb36eeea4f87a166e92cf0adc885437dc8786c8df6c91"
+      },
+      {
+        "path": "src/story/environment.js",
+        "sha256": "fcdeae884b35ea7596c9f61ffbde4a1b929869b9b3ea242aee9c9cc6b9f4d4c8"
+      },
+      {
+        "path": "src/persistence.js",
+        "sha256": "79e0e511a2e35bef7ba20a64454666c62aa3a02ad32d5731fb84fe1c2eceed47"
+      },
+      {
+        "path": "src/game.js",
+        "sha256": "07bf1b0f23455b1a418d551717b732cc45e973eb7cdf6bdfbf3d508690d84822"
+      }
+    ]
+  },
+  "after": {
+    "map": "game-CAT8HgOL.js.map",
+    "mapSha256": "ad1d15265d31128514d03a528b1224e255a30ca765bfa34621025cc03e60630f",
+    "matchedModules": [
+      {
+        "path": "src/navigation.js",
+        "sha256": "775c7d6c405fa219afbfa02ddf64fab83eb910077f7f260d9dea14c3646685a3"
+      },
+      {
+        "path": "src/camera.js",
+        "sha256": "bb814827c09c59659a41fef946c1a23bdfc68abc4ae41a92a35eee215df528d0"
+      },
+      {
+        "path": "src/scene-style.js",
+        "sha256": "ef9a915385b59f43453afc45df5889fc603bfa57eed656345c6a8849640262de"
+      },
+      {
+        "path": "src/audio.js",
+        "sha256": "ff0c04c89bae6118e6639f1e6a8f2e09cd90306c546d339b04e087832dc87a9d"
+      },
+      {
+        "path": "src/audio-cues.js",
+        "sha256": "85d1ef6e2db83d927447514c40e4f1f8d84c437d1f9d7d69bed691cf5b41ce74"
+      },
+      {
+        "path": "src/story/companion-scenes.js",
+        "sha256": "e207b1e347c5a1d1d4f911250c8351bfd331d85add2eaff3d24caaef877d87a1"
+      },
+      {
+        "path": "src/story/ford-escort.js",
+        "sha256": "5bb6951b2f395e64851056df23b4daf1d19a35ec9abc94ab6f4a0be84ffde681"
+      },
+      {
+        "path": "src/ui-icons.js",
+        "sha256": "c327c7798767d04e01a8e006f6c6ae5de2b00b4e5e0b4f09cc9bf86efdd14139"
+      },
+      {
+        "path": "src/contact-shadows.js",
+        "sha256": "c2255293dcbe0cb3b3ae26f50da8791743e3e9597ed3888028a6818df15597e0"
+      },
+      {
+        "path": "src/static-scenery.js",
+        "sha256": "a423debbef527e46eabc45b43010e1cf87bf6daf8c74f1424290f543b2ff94f0"
+      },
+      {
+        "path": "src/characters/alex.js",
+        "sha256": "5a9fd9a750febd79460c71c6373073d4e4eb346632e6ff5380ceab66d107acad"
+      },
+      {
+        "path": "src/characters/characters.js",
+        "sha256": "691bee28155136b706beb60b5d0e585ce04ec06352383113557be7611f12b28f"
+      },
+      {
+        "path": "src/story/chapters.js",
+        "sha256": "ab066ab7c71af8e18e0fb36eeea4f87a166e92cf0adc885437dc8786c8df6c91"
+      },
+      {
+        "path": "src/story/scenery-shadows.js",
+        "sha256": "9710d30cdb14f39ba81d7c88d3741ff1b6995588f360e90b9772054fa416177c"
+      },
+      {
+        "path": "src/story/environment.js",
+        "sha256": "4af6f188b413d7b74a1bf38add7d12e74098564d6c88c6bbfad67c473763f6f5"
+      },
+      {
+        "path": "src/persistence.js",
+        "sha256": "79e0e511a2e35bef7ba20a64454666c62aa3a02ad32d5731fb84fe1c2eceed47"
+      },
+      {
+        "path": "src/game.js",
+        "sha256": "10213ad06e6873e4be5bff5e61f9229f81ebed4a2e8103aedca11bd19e136c0c"
+      }
+    ]
+  },
+  "baseContentTrees": {
+    "e0e0fd36e9b78c2b6fe2c0536697b7e968dfd21a": "d1a01e357e338f66abd379ef4acada4ef3d1bc8d",
+    "6bd97a716ab638f94b1624d2ea5a806b3f8318ee": "d1a01e357e338f66abd379ef4acada4ef3d1bc8d"
+  }
+}

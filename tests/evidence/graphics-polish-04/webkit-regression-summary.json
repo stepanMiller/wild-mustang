@@ -1,0 +1,104 @@
+{
+  "sourceCommit": "18ae9dcd104d3f2cd4fa92fbb96ee25d673818d5",
+  "runtimeCoreCommit": "2606207e02f8dd9bb8d24a1c9d14ffb9a3a73fa2",
+  "sourceProofSHA256": "9447504e37d4debf65f1c4eda4188e9ea91fefcd38142063f634d3aa345ae0c3",
+  "browser": {
+    "name": "webkit",
+    "version": "26.5",
+    "revision": "2336"
+  },
+  "stats": {
+    "startTime": "2026-10-20T14:09:33.234Z",
+    "duration": 1415893.844,
+    "expected": 11,
+    "skipped": 0,
+    "unexpected": 7,
+    "flaky": 0
+  },
+  "scenarioCount": 18,
+  "attempts": 18,
+  "retries": 0,
+  "files": {
+    "camera-touch.spec.js": {
+      "passed": 3,
+      "failed": 1,
+      "other": 0
+    },
+    "characters.spec.js": {
+      "passed": 1,
+      "failed": 0,
+      "other": 0
+    },
+    "gameplay.spec.js": {
+      "passed": 5,
+      "failed": 4,
+      "other": 0
+    },
+    "performance.spec.js": {
+      "passed": 1,
+      "failed": 0,
+      "other": 0
+    },
+    "story.spec.js": {
+      "passed": 1,
+      "failed": 2,
+      "other": 0
+    }
+  },
+  "rawArtifacts": {
+    "log": "/workspace/.cache/graphics-polish-04/webkit-run.log",
+    "json": "/workspace/.cache/graphics-polish-04/webkit-report.json",
+    "html": "/workspace/.cache/graphics-polish-04/webkit-report/index.html"
+  },
+  "caveat": "Automated Linux Playwright WebKit regression in emulated iPad landscape; no physical iPad Safari or hardware FPS claim. Existing story tests use explicit QA setup and are not natural-route play evidence.",
+  "completeInitialRunPassed": false,
+  "initialFailureScopes": [
+    {
+      "category": "initial_loading_timeout",
+      "count": 5,
+      "timeoutMs": 20000,
+      "location": "tests/helpers.js:14"
+    },
+    {
+      "category": "chapter_2_ford_progression_timeout",
+      "count": 1,
+      "timeoutMs": 90000,
+      "location": "tests/helpers.js:96",
+      "companionsMoving": true,
+      "diagnostic": "webkit-ford-diagnostic.json"
+    },
+    {
+      "category": "global_restart_scenario_timeout_during_trust_growth",
+      "count": 1,
+      "timeoutMs": 100000,
+      "location": "tests/helpers.js:44",
+      "trustAtTimeout": 30.6,
+      "requiredTrust": 35
+    }
+  ],
+  "trackedHistoricalImageChanges": [],
+  "baselineControl": {
+    "summary": "webkit-baseline-control-summary.json",
+    "sourceProof": "webkit-baseline-source-proof.json",
+    "result": "1passed,1ford90s timeout with moving companions",
+    "candidateRunsAfterOriginal": 1,
+    "equalPerformanceEstablished": false
+  },
+  "focusedRetest": {
+    "summary": "webkit-focused-failures-summary.json",
+    "stats": {
+      "startTime": "2026-10-20T14:47:39.029Z",
+      "duration": 642410.473,
+      "expected": 3,
+      "skipped": 0,
+      "unexpected": 4,
+      "flaky": 0
+    },
+    "attempts": 7,
+    "retries": 0,
+    "sourceProof": "webkit-focused-source-proof.json",
+    "candidateUniqueCasesEverPassed": 14,
+    "noSingleCompleteCleanRun": true,
+    "furtherRerunsPerformed": false
+  }
+}

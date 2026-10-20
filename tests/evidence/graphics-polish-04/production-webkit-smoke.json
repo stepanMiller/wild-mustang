@@ -1,0 +1,84 @@
+{
+  "startedUTC": "2026-10-20T15:00:47.828Z",
+  "sourceCommit": "18ae9dcd104d3f2cd4fa92fbb96ee25d673818d5",
+  "baseURL": "http://127.0.0.1:4187/wild-mustang/",
+  "observedHead": "18ae9dcd104d3f2cd4fa92fbb96ee25d673818d5",
+  "viewport": [
+    1194,
+    834
+  ],
+  "browser": "Playwright WebKit 26.5, Linux, iPad landscape emulation",
+  "pageErrors": [],
+  "consoleErrors": [],
+  "httpErrors": [],
+  "httpAssets": [
+    {
+      "url": "http://127.0.0.1:4187/wild-mustang/",
+      "path": "index.html",
+      "status": 200,
+      "bytes": 25453,
+      "sha256": "3260f1ee2e45fddc788b0c33cfc861f30e878072c9f7261e3c0122e03ae4001e",
+      "matchesDist": true,
+      "matchesApprovedBuildProof": true,
+      "registeredInBuildProof": true
+    },
+    {
+      "url": "http://127.0.0.1:4187/wild-mustang/assets/characters/horse.glb",
+      "path": "assets/characters/horse.glb",
+      "status": 200,
+      "bytes": 761596,
+      "sha256": "591007f38ed01f46a2141806abd2500c34b90eb3e509ce7ee56cf46d440508d3",
+      "matchesDist": true,
+      "matchesApprovedBuildProof": null,
+      "registeredInBuildProof": false,
+      "matchesFrozenHorseAssetHash": true
+    },
+    {
+      "url": "http://127.0.0.1:4187/wild-mustang/assets/game-B2IxAm2v.js",
+      "path": "assets/game-B2IxAm2v.js",
+      "status": 200,
+      "bytes": 183270,
+      "sha256": "27feb88708aa07eaa9b7868caccfcb692d7e9a5597b7c5d2ef5be1f64a34b02f",
+      "matchesDist": true,
+      "matchesApprovedBuildProof": true,
+      "registeredInBuildProof": true
+    },
+    {
+      "url": "http://127.0.0.1:4187/wild-mustang/assets/index-DnKSu8Sw.js",
+      "path": "assets/index-DnKSu8Sw.js",
+      "status": 200,
+      "bytes": 2167,
+      "sha256": "36c9df0dba6375d4bfc20636fa186e215edd74aca780d54708795da8fb17f4f0",
+      "matchesDist": true,
+      "matchesApprovedBuildProof": true,
+      "registeredInBuildProof": true
+    },
+    {
+      "url": "http://127.0.0.1:4187/wild-mustang/assets/three-BmWcDw8o.js",
+      "path": "assets/three-BmWcDw8o.js",
+      "status": 200,
+      "bytes": 600807,
+      "sha256": "e7ecd029d31654659cf05187f72d4d39f17974667c0ab6b73f0534e953b075c0",
+      "matchesDist": true,
+      "matchesApprovedBuildProof": true,
+      "registeredInBuildProof": true
+    }
+  ],
+  "passed": true,
+  "productionBuildProofSHA256": "4e1a326b8594012ae81928b5bd4ebd7863f1adf64f9e6a88cfb2eb66c6a346ee",
+  "caveat": "Production flag/hook/startup smoke only; no physical iPad Safari or hardware performance claim.",
+  "engineVersion": "26.5",
+  "startup": {
+    "riggedHorseResponse200": true,
+    "loadingRemoved": true,
+    "qaHooksBeforeStart": "undefined",
+    "qaHooksAfterStart": "undefined",
+    "publicTouchNewGame": true,
+    "hudVisible": true
+  },
+  "allServedAssetsMatchDist": true,
+  "finishedUTC": "2026-10-20T15:01:42.013Z",
+  "attempts": 1,
+  "browserClosed": true,
+  "postRunActiveBrowserOrProductionRunnerProcesses": 0
+}

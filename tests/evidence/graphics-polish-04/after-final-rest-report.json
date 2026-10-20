@@ -1,0 +1,1003 @@
+{
+  "method": "Scripted V2 Continue fixtures, seeded random, fixed 1/30 game delta for explicit frames; no shipping edits",
+  "timingMethod": "Real native RAF and monotonic-clock intervals while game simulation delta is zero; software GPU comparison only",
+  "medianDefinition": "Arithmetic mean of the two central samples when sample count is even",
+  "limitations": [
+    "No physical iPad FPS or child play claim",
+    "Seed is repeatable per build; new Three UUID allocations can shift later random placement",
+    "Resource values are allocated counts, not GPU memory bytes",
+    "No narrative or natural-route validation in this visual test",
+    "Family frame is a scripted valid completed epilogue save, not a captured natural reunion",
+    "Low sample count: eight frames per pose; timing is exploratory and excludes active animation/physics CPU"
+  ],
+  "prefix": "after-final-rest",
+  "poseSet": "core",
+  "poseIDs": [
+    "04-ascent",
+    "05-family"
+  ],
+  "checkBudget": true,
+  "comparePath": "/workspace/wild-mustang/tests/evidence/graphics-polish-04/before-report.json",
+  "seed": 1196572980,
+  "fixedDelta": 0.03333333333333333,
+  "settleFrames": 6,
+  "sampleFrames": 8,
+  "launchOptions": {
+    "args": [
+      "--no-sandbox",
+      "--enable-unsafe-swiftshader"
+    ]
+  },
+  "quality": 1,
+  "browserVersion": "151.0.7922.34",
+  "began": "2026-10-20T13:57:19.405Z",
+  "frames": [
+    {
+      "id": "04-ascent",
+      "fixture": {
+        "id": "04-ascent",
+        "chapter": 3,
+        "quest": 1,
+        "x": 75,
+        "z": 26,
+        "heading": 3.141592653589793,
+        "phase": "quests"
+      },
+      "snapshot": {
+        "phase": "quests",
+        "chapter": 3,
+        "quest": 1,
+        "tutStep": 0,
+        "trust": 80,
+        "apples": 0,
+        "freeProgress": 0,
+        "foalFreed": true,
+        "position": {
+          "x": 75,
+          "y": 8.987179061332162,
+          "z": 26
+        },
+        "grounded": true,
+        "speed": 0,
+        "paused": false,
+        "heading": 3.141592653589793,
+        "camera": {
+          "yaw": 6.283185307179586,
+          "pitch": 0.22,
+          "dist": 11.5,
+          "position": {
+            "x": 75,
+            "y": 13.367130969609514,
+            "z": 31.156032003949434
+          },
+          "look": {
+            "x": 75,
+            "y": 11.387179061332162,
+            "z": 26
+          }
+        },
+        "characters": {
+          "horse": "rigged",
+          "foal": "rigged",
+          "herd": "rigged",
+          "alex": "rigged",
+          "error": null
+        },
+        "gaits": [
+          "Idle",
+          "Trot",
+          "Eating",
+          "Eating",
+          "Eating",
+          "Eating",
+          "Eating"
+        ],
+        "world": {
+          "rescuePieces": 0,
+          "heroUp": [
+            0.15439662304243656,
+            0.9879255002521523,
+            -0.012840901238860296
+          ],
+          "terrainUp": [
+            0.15439662304243656,
+            0.9879255002521524,
+            -0.012840901238860296
+          ]
+        },
+        "inputs": {
+          "x": 0,
+          "y": 0,
+          "gallop": false,
+          "jump": false
+        },
+        "completedChapters": [
+          1,
+          2
+        ],
+        "audio": {
+          "ready": true,
+          "paused": false,
+          "context": "running",
+          "sampleRate": 44100,
+          "cue": null,
+          "pendingCue": null,
+          "cueDuration": 0,
+          "cueStarts": 0,
+          "effectStarts": 0,
+          "streamStarts": 0,
+          "decodeCount": 7,
+          "lastEffect": null,
+          "voiceCacheEntries": 0,
+          "voiceCacheBytes": 0,
+          "effectCacheEntries": 7,
+          "effectCacheBytes": 764232,
+          "activeEffects": 0,
+          "musicDucked": false,
+          "settings": {
+            "music": 0,
+            "sfx": 0,
+            "voice": false,
+            "camSens": 1,
+            "hints": true,
+            "subs": true,
+            "easy": false,
+            "quality": 1
+          },
+          "environment": {
+            "chapter": 3,
+            "creek": 0,
+            "movement": 0
+          },
+          "streams": {
+            "wind": {
+              "playing": false,
+              "level": 0,
+              "time": 0,
+              "readyState": 4
+            },
+            "forest": {
+              "playing": false,
+              "level": 0,
+              "time": 0,
+              "readyState": 4
+            },
+            "bird": {
+              "playing": false,
+              "level": 0,
+              "time": 0,
+              "readyState": 4
+            },
+            "creek": {
+              "playing": false,
+              "level": 0,
+              "time": 0,
+              "readyState": 4
+            },
+            "music": {
+              "playing": false,
+              "level": 0,
+              "time": 0,
+              "readyState": 4
+            }
+          },
+          "unavailable": []
+        },
+        "presentation": null,
+        "companions": {
+          "foal": {
+            "x": 71.87033246455051,
+            "z": 29.435166232275257,
+            "animation": "Trot"
+          },
+          "alex": {
+            "x": 77.57614702500001,
+            "z": 28.423852975,
+            "animation": "Idle"
+          },
+          "herd": [
+            {
+              "x": 105,
+              "z": -94,
+              "role": "parent",
+              "animation": "Eating"
+            },
+            {
+              "x": 99.47213595499957,
+              "z": -86.39154786963877,
+              "role": "member",
+              "animation": "Eating"
+            },
+            {
+              "x": 90.52786404500043,
+              "z": -89.29771798166021,
+              "role": "member",
+              "animation": "Eating"
+            },
+            {
+              "x": 90.52786404500041,
+              "z": -98.70228201833979,
+              "role": "member",
+              "animation": "Eating"
+            },
+            {
+              "x": 99.47213595499957,
+              "z": -101.60845213036123,
+              "role": "member",
+              "animation": "Eating"
+            }
+          ]
+        },
+        "action": "Погладить Ветра",
+        "render": {
+          "calls": 50,
+          "triangles": 137563
+        },
+        "settings": {
+          "music": 0,
+          "sfx": 0,
+          "camSens": 1,
+          "hints": true,
+          "subs": true,
+          "voice": false,
+          "easy": false,
+          "quality": 1
+        }
+      },
+      "viewport": {
+        "width": 1194,
+        "height": 834
+      },
+      "devicePixelRatio": 2,
+      "simulationSteps": 6,
+      "simulationSeconds": 0.2,
+      "render": {
+        "calls": 50,
+        "triangles": 137563,
+        "frame": 44,
+        "programs": 19,
+        "textures": 11,
+        "geometries": 216,
+        "pixelRatio": 1.35,
+        "buffer": {
+          "width": 1611,
+          "height": 1125
+        },
+        "outputEncoding": 3001,
+        "toneMapping": 4,
+        "exposure": 1.04,
+        "glRenderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "glVendor": "Google Inc. (Google)"
+      },
+      "timings": {
+        "rafIntervalsMs": [
+          1949.9000000000087,
+          2966.5,
+          5716.5,
+          3349.800000000003,
+          2166.5999999999913,
+          1033.300000000003,
+          1483.300000000003,
+          5416.399999999994
+        ],
+        "nativeCallbackIntervalsMs": [
+          1947.5999999940395,
+          2975.5999999940395,
+          5704.4000000059605,
+          3360.5,
+          2159.699999988079,
+          1036,
+          1486.800000011921,
+          5432.0999999940395
+        ],
+        "raf": {
+          "count": 8,
+          "medianMs": 2566.5499999999956,
+          "p95Ms": 5716.5,
+          "meanMs": 3010.2875000000004,
+          "minMs": 1033.300000000003,
+          "maxMs": 5716.5
+        },
+        "native": {
+          "count": 8,
+          "medianMs": 2567.6499999910593,
+          "p95Ms": 5704.4000000059605,
+          "meanMs": 3012.83749999851,
+          "minMs": 1036,
+          "maxMs": 5704.4000000059605
+        }
+      },
+      "comparison": {
+        "callsChangePercent": -12.28070175438597,
+        "trianglesChangePercent": -8.0196848024499,
+        "nativeMedianChangePercent": 99.12753499438713
+      }
+    },
+    {
+      "id": "05-family",
+      "fixture": {
+        "id": "05-family",
+        "chapter": 3,
+        "quest": 5,
+        "x": 97,
+        "z": -94,
+        "heading": 2.5393053074548293,
+        "phase": "epilogue"
+      },
+      "snapshot": {
+        "phase": "epilogue",
+        "chapter": 3,
+        "quest": 5,
+        "tutStep": 0,
+        "trust": 80,
+        "apples": 0,
+        "freeProgress": 0,
+        "foalFreed": true,
+        "position": {
+          "x": 97,
+          "y": 21.397493725944358,
+          "z": -94
+        },
+        "grounded": true,
+        "speed": 0,
+        "paused": false,
+        "heading": 2.5393053074548293,
+        "camera": {
+          "yaw": 5.680897961044622,
+          "pitch": 0.22,
+          "dist": 11.5,
+          "position": {
+            "x": 90.64194861788079,
+            "y": 28.107134391374355,
+            "z": -84.75192526237205
+          },
+          "look": {
+            "x": 97,
+            "y": 23.797493725944356,
+            "z": -94
+          }
+        },
+        "characters": {
+          "horse": "rigged",
+          "foal": "rigged",
+          "herd": "rigged",
+          "alex": "rigged",
+          "error": null
+        },
+        "gaits": [
+          "Idle",
+          "Walk",
+          "Eating",
+          "Eating",
+          "Eating",
+          "Eating",
+          "Eating"
+        ],
+        "world": {
+          "rescuePieces": 0,
+          "heroUp": [
+            0.0023892700862478866,
+            0.9999854734088598,
+            -0.004831600119380846
+          ],
+          "terrainUp": [
+            0.002389270086247886,
+            0.9999854734088597,
+            -0.004831600119380845
+          ]
+        },
+        "inputs": {
+          "x": 0,
+          "y": 0,
+          "gallop": false,
+          "jump": false
+        },
+        "completedChapters": [
+          1,
+          2,
+          3
+        ],
+        "audio": {
+          "ready": true,
+          "paused": false,
+          "context": "running",
+          "sampleRate": 44100,
+          "cue": null,
+          "pendingCue": null,
+          "cueDuration": 0,
+          "cueStarts": 0,
+          "effectStarts": 0,
+          "streamStarts": 0,
+          "decodeCount": 7,
+          "lastEffect": null,
+          "voiceCacheEntries": 0,
+          "voiceCacheBytes": 0,
+          "effectCacheEntries": 7,
+          "effectCacheBytes": 764232,
+          "activeEffects": 0,
+          "musicDucked": false,
+          "settings": {
+            "music": 0,
+            "sfx": 0,
+            "voice": false,
+            "camSens": 1,
+            "hints": true,
+            "subs": true,
+            "easy": false,
+            "quality": 1
+          },
+          "environment": {
+            "chapter": 3,
+            "creek": 0,
+            "movement": 0
+          },
+          "streams": {
+            "wind": {
+              "playing": false,
+              "level": 0,
+              "time": 0,
+              "readyState": 4
+            },
+            "forest": {
+              "playing": false,
+              "level": 0,
+              "time": 0,
+              "readyState": 4
+            },
+            "bird": {
+              "playing": false,
+              "level": 0,
+              "time": 0,
+              "readyState": 4
+            },
+            "creek": {
+              "playing": false,
+              "level": 0,
+              "time": 0,
+              "readyState": 4
+            },
+            "music": {
+              "playing": false,
+              "level": 0,
+              "time": 0,
+              "readyState": 4
+            }
+          },
+          "unavailable": []
+        },
+        "presentation": null,
+        "companions": {
+          "foal": {
+            "x": 93.12494295748,
+            "z": -90.88010314183049,
+            "animation": "Walk"
+          },
+          "alex": {
+            "x": 99.36233597871839,
+            "z": -91.71123608957677,
+            "animation": "Wave"
+          },
+          "herd": [
+            {
+              "x": 105,
+              "z": -94,
+              "role": "parent",
+              "animation": "Eating"
+            },
+            {
+              "x": 99.47213595499957,
+              "z": -86.39154786963877,
+              "role": "member",
+              "animation": "Eating"
+            },
+            {
+              "x": 90.52786404500043,
+              "z": -89.29771798166021,
+              "role": "member",
+              "animation": "Eating"
+            },
+            {
+              "x": 90.52786404500041,
+              "z": -98.70228201833979,
+              "role": "member",
+              "animation": "Eating"
+            },
+            {
+              "x": 99.47213595499957,
+              "z": -101.60845213036123,
+              "role": "member",
+              "animation": "Eating"
+            }
+          ]
+        },
+        "action": "Погладить Ветра",
+        "render": {
+          "calls": 30,
+          "triangles": 133213
+        },
+        "settings": {
+          "music": 0,
+          "sfx": 0,
+          "camSens": 1,
+          "hints": true,
+          "subs": true,
+          "voice": false,
+          "easy": false,
+          "quality": 1
+        }
+      },
+      "viewport": {
+        "width": 1194,
+        "height": 834
+      },
+      "devicePixelRatio": 2,
+      "simulationSteps": 6,
+      "simulationSeconds": 0.2,
+      "render": {
+        "calls": 30,
+        "triangles": 133213,
+        "frame": 45,
+        "programs": 18,
+        "textures": 11,
+        "geometries": 204,
+        "pixelRatio": 1.35,
+        "buffer": {
+          "width": 1611,
+          "height": 1125
+        },
+        "outputEncoding": 3001,
+        "toneMapping": 4,
+        "exposure": 1.04,
+        "glRenderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "glVendor": "Google Inc. (Google)"
+      },
+      "timings": {
+        "rafIntervalsMs": [
+          1749.9000000000087,
+          2516.5999999999913,
+          2183.2000000000116,
+          2133.2999999999884,
+          1733.2000000000116,
+          2783.199999999997,
+          3449.899999999994,
+          2433.300000000003
+        ],
+        "nativeCallbackIntervalsMs": [
+          1696.0999999940395,
+          2515.4000000059605,
+          2190.699999988079,
+          2127.7000000178814,
+          1729.7999999821186,
+          2799.9000000059605,
+          3488.4000000059605,
+          2437.199999988079
+        ],
+        "raf": {
+          "count": 8,
+          "medianMs": 2308.2500000000073,
+          "p95Ms": 3449.899999999994,
+          "meanMs": 2372.8250000000007,
+          "minMs": 1733.2000000000116,
+          "maxMs": 3449.899999999994
+        },
+        "native": {
+          "count": 8,
+          "medianMs": 2313.949999988079,
+          "p95Ms": 3488.4000000059605,
+          "meanMs": 2373.14999999851,
+          "minMs": 1696.0999999940395,
+          "maxMs": 3488.4000000059605
+        }
+      },
+      "comparison": {
+        "callsChangePercent": 11.111111111111116,
+        "trianglesChangePercent": -8.259932372406286,
+        "nativeMedianChangePercent": 27.23798526210839
+      }
+    }
+  ],
+  "errors": [],
+  "provenance": {
+    "sourceCommit": "18ae9dcd104d3f2cd4fa92fbb96ee25d673818d5",
+    "runtimeSourceCommit": "2606207e02f8dd9bb8d24a1c9d14ffb9a3a73fa2",
+    "contentIdenticalParent": null,
+    "sourceManifest": "/workspace/.cache/graphics-polish-04/after-final-source-provenance.json",
+    "sourceManifestSha256": "aa45f7fc67f0552572ce71571427f5a8955fb5148ca465ea2b683e0e5553fbfa",
+    "sourceArchiveSha256": "090add8e4937387e2cfb2818eaf15bd91ae284a95eaed860c38d0ffff63b8185",
+    "sourceFiles": {
+      "vite.config.js": {
+        "sha256": "21c01977221ace7bdc8901e150300148cfb8238fa5ed6e3af00e341dee08754d",
+        "bytes": 299
+      },
+      "index.html": {
+        "sha256": "e50afc8c5792f8fbe420f7c9cb06d3e68b3559d152d29beeba2146a688d06797",
+        "bytes": 25413
+      },
+      "package-lock.json": {
+        "sha256": "3d5ed131c8b1608c6a3c486214077ecd1350423468cbcd8902b18af04392bc2b",
+        "bytes": 37201
+      },
+      "src/scene-style.js": {
+        "sha256": "ef9a915385b59f43453afc45df5889fc603bfa57eed656345c6a8849640262de",
+        "bytes": 4844
+      },
+      "src/navigation.js": {
+        "sha256": "775c7d6c405fa219afbfa02ddf64fab83eb910077f7f260d9dea14c3646685a3",
+        "bytes": 1245
+      },
+      "src/contact-shadows.js": {
+        "sha256": "c2255293dcbe0cb3b3ae26f50da8791743e3e9597ed3888028a6818df15597e0",
+        "bytes": 1650
+      },
+      "src/game.js": {
+        "sha256": "10213ad06e6873e4be5bff5e61f9229f81ebed4a2e8103aedca11bd19e136c0c",
+        "bytes": 84444
+      },
+      "src/boot.js": {
+        "sha256": "00ab5d30e413bfa91c6a84200de42bded4f47bf27a34012af32ca57dbdbd7621",
+        "bytes": 166
+      },
+      "src/static-scenery.js": {
+        "sha256": "c5df33104c9f55cb77f3b4da6550a34d926f62bfff2860cb77648530fd36b751",
+        "bytes": 4230
+      },
+      "src/audio-cues.js": {
+        "sha256": "85d1ef6e2db83d927447514c40e4f1f8d84c437d1f9d7d69bed691cf5b41ce74",
+        "bytes": 2086
+      },
+      "src/persistence.js": {
+        "sha256": "79e0e511a2e35bef7ba20a64454666c62aa3a02ad32d5731fb84fe1c2eceed47",
+        "bytes": 2689
+      },
+      "src/audio.js": {
+        "sha256": "ff0c04c89bae6118e6639f1e6a8f2e09cd90306c546d339b04e087832dc87a9d",
+        "bytes": 18698
+      },
+      "src/camera.js": {
+        "sha256": "bb814827c09c59659a41fef946c1a23bdfc68abc4ae41a92a35eee215df528d0",
+        "bytes": 4979
+      },
+      "src/ui-icons.js": {
+        "sha256": "c327c7798767d04e01a8e006f6c6ae5de2b00b4e5e0b4f09cc9bf86efdd14139",
+        "bytes": 1189
+      },
+      "src/story/index.js": {
+        "sha256": "610f9b27e49f87f9d2101e5062ebc78b42d7c73226fbeaf0eeecebeec81b4abd",
+        "bytes": 120
+      },
+      "src/story/scenery-shadows.js": {
+        "sha256": "e99736944e54e17c4aff48a8d2f0d50382169e7ca384c83469b047618fc14a08",
+        "bytes": 5370
+      },
+      "src/story/environment.js": {
+        "sha256": "4af6f188b413d7b74a1bf38add7d12e74098564d6c88c6bbfad67c473763f6f5",
+        "bytes": 23008
+      },
+      "src/story/ford-escort.js": {
+        "sha256": "5bb6951b2f395e64851056df23b4daf1d19a35ec9abc94ab6f4a0be84ffde681",
+        "bytes": 2350
+      },
+      "src/story/chapters.js": {
+        "sha256": "ab066ab7c71af8e18e0fb36eeea4f87a166e92cf0adc885437dc8786c8df6c91",
+        "bytes": 10314
+      },
+      "src/story/companion-scenes.js": {
+        "sha256": "e207b1e347c5a1d1d4f911250c8351bfd331d85add2eaff3d24caaef877d87a1",
+        "bytes": 9856
+      },
+      "src/characters/prepare-horse.py": {
+        "sha256": "35c36c1110b6a70b804cbb43d730a4e9e341ce0303606b88a278ad2354c65262",
+        "bytes": 9943
+      },
+      "src/characters/alex.js": {
+        "sha256": "5a9fd9a750febd79460c71c6373073d4e4eb346632e6ff5380ceab66d107acad",
+        "bytes": 20084
+      },
+      "src/characters/characters.js": {
+        "sha256": "691bee28155136b706beb60b5d0e585ce04ec06352383113557be7611f12b28f",
+        "bytes": 11574
+      },
+      "src/characters/alex.test.mjs": {
+        "sha256": "0efe4bfab76b8270f8cc9f7a000a1949ee693540adbe580465595b45eb18b1d1",
+        "bytes": 4273
+      },
+      "src/characters/horse.test.mjs": {
+        "sha256": "0571069828893eacda39c751d1ab75597f70d5238f01d1d0d87b1c47bdfa9be1",
+        "bytes": 7742
+      }
+    },
+    "frozenDist": "/workspace/.cache/graphics-polish-04/after-final-dist",
+    "url": "http://127.0.0.1:4187/wild-mustang/",
+    "assets": [
+      {
+        "path": "assets/audio/audio-manifest.json",
+        "bytes": 55419,
+        "sha256": "341838b4dbb3b7e7e77bdcd269380679f632d9226ea1cb5592dfce0ed99d4c0d"
+      },
+      {
+        "path": "assets/audio/sfx/bird.mp3",
+        "bytes": 24620,
+        "sha256": "e4cff17886a8f32157b7b3671baacdbe812c790df2dc87e81b96f67d129b7a9a"
+      },
+      {
+        "path": "assets/audio/sfx/branch-creak.wav",
+        "bytes": 31808,
+        "sha256": "9750c824f910302d1485daf0c20116aa3e314b335f63f92d937b65a72bcc4b7d"
+      },
+      {
+        "path": "assets/audio/sfx/creek.mp3",
+        "bytes": 48812,
+        "sha256": "05109e3d7e910ecbc6d940079b409eedaa79f77c5a8c2cd6f9aff980db71dc51"
+      },
+      {
+        "path": "assets/audio/sfx/foliage.wav",
+        "bytes": 31110,
+        "sha256": "ad194d0ba5b92edee8bb1f70a3ec06ca228f19f59446ca218fde9ced3aa288fd"
+      },
+      {
+        "path": "assets/audio/sfx/forest.mp3",
+        "bytes": 80684,
+        "sha256": "e49772833ddecd4cdefc6188eb04eb4c422c110f3080694106223deb9851bb3c"
+      },
+      {
+        "path": "assets/audio/sfx/horse-call.wav",
+        "bytes": 53070,
+        "sha256": "99e97ed0f7109b06d8292dae9f955b50d2f1eadec53b92c9963d7dfe5090b66c"
+      },
+      {
+        "path": "assets/audio/sfx/horse-surface-grass.wav",
+        "bytes": 22166,
+        "sha256": "7c99495d78847f816c0ef4bf9a74ceb8b631345cbf6d9c552ffef837d7342b5b"
+      },
+      {
+        "path": "assets/audio/sfx/horse-surface-ground.wav",
+        "bytes": 18868,
+        "sha256": "4ac5e070587c34c345b186953d944abeb7fb92c9a8230448905c79bcf699e171"
+      },
+      {
+        "path": "assets/audio/sfx/horse-surface-hall.wav",
+        "bytes": 25934,
+        "sha256": "def9cb9229654bb17ea63a6b70b404a7ea4f1a789b3c06d2a451b5669b1ab1be"
+      },
+      {
+        "path": "assets/audio/sfx/horse-surface-muffled.wav",
+        "bytes": 25548,
+        "sha256": "3ad399f75f4c764e2b1a4514cf339249be02aeea57b1f8f0ec1df4266835e76f"
+      },
+      {
+        "path": "assets/audio/sfx/music-option.mp3",
+        "bytes": 358508,
+        "sha256": "bfe611f696536dcc9015e210ef4a1c68417103257d37611847e9d17d5e79a25f"
+      },
+      {
+        "path": "assets/audio/sfx/wind.mp3",
+        "bytes": 391724,
+        "sha256": "b0acb9d913070d70d47da6551507bf55850a1f8f83a14e15ea3d6e486d892060"
+      },
+      {
+        "path": "assets/audio/voice/mountain-call.mp3",
+        "bytes": 28844,
+        "sha256": "f207eb8b5945e0df50102cdd4d1cca188d629fee426e42ed4e0078572efc4046"
+      },
+      {
+        "path": "assets/audio/voice/mountain-crest.mp3",
+        "bytes": 28076,
+        "sha256": "3cb1fdbfaeb19c110479b763353ce93a02102fa41afe6f283e0eb4476f596ce9"
+      },
+      {
+        "path": "assets/audio/voice/mountain-family.mp3",
+        "bytes": 28076,
+        "sha256": "0162ec4932a19094764ec502299b5df6e2a76d4be83880d863d939e70ed6fb1e"
+      },
+      {
+        "path": "assets/audio/voice/mountain-foal.mp3",
+        "bytes": 25772,
+        "sha256": "77df1a2b57cc352bb397c15f4feddcd8fb5b1f0d1ed5e4b19a4dc1c78a33b0b0"
+      },
+      {
+        "path": "assets/audio/voice/mountain-home.mp3",
+        "bytes": 24428,
+        "sha256": "435de71a28d24a6e7a307f30824758f4cdde9947d0d26ded6738a204df0eeb0d"
+      },
+      {
+        "path": "assets/audio/voice/mountain-tracks.mp3",
+        "bytes": 23660,
+        "sha256": "684c913165c41aa593bfd3f9871be03831ed4d4d4237cd7df64943c63a4259e6"
+      },
+      {
+        "path": "assets/audio/voice/storm-apples.mp3",
+        "bytes": 20204,
+        "sha256": "9c2621847169fee298c9dd07ce5356f9cb415cf44b63b55217f890039db24e95"
+      },
+      {
+        "path": "assets/audio/voice/storm-foal.mp3",
+        "bytes": 20972,
+        "sha256": "a8f7b3413bd35625cf8cadddcde6c13356ca41f6692c82539f1faaa8edbb3039"
+      },
+      {
+        "path": "assets/audio/voice/storm-ford.mp3",
+        "bytes": 25580,
+        "sha256": "008b72e1decaf2250c1db9c2e8ee78a79bbccffb6ae54b4cb62554370a0bbdcf"
+      },
+      {
+        "path": "assets/audio/voice/storm-hill.mp3",
+        "bytes": 21932,
+        "sha256": "a7662e9bbc0446eadec5e7041ff8e5648443d099b7ffeb7ea1e730000e126265"
+      },
+      {
+        "path": "assets/audio/voice/storm-lookout.mp3",
+        "bytes": 22508,
+        "sha256": "0ac075569fdb930efb9b5e11e4d69edfa23bd1de5a56a4e69903b67a551e1a76"
+      },
+      {
+        "path": "assets/audio/voice/storm-tracks.mp3",
+        "bytes": 18860,
+        "sha256": "21bd9b4106227e4cf12942055a63b843d2625458898f6ac01d3a5d7676602639"
+      },
+      {
+        "path": "assets/audio/voice/tutorial-alex.mp3",
+        "bytes": 26732,
+        "sha256": "550a6852019534b8dbbb0c70f1c8b184f1e6f6836b8ff699418a7b1f536bb365"
+      },
+      {
+        "path": "assets/audio/voice/tutorial-gallop.mp3",
+        "bytes": 21548,
+        "sha256": "d0183676e69d51fa28aeef96492366bf06767945b0500bff36b563f19ff8411a"
+      },
+      {
+        "path": "assets/audio/voice/tutorial-jump.mp3",
+        "bytes": 20012,
+        "sha256": "bf3d3aaea669c234979ca0fb528e315bc45eaf6eeaa42b48e2640f9d6137b8f0"
+      },
+      {
+        "path": "assets/audio/voice/tutorial-look.mp3",
+        "bytes": 27884,
+        "sha256": "e3bc0128348c592943b75accd288b0cff3b636acfe8f453de1e5fe4ce3c31291"
+      },
+      {
+        "path": "assets/audio/voice/tutorial-move.mp3",
+        "bytes": 23660,
+        "sha256": "90c10a3c3c7ea748835518ce4f6b883a4579bcd946481a4a6f92a94186f18076"
+      },
+      {
+        "path": "assets/audio/voice/willow-clue.mp3",
+        "bytes": 25580,
+        "sha256": "a7b3a8d8d55c984b48008578935c597dc4a794d6bd233c447a7c8f8dc57c95ab"
+      },
+      {
+        "path": "assets/audio/voice/willow-crossing.mp3",
+        "bytes": 29228,
+        "sha256": "6bb4b6f7fff6af86bb3b2ace28160b1d9381ef636dce3d545bff0649334276f4"
+      },
+      {
+        "path": "assets/audio/voice/willow-ford.mp3",
+        "bytes": 23084,
+        "sha256": "e317f1959a90d60f0f47520d2bec3b17136d3049a22aada479100fc7f5b8a61d"
+      },
+      {
+        "path": "assets/audio/voice/willow-meadow.mp3",
+        "bytes": 18284,
+        "sha256": "b9527476bffc543d5479208c07503bb9264098a48c785c2504a8e455e7907d85"
+      },
+      {
+        "path": "assets/audio/voice/willow-rest.mp3",
+        "bytes": 33644,
+        "sha256": "d048c6cb4cbec8423bb98b83bb23bf8044457c83f8638441087ace42544737b9"
+      },
+      {
+        "path": "assets/audio/voice/willow-tracks.mp3",
+        "bytes": 25388,
+        "sha256": "238843288e10ab84771092624998e6e005f796589cb720a2c06e65158021e134"
+      },
+      {
+        "path": "assets/characters/cast-preview.png",
+        "bytes": 61077,
+        "sha256": "faf3bb0477fde7751913a825c6a49f1750f54c2e0d8ec2ff0489ab3e42a6b653"
+      },
+      {
+        "path": "assets/characters/horse.glb",
+        "bytes": 761596,
+        "sha256": "591007f38ed01f46a2141806abd2500c34b90eb3e509ce7ee56cf46d440508d3"
+      },
+      {
+        "path": "assets/game-B74zk762.js",
+        "bytes": 184938,
+        "sha256": "99f4812272b22ea93136ddaa937647d719285c667a0dba1e9fd182bb8915fb72"
+      },
+      {
+        "path": "assets/index-CE_oCsQU.js",
+        "bytes": 2167,
+        "sha256": "efb223ee5128cc190f8d589c9268766d7a9076d14c8e2cc3f8dbbe1c21562dd1"
+      },
+      {
+        "path": "assets/licenses/audio-credits.html",
+        "bytes": 4464,
+        "sha256": "14a2fb1477eca07eeb56a50291c1309a26d875d6d2b385226614e445e050fedc"
+      },
+      {
+        "path": "assets/licenses/bird-source-license.txt",
+        "bytes": 2156,
+        "sha256": "d7c84b255c54f4dcd0d7d006d30d06399f6b54c66278307d588686bc0e6d0747"
+      },
+      {
+        "path": "assets/licenses/characters.json",
+        "bytes": 2384,
+        "sha256": "94125209b636b81968695d605c66d1b91b14efdea0b81e97b549130d922f806f"
+      },
+      {
+        "path": "assets/licenses/creek-source-license.txt",
+        "bytes": 544,
+        "sha256": "45ea51ac9a0b0ed8c7cf55a04dcbf33f3ecf4dba670777a4a3bfbca3d3ae9af4"
+      },
+      {
+        "path": "assets/licenses/horse-surface-source-credits.txt",
+        "bytes": 971,
+        "sha256": "29a0043848d2c50c86e45f762ae4a0d747e6c4bb0bcff6aae038466c54899393"
+      },
+      {
+        "path": "assets/licenses/kenney-rpg-audio-license.txt",
+        "bytes": 591,
+        "sha256": "59dfc487834abda4e349629439b9d0d26c275ab8922c1106bbb48b46808916bf"
+      },
+      {
+        "path": "assets/licenses/music-source-license.txt",
+        "bytes": 3009,
+        "sha256": "d09b58c315c5b237aa5cbd3f6eafc0b21a7317b997b1377bcaec10d1aedbfd34"
+      },
+      {
+        "path": "assets/licenses/nature-sounds-source-license.txt",
+        "bytes": 2502,
+        "sha256": "20c4ac686a833e14d67adeef4e401d6b651518ec3d5dcc92054117283dbcc09a"
+      },
+      {
+        "path": "assets/licenses/quaternius-animals-license.txt",
+        "bytes": 364,
+        "sha256": "83d8959f9fc56353ed571fbe2dc52e4bcd64508e2399501cd45ac2ce3df0bf8c"
+      },
+      {
+        "path": "assets/licenses/rhvoice-aleksandr-hq-license.txt",
+        "bytes": 1029,
+        "sha256": "3959360053a26fcc65a9cb67bfc31879b41910f3b601fdc495ccb5b1b8722999"
+      },
+      {
+        "path": "assets/licenses/three-MIT.txt",
+        "bytes": 1081,
+        "sha256": "7dddf7c5b8fd10ee654db8857d75d104b5557889aa5a91fc4ca545ea7c07062f"
+      },
+      {
+        "path": "assets/licenses/voxelibre-horse-call-license.txt",
+        "bytes": 15528,
+        "sha256": "bee9b7368e4c6b15734463be19e72ccbf85ede1266c4311359dee41a8eb13326"
+      },
+      {
+        "path": "assets/licenses/wind-source-license.txt",
+        "bytes": 1576,
+        "sha256": "a5cfca4938f91a5096827d10c4bc8b7c61754ab5bb63570e8b3d41407818e8fd"
+      },
+      {
+        "path": "assets/three-BmWcDw8o.js",
+        "bytes": 600807,
+        "sha256": "e7ecd029d31654659cf05187f72d4d39f17974667c0ab6b73f0534e953b075c0"
+      },
+      {
+        "path": "favicon.svg",
+        "bytes": 331,
+        "sha256": "ed893d80a35efa7a602ac6a44c7f763a3ba4dda7cc8aa5af99bc86d46cca483a"
+      },
+      {
+        "path": "index.html",
+        "bytes": 25453,
+        "sha256": "ad709818d1261d23b53e0c04f7c9256d6d839dbbe24d2ede525ab9972291d76f"
+      },
+      {
+        "path": "release.json",
+        "bytes": 2028,
+        "sha256": "de41959437673fd9029c27df4407bd57951fba9a8eeb4a805ccd805bddbb100a"
+      }
+    ],
+    "gameSha256": "99f4812272b22ea93136ddaa937647d719285c667a0dba1e9fd182bb8915fb72",
+    "threeURL": "http://127.0.0.1:4187/wild-mustang/assets/three-BmWcDw8o.js"
+  },
+  "result": "passed",
+  "ended": "2026-10-20T14:01:21.935Z"
+}

@@ -1,0 +1,214 @@
+{
+  "method": "CPU Three128 Frustum.intersectsObject; expected opaque static-subset draw calls, not GPU FPS or whole-game draw count",
+  "sourceSHA256": "07bf1b0f23455b1a418d551717b732cc45e973eb7cdf6bdfbf3d508690d84822",
+  "staticMeshes": 108,
+  "triangles": 22040,
+  "byMaterial": {
+    "rock": 22,
+    "wood": 7,
+    "leafLight": 21,
+    "leaf": 58
+  },
+  "obstacleCount": 41,
+  "canopyCount": 49,
+  "variants": [
+    {
+      "tile": 24,
+      "totalBatches": 46,
+      "triangles": 22040
+    },
+    {
+      "tile": 32,
+      "totalBatches": 43,
+      "triangles": 22040
+    },
+    {
+      "tile": 40,
+      "totalBatches": 39,
+      "triangles": 22040
+    },
+    {
+      "tile": 48,
+      "totalBatches": 35,
+      "triangles": 22040
+    },
+    {
+      "tile": 64,
+      "totalBatches": 31,
+      "triangles": 22040
+    }
+  ],
+  "measurements": [
+    {
+      "name": "01-start",
+      "baseline": {
+        "calls": 22,
+        "triangles": 4568
+      },
+      "variants": [
+        {
+          "tile": 24,
+          "calls": 13,
+          "triangles": 5000
+        },
+        {
+          "tile": 32,
+          "calls": 11,
+          "triangles": 5000
+        },
+        {
+          "tile": 40,
+          "calls": 11,
+          "triangles": 6296
+        },
+        {
+          "tile": 48,
+          "calls": 12,
+          "triangles": 7808
+        },
+        {
+          "tile": 64,
+          "calls": 10,
+          "triangles": 10832
+        }
+      ]
+    },
+    {
+      "name": "02-ford",
+      "baseline": {
+        "calls": 27,
+        "triangles": 5464
+      },
+      "variants": [
+        {
+          "tile": 24,
+          "calls": 13,
+          "triangles": 5464
+        },
+        {
+          "tile": 32,
+          "calls": 13,
+          "triangles": 5464
+        },
+        {
+          "tile": 40,
+          "calls": 12,
+          "triangles": 6328
+        },
+        {
+          "tile": 48,
+          "calls": 13,
+          "triangles": 6976
+        },
+        {
+          "tile": 64,
+          "calls": 12,
+          "triangles": 7624
+        }
+      ]
+    },
+    {
+      "name": "03-clearing",
+      "baseline": {
+        "calls": 0,
+        "triangles": 0
+      },
+      "variants": [
+        {
+          "tile": 24,
+          "calls": 0,
+          "triangles": 0
+        },
+        {
+          "tile": 32,
+          "calls": 0,
+          "triangles": 0
+        },
+        {
+          "tile": 40,
+          "calls": 1,
+          "triangles": 432
+        },
+        {
+          "tile": 48,
+          "calls": 0,
+          "triangles": 0
+        },
+        {
+          "tile": 64,
+          "calls": 0,
+          "triangles": 0
+        }
+      ]
+    },
+    {
+      "name": "04-ascent",
+      "baseline": {
+        "calls": 19,
+        "triangles": 3920
+      },
+      "variants": [
+        {
+          "tile": 24,
+          "calls": 11,
+          "triangles": 3920
+        },
+        {
+          "tile": 32,
+          "calls": 9,
+          "triangles": 3920
+        },
+        {
+          "tile": 40,
+          "calls": 9,
+          "triangles": 4136
+        },
+        {
+          "tile": 48,
+          "calls": 10,
+          "triangles": 3920
+        },
+        {
+          "tile": 64,
+          "calls": 8,
+          "triangles": 3920
+        }
+      ]
+    },
+    {
+      "name": "05-family",
+      "baseline": {
+        "calls": 10,
+        "triangles": 1976
+      },
+      "variants": [
+        {
+          "tile": 24,
+          "calls": 5,
+          "triangles": 3704
+        },
+        {
+          "tile": 32,
+          "calls": 6,
+          "triangles": 4568
+        },
+        {
+          "tile": 40,
+          "calls": 7,
+          "triangles": 5000
+        },
+        {
+          "tile": 48,
+          "calls": 5,
+          "triangles": 5248
+        },
+        {
+          "tile": 64,
+          "calls": 6,
+          "triangles": 4784
+        }
+      ]
+    }
+  ],
+  "diagnosticsUnchanged": true
+}

@@ -1,0 +1,189 @@
+{
+  "verifiedUTC": "2026-10-20T14:36:07.531Z",
+  "sourceCommit": "e0e0fd36e9b78c2b6fe2c0536697b7e968dfd21a",
+  "sourceVerification": "Immutable git objects at the explicitly approved commit",
+  "archiveManifestCommitAtVerification": "e0e0fd36e9b78c2b6fe2c0536697b7e968dfd21a",
+  "baseURL": "http://127.0.0.1:4186/wild-mustang/",
+  "tests": [
+    {
+      "path": "tests/gameplay.spec.js",
+      "sha256": "f7a2295fda9b92154a531973d7f1e482e11249301f10e42182ee088279d3fd7e",
+      "bytes": 10420,
+      "matchesFrozenSource": true
+    },
+    {
+      "path": "tests/camera-touch.spec.js",
+      "sha256": "e1077b9dc81abe3ddc7626289372a62dfbbc423cb50840c2b495b766579f278f",
+      "bytes": 4428,
+      "matchesFrozenSource": true
+    },
+    {
+      "path": "tests/story.spec.js",
+      "sha256": "f03d6617a1ced7d584f034ff2dbe4a1757c30a8c72a7bf2e06193f2378ba0f74",
+      "bytes": 5407,
+      "matchesFrozenSource": true
+    },
+    {
+      "path": "tests/characters.spec.js",
+      "sha256": "c33f17fbbde14990867852d39aa78b745bd05701ffcc51d6355e5cd5b2d36ca7",
+      "bytes": 1197,
+      "matchesFrozenSource": true
+    },
+    {
+      "path": "tests/performance.spec.js",
+      "sha256": "8fdc3317ab5693e2f221bcc8e25cca742ef628052e56b9cda8f9998512e57ffd",
+      "bytes": 1508,
+      "matchesFrozenSource": true
+    },
+    {
+      "path": "tests/fixtures.js",
+      "sha256": "162ac6374a98af8a486701c3629531ad1d7184312d99ceab5c8cd7716691c57f",
+      "bytes": 902,
+      "matchesFrozenSource": true
+    },
+    {
+      "path": "tests/helpers.js",
+      "sha256": "7f99435d5980e0fe7b76c69cde7e8a66c9fd6f1324b32a005448028843194285",
+      "bytes": 5656,
+      "matchesFrozenSource": true
+    },
+    {
+      "path": "playwright.config.js",
+      "sha256": "81904e22a2c950dcae87b0d7d4c7cbf69d7259157a931b9a10255f12e50e2559",
+      "bytes": 1872,
+      "matchesFrozenSource": true
+    }
+  ],
+  "servedBuildFiles": [
+    {
+      "path": "index.html",
+      "sha256": "38f52ce4852586abe5b0e6392aaac886a57864a0f8e06ccd73d8ee15a127848d",
+      "bytes": 25453,
+      "httpMatchesFrozenFile": true
+    },
+    {
+      "path": "assets/game-Cf9JkzMZ.js",
+      "sha256": "76c3a1566358be18b1f6c67c1bbdc48319ba7650f0fdf219c6778086fba79605",
+      "bytes": 174723,
+      "httpMatchesFrozenFile": true
+    },
+    {
+      "path": "assets/game-Cf9JkzMZ.js.map",
+      "sha256": "417cf6d61034e002bf035a02ec9b387fc6314554a4a3f33a8c1c1078809c378a",
+      "bytes": 587100,
+      "httpMatchesFrozenFile": true
+    },
+    {
+      "path": "assets/index-CiRBMQX5.js",
+      "sha256": "202f79d4ef067ba5a3921aa807fb3f110f4e4c72eb1b5bad1f8bbe364a88a154",
+      "bytes": 2167,
+      "httpMatchesFrozenFile": true
+    },
+    {
+      "path": "assets/index-CiRBMQX5.js.map",
+      "sha256": "930c10de555df8582f66db157edb09e9b7a3f6bf0b1bbf57040ca31399212349",
+      "bytes": 486,
+      "httpMatchesFrozenFile": true
+    },
+    {
+      "path": "assets/three-BL-DKq3J.js",
+      "sha256": "5e3507a10f824375a1f65e00dd8a4d20c236826e1701798dc65637137f077c12",
+      "bytes": 600807,
+      "httpMatchesFrozenFile": true
+    },
+    {
+      "path": "assets/three-BL-DKq3J.js.map",
+      "sha256": "4c2d9a3a395dc55e312e6d28447da9483133be15abbd06cb8d487cb38358cb04",
+      "bytes": 1941324,
+      "httpMatchesFrozenFile": true
+    },
+    {
+      "path": "assets/characters/horse.glb",
+      "sha256": "591007f38ed01f46a2141806abd2500c34b90eb3e509ce7ee56cf46d440508d3",
+      "bytes": 761596,
+      "httpMatchesFrozenFile": true
+    }
+  ],
+  "mappedSources": [
+    {
+      "path": "src/navigation.js",
+      "sha256": "775c7d6c405fa219afbfa02ddf64fab83eb910077f7f260d9dea14c3646685a3",
+      "matchesFrozenSource": true
+    },
+    {
+      "path": "src/camera.js",
+      "sha256": "bb814827c09c59659a41fef946c1a23bdfc68abc4ae41a92a35eee215df528d0",
+      "matchesFrozenSource": true
+    },
+    {
+      "path": "src/scene-style.js",
+      "sha256": "e7bfa7c22284d6f553f943ce63a2d314186b69e45274b4dc4f0d9216188e19cf",
+      "matchesFrozenSource": true
+    },
+    {
+      "path": "src/audio.js",
+      "sha256": "ff0c04c89bae6118e6639f1e6a8f2e09cd90306c546d339b04e087832dc87a9d",
+      "matchesFrozenSource": true
+    },
+    {
+      "path": "src/audio-cues.js",
+      "sha256": "85d1ef6e2db83d927447514c40e4f1f8d84c437d1f9d7d69bed691cf5b41ce74",
+      "matchesFrozenSource": true
+    },
+    {
+      "path": "src/story/companion-scenes.js",
+      "sha256": "e207b1e347c5a1d1d4f911250c8351bfd331d85add2eaff3d24caaef877d87a1",
+      "matchesFrozenSource": true
+    },
+    {
+      "path": "src/story/ford-escort.js",
+      "sha256": "5bb6951b2f395e64851056df23b4daf1d19a35ec9abc94ab6f4a0be84ffde681",
+      "matchesFrozenSource": true
+    },
+    {
+      "path": "src/ui-icons.js",
+      "sha256": "c327c7798767d04e01a8e006f6c6ae5de2b00b4e5e0b4f09cc9bf86efdd14139",
+      "matchesFrozenSource": true
+    },
+    {
+      "path": "src/contact-shadows.js",
+      "sha256": "c2255293dcbe0cb3b3ae26f50da8791743e3e9597ed3888028a6818df15597e0",
+      "matchesFrozenSource": true
+    },
+    {
+      "path": "src/characters/alex.js",
+      "sha256": "5a9fd9a750febd79460c71c6373073d4e4eb346632e6ff5380ceab66d107acad",
+      "matchesFrozenSource": true
+    },
+    {
+      "path": "src/characters/characters.js",
+      "sha256": "691bee28155136b706beb60b5d0e585ce04ec06352383113557be7611f12b28f",
+      "matchesFrozenSource": true
+    },
+    {
+      "path": "src/story/chapters.js",
+      "sha256": "ab066ab7c71af8e18e0fb36eeea4f87a166e92cf0adc885437dc8786c8df6c91",
+      "matchesFrozenSource": true
+    },
+    {
+      "path": "src/story/environment.js",
+      "sha256": "fcdeae884b35ea7596c9f61ffbde4a1b929869b9b3ea242aee9c9cc6b9f4d4c8",
+      "matchesFrozenSource": true
+    },
+    {
+      "path": "src/persistence.js",
+      "sha256": "79e0e511a2e35bef7ba20a64454666c62aa3a02ad32d5731fb84fe1c2eceed47",
+      "matchesFrozenSource": true
+    },
+    {
+      "path": "src/game.js",
+      "sha256": "07bf1b0f23455b1a418d551717b732cc45e973eb7cdf6bdfbf3d508690d84822",
+      "matchesFrozenSource": true
+    },
+    {
+      "path": "src/boot.js",
+      "sha256": "00ab5d30e413bfa91c6a84200de42bded4f47bf27a34012af32ca57dbdbd7621",
+      "matchesFrozenSource": true
+    }
+  ]
+}

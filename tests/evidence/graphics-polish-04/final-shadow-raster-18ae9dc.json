@@ -1,0 +1,69 @@
+{
+  "sourceCommit": "18ae9dcd104d3f2cd4fa92fbb96ee25d673818d5",
+  "runtimeCoreCommit": "2606207e02f8dd9bb8d24a1c9d14ffb9a3a73fa2",
+  "sourceSha256": {
+    "src/game.js": "10213ad06e6873e4be5bff5e61f9229f81ebed4a2e8103aedca11bd19e136c0c",
+    "src/story/chapters.js": "ab066ab7c71af8e18e0fb36eeea4f87a166e92cf0adc885437dc8786c8df6c91",
+    "src/story/environment.js": "4af6f188b413d7b74a1bf38add7d12e74098564d6c88c6bbfad67c473763f6f5",
+    "src/story/scenery-shadows.js": "e99736944e54e17c4aff48a8d2f0d50382169e7ca384c83469b047618fc14a08",
+    "src/static-scenery.js": "c5df33104c9f55cb77f3b4da6550a34d926f62bfff2860cb77648530fd36b751",
+    "public/release.json": "de41959437673fd9029c27df4407bd57951fba9a8eeb4a805ccd805bddbb100a"
+  },
+  "scope": "Story environment subtree before frustum culling. Global static-scenery batching/recentering is outside these subtree counts; its final source hash is included for provenance.",
+  "alphaTest": {
+    "enabled": false,
+    "value": 0,
+    "note": "Final helper uses clipping without alphaTest; the .002 hot diagnostic/candidate setting is not present in this source."
+  },
+  "measurement": "Geometry-only projected XZ area summed across shadow triangles, including overlap; not screen-space fragments, browser timing or hardware FPS.",
+  "chapters": {
+    "1": {
+      "wholeGroundTiles": {
+        "shadowTriangles": 228,
+        "projectedXZArea": 785.53125
+      },
+      "finalClipped": {
+        "shadowTriangles": 364,
+        "projectedXZArea": 94.54878366758521
+      },
+      "projectedAreaReductionFraction": 0.8796371453489785,
+      "triangleDelta": 136
+    },
+    "2": {
+      "wholeGroundTiles": {
+        "shadowTriangles": 600,
+        "projectedXZArea": 2067.1875
+      },
+      "finalClipped": {
+        "shadowTriangles": 840,
+        "projectedXZArea": 268.62784639234087
+      },
+      "projectedAreaReductionFraction": 0.8700515331133045,
+      "triangleDelta": 240
+    },
+    "3": {
+      "wholeGroundTiles": {
+        "shadowTriangles": 810,
+        "projectedXZArea": 2790.703125
+      },
+      "finalClipped": {
+        "shadowTriangles": 1012,
+        "projectedXZArea": 373.0638848444342
+      },
+      "projectedAreaReductionFraction": 0.8663190356930445,
+      "triangleDelta": 202
+    }
+  },
+  "totals": {
+    "wholeGroundTilesArea": 5643.421875,
+    "finalClippedArea": 736.2405149043602,
+    "wholeGroundTileTriangles": 1638,
+    "finalShadowTriangles": 2216,
+    "projectedAreaReductionFraction": 0.8695400536745518
+  },
+  "limitations": [
+    "Projected XZ area is a geometry/raster-work proxy. Camera projection, depth rejection, occlusion and the GPU change actual frame cost.",
+    "No FPS improvement or physical iPad verification is claimed by this report.",
+    "Final source deliberately has no alphaTest; earlier .002 candidate/hot experiments are separate."
+  ]
+}

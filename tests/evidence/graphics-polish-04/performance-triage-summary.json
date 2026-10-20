@@ -1,0 +1,125 @@
+{
+  "sourceBuild": "ca93299",
+  "method": "Hot single-context stationary start; native performance.now RAF intervals; frozen simulation; Chromium151.0.7922.34 ordinary multiprocess SwiftShader;1194x834 DPR2 medium",
+  "medianDefinition": "Conventional median averages the two central values for8 samples; raw report native.medianMs preserves upper-middle implementation",
+  "controlDriftPercent": -28.88113801095329,
+  "stages": [
+    {
+      "variant": "control",
+      "sampleCount": 8,
+      "conventionalMedianMs": 1462.2000000029802,
+      "reportedUpperMiddleMedianMs": 1496.199999988079,
+      "minMs": 1171.4000000059605,
+      "maxMs": 2591.7999999821186,
+      "drawCalls": [
+        68
+      ],
+      "triangles": [
+        111342
+      ],
+      "hiddenDrawDelta": [
+        0
+      ],
+      "shadowMapEnabled": false,
+      "changeVsFirstControlPercent": 0.0
+    },
+    {
+      "variant": "no-shadows",
+      "sampleCount": 8,
+      "conventionalMedianMs": 1721.2000000029802,
+      "reportedUpperMiddleMedianMs": 1816,
+      "minMs": 1192.199999988079,
+      "maxMs": 3512.5,
+      "drawCalls": [
+        67
+      ],
+      "triangles": [
+        111114
+      ],
+      "hiddenDrawDelta": [
+        0
+      ],
+      "shadowMapEnabled": false,
+      "changeVsFirstControlPercent": 17.71303515247382
+    },
+    {
+      "variant": "shadow-alpha-test",
+      "sampleCount": 8,
+      "conventionalMedianMs": 4873.29999999702,
+      "reportedUpperMiddleMedianMs": 5749.699999988079,
+      "minMs": 2596.5999999940395,
+      "maxMs": 7556.799999982119,
+      "drawCalls": [
+        68
+      ],
+      "triangles": [
+        111342
+      ],
+      "hiddenDrawDelta": [
+        0
+      ],
+      "shadowMapEnabled": false,
+      "changeVsFirstControlPercent": 233.28546026447046
+    },
+    {
+      "variant": "shadow-clipped-alpha",
+      "sampleCount": 8,
+      "conventionalMedianMs": 2240.249999985099,
+      "reportedUpperMiddleMedianMs": 2337.199999988079,
+      "minMs": 1397.300000011921,
+      "maxMs": 3039.800000011921,
+      "drawCalls": [
+        68
+      ],
+      "triangles": [
+        111478
+      ],
+      "hiddenDrawDelta": [
+        0
+      ],
+      "shadowMapEnabled": false,
+      "changeVsFirstControlPercent": 53.21091505816802
+    },
+    {
+      "variant": "sky-120",
+      "sampleCount": 8,
+      "conventionalMedianMs": 1670.4000000059605,
+      "reportedUpperMiddleMedianMs": 1687.4000000059605,
+      "minMs": 1055.2999999821186,
+      "maxMs": 2229.4000000059605,
+      "drawCalls": [
+        68
+      ],
+      "triangles": [
+        111342
+      ],
+      "hiddenDrawDelta": [
+        0
+      ],
+      "shadowMapEnabled": false,
+      "changeVsFirstControlPercent": 14.238818219296668
+    },
+    {
+      "variant": "control-restored",
+      "sampleCount": 8,
+      "conventionalMedianMs": 1039.9000000059605,
+      "reportedUpperMiddleMedianMs": 1081.800000011921,
+      "minMs": 819.8999999761581,
+      "maxMs": 21869.29999998212,
+      "drawCalls": [
+        68
+      ],
+      "triangles": [
+        111342
+      ],
+      "hiddenDrawDelta": [
+        0
+      ],
+      "shadowMapEnabled": false,
+      "changeVsFirstControlPercent": -28.88113801095329
+    }
+  ],
+  "conclusion": "Timing inconclusive: restored control drifts more than15%; no measured speedup can be claimed for alphaTest or clipping. Actual GL counts equal renderer.info in every frame; no hidden passes; shadowMap disabled. Clipping still removes mathematically proven unused raster area.",
+  "browserTerminated": true,
+  "rawReport": "/workspace/.cache/graphics-polish-04/performance-triage-completed-controls.json"
+}

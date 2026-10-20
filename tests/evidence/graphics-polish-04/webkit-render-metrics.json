@@ -1,0 +1,18 @@
+{
+  "browser": "Mozilla/5.0 (iPad; CPU OS 12_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.5 Mobile/15E148 Safari/604.1",
+  "viewport": [
+    1194,
+    834
+  ],
+  "devicePixelRatio": 2,
+  "samples": 1,
+  "meanFrameMs": 3456,
+  "p95FrameMs": 3456,
+  "renderer": {
+    "calls": 69,
+    "triangles": 111480
+  },
+  "note": "Desktop automated runner, not physical iPad performance.",
+  "sourceCommit": "18ae9dcd104d3f2cd4fa92fbb96ee25d673818d5",
+  "limitation": "One native rAF sample on this software renderer; not an iPad measurement or a reliable FPS comparison."
+}

@@ -44,7 +44,8 @@ Current release classification: 1.0.0-rc.1. Do not close #8 or master #9 as a fu
 
 ## Post-release polish, issue #14 — 14 October 2026
 
-Stage A is implemented on `codex/ipad-polish-01`, based on main `188f152`. The published main release remains unchanged.
+The following records describe the 14 October feature branches before PRs #15–#17
+were merged. Stage A was implemented on `codex/ipad-polish-01`, based on main `188f152`.
 
 - [x] Reproduce native browser two-finger input: holding the joystick suppressed camera swipe; retain before/after game screenshots.
 - [x] Allow independent joystick/camera pointers; preserve gallop ownership and clear canceled/capture-lost/rotated/backgrounded inputs.
@@ -58,3 +59,23 @@ Stage A is implemented on `codex/ipad-polish-01`, based on main `188f152`. The p
 - [x] Stage C implemented on `codex/audio-story-polish-03`: 35 local licensed audio files, 23 Russian cues, voice captions/repeat/mute, bounded caches, actual ford escort, optional friend reactions and coherent family/Alex formation. 63 unit checks pass; the five final audio/companion scenarios pass in Chromium and WebKit. Full three-chapter native touch journey passed in 25.7 minutes of automated wall time, with save/reload, natural cinematics and epilogue; zero injected progress. Stage C PR #17 includes before/after screenshots, frozen build hashes and the full protocol. Its final-head CI must be green before review readiness.
 
 Physical iPad Safari, hardware FPS, independent child comprehension and 10–15-minute chapter durations remain separate unverified gates. Automated route planning around observed colliders is not a child's independent playthrough.
+
+## Graphics polish — 20 October 2026
+
+PRs #15–#17 are merged in main `6bd97a7`. This graphics-only pass is on
+`codex/graphics-polish-04`, based on that main, with runtime source `2606207`
+and release metadata in `18ae9dc`.
+
+- [x] Fast environment/lighting pass: chapter-specific sun directions, linear light colours, output-space fog for Three r128, restrained sky glow and distinct morning/riverside/evening palettes.
+- [x] Hero-scene polish: layered lower mountains, slope-based rocky ground, river-width-aware banks, world-anchored water highlights, low plant/stone/flower groups and terrain-conforming soft scenery shadows.
+- [x] Preserve physical terrain, routes, collisions, camera envelopes, characters, chapter objectives, audio, ending and save schema. Existing story-environment instance transforms and camera bounds match the base; distant decorative ridges are intentionally reshaped.
+- [x] Keep medium grass count while reducing each tuft from 12 to 8 triangles; batch immutable global scenery in 32m tiles without changing its world surfaces or materials.
+- [x] Bound scenery-shadow geometry to each soft oval, without alpha discard or shadow-map passes; re-centre static batches for correct object-depth sorting.
+- [x] QA build and 69 unit checks pass, including physical-terrain, clipped-shadow area and world-surface preservation checks.
+- [x] Matched before/after frames and measured rendering budget for start, ford, clearing, ascent and herd: at most 137,563 triangles/68 calls versus 149,557/79 before. First three frames passed their guards in a run that later reached its 600s overall cap; a separate unchanged-cap tail run passed the other two.
+- [x] Add two guarded water/bank comparisons, including a readable view along the channel; seven paired poses/14 PNG in total. No water-animation or physical FPS claim follows from these frozen frames.
+- [x] Run unchanged WebKit regressions and a baseline control: initial 11/18 pass, focused 3/7 pass; 14/18 unique pass at least once. Preserve all failures and movement diagnostics. Baseline also times out at the ford. This is not a clean regression gate or proof of equal performance.
+- [x] Production rebuild without QA hooks passes; all 18 release fingerprints match and runtime JS contains no QA hook symbol.
+- [x] Production WebKit smoke passes: public touch New Game/HUD/local model, no QA hooks even with the query, matching served asset hashes and no errors.
+- [ ] Clean WebKit regression and physical iPad FPS gates remain open; no performance-equality claim is inferred from the software runner.
+- [ ] Separate PR with screenshots and explicit software/hardware measurement limits. No merge or deployment in this pass.

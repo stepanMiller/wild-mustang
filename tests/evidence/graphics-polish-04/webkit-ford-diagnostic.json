@@ -1,0 +1,182 @@
+{
+  "sourceCommit": "18ae9dcd104d3f2cd4fa92fbb96ee25d673818d5",
+  "method": "Offline decoding of existing Playwright trace results; no new browser, simulation or snapshot injection.",
+  "trace": "/workspace/.cache/graphics-polish-04/webkit-results/story-Story-all-three-chap-32630-y-without-losing-completion-webkit-ipad/trace.zip",
+  "wallSpanMs": 89709.96999999997,
+  "pollSnapshots": 67,
+  "actualRenderedFrameCount": "Not recorded in snapshot/trace; poll snapshots are not frame counts.",
+  "foalDeltaX": 12.340787363498809,
+  "alexDeltaX": 14.520980907504692,
+  "unchangedFrameDtCapSeconds": 0.05,
+  "wallTimeIsNotSimulationTime": true,
+  "first": {
+    "traceEndTimeMs": 1186362.914,
+    "hero": {
+      "x": 17,
+      "y": 11.6564738029303,
+      "z": 60
+    },
+    "paused": false,
+    "render": {
+      "calls": 33,
+      "triangles": 112538
+    },
+    "quality": 0,
+    "foal": {
+      "x": -18,
+      "z": 63,
+      "animation": "Gallop"
+    },
+    "alex": {
+      "x": -11,
+      "z": 62,
+      "animation": "Walk"
+    }
+  },
+  "last": {
+    "traceEndTimeMs": 1276072.884,
+    "hero": {
+      "x": 17,
+      "y": 11.6564738029303,
+      "z": 60
+    },
+    "paused": false,
+    "render": {
+      "calls": 39,
+      "triangles": 112150
+    },
+    "quality": 0,
+    "foal": {
+      "x": -5.659212636501191,
+      "z": 61.35456168486681,
+      "animation": "Walk"
+    },
+    "alex": {
+      "x": 3.5209809075046916,
+      "z": 61.658329860999885,
+      "animation": "Run"
+    }
+  },
+  "tail": [
+    {
+      "traceEndTimeMs": 1270743.871,
+      "hero": {
+        "x": 17,
+        "y": 11.6564738029303,
+        "z": 60
+      },
+      "paused": false,
+      "render": {
+        "calls": 39,
+        "triangles": 112150
+      },
+      "quality": 0,
+      "foal": {
+        "x": -6.7000019322179565,
+        "z": 61.49333359096238,
+        "animation": "Walk"
+      },
+      "alex": {
+        "x": 2.2963198671127314,
+        "z": 61.68714541489146,
+        "animation": "Walk"
+      }
+    },
+    {
+      "traceEndTimeMs": 1271858.488,
+      "hero": {
+        "x": 17,
+        "y": 11.6564738029303,
+        "z": 60
+      },
+      "paused": false,
+      "render": {
+        "calls": 39,
+        "triangles": 112150
+      },
+      "quality": 0,
+      "foal": {
+        "x": -6.4026335620131665,
+        "z": 61.45368447493507,
+        "animation": "Walk"
+      },
+      "alex": {
+        "x": 2.6462230215104343,
+        "z": 61.67891239949387,
+        "animation": "Walk"
+      }
+    },
+    {
+      "traceEndTimeMs": 1273068.587,
+      "hero": {
+        "x": 17,
+        "y": 11.6564738029303,
+        "z": 60
+      },
+      "paused": false,
+      "render": {
+        "calls": 39,
+        "triangles": 112150
+      },
+      "quality": 0,
+      "foal": {
+        "x": -6.1052651918083765,
+        "z": 61.41403535890777,
+        "animation": "Walk"
+      },
+      "alex": {
+        "x": 2.9961261759081372,
+        "z": 61.670679384096275,
+        "animation": "Walk"
+      }
+    },
+    {
+      "traceEndTimeMs": 1275010.258,
+      "hero": {
+        "x": 17,
+        "y": 11.6564738029303,
+        "z": 60
+      },
+      "paused": false,
+      "render": {
+        "calls": 39,
+        "triangles": 112150
+      },
+      "quality": 0,
+      "foal": {
+        "x": -5.9565810067059815,
+        "z": 61.394210800894115,
+        "animation": "Walk"
+      },
+      "alex": {
+        "x": 3.1710777531069887,
+        "z": 61.66656287639748,
+        "animation": "Run"
+      }
+    },
+    {
+      "traceEndTimeMs": 1276072.884,
+      "hero": {
+        "x": 17,
+        "y": 11.6564738029303,
+        "z": 60
+      },
+      "paused": false,
+      "render": {
+        "calls": 39,
+        "triangles": 112150
+      },
+      "quality": 0,
+      "foal": {
+        "x": -5.659212636501191,
+        "z": 61.35456168486681,
+        "animation": "Walk"
+      },
+      "alex": {
+        "x": 3.5209809075046916,
+        "z": 61.658329860999885,
+        "animation": "Run"
+      }
+    }
+  ]
+}

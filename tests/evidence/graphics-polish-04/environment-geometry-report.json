@@ -1,0 +1,109 @@
+{
+  "sourceCommit": "18ae9dcd104d3f2cd4fa92fbb96ee25d673818d5",
+  "runtimeCoreCommit": "2606207e02f8dd9bb8d24a1c9d14ffb9a3a73fa2",
+  "sourceSha256": {
+    "src/game.js": "10213ad06e6873e4be5bff5e61f9229f81ebed4a2e8103aedca11bd19e136c0c",
+    "src/story/chapters.js": "ab066ab7c71af8e18e0fb36eeea4f87a166e92cf0adc885437dc8786c8df6c91",
+    "src/story/environment.js": "4af6f188b413d7b74a1bf38add7d12e74098564d6c88c6bbfad67c473763f6f5",
+    "src/story/scenery-shadows.js": "e99736944e54e17c4aff48a8d2f0d50382169e7ca384c83469b047618fc14a08",
+    "src/static-scenery.js": "c5df33104c9f55cb77f3b4da6550a34d926f62bfff2860cb77648530fd36b751",
+    "public/release.json": "de41959437673fd9029c27df4407bd57951fba9a8eeb4a805ccd805bddbb100a"
+  },
+  "scope": "Story environment subtree before frustum culling. Global static-scenery batching/recentering is outside these subtree counts; its final source hash is included for provenance.",
+  "alphaTest": {
+    "enabled": false,
+    "value": 0,
+    "note": "Final helper uses clipping without alphaTest; the .002 hot diagnostic/candidate setting is not present in this source."
+  },
+  "chapters": {
+    "1": {
+      "before": {
+        "draws": 11,
+        "triangles": 5720,
+        "instances": 431,
+        "cameraBounds": 40
+      },
+      "after": {
+        "draws": 13,
+        "triangles": 7608,
+        "instances": 511,
+        "cameraBounds": 40
+      },
+      "delta": {
+        "draws": 2,
+        "triangles": 1888
+      }
+    },
+    "2": {
+      "before": {
+        "draws": 20,
+        "triangles": 9988,
+        "instances": 605,
+        "cameraBounds": 90
+      },
+      "after": {
+        "draws": 22,
+        "triangles": 13836,
+        "instances": 758,
+        "cameraBounds": 90
+      },
+      "delta": {
+        "draws": 2,
+        "triangles": 3848
+      }
+    },
+    "3": {
+      "before": {
+        "draws": 14,
+        "triangles": 7441,
+        "instances": 492,
+        "cameraBounds": 68
+      },
+      "after": {
+        "draws": 17,
+        "triangles": 11447,
+        "instances": 644,
+        "cameraBounds": 68
+      },
+      "delta": {
+        "draws": 3,
+        "triangles": 4006
+      }
+    }
+  },
+  "checks": [
+    {
+      "name": "All original instance matrices, route positions/indices and camera envelopes remain bitwise exact",
+      "pass": true,
+      "originalInstancesCompared": 1505,
+      "cameraBounds": [
+        40,
+        90,
+        68
+      ]
+    },
+    {
+      "name": "All chapter resets, quest markers, incremental stone/branch effects and ripples match original environment",
+      "pass": true
+    },
+    {
+      "name": "Every final shadow vertex and three interiors per triangle match actual rendered terrain+.035m",
+      "pass": true,
+      "samples": 10538,
+      "maximumErrorMeters": 0.000005981407497440694,
+      "toleranceMeters": 0.0001
+    },
+    {
+      "name": "Independent Three.Raycaster oracle on rugged terrain with intentionally wrong hAt=-100",
+      "pass": true,
+      "samples": 88,
+      "maximumErrorMeters": 6.16178373602505e-8,
+      "toleranceMeters": 0.0001
+    },
+    {
+      "name": "Final helper alphaTest is absent/disabled",
+      "pass": true,
+      "value": 0
+    }
+  ]
+}

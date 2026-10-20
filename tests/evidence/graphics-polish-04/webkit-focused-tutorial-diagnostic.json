@@ -1,0 +1,112 @@
+{
+  "sourceCommit": "18ae9dcd104d3f2cd4fa92fbb96ee25d673818d5",
+  "method": "Offline decode of saved original focused-case trace, no new browser or game changes.",
+  "trace": "/workspace/.cache/graphics-polish-04/webkit-focused-failures-results/gameplay-P1-keyboard-can-f-1e58c-ift-release-stops-galloping-webkit-ipad/trace.zip",
+  "failureLocation": "tests/gameplay.spec.js:53",
+  "expectedTutStepAtLeast": 3,
+  "receivedTutStep": 2,
+  "originalWallTimeoutMs": 12000,
+  "tutorialGallopSpeedThreshold": 7,
+  "unchangedFrameDtCapSeconds": 0.05,
+  "keyboardEvents": [
+    {
+      "traceStartTimeMs": 84900.945,
+      "method": "keyboardDown",
+      "key": "w"
+    },
+    {
+      "traceStartTimeMs": 90411.925,
+      "method": "keyboardUp",
+      "key": "w"
+    },
+    {
+      "traceStartTimeMs": 92382.587,
+      "method": "keyboardDown",
+      "key": "w"
+    },
+    {
+      "traceStartTimeMs": 92393.996,
+      "method": "keyboardDown",
+      "key": "Shift"
+    }
+  ],
+  "observedDistinctSpeedSnapshotsAfterShift": [
+    {
+      "traceEndTimeMs": 92424.808,
+      "speed": 1.3248000000000002,
+      "position": {
+        "x": 35,
+        "y": 14.10317674042258,
+        "z": 34.797439999999995
+      },
+      "paused": false,
+      "tutStep": 2,
+      "render": {
+        "calls": 76,
+        "triangles": 115619
+      }
+    },
+    {
+      "traceEndTimeMs": 95651.17,
+      "speed": 3.032832000000001,
+      "position": {
+        "x": 34.97574851871892,
+        "y": 14.104781719618437,
+        "z": 34.64775018569644
+      },
+      "paused": false,
+      "tutStep": 2,
+      "render": {
+        "calls": 100,
+        "triangles": 121123
+      }
+    },
+    {
+      "traceEndTimeMs": 98563.289,
+      "speed": 4.467578880000001,
+      "position": {
+        "x": 34.90778921262135,
+        "y": 14.108627258015701,
+        "z": 34.43495994781581
+      },
+      "paused": false,
+      "tutStep": 2,
+      "render": {
+        "calls": 102,
+        "triangles": 123069
+      }
+    },
+    {
+      "traceEndTimeMs": 101954.614,
+      "speed": 5.672766259200001,
+      "position": {
+        "x": 34.78697646132695,
+        "y": 14.115214463162436,
+        "z": 34.17833771241235
+      },
+      "paused": false,
+      "tutStep": 2,
+      "render": {
+        "calls": 104,
+        "triangles": 123078
+      }
+    }
+  ],
+  "lastSnapshot": {
+    "traceEndTimeMs": 103378.57,
+    "speed": 5.672766259200001,
+    "position": {
+      "x": 34.78697646132695,
+      "y": 14.115214463162436,
+      "z": 34.17833771241235
+    },
+    "paused": false,
+    "tutStep": 2,
+    "render": {
+      "calls": 104,
+      "triangles": 123078
+    }
+  },
+  "actualRenderedFrameCount": "Unavailable; poll snapshots and distinct speed values are not frame counts.",
+  "interpretation": "Keyboard W/Shift were issued and speed/position progress continued below the >7 speed tutorial gate. No blocked input or tutorial state bug established; wall-time budget is insufficient in this software-rendered run. Snapshot inputs describe touch input only, not keyboard key state."
+}

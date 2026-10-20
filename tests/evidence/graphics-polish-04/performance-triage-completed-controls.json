@@ -1,0 +1,3098 @@
+{
+  "method": "Single hot Chromium151 medium iPad start; simulation frozen; native RAF intervals and actual GL draws; diagnostic visibility/shader toggles only",
+  "targetURL": "http://127.0.0.1:4187/wild-mustang/",
+  "frozenDist": "/workspace/.cache/graphics-polish-04/after-dist-ca93299",
+  "gameAsset": "game-CAT8HgOL.js",
+  "gameSHA256": "277900024d5ce71050e46b985be84c12cf35eedbe2a96d0107baffdc124d87cd",
+  "shadowClipFunctionSHA256": "8565c70797d8c37a46ed8e13acbfdaadaefa3255356e8481a9200e0e2c4ee3b3",
+  "launchOptions": {
+    "headless": true,
+    "args": [
+      "--no-sandbox",
+      "--enable-unsafe-swiftshader"
+    ]
+  },
+  "limitations": [
+    "Software renderer diagnostic, not actual iPad FPS",
+    "Eight sampled intervals per variant; restored controls check temporal drift",
+    "No shipping/test changes"
+  ],
+  "stages": [
+    {
+      "variant": "control",
+      "warmup": 8,
+      "samples": 8,
+      "intervals": [
+        1428.2000000178814,
+        1195.2999999821186,
+        1775.7000000178814,
+        2591.7999999821186,
+        1171.4000000059605,
+        1249.800000011921,
+        1496.199999988079,
+        1946.9000000059605
+      ],
+      "rafIntervals": [
+        1416.699999999997,
+        1183.300000000003,
+        1783.199999999997,
+        2616.600000000006,
+        1133.199999999997,
+        1283.300000000003,
+        1483.300000000003,
+        1950
+      ],
+      "frames": [
+        {
+          "frame": 38,
+          "drawCalls": 68,
+          "triangles": 111342,
+          "lines": 0,
+          "points": 0,
+          "vertices": 334026,
+          "instances": 5031,
+          "byFunction": {
+            "gl.drawElements": 54,
+            "gl.drawArraysInstanced": 7,
+            "gl.drawArrays": 2,
+            "gl.drawElementsInstanced": 5
+          },
+          "unknownDraws": [],
+          "cpuSubmissionMs": 13.5,
+          "rendererInfo": {
+            "frame": 38,
+            "calls": 68,
+            "triangles": 111342,
+            "points": 0,
+            "lines": 0
+          },
+          "shadowMapEnabled": false
+        },
+        {
+          "frame": 39,
+          "drawCalls": 68,
+          "triangles": 111342,
+          "lines": 0,
+          "points": 0,
+          "vertices": 334026,
+          "instances": 5031,
+          "byFunction": {
+            "gl.drawElements": 54,
+            "gl.drawArraysInstanced": 7,
+            "gl.drawArrays": 2,
+            "gl.drawElementsInstanced": 5
+          },
+          "unknownDraws": [],
+          "cpuSubmissionMs": 34,
+          "rendererInfo": {
+            "frame": 39,
+            "calls": 68,
+            "triangles": 111342,
+            "points": 0,
+            "lines": 0
+          },
+          "shadowMapEnabled": false
+        },
+        {
+          "frame": 40,
+          "drawCalls": 68,
+          "triangles": 111342,
+          "lines": 0,
+          "points": 0,
+          "vertices": 334026,
+          "instances": 5031,
+          "byFunction": {
+            "gl.drawElements": 54,
+            "gl.drawArraysInstanced": 7,
+            "gl.drawArrays": 2,
+            "gl.drawElementsInstanced": 5
+          },
+          "unknownDraws": [],
+          "cpuSubmissionMs": 11,
+          "rendererInfo": {
+            "frame": 40,
+            "calls": 68,
+            "triangles": 111342,
+            "points": 0,
+            "lines": 0
+          },
+          "shadowMapEnabled": false
+        },
+        {
+          "frame": 41,
+          "drawCalls": 68,
+          "triangles": 111342,
+          "lines": 0,
+          "points": 0,
+          "vertices": 334026,
+          "instances": 5031,
+          "byFunction": {
+            "gl.drawElements": 54,
+            "gl.drawArraysInstanced": 7,
+            "gl.drawArrays": 2,
+            "gl.drawElementsInstanced": 5
+          },
+          "unknownDraws": [],
+          "cpuSubmissionMs": 3.5,
+          "rendererInfo": {
+            "frame": 41,
+            "calls": 68,
+            "triangles": 111342,
+            "points": 0,
+            "lines": 0
+          },
+          "shadowMapEnabled": false
+        },
+        {
+          "frame": 42,
+          "drawCalls": 68,
+          "triangles": 111342,
+          "lines": 0,
+          "points": 0,
+          "vertices": 334026,
+          "instances": 5031,
+          "byFunction": {
+            "gl.drawElements": 54,
+            "gl.drawArraysInstanced": 7,
+            "gl.drawArrays": 2,
+            "gl.drawElementsInstanced": 5
+          },
+          "unknownDraws": [],
+          "cpuSubmissionMs": 27.299999982118607,
+          "rendererInfo": {
+            "frame": 42,
+            "calls": 68,
+            "triangles": 111342,
+            "points": 0,
+            "lines": 0
+          },
+          "shadowMapEnabled": false
+        },
+        {
+          "frame": 43,
+          "drawCalls": 68,
+          "triangles": 111342,
+          "lines": 0,
+          "points": 0,
+          "vertices": 334026,
+          "instances": 5031,
+          "byFunction": {
+            "gl.drawElements": 54,
+            "gl.drawArraysInstanced": 7,
+            "gl.drawArrays": 2,
+            "gl.drawElementsInstanced": 5
+          },
+          "unknownDraws": [],
+          "cpuSubmissionMs": 3,
+          "rendererInfo": {
+            "frame": 43,
+            "calls": 68,
+            "triangles": 111342,
+            "points": 0,
+            "lines": 0
+          },
+          "shadowMapEnabled": false
+        },
+        {
+          "frame": 44,
+          "drawCalls": 68,
+          "triangles": 111342,
+          "lines": 0,
+          "points": 0,
+          "vertices": 334026,
+          "instances": 5031,
+          "byFunction": {
+            "gl.drawElements": 54,
+            "gl.drawArraysInstanced": 7,
+            "gl.drawArrays": 2,
+            "gl.drawElementsInstanced": 5
+          },
+          "unknownDraws": [],
+          "cpuSubmissionMs": 10.300000011920929,
+          "rendererInfo": {
+            "frame": 44,
+            "calls": 68,
+            "triangles": 111342,
+            "points": 0,
+            "lines": 0
+          },
+          "shadowMapEnabled": false
+        },
+        {
+          "frame": 45,
+          "drawCalls": 68,
+          "triangles": 111342,
+          "lines": 0,
+          "points": 0,
+          "vertices": 334026,
+          "instances": 5031,
+          "byFunction": {
+            "gl.drawElements": 54,
+            "gl.drawArraysInstanced": 7,
+            "gl.drawArrays": 2,
+            "gl.drawElementsInstanced": 5
+          },
+          "unknownDraws": [],
+          "cpuSubmissionMs": 3,
+          "rendererInfo": {
+            "frame": 45,
+            "calls": 68,
+            "triangles": 111342,
+            "points": 0,
+            "lines": 0
+          },
+          "shadowMapEnabled": false
+        }
+      ],
+      "snapshot": {
+        "phase": "tutorial",
+        "chapter": 1,
+        "quest": 0,
+        "tutStep": 0,
+        "trust": 0,
+        "apples": 0,
+        "freeProgress": 0,
+        "foalFreed": false,
+        "position": {
+          "x": 20,
+          "y": 12.05276867738822,
+          "z": 24
+        },
+        "grounded": true,
+        "speed": 0,
+        "paused": false,
+        "heading": 3.141592653589793,
+        "camera": {
+          "yaw": 6.283185307179586,
+          "pitch": 0.22,
+          "dist": 11.5,
+          "position": {
+            "x": 19.999999999999996,
+            "y": 18.76240934281822,
+            "z": 35.22282066730196
+          },
+          "look": {
+            "x": 20,
+            "y": 14.452768677388221,
+            "z": 24
+          }
+        },
+        "characters": {
+          "horse": "rigged",
+          "foal": "rigged",
+          "herd": "rigged",
+          "alex": "rigged",
+          "error": null
+        },
+        "gaits": [
+          "Idle",
+          "Idle",
+          "Eating",
+          "Eating",
+          "Eating",
+          "Eating",
+          "Eating"
+        ],
+        "world": {
+          "rescuePieces": 10,
+          "heroUp": [
+            -0.39250655492272424,
+            0.9196527703141809,
+            -0.013318648435452635
+          ],
+          "terrainUp": [
+            -0.3925065549227242,
+            0.9196527703141809,
+            -0.013318648435452633
+          ]
+        },
+        "inputs": {
+          "x": 0,
+          "y": 0,
+          "gallop": false,
+          "jump": false
+        },
+        "completedChapters": [],
+        "audio": {
+          "ready": true,
+          "paused": false,
+          "context": "running",
+          "sampleRate": 44100,
+          "cue": null,
+          "pendingCue": null,
+          "cueDuration": 0,
+          "cueStarts": 0,
+          "effectStarts": 0,
+          "streamStarts": 0,
+          "decodeCount": 7,
+          "lastEffect": null,
+          "voiceCacheEntries": 0,
+          "voiceCacheBytes": 0,
+          "effectCacheEntries": 7,
+          "effectCacheBytes": 764232,
+          "activeEffects": 0,
+          "musicDucked": false,
+          "settings": {
+            "music": 0,
+            "sfx": 0,
+            "voice": false,
+            "camSens": 1,
+            "hints": true,
+            "subs": true,
+            "easy": false,
+            "quality": 1
+          },
+          "environment": {
+            "chapter": 1,
+            "creek": 0.3044488046045921,
+            "movement": 0
+          },
+          "streams": {
+            "wind": {
+              "playing": false,
+              "level": 0,
+              "time": 0,
+              "readyState": 4
+            },
+            "forest": {
+              "playing": false,
+              "level": 0,
+              "time": 0,
+              "readyState": 4
+            },
+            "bird": {
+              "playing": false,
+              "level": 0,
+              "time": 0,
+              "readyState": 4
+            },
+            "creek": {
+              "playing": false,
+              "level": 0,
+              "time": 0,
+              "readyState": 4
+            },
+            "music": {
+              "playing": false,
+              "level": 0,
+              "time": 0,
+              "readyState": 4
+            }
+          },
+          "unavailable": []
+        },
+        "presentation": null,
+        "companions": {
+          "foal": {
+            "x": -52,
+            "z": -36,
+            "animation": "Idle"
+          },
+          "alex": {
+            "x": 23,
+            "z": 24,
+            "animation": "Idle"
+          },
+          "herd": [
+            {
+              "x": -95,
+              "z": -95,
+              "role": "parent"
+            },
+            {
+              "x": -97,
+              "z": -98,
+              "role": "member"
+            },
+            {
+              "x": -99,
+              "z": -101,
+              "role": "member"
+            },
+            {
+              "x": -101,
+              "z": -104,
+              "role": "member"
+            },
+            {
+              "x": -103,
+              "z": -107,
+              "role": "member"
+            }
+          ]
+        },
+        "render": {
+          "calls": 68,
+          "triangles": 111342
+        },
+        "settings": {
+          "music": 0,
+          "sfx": 0,
+          "camSens": 1,
+          "hints": true,
+          "subs": true,
+          "voice": false,
+          "easy": false,
+          "quality": 1
+        }
+      },
+      "shadowMapEnabled": false,
+      "rendererInfo": {
+        "frame": 45,
+        "calls": 68,
+        "triangles": 111342,
+        "points": 0,
+        "lines": 0
+      },
+      "programs": 18,
+      "shadowVisible": [
+        true,
+        true,
+        true
+      ],
+      "shadowAlphaTests": [
+        0
+      ],
+      "native": {
+        "count": 8,
+        "medianMs": 1496.199999988079,
+        "p95Ms": 2591.7999999821186,
+        "meanMs": 1606.9125000014901,
+        "minMs": 1171.4000000059605,
+        "maxMs": 2591.7999999821186
+      },
+      "raf": {
+        "count": 8,
+        "medianMs": 1483.300000000003,
+        "p95Ms": 2616.600000000006,
+        "meanMs": 1606.2000000000007,
+        "minMs": 1133.199999999997,
+        "maxMs": 2616.600000000006
+      },
+      "actualDrawCalls": [
+        68
+      ],
+      "actualTriangles": [
+        111342
+      ],
+      "infoCalls": [
+        68
+      ],
+      "infoTriangles": [
+        111342
+      ],
+      "hiddenDrawDelta": [
+        0
+      ]
+    },
+    {
+      "variant": "no-shadows",
+      "warmup": 8,
+      "samples": 8,
+      "intervals": [
+        3512.5,
+        1816,
+        1626.4000000059605,
+        1192.199999988079,
+        2995.5999999940395,
+        1511.4000000059605,
+        1624.7000000178814,
+        1938.5999999940395
+      ],
+      "rafIntervals": [
+        3516.5,
+        1816.6000000000058,
+        1616.6000000000058,
+        1200,
+        2999.899999999994,
+        1499.8999999999942,
+        1583.2999999999884,
+        1966.6000000000058
+      ],
+      "frames": [
+        {
+          "frame": 55,
+          "drawCalls": 67,
+          "triangles": 111114,
+          "lines": 0,
+          "points": 0,
+          "vertices": 333342,
+          "instances": 5030,
+          "byFunction": {
+            "gl.drawElements": 53,
+            "gl.drawArraysInstanced": 7,
+            "gl.drawArrays": 2,
+            "gl.drawElementsInstanced": 5
+          },
+          "unknownDraws": [],
+          "cpuSubmissionMs": 5.300000011920929,
+          "rendererInfo": {
+            "frame": 55,
+            "calls": 67,
+            "triangles": 111114,
+            "points": 0,
+            "lines": 0
+          },
+          "shadowMapEnabled": false
+        },
+        {
+          "frame": 56,
+          "drawCalls": 67,
+          "triangles": 111114,
+          "lines": 0,
+          "points": 0,
+          "vertices": 333342,
+          "instances": 5030,
+          "byFunction": {
+            "gl.drawElements": 53,
+            "gl.drawArraysInstanced": 7,
+            "gl.drawArrays": 2,
+            "gl.drawElementsInstanced": 5
+          },
+          "unknownDraws": [],
+          "cpuSubmissionMs": 6,
+          "rendererInfo": {
+            "frame": 56,
+            "calls": 67,
+            "triangles": 111114,
+            "points": 0,
+            "lines": 0
+          },
+          "shadowMapEnabled": false
+        },
+        {
+          "frame": 57,
+          "drawCalls": 67,
+          "triangles": 111114,
+          "lines": 0,
+          "points": 0,
+          "vertices": 333342,
+          "instances": 5030,
+          "byFunction": {
+            "gl.drawElements": 53,
+            "gl.drawArraysInstanced": 7,
+            "gl.drawArrays": 2,
+            "gl.drawElementsInstanced": 5
+          },
+          "unknownDraws": [],
+          "cpuSubmissionMs": 5.5,
+          "rendererInfo": {
+            "frame": 57,
+            "calls": 67,
+            "triangles": 111114,
+            "points": 0,
+            "lines": 0
+          },
+          "shadowMapEnabled": false
+        },
+        {
+          "frame": 58,
+          "drawCalls": 67,
+          "triangles": 111114,
+          "lines": 0,
+          "points": 0,
+          "vertices": 333342,
+          "instances": 5030,
+          "byFunction": {
+            "gl.drawElements": 53,
+            "gl.drawArraysInstanced": 7,
+            "gl.drawArrays": 2,
+            "gl.drawElementsInstanced": 5
+          },
+          "unknownDraws": [],
+          "cpuSubmissionMs": 6,
+          "rendererInfo": {
+            "frame": 58,
+            "calls": 67,
+            "triangles": 111114,
+            "points": 0,
+            "lines": 0
+          },
+          "shadowMapEnabled": false
+        },
+        {
+          "frame": 59,
+          "drawCalls": 67,
+          "triangles": 111114,
+          "lines": 0,
+          "points": 0,
+          "vertices": 333342,
+          "instances": 5030,
+          "byFunction": {
+            "gl.drawElements": 53,
+            "gl.drawArraysInstanced": 7,
+            "gl.drawArrays": 2,
+            "gl.drawElementsInstanced": 5
+          },
+          "unknownDraws": [],
+          "cpuSubmissionMs": 6.799999982118607,
+          "rendererInfo": {
+            "frame": 59,
+            "calls": 67,
+            "triangles": 111114,
+            "points": 0,
+            "lines": 0
+          },
+          "shadowMapEnabled": false
+        },
+        {
+          "frame": 60,
+          "drawCalls": 67,
+          "triangles": 111114,
+          "lines": 0,
+          "points": 0,
+          "vertices": 333342,
+          "instances": 5030,
+          "byFunction": {
+            "gl.drawElements": 53,
+            "gl.drawArraysInstanced": 7,
+            "gl.drawArrays": 2,
+            "gl.drawElementsInstanced": 5
+          },
+          "unknownDraws": [],
+          "cpuSubmissionMs": 18.099999994039536,
+          "rendererInfo": {
+            "frame": 60,
+            "calls": 67,
+            "triangles": 111114,
+            "points": 0,
+            "lines": 0
+          },
+          "shadowMapEnabled": false
+        },
+        {
+          "frame": 61,
+          "drawCalls": 67,
+          "triangles": 111114,
+          "lines": 0,
+          "points": 0,
+          "vertices": 333342,
+          "instances": 5030,
+          "byFunction": {
+            "gl.drawElements": 53,
+            "gl.drawArraysInstanced": 7,
+            "gl.drawArrays": 2,
+            "gl.drawElementsInstanced": 5
+          },
+          "unknownDraws": [],
+          "cpuSubmissionMs": 33.20000001788139,
+          "rendererInfo": {
+            "frame": 61,
+            "calls": 67,
+            "triangles": 111114,
+            "points": 0,
+            "lines": 0
+          },
+          "shadowMapEnabled": false
+        },
+        {
+          "frame": 62,
+          "drawCalls": 67,
+          "triangles": 111114,
+          "lines": 0,
+          "points": 0,
+          "vertices": 333342,
+          "instances": 5030,
+          "byFunction": {
+            "gl.drawElements": 53,
+            "gl.drawArraysInstanced": 7,
+            "gl.drawArrays": 2,
+            "gl.drawElementsInstanced": 5
+          },
+          "unknownDraws": [],
+          "cpuSubmissionMs": 12.299999982118607,
+          "rendererInfo": {
+            "frame": 62,
+            "calls": 67,
+            "triangles": 111114,
+            "points": 0,
+            "lines": 0
+          },
+          "shadowMapEnabled": false
+        }
+      ],
+      "snapshot": {
+        "phase": "tutorial",
+        "chapter": 1,
+        "quest": 0,
+        "tutStep": 0,
+        "trust": 0,
+        "apples": 0,
+        "freeProgress": 0,
+        "foalFreed": false,
+        "position": {
+          "x": 20,
+          "y": 12.05276867738822,
+          "z": 24
+        },
+        "grounded": true,
+        "speed": 0,
+        "paused": false,
+        "heading": 3.141592653589793,
+        "camera": {
+          "yaw": 6.283185307179586,
+          "pitch": 0.22,
+          "dist": 11.5,
+          "position": {
+            "x": 19.999999999999996,
+            "y": 18.76240934281822,
+            "z": 35.22282066730196
+          },
+          "look": {
+            "x": 20,
+            "y": 14.452768677388221,
+            "z": 24
+          }
+        },
+        "characters": {
+          "horse": "rigged",
+          "foal": "rigged",
+          "herd": "rigged",
+          "alex": "rigged",
+          "error": null
+        },
+        "gaits": [
+          "Idle",
+          "Idle",
+          "Eating",
+          "Eating",
+          "Eating",
+          "Eating",
+          "Eating"
+        ],
+        "world": {
+          "rescuePieces": 10,
+          "heroUp": [
+            -0.39250655492272424,
+            0.9196527703141809,
+            -0.013318648435452635
+          ],
+          "terrainUp": [
+            -0.3925065549227242,
+            0.9196527703141809,
+            -0.013318648435452633
+          ]
+        },
+        "inputs": {
+          "x": 0,
+          "y": 0,
+          "gallop": false,
+          "jump": false
+        },
+        "completedChapters": [],
+        "audio": {
+          "ready": true,
+          "paused": false,
+          "context": "running",
+          "sampleRate": 44100,
+          "cue": null,
+          "pendingCue": null,
+          "cueDuration": 0,
+          "cueStarts": 0,
+          "effectStarts": 0,
+          "streamStarts": 0,
+          "decodeCount": 7,
+          "lastEffect": null,
+          "voiceCacheEntries": 0,
+          "voiceCacheBytes": 0,
+          "effectCacheEntries": 7,
+          "effectCacheBytes": 764232,
+          "activeEffects": 0,
+          "musicDucked": false,
+          "settings": {
+            "music": 0,
+            "sfx": 0,
+            "voice": false,
+            "camSens": 1,
+            "hints": true,
+            "subs": true,
+            "easy": false,
+            "quality": 1
+          },
+          "environment": {
+            "chapter": 1,
+            "creek": 0.3044488046045921,
+            "movement": 0
+          },
+          "streams": {
+            "wind": {
+              "playing": false,
+              "level": 0,
+              "time": 0,
+              "readyState": 4
+            },
+            "forest": {
+              "playing": false,
+              "level": 0,
+              "time": 0,
+              "readyState": 4
+            },
+            "bird": {
+              "playing": false,
+              "level": 0,
+              "time": 0,
+              "readyState": 4
+            },
+            "creek": {
+              "playing": false,
+              "level": 0,
+              "time": 0,
+              "readyState": 4
+            },
+            "music": {
+              "playing": false,
+              "level": 0,
+              "time": 0,
+              "readyState": 4
+            }
+          },
+          "unavailable": []
+        },
+        "presentation": null,
+        "companions": {
+          "foal": {
+            "x": -52,
+            "z": -36,
+            "animation": "Idle"
+          },
+          "alex": {
+            "x": 23,
+            "z": 24,
+            "animation": "Idle"
+          },
+          "herd": [
+            {
+              "x": -95,
+              "z": -95,
+              "role": "parent"
+            },
+            {
+              "x": -97,
+              "z": -98,
+              "role": "member"
+            },
+            {
+              "x": -99,
+              "z": -101,
+              "role": "member"
+            },
+            {
+              "x": -101,
+              "z": -104,
+              "role": "member"
+            },
+            {
+              "x": -103,
+              "z": -107,
+              "role": "member"
+            }
+          ]
+        },
+        "render": {
+          "calls": 67,
+          "triangles": 111114
+        },
+        "settings": {
+          "music": 0,
+          "sfx": 0,
+          "camSens": 1,
+          "hints": true,
+          "subs": true,
+          "voice": false,
+          "easy": false,
+          "quality": 1
+        }
+      },
+      "shadowMapEnabled": false,
+      "rendererInfo": {
+        "frame": 62,
+        "calls": 67,
+        "triangles": 111114,
+        "points": 0,
+        "lines": 0
+      },
+      "programs": 18,
+      "shadowVisible": [
+        false,
+        false,
+        false
+      ],
+      "shadowAlphaTests": [
+        0
+      ],
+      "native": {
+        "count": 8,
+        "medianMs": 1816,
+        "p95Ms": 3512.5,
+        "meanMs": 2027.175000000745,
+        "minMs": 1192.199999988079,
+        "maxMs": 3512.5
+      },
+      "raf": {
+        "count": 8,
+        "medianMs": 1816.6000000000058,
+        "p95Ms": 3516.5,
+        "meanMs": 2024.9249999999993,
+        "minMs": 1200,
+        "maxMs": 3516.5
+      },
+      "actualDrawCalls": [
+        67
+      ],
+      "actualTriangles": [
+        111114
+      ],
+      "infoCalls": [
+        67
+      ],
+      "infoTriangles": [
+        111114
+      ],
+      "hiddenDrawDelta": [
+        0
+      ]
+    },
+    {
+      "variant": "shadow-alpha-test",
+      "warmup": 12,
+      "samples": 8,
+      "intervals": [
+        3996.9000000059605,
+        5749.699999988079,
+        7453.800000011921,
+        6181,
+        2596.5999999940395,
+        3947.4000000059605,
+        7556.799999982119,
+        3470.300000011921
+      ],
+      "rafIntervals": [
+        3899.8000000000175,
+        5833.099999999977,
+        6699.700000000012,
+        6849.799999999988,
+        2633.2000000000116,
+        3983.2000000000116,
+        6699.6999999999825,
+        4299.8000000000175
+      ],
+      "frames": [
+        {
+          "frame": 76,
+          "drawCalls": 68,
+          "triangles": 111342,
+          "lines": 0,
+          "points": 0,
+          "vertices": 334026,
+          "instances": 5031,
+          "byFunction": {
+            "gl.drawElements": 54,
+            "gl.drawArraysInstanced": 7,
+            "gl.drawArrays": 2,
+            "gl.drawElementsInstanced": 5
+          },
+          "unknownDraws": [],
+          "cpuSubmissionMs": 51.20000001788139,
+          "rendererInfo": {
+            "frame": 76,
+            "calls": 68,
+            "triangles": 111342,
+            "points": 0,
+            "lines": 0
+          },
+          "shadowMapEnabled": false
+        },
+        {
+          "frame": 77,
+          "drawCalls": 68,
+          "triangles": 111342,
+          "lines": 0,
+          "points": 0,
+          "vertices": 334026,
+          "instances": 5031,
+          "byFunction": {
+            "gl.drawElements": 54,
+            "gl.drawArraysInstanced": 7,
+            "gl.drawArrays": 2,
+            "gl.drawElementsInstanced": 5
+          },
+          "unknownDraws": [],
+          "cpuSubmissionMs": 30.400000005960464,
+          "rendererInfo": {
+            "frame": 77,
+            "calls": 68,
+            "triangles": 111342,
+            "points": 0,
+            "lines": 0
+          },
+          "shadowMapEnabled": false
+        },
+        {
+          "frame": 78,
+          "drawCalls": 68,
+          "triangles": 111342,
+          "lines": 0,
+          "points": 0,
+          "vertices": 334026,
+          "instances": 5031,
+          "byFunction": {
+            "gl.drawElements": 54,
+            "gl.drawArraysInstanced": 7,
+            "gl.drawArrays": 2,
+            "gl.drawElementsInstanced": 5
+          },
+          "unknownDraws": [],
+          "cpuSubmissionMs": 64.5,
+          "rendererInfo": {
+            "frame": 78,
+            "calls": 68,
+            "triangles": 111342,
+            "points": 0,
+            "lines": 0
+          },
+          "shadowMapEnabled": false
+        },
+        {
+          "frame": 79,
+          "drawCalls": 68,
+          "triangles": 111342,
+          "lines": 0,
+          "points": 0,
+          "vertices": 334026,
+          "instances": 5031,
+          "byFunction": {
+            "gl.drawElements": 54,
+            "gl.drawArraysInstanced": 7,
+            "gl.drawArrays": 2,
+            "gl.drawElementsInstanced": 5
+          },
+          "unknownDraws": [],
+          "cpuSubmissionMs": 64.5,
+          "rendererInfo": {
+            "frame": 79,
+            "calls": 68,
+            "triangles": 111342,
+            "points": 0,
+            "lines": 0
+          },
+          "shadowMapEnabled": false
+        },
+        {
+          "frame": 80,
+          "drawCalls": 68,
+          "triangles": 111342,
+          "lines": 0,
+          "points": 0,
+          "vertices": 334026,
+          "instances": 5031,
+          "byFunction": {
+            "gl.drawElements": 54,
+            "gl.drawArraysInstanced": 7,
+            "gl.drawArrays": 2,
+            "gl.drawElementsInstanced": 5
+          },
+          "unknownDraws": [],
+          "cpuSubmissionMs": 42,
+          "rendererInfo": {
+            "frame": 80,
+            "calls": 68,
+            "triangles": 111342,
+            "points": 0,
+            "lines": 0
+          },
+          "shadowMapEnabled": false
+        },
+        {
+          "frame": 81,
+          "drawCalls": 68,
+          "triangles": 111342,
+          "lines": 0,
+          "points": 0,
+          "vertices": 334026,
+          "instances": 5031,
+          "byFunction": {
+            "gl.drawElements": 54,
+            "gl.drawArraysInstanced": 7,
+            "gl.drawArrays": 2,
+            "gl.drawElementsInstanced": 5
+          },
+          "unknownDraws": [],
+          "cpuSubmissionMs": 47.29999998211861,
+          "rendererInfo": {
+            "frame": 81,
+            "calls": 68,
+            "triangles": 111342,
+            "points": 0,
+            "lines": 0
+          },
+          "shadowMapEnabled": false
+        },
+        {
+          "frame": 82,
+          "drawCalls": 68,
+          "triangles": 111342,
+          "lines": 0,
+          "points": 0,
+          "vertices": 334026,
+          "instances": 5031,
+          "byFunction": {
+            "gl.drawElements": 54,
+            "gl.drawArraysInstanced": 7,
+            "gl.drawArrays": 2,
+            "gl.drawElementsInstanced": 5
+          },
+          "unknownDraws": [],
+          "cpuSubmissionMs": 701.8000000119209,
+          "rendererInfo": {
+            "frame": 82,
+            "calls": 68,
+            "triangles": 111342,
+            "points": 0,
+            "lines": 0
+          },
+          "shadowMapEnabled": false
+        },
+        {
+          "frame": 83,
+          "drawCalls": 68,
+          "triangles": 111342,
+          "lines": 0,
+          "points": 0,
+          "vertices": 334026,
+          "instances": 5031,
+          "byFunction": {
+            "gl.drawElements": 54,
+            "gl.drawArraysInstanced": 7,
+            "gl.drawArrays": 2,
+            "gl.drawElementsInstanced": 5
+          },
+          "unknownDraws": [],
+          "cpuSubmissionMs": 43.20000001788139,
+          "rendererInfo": {
+            "frame": 83,
+            "calls": 68,
+            "triangles": 111342,
+            "points": 0,
+            "lines": 0
+          },
+          "shadowMapEnabled": false
+        }
+      ],
+      "snapshot": {
+        "phase": "tutorial",
+        "chapter": 1,
+        "quest": 0,
+        "tutStep": 0,
+        "trust": 0,
+        "apples": 0,
+        "freeProgress": 0,
+        "foalFreed": false,
+        "position": {
+          "x": 20,
+          "y": 12.05276867738822,
+          "z": 24
+        },
+        "grounded": true,
+        "speed": 0,
+        "paused": false,
+        "heading": 3.141592653589793,
+        "camera": {
+          "yaw": 6.283185307179586,
+          "pitch": 0.22,
+          "dist": 11.5,
+          "position": {
+            "x": 19.999999999999996,
+            "y": 18.76240934281822,
+            "z": 35.22282066730196
+          },
+          "look": {
+            "x": 20,
+            "y": 14.452768677388221,
+            "z": 24
+          }
+        },
+        "characters": {
+          "horse": "rigged",
+          "foal": "rigged",
+          "herd": "rigged",
+          "alex": "rigged",
+          "error": null
+        },
+        "gaits": [
+          "Idle",
+          "Idle",
+          "Eating",
+          "Eating",
+          "Eating",
+          "Eating",
+          "Eating"
+        ],
+        "world": {
+          "rescuePieces": 10,
+          "heroUp": [
+            -0.39250655492272424,
+            0.9196527703141809,
+            -0.013318648435452635
+          ],
+          "terrainUp": [
+            -0.3925065549227242,
+            0.9196527703141809,
+            -0.013318648435452633
+          ]
+        },
+        "inputs": {
+          "x": 0,
+          "y": 0,
+          "gallop": false,
+          "jump": false
+        },
+        "completedChapters": [],
+        "audio": {
+          "ready": true,
+          "paused": false,
+          "context": "running",
+          "sampleRate": 44100,
+          "cue": null,
+          "pendingCue": null,
+          "cueDuration": 0,
+          "cueStarts": 0,
+          "effectStarts": 0,
+          "streamStarts": 0,
+          "decodeCount": 7,
+          "lastEffect": null,
+          "voiceCacheEntries": 0,
+          "voiceCacheBytes": 0,
+          "effectCacheEntries": 7,
+          "effectCacheBytes": 764232,
+          "activeEffects": 0,
+          "musicDucked": false,
+          "settings": {
+            "music": 0,
+            "sfx": 0,
+            "voice": false,
+            "camSens": 1,
+            "hints": true,
+            "subs": true,
+            "easy": false,
+            "quality": 1
+          },
+          "environment": {
+            "chapter": 1,
+            "creek": 0.3044488046045921,
+            "movement": 0
+          },
+          "streams": {
+            "wind": {
+              "playing": false,
+              "level": 0,
+              "time": 0,
+              "readyState": 4
+            },
+            "forest": {
+              "playing": false,
+              "level": 0,
+              "time": 0,
+              "readyState": 4
+            },
+            "bird": {
+              "playing": false,
+              "level": 0,
+              "time": 0,
+              "readyState": 4
+            },
+            "creek": {
+              "playing": false,
+              "level": 0,
+              "time": 0,
+              "readyState": 4
+            },
+            "music": {
+              "playing": false,
+              "level": 0,
+              "time": 0,
+              "readyState": 4
+            }
+          },
+          "unavailable": []
+        },
+        "presentation": null,
+        "companions": {
+          "foal": {
+            "x": -52,
+            "z": -36,
+            "animation": "Idle"
+          },
+          "alex": {
+            "x": 23,
+            "z": 24,
+            "animation": "Idle"
+          },
+          "herd": [
+            {
+              "x": -95,
+              "z": -95,
+              "role": "parent"
+            },
+            {
+              "x": -97,
+              "z": -98,
+              "role": "member"
+            },
+            {
+              "x": -99,
+              "z": -101,
+              "role": "member"
+            },
+            {
+              "x": -101,
+              "z": -104,
+              "role": "member"
+            },
+            {
+              "x": -103,
+              "z": -107,
+              "role": "member"
+            }
+          ]
+        },
+        "render": {
+          "calls": 68,
+          "triangles": 111342
+        },
+        "settings": {
+          "music": 0,
+          "sfx": 0,
+          "camSens": 1,
+          "hints": true,
+          "subs": true,
+          "voice": false,
+          "easy": false,
+          "quality": 1
+        }
+      },
+      "shadowMapEnabled": false,
+      "rendererInfo": {
+        "frame": 83,
+        "calls": 68,
+        "triangles": 111342,
+        "points": 0,
+        "lines": 0
+      },
+      "programs": 19,
+      "shadowVisible": [
+        true,
+        true,
+        true
+      ],
+      "shadowAlphaTests": [
+        0.002
+      ],
+      "native": {
+        "count": 8,
+        "medianMs": 5749.699999988079,
+        "p95Ms": 7556.799999982119,
+        "meanMs": 5119.0625,
+        "minMs": 2596.5999999940395,
+        "maxMs": 7556.799999982119
+      },
+      "raf": {
+        "count": 8,
+        "medianMs": 5833.099999999977,
+        "p95Ms": 6849.799999999988,
+        "meanMs": 5112.287500000002,
+        "minMs": 2633.2000000000116,
+        "maxMs": 6849.799999999988
+      },
+      "actualDrawCalls": [
+        68
+      ],
+      "actualTriangles": [
+        111342
+      ],
+      "infoCalls": [
+        68
+      ],
+      "infoTriangles": [
+        111342
+      ],
+      "hiddenDrawDelta": [
+        0
+      ]
+    },
+    {
+      "variant": "shadow-clipped-alpha",
+      "warmup": 12,
+      "samples": 8,
+      "intervals": [
+        2884.199999988079,
+        3039.800000011921,
+        2143.2999999821186,
+        2610.7000000178814,
+        1784.699999988079,
+        1397.300000011921,
+        2337.199999988079,
+        1811.800000011921
+      ],
+      "rafIntervals": [
+        2899.899999999994,
+        3033.2000000000116,
+        2100,
+        2633.2000000000116,
+        1799.8999999999942,
+        1416.6000000000058,
+        2333.1999999999825,
+        1816.7000000000116
+      ],
+      "frames": [
+        {
+          "frame": 97,
+          "drawCalls": 68,
+          "triangles": 111478,
+          "lines": 0,
+          "points": 0,
+          "vertices": 334434,
+          "instances": 5031,
+          "byFunction": {
+            "gl.drawElements": 54,
+            "gl.drawArraysInstanced": 7,
+            "gl.drawArrays": 2,
+            "gl.drawElementsInstanced": 5
+          },
+          "unknownDraws": [],
+          "cpuSubmissionMs": 4.800000011920929,
+          "rendererInfo": {
+            "frame": 97,
+            "calls": 68,
+            "triangles": 111478,
+            "points": 0,
+            "lines": 0
+          },
+          "shadowMapEnabled": false
+        },
+        {
+          "frame": 98,
+          "drawCalls": 68,
+          "triangles": 111478,
+          "lines": 0,
+          "points": 0,
+          "vertices": 334434,
+          "instances": 5031,
+          "byFunction": {
+            "gl.drawElements": 54,
+            "gl.drawArraysInstanced": 7,
+            "gl.drawArrays": 2,
+            "gl.drawElementsInstanced": 5
+          },
+          "unknownDraws": [],
+          "cpuSubmissionMs": 10.5,
+          "rendererInfo": {
+            "frame": 98,
+            "calls": 68,
+            "triangles": 111478,
+            "points": 0,
+            "lines": 0
+          },
+          "shadowMapEnabled": false
+        },
+        {
+          "frame": 99,
+          "drawCalls": 68,
+          "triangles": 111478,
+          "lines": 0,
+          "points": 0,
+          "vertices": 334434,
+          "instances": 5031,
+          "byFunction": {
+            "gl.drawElements": 54,
+            "gl.drawArraysInstanced": 7,
+            "gl.drawArrays": 2,
+            "gl.drawElementsInstanced": 5
+          },
+          "unknownDraws": [],
+          "cpuSubmissionMs": 50.099999994039536,
+          "rendererInfo": {
+            "frame": 99,
+            "calls": 68,
+            "triangles": 111478,
+            "points": 0,
+            "lines": 0
+          },
+          "shadowMapEnabled": false
+        },
+        {
+          "frame": 100,
+          "drawCalls": 68,
+          "triangles": 111478,
+          "lines": 0,
+          "points": 0,
+          "vertices": 334434,
+          "instances": 5031,
+          "byFunction": {
+            "gl.drawElements": 54,
+            "gl.drawArraysInstanced": 7,
+            "gl.drawArrays": 2,
+            "gl.drawElementsInstanced": 5
+          },
+          "unknownDraws": [],
+          "cpuSubmissionMs": 36,
+          "rendererInfo": {
+            "frame": 100,
+            "calls": 68,
+            "triangles": 111478,
+            "points": 0,
+            "lines": 0
+          },
+          "shadowMapEnabled": false
+        },
+        {
+          "frame": 101,
+          "drawCalls": 68,
+          "triangles": 111478,
+          "lines": 0,
+          "points": 0,
+          "vertices": 334434,
+          "instances": 5031,
+          "byFunction": {
+            "gl.drawElements": 54,
+            "gl.drawArraysInstanced": 7,
+            "gl.drawArrays": 2,
+            "gl.drawElementsInstanced": 5
+          },
+          "unknownDraws": [],
+          "cpuSubmissionMs": 13.700000017881393,
+          "rendererInfo": {
+            "frame": 101,
+            "calls": 68,
+            "triangles": 111478,
+            "points": 0,
+            "lines": 0
+          },
+          "shadowMapEnabled": false
+        },
+        {
+          "frame": 102,
+          "drawCalls": 68,
+          "triangles": 111478,
+          "lines": 0,
+          "points": 0,
+          "vertices": 334434,
+          "instances": 5031,
+          "byFunction": {
+            "gl.drawElements": 54,
+            "gl.drawArraysInstanced": 7,
+            "gl.drawArrays": 2,
+            "gl.drawElementsInstanced": 5
+          },
+          "unknownDraws": [],
+          "cpuSubmissionMs": 13.199999988079071,
+          "rendererInfo": {
+            "frame": 102,
+            "calls": 68,
+            "triangles": 111478,
+            "points": 0,
+            "lines": 0
+          },
+          "shadowMapEnabled": false
+        },
+        {
+          "frame": 103,
+          "drawCalls": 68,
+          "triangles": 111478,
+          "lines": 0,
+          "points": 0,
+          "vertices": 334434,
+          "instances": 5031,
+          "byFunction": {
+            "gl.drawElements": 54,
+            "gl.drawArraysInstanced": 7,
+            "gl.drawArrays": 2,
+            "gl.drawElementsInstanced": 5
+          },
+          "unknownDraws": [],
+          "cpuSubmissionMs": 6.5999999940395355,
+          "rendererInfo": {
+            "frame": 103,
+            "calls": 68,
+            "triangles": 111478,
+            "points": 0,
+            "lines": 0
+          },
+          "shadowMapEnabled": false
+        },
+        {
+          "frame": 104,
+          "drawCalls": 68,
+          "triangles": 111478,
+          "lines": 0,
+          "points": 0,
+          "vertices": 334434,
+          "instances": 5031,
+          "byFunction": {
+            "gl.drawElements": 54,
+            "gl.drawArraysInstanced": 7,
+            "gl.drawArrays": 2,
+            "gl.drawElementsInstanced": 5
+          },
+          "unknownDraws": [],
+          "cpuSubmissionMs": 7.700000017881393,
+          "rendererInfo": {
+            "frame": 104,
+            "calls": 68,
+            "triangles": 111478,
+            "points": 0,
+            "lines": 0
+          },
+          "shadowMapEnabled": false
+        }
+      ],
+      "snapshot": {
+        "phase": "tutorial",
+        "chapter": 1,
+        "quest": 0,
+        "tutStep": 0,
+        "trust": 0,
+        "apples": 0,
+        "freeProgress": 0,
+        "foalFreed": false,
+        "position": {
+          "x": 20,
+          "y": 12.05276867738822,
+          "z": 24
+        },
+        "grounded": true,
+        "speed": 0,
+        "paused": false,
+        "heading": 3.141592653589793,
+        "camera": {
+          "yaw": 6.283185307179586,
+          "pitch": 0.22,
+          "dist": 11.5,
+          "position": {
+            "x": 19.999999999999996,
+            "y": 18.76240934281822,
+            "z": 35.22282066730196
+          },
+          "look": {
+            "x": 20,
+            "y": 14.452768677388221,
+            "z": 24
+          }
+        },
+        "characters": {
+          "horse": "rigged",
+          "foal": "rigged",
+          "herd": "rigged",
+          "alex": "rigged",
+          "error": null
+        },
+        "gaits": [
+          "Idle",
+          "Idle",
+          "Eating",
+          "Eating",
+          "Eating",
+          "Eating",
+          "Eating"
+        ],
+        "world": {
+          "rescuePieces": 10,
+          "heroUp": [
+            -0.39250655492272424,
+            0.9196527703141809,
+            -0.013318648435452635
+          ],
+          "terrainUp": [
+            -0.3925065549227242,
+            0.9196527703141809,
+            -0.013318648435452633
+          ]
+        },
+        "inputs": {
+          "x": 0,
+          "y": 0,
+          "gallop": false,
+          "jump": false
+        },
+        "completedChapters": [],
+        "audio": {
+          "ready": true,
+          "paused": false,
+          "context": "running",
+          "sampleRate": 44100,
+          "cue": null,
+          "pendingCue": null,
+          "cueDuration": 0,
+          "cueStarts": 0,
+          "effectStarts": 0,
+          "streamStarts": 0,
+          "decodeCount": 7,
+          "lastEffect": null,
+          "voiceCacheEntries": 0,
+          "voiceCacheBytes": 0,
+          "effectCacheEntries": 7,
+          "effectCacheBytes": 764232,
+          "activeEffects": 0,
+          "musicDucked": false,
+          "settings": {
+            "music": 0,
+            "sfx": 0,
+            "voice": false,
+            "camSens": 1,
+            "hints": true,
+            "subs": true,
+            "easy": false,
+            "quality": 1
+          },
+          "environment": {
+            "chapter": 1,
+            "creek": 0.3044488046045921,
+            "movement": 0
+          },
+          "streams": {
+            "wind": {
+              "playing": false,
+              "level": 0,
+              "time": 0,
+              "readyState": 4
+            },
+            "forest": {
+              "playing": false,
+              "level": 0,
+              "time": 0,
+              "readyState": 4
+            },
+            "bird": {
+              "playing": false,
+              "level": 0,
+              "time": 0,
+              "readyState": 4
+            },
+            "creek": {
+              "playing": false,
+              "level": 0,
+              "time": 0,
+              "readyState": 4
+            },
+            "music": {
+              "playing": false,
+              "level": 0,
+              "time": 0,
+              "readyState": 4
+            }
+          },
+          "unavailable": []
+        },
+        "presentation": null,
+        "companions": {
+          "foal": {
+            "x": -52,
+            "z": -36,
+            "animation": "Idle"
+          },
+          "alex": {
+            "x": 23,
+            "z": 24,
+            "animation": "Idle"
+          },
+          "herd": [
+            {
+              "x": -95,
+              "z": -95,
+              "role": "parent"
+            },
+            {
+              "x": -97,
+              "z": -98,
+              "role": "member"
+            },
+            {
+              "x": -99,
+              "z": -101,
+              "role": "member"
+            },
+            {
+              "x": -101,
+              "z": -104,
+              "role": "member"
+            },
+            {
+              "x": -103,
+              "z": -107,
+              "role": "member"
+            }
+          ]
+        },
+        "render": {
+          "calls": 68,
+          "triangles": 111478
+        },
+        "settings": {
+          "music": 0,
+          "sfx": 0,
+          "camSens": 1,
+          "hints": true,
+          "subs": true,
+          "voice": false,
+          "easy": false,
+          "quality": 1
+        }
+      },
+      "shadowMapEnabled": false,
+      "rendererInfo": {
+        "frame": 104,
+        "calls": 68,
+        "triangles": 111478,
+        "points": 0,
+        "lines": 0
+      },
+      "programs": 19,
+      "shadowVisible": [
+        true,
+        true,
+        true
+      ],
+      "shadowAlphaTests": [
+        0.002
+      ],
+      "native": {
+        "count": 8,
+        "medianMs": 2337.199999988079,
+        "p95Ms": 3039.800000011921,
+        "meanMs": 2251.125,
+        "minMs": 1397.300000011921,
+        "maxMs": 3039.800000011921
+      },
+      "raf": {
+        "count": 8,
+        "medianMs": 2333.1999999999825,
+        "p95Ms": 3033.2000000000116,
+        "meanMs": 2254.0875000000015,
+        "minMs": 1416.6000000000058,
+        "maxMs": 3033.2000000000116
+      },
+      "actualDrawCalls": [
+        68
+      ],
+      "actualTriangles": [
+        111478
+      ],
+      "infoCalls": [
+        68
+      ],
+      "infoTriangles": [
+        111478
+      ],
+      "hiddenDrawDelta": [
+        0
+      ]
+    },
+    {
+      "variant": "sky-120",
+      "warmup": 8,
+      "samples": 8,
+      "intervals": [
+        1055.2999999821186,
+        1405.0999999940395,
+        2229.4000000059605,
+        2002.9000000059605,
+        1687.4000000059605,
+        1653.4000000059605,
+        1165.5,
+        1711.0999999940395
+      ],
+      "rafIntervals": [
+        1050,
+        1266.600000000035,
+        2349.899999999965,
+        2016.5,
+        1683.4000000000233,
+        1666.5999999999767,
+        1166.600000000035,
+        1683.1999999999534
+      ],
+      "frames": [
+        {
+          "frame": 114,
+          "drawCalls": 68,
+          "triangles": 111342,
+          "lines": 0,
+          "points": 0,
+          "vertices": 334026,
+          "instances": 5031,
+          "byFunction": {
+            "gl.drawElements": 54,
+            "gl.drawArraysInstanced": 7,
+            "gl.drawArrays": 2,
+            "gl.drawElementsInstanced": 5
+          },
+          "unknownDraws": [],
+          "cpuSubmissionMs": 6.799999982118607,
+          "rendererInfo": {
+            "frame": 114,
+            "calls": 68,
+            "triangles": 111342,
+            "points": 0,
+            "lines": 0
+          },
+          "shadowMapEnabled": false
+        },
+        {
+          "frame": 115,
+          "drawCalls": 68,
+          "triangles": 111342,
+          "lines": 0,
+          "points": 0,
+          "vertices": 334026,
+          "instances": 5031,
+          "byFunction": {
+            "gl.drawElements": 54,
+            "gl.drawArraysInstanced": 7,
+            "gl.drawArrays": 2,
+            "gl.drawElementsInstanced": 5
+          },
+          "unknownDraws": [],
+          "cpuSubmissionMs": 138.59999999403954,
+          "rendererInfo": {
+            "frame": 115,
+            "calls": 68,
+            "triangles": 111342,
+            "points": 0,
+            "lines": 0
+          },
+          "shadowMapEnabled": false
+        },
+        {
+          "frame": 116,
+          "drawCalls": 68,
+          "triangles": 111342,
+          "lines": 0,
+          "points": 0,
+          "vertices": 334026,
+          "instances": 5031,
+          "byFunction": {
+            "gl.drawElements": 54,
+            "gl.drawArraysInstanced": 7,
+            "gl.drawArrays": 2,
+            "gl.drawElementsInstanced": 5
+          },
+          "unknownDraws": [],
+          "cpuSubmissionMs": 17.400000005960464,
+          "rendererInfo": {
+            "frame": 116,
+            "calls": 68,
+            "triangles": 111342,
+            "points": 0,
+            "lines": 0
+          },
+          "shadowMapEnabled": false
+        },
+        {
+          "frame": 117,
+          "drawCalls": 68,
+          "triangles": 111342,
+          "lines": 0,
+          "points": 0,
+          "vertices": 334026,
+          "instances": 5031,
+          "byFunction": {
+            "gl.drawElements": 54,
+            "gl.drawArraysInstanced": 7,
+            "gl.drawArrays": 2,
+            "gl.drawElementsInstanced": 5
+          },
+          "unknownDraws": [],
+          "cpuSubmissionMs": 11.900000005960464,
+          "rendererInfo": {
+            "frame": 117,
+            "calls": 68,
+            "triangles": 111342,
+            "points": 0,
+            "lines": 0
+          },
+          "shadowMapEnabled": false
+        },
+        {
+          "frame": 118,
+          "drawCalls": 68,
+          "triangles": 111342,
+          "lines": 0,
+          "points": 0,
+          "vertices": 334026,
+          "instances": 5031,
+          "byFunction": {
+            "gl.drawElements": 54,
+            "gl.drawArraysInstanced": 7,
+            "gl.drawArrays": 2,
+            "gl.drawElementsInstanced": 5
+          },
+          "unknownDraws": [],
+          "cpuSubmissionMs": 6,
+          "rendererInfo": {
+            "frame": 118,
+            "calls": 68,
+            "triangles": 111342,
+            "points": 0,
+            "lines": 0
+          },
+          "shadowMapEnabled": false
+        },
+        {
+          "frame": 119,
+          "drawCalls": 68,
+          "triangles": 111342,
+          "lines": 0,
+          "points": 0,
+          "vertices": 334026,
+          "instances": 5031,
+          "byFunction": {
+            "gl.drawElements": 54,
+            "gl.drawArraysInstanced": 7,
+            "gl.drawArrays": 2,
+            "gl.drawElementsInstanced": 5
+          },
+          "unknownDraws": [],
+          "cpuSubmissionMs": 6.399999976158142,
+          "rendererInfo": {
+            "frame": 119,
+            "calls": 68,
+            "triangles": 111342,
+            "points": 0,
+            "lines": 0
+          },
+          "shadowMapEnabled": false
+        },
+        {
+          "frame": 120,
+          "drawCalls": 68,
+          "triangles": 111342,
+          "lines": 0,
+          "points": 0,
+          "vertices": 334026,
+          "instances": 5031,
+          "byFunction": {
+            "gl.drawElements": 54,
+            "gl.drawArraysInstanced": 7,
+            "gl.drawArrays": 2,
+            "gl.drawElementsInstanced": 5
+          },
+          "unknownDraws": [],
+          "cpuSubmissionMs": 6.0999999940395355,
+          "rendererInfo": {
+            "frame": 120,
+            "calls": 68,
+            "triangles": 111342,
+            "points": 0,
+            "lines": 0
+          },
+          "shadowMapEnabled": false
+        },
+        {
+          "frame": 121,
+          "drawCalls": 68,
+          "triangles": 111342,
+          "lines": 0,
+          "points": 0,
+          "vertices": 334026,
+          "instances": 5031,
+          "byFunction": {
+            "gl.drawElements": 54,
+            "gl.drawArraysInstanced": 7,
+            "gl.drawArrays": 2,
+            "gl.drawElementsInstanced": 5
+          },
+          "unknownDraws": [],
+          "cpuSubmissionMs": 19.400000005960464,
+          "rendererInfo": {
+            "frame": 121,
+            "calls": 68,
+            "triangles": 111342,
+            "points": 0,
+            "lines": 0
+          },
+          "shadowMapEnabled": false
+        }
+      ],
+      "snapshot": {
+        "phase": "tutorial",
+        "chapter": 1,
+        "quest": 0,
+        "tutStep": 0,
+        "trust": 0,
+        "apples": 0,
+        "freeProgress": 0,
+        "foalFreed": false,
+        "position": {
+          "x": 20,
+          "y": 12.05276867738822,
+          "z": 24
+        },
+        "grounded": true,
+        "speed": 0,
+        "paused": false,
+        "heading": 3.141592653589793,
+        "camera": {
+          "yaw": 6.283185307179586,
+          "pitch": 0.22,
+          "dist": 11.5,
+          "position": {
+            "x": 19.999999999999996,
+            "y": 18.76240934281822,
+            "z": 35.22282066730196
+          },
+          "look": {
+            "x": 20,
+            "y": 14.452768677388221,
+            "z": 24
+          }
+        },
+        "characters": {
+          "horse": "rigged",
+          "foal": "rigged",
+          "herd": "rigged",
+          "alex": "rigged",
+          "error": null
+        },
+        "gaits": [
+          "Idle",
+          "Idle",
+          "Eating",
+          "Eating",
+          "Eating",
+          "Eating",
+          "Eating"
+        ],
+        "world": {
+          "rescuePieces": 10,
+          "heroUp": [
+            -0.39250655492272424,
+            0.9196527703141809,
+            -0.013318648435452635
+          ],
+          "terrainUp": [
+            -0.3925065549227242,
+            0.9196527703141809,
+            -0.013318648435452633
+          ]
+        },
+        "inputs": {
+          "x": 0,
+          "y": 0,
+          "gallop": false,
+          "jump": false
+        },
+        "completedChapters": [],
+        "audio": {
+          "ready": true,
+          "paused": false,
+          "context": "running",
+          "sampleRate": 44100,
+          "cue": null,
+          "pendingCue": null,
+          "cueDuration": 0,
+          "cueStarts": 0,
+          "effectStarts": 0,
+          "streamStarts": 0,
+          "decodeCount": 7,
+          "lastEffect": null,
+          "voiceCacheEntries": 0,
+          "voiceCacheBytes": 0,
+          "effectCacheEntries": 7,
+          "effectCacheBytes": 764232,
+          "activeEffects": 0,
+          "musicDucked": false,
+          "settings": {
+            "music": 0,
+            "sfx": 0,
+            "voice": false,
+            "camSens": 1,
+            "hints": true,
+            "subs": true,
+            "easy": false,
+            "quality": 1
+          },
+          "environment": {
+            "chapter": 1,
+            "creek": 0.3044488046045921,
+            "movement": 0
+          },
+          "streams": {
+            "wind": {
+              "playing": false,
+              "level": 0,
+              "time": 0,
+              "readyState": 4
+            },
+            "forest": {
+              "playing": false,
+              "level": 0,
+              "time": 0,
+              "readyState": 4
+            },
+            "bird": {
+              "playing": false,
+              "level": 0,
+              "time": 0,
+              "readyState": 4
+            },
+            "creek": {
+              "playing": false,
+              "level": 0,
+              "time": 0,
+              "readyState": 4
+            },
+            "music": {
+              "playing": false,
+              "level": 0,
+              "time": 0,
+              "readyState": 4
+            }
+          },
+          "unavailable": []
+        },
+        "presentation": null,
+        "companions": {
+          "foal": {
+            "x": -52,
+            "z": -36,
+            "animation": "Idle"
+          },
+          "alex": {
+            "x": 23,
+            "z": 24,
+            "animation": "Idle"
+          },
+          "herd": [
+            {
+              "x": -95,
+              "z": -95,
+              "role": "parent"
+            },
+            {
+              "x": -97,
+              "z": -98,
+              "role": "member"
+            },
+            {
+              "x": -99,
+              "z": -101,
+              "role": "member"
+            },
+            {
+              "x": -101,
+              "z": -104,
+              "role": "member"
+            },
+            {
+              "x": -103,
+              "z": -107,
+              "role": "member"
+            }
+          ]
+        },
+        "render": {
+          "calls": 68,
+          "triangles": 111342
+        },
+        "settings": {
+          "music": 0,
+          "sfx": 0,
+          "camSens": 1,
+          "hints": true,
+          "subs": true,
+          "voice": false,
+          "easy": false,
+          "quality": 1
+        }
+      },
+      "shadowMapEnabled": false,
+      "rendererInfo": {
+        "frame": 121,
+        "calls": 68,
+        "triangles": 111342,
+        "points": 0,
+        "lines": 0
+      },
+      "programs": 20,
+      "shadowVisible": [
+        true,
+        true,
+        true
+      ],
+      "shadowAlphaTests": [
+        0
+      ],
+      "native": {
+        "count": 8,
+        "medianMs": 1687.4000000059605,
+        "p95Ms": 2229.4000000059605,
+        "meanMs": 1613.762499999255,
+        "minMs": 1055.2999999821186,
+        "maxMs": 2229.4000000059605
+      },
+      "raf": {
+        "count": 8,
+        "medianMs": 1683.1999999999534,
+        "p95Ms": 2349.899999999965,
+        "meanMs": 1610.3499999999985,
+        "minMs": 1050,
+        "maxMs": 2349.899999999965
+      },
+      "actualDrawCalls": [
+        68
+      ],
+      "actualTriangles": [
+        111342
+      ],
+      "infoCalls": [
+        68
+      ],
+      "infoTriangles": [
+        111342
+      ],
+      "hiddenDrawDelta": [
+        0
+      ]
+    },
+    {
+      "variant": "control-restored",
+      "warmup": 8,
+      "samples": 8,
+      "intervals": [
+        998,
+        1081.800000011921,
+        1354.5,
+        846.7999999821186,
+        946.1000000238419,
+        819.8999999761581,
+        1695.1000000238419,
+        21869.29999998212
+      ],
+      "rafIntervals": [
+        1016.6000000000349,
+        1033.2999999999884,
+        1399.9000000000233,
+        850,
+        916.5999999999767,
+        850,
+        1349.9000000000233,
+        22215.899999999965
+      ],
+      "frames": [
+        {
+          "frame": 131,
+          "drawCalls": 68,
+          "triangles": 111342,
+          "lines": 0,
+          "points": 0,
+          "vertices": 334026,
+          "instances": 5031,
+          "byFunction": {
+            "gl.drawElements": 54,
+            "gl.drawArraysInstanced": 7,
+            "gl.drawArrays": 2,
+            "gl.drawElementsInstanced": 5
+          },
+          "unknownDraws": [],
+          "cpuSubmissionMs": 8.199999988079071,
+          "rendererInfo": {
+            "frame": 131,
+            "calls": 68,
+            "triangles": 111342,
+            "points": 0,
+            "lines": 0
+          },
+          "shadowMapEnabled": false
+        },
+        {
+          "frame": 132,
+          "drawCalls": 68,
+          "triangles": 111342,
+          "lines": 0,
+          "points": 0,
+          "vertices": 334026,
+          "instances": 5031,
+          "byFunction": {
+            "gl.drawElements": 54,
+            "gl.drawArraysInstanced": 7,
+            "gl.drawArrays": 2,
+            "gl.drawElementsInstanced": 5
+          },
+          "unknownDraws": [],
+          "cpuSubmissionMs": 32.900000005960464,
+          "rendererInfo": {
+            "frame": 132,
+            "calls": 68,
+            "triangles": 111342,
+            "points": 0,
+            "lines": 0
+          },
+          "shadowMapEnabled": false
+        },
+        {
+          "frame": 133,
+          "drawCalls": 68,
+          "triangles": 111342,
+          "lines": 0,
+          "points": 0,
+          "vertices": 334026,
+          "instances": 5031,
+          "byFunction": {
+            "gl.drawElements": 54,
+            "gl.drawArraysInstanced": 7,
+            "gl.drawArrays": 2,
+            "gl.drawElementsInstanced": 5
+          },
+          "unknownDraws": [],
+          "cpuSubmissionMs": 15.200000017881393,
+          "rendererInfo": {
+            "frame": 133,
+            "calls": 68,
+            "triangles": 111342,
+            "points": 0,
+            "lines": 0
+          },
+          "shadowMapEnabled": false
+        },
+        {
+          "frame": 134,
+          "drawCalls": 68,
+          "triangles": 111342,
+          "lines": 0,
+          "points": 0,
+          "vertices": 334026,
+          "instances": 5031,
+          "byFunction": {
+            "gl.drawElements": 54,
+            "gl.drawArraysInstanced": 7,
+            "gl.drawArrays": 2,
+            "gl.drawElementsInstanced": 5
+          },
+          "unknownDraws": [],
+          "cpuSubmissionMs": 6.899999976158142,
+          "rendererInfo": {
+            "frame": 134,
+            "calls": 68,
+            "triangles": 111342,
+            "points": 0,
+            "lines": 0
+          },
+          "shadowMapEnabled": false
+        },
+        {
+          "frame": 135,
+          "drawCalls": 68,
+          "triangles": 111342,
+          "lines": 0,
+          "points": 0,
+          "vertices": 334026,
+          "instances": 5031,
+          "byFunction": {
+            "gl.drawElements": 54,
+            "gl.drawArraysInstanced": 7,
+            "gl.drawArrays": 2,
+            "gl.drawElementsInstanced": 5
+          },
+          "unknownDraws": [],
+          "cpuSubmissionMs": 31.900000005960464,
+          "rendererInfo": {
+            "frame": 135,
+            "calls": 68,
+            "triangles": 111342,
+            "points": 0,
+            "lines": 0
+          },
+          "shadowMapEnabled": false
+        },
+        {
+          "frame": 136,
+          "drawCalls": 68,
+          "triangles": 111342,
+          "lines": 0,
+          "points": 0,
+          "vertices": 334026,
+          "instances": 5031,
+          "byFunction": {
+            "gl.drawElements": 54,
+            "gl.drawArraysInstanced": 7,
+            "gl.drawArrays": 2,
+            "gl.drawElementsInstanced": 5
+          },
+          "unknownDraws": [],
+          "cpuSubmissionMs": 6.699999988079071,
+          "rendererInfo": {
+            "frame": 136,
+            "calls": 68,
+            "triangles": 111342,
+            "points": 0,
+            "lines": 0
+          },
+          "shadowMapEnabled": false
+        },
+        {
+          "frame": 137,
+          "drawCalls": 68,
+          "triangles": 111342,
+          "lines": 0,
+          "points": 0,
+          "vertices": 334026,
+          "instances": 5031,
+          "byFunction": {
+            "gl.drawElements": 54,
+            "gl.drawArraysInstanced": 7,
+            "gl.drawArrays": 2,
+            "gl.drawElementsInstanced": 5
+          },
+          "unknownDraws": [],
+          "cpuSubmissionMs": 4.5999999940395355,
+          "rendererInfo": {
+            "frame": 137,
+            "calls": 68,
+            "triangles": 111342,
+            "points": 0,
+            "lines": 0
+          },
+          "shadowMapEnabled": false
+        },
+        {
+          "frame": 138,
+          "drawCalls": 68,
+          "triangles": 111342,
+          "lines": 0,
+          "points": 0,
+          "vertices": 334026,
+          "instances": 5031,
+          "byFunction": {
+            "gl.drawElements": 54,
+            "gl.drawArraysInstanced": 7,
+            "gl.drawArrays": 2,
+            "gl.drawElementsInstanced": 5
+          },
+          "unknownDraws": [],
+          "cpuSubmissionMs": 3.800000011920929,
+          "rendererInfo": {
+            "frame": 138,
+            "calls": 68,
+            "triangles": 111342,
+            "points": 0,
+            "lines": 0
+          },
+          "shadowMapEnabled": false
+        }
+      ],
+      "snapshot": {
+        "phase": "tutorial",
+        "chapter": 1,
+        "quest": 0,
+        "tutStep": 0,
+        "trust": 0,
+        "apples": 0,
+        "freeProgress": 0,
+        "foalFreed": false,
+        "position": {
+          "x": 20,
+          "y": 12.05276867738822,
+          "z": 24
+        },
+        "grounded": true,
+        "speed": 0,
+        "paused": false,
+        "heading": 3.141592653589793,
+        "camera": {
+          "yaw": 6.283185307179586,
+          "pitch": 0.22,
+          "dist": 11.5,
+          "position": {
+            "x": 19.999999999999996,
+            "y": 18.76240934281822,
+            "z": 35.22282066730196
+          },
+          "look": {
+            "x": 20,
+            "y": 14.452768677388221,
+            "z": 24
+          }
+        },
+        "characters": {
+          "horse": "rigged",
+          "foal": "rigged",
+          "herd": "rigged",
+          "alex": "rigged",
+          "error": null
+        },
+        "gaits": [
+          "Idle",
+          "Idle",
+          "Eating",
+          "Eating",
+          "Eating",
+          "Eating",
+          "Eating"
+        ],
+        "world": {
+          "rescuePieces": 10,
+          "heroUp": [
+            -0.39250655492272424,
+            0.9196527703141809,
+            -0.013318648435452635
+          ],
+          "terrainUp": [
+            -0.3925065549227242,
+            0.9196527703141809,
+            -0.013318648435452633
+          ]
+        },
+        "inputs": {
+          "x": 0,
+          "y": 0,
+          "gallop": false,
+          "jump": false
+        },
+        "completedChapters": [],
+        "audio": {
+          "ready": true,
+          "paused": false,
+          "context": "running",
+          "sampleRate": 44100,
+          "cue": null,
+          "pendingCue": null,
+          "cueDuration": 0,
+          "cueStarts": 0,
+          "effectStarts": 0,
+          "streamStarts": 0,
+          "decodeCount": 7,
+          "lastEffect": null,
+          "voiceCacheEntries": 0,
+          "voiceCacheBytes": 0,
+          "effectCacheEntries": 7,
+          "effectCacheBytes": 764232,
+          "activeEffects": 0,
+          "musicDucked": false,
+          "settings": {
+            "music": 0,
+            "sfx": 0,
+            "voice": false,
+            "camSens": 1,
+            "hints": true,
+            "subs": true,
+            "easy": false,
+            "quality": 1
+          },
+          "environment": {
+            "chapter": 1,
+            "creek": 0.3044488046045921,
+            "movement": 0
+          },
+          "streams": {
+            "wind": {
+              "playing": false,
+              "level": 0,
+              "time": 0,
+              "readyState": 4
+            },
+            "forest": {
+              "playing": false,
+              "level": 0,
+              "time": 0,
+              "readyState": 4
+            },
+            "bird": {
+              "playing": false,
+              "level": 0,
+              "time": 0,
+              "readyState": 4
+            },
+            "creek": {
+              "playing": false,
+              "level": 0,
+              "time": 0,
+              "readyState": 4
+            },
+            "music": {
+              "playing": false,
+              "level": 0,
+              "time": 0,
+              "readyState": 4
+            }
+          },
+          "unavailable": []
+        },
+        "presentation": null,
+        "companions": {
+          "foal": {
+            "x": -52,
+            "z": -36,
+            "animation": "Idle"
+          },
+          "alex": {
+            "x": 23,
+            "z": 24,
+            "animation": "Idle"
+          },
+          "herd": [
+            {
+              "x": -95,
+              "z": -95,
+              "role": "parent"
+            },
+            {
+              "x": -97,
+              "z": -98,
+              "role": "member"
+            },
+            {
+              "x": -99,
+              "z": -101,
+              "role": "member"
+            },
+            {
+              "x": -101,
+              "z": -104,
+              "role": "member"
+            },
+            {
+              "x": -103,
+              "z": -107,
+              "role": "member"
+            }
+          ]
+        },
+        "render": {
+          "calls": 68,
+          "triangles": 111342
+        },
+        "settings": {
+          "music": 0,
+          "sfx": 0,
+          "camSens": 1,
+          "hints": true,
+          "subs": true,
+          "voice": false,
+          "easy": false,
+          "quality": 1
+        }
+      },
+      "shadowMapEnabled": false,
+      "rendererInfo": {
+        "frame": 138,
+        "calls": 68,
+        "triangles": 111342,
+        "points": 0,
+        "lines": 0
+      },
+      "programs": 20,
+      "shadowVisible": [
+        true,
+        true,
+        true
+      ],
+      "shadowAlphaTests": [
+        0
+      ],
+      "native": {
+        "count": 8,
+        "medianMs": 1081.800000011921,
+        "p95Ms": 21869.29999998212,
+        "meanMs": 3701.4375,
+        "minMs": 819.8999999761581,
+        "maxMs": 21869.29999998212
+      },
+      "raf": {
+        "count": 8,
+        "medianMs": 1033.2999999999884,
+        "p95Ms": 22215.899999999965,
+        "meanMs": 3704.0250000000015,
+        "minMs": 850,
+        "maxMs": 22215.899999999965
+      },
+      "actualDrawCalls": [
+        68
+      ],
+      "actualTriangles": [
+        111342
+      ],
+      "infoCalls": [
+        68
+      ],
+      "infoTriangles": [
+        111342
+      ],
+      "hiddenDrawDelta": [
+        0
+      ]
+    }
+  ],
+  "errors": [],
+  "began": "2026-10-20T13:35:11.016Z",
+  "phase": "stopped-after-restored-control",
+  "browserVersion": "151.0.7922.34",
+  "snapshot": {
+    "phase": "tutorial",
+    "chapter": 1,
+    "quest": 0,
+    "tutStep": 0,
+    "trust": 0,
+    "apples": 0,
+    "freeProgress": 0,
+    "foalFreed": false,
+    "position": {
+      "x": 20,
+      "y": 12.05276867738822,
+      "z": 24
+    },
+    "grounded": true,
+    "speed": 0,
+    "paused": false,
+    "heading": 3.141592653589793,
+    "camera": {
+      "yaw": 6.283185307179586,
+      "pitch": 0.22,
+      "dist": 11.5,
+      "position": {
+        "x": 19.999999999999996,
+        "y": 18.76240934281822,
+        "z": 35.22282066730196
+      },
+      "look": {
+        "x": 20,
+        "y": 14.452768677388221,
+        "z": 24
+      }
+    },
+    "characters": {
+      "horse": "rigged",
+      "foal": "rigged",
+      "herd": "rigged",
+      "alex": "rigged",
+      "error": null
+    },
+    "gaits": [
+      "Idle",
+      "Idle",
+      "Eating",
+      "Eating",
+      "Eating",
+      "Eating",
+      "Eating"
+    ],
+    "world": {
+      "rescuePieces": 10,
+      "heroUp": [
+        -0.39250655492272424,
+        0.9196527703141809,
+        -0.013318648435452635
+      ],
+      "terrainUp": [
+        -0.3925065549227242,
+        0.9196527703141809,
+        -0.013318648435452633
+      ]
+    },
+    "inputs": {
+      "x": 0,
+      "y": 0,
+      "gallop": false,
+      "jump": false
+    },
+    "completedChapters": [],
+    "audio": {
+      "ready": true,
+      "paused": false,
+      "context": "running",
+      "sampleRate": 44100,
+      "cue": null,
+      "pendingCue": null,
+      "cueDuration": 0,
+      "cueStarts": 0,
+      "effectStarts": 0,
+      "streamStarts": 0,
+      "decodeCount": 0,
+      "lastEffect": null,
+      "voiceCacheEntries": 0,
+      "voiceCacheBytes": 0,
+      "effectCacheEntries": 0,
+      "effectCacheBytes": 0,
+      "activeEffects": 0,
+      "musicDucked": false,
+      "settings": {
+        "music": 0,
+        "sfx": 0,
+        "voice": false,
+        "camSens": 1,
+        "hints": true,
+        "subs": true,
+        "easy": false,
+        "quality": 1
+      },
+      "environment": {
+        "chapter": 1,
+        "creek": 0.3044488046045921,
+        "movement": 0
+      },
+      "streams": {
+        "wind": {
+          "playing": false,
+          "level": 0,
+          "time": 0,
+          "readyState": 0
+        },
+        "forest": {
+          "playing": false,
+          "level": 0,
+          "time": 0,
+          "readyState": 0
+        },
+        "bird": {
+          "playing": false,
+          "level": 0,
+          "time": 0,
+          "readyState": 0
+        },
+        "creek": {
+          "playing": false,
+          "level": 0,
+          "time": 0,
+          "readyState": 0
+        },
+        "music": {
+          "playing": false,
+          "level": 0,
+          "time": 0,
+          "readyState": 0
+        }
+      },
+      "unavailable": []
+    },
+    "presentation": null,
+    "companions": {
+      "foal": {
+        "x": -52,
+        "z": -36,
+        "animation": "Idle"
+      },
+      "alex": {
+        "x": 23,
+        "z": 24,
+        "animation": "Idle"
+      },
+      "herd": [
+        {
+          "x": -95,
+          "z": -95,
+          "role": "parent"
+        },
+        {
+          "x": -97,
+          "z": -98,
+          "role": "member"
+        },
+        {
+          "x": -99,
+          "z": -101,
+          "role": "member"
+        },
+        {
+          "x": -101,
+          "z": -104,
+          "role": "member"
+        },
+        {
+          "x": -103,
+          "z": -107,
+          "role": "member"
+        }
+      ]
+    },
+    "render": {
+      "calls": 68,
+      "triangles": 111342
+    },
+    "settings": {
+      "music": 0,
+      "sfx": 0,
+      "camSens": 1,
+      "hints": true,
+      "subs": true,
+      "voice": false,
+      "easy": false,
+      "quality": 1
+    }
+  },
+  "rendererBinding": {
+    "matches": 1,
+    "pixelRatio": 1.35,
+    "devicePixelRatio": 2,
+    "viewport": {
+      "width": 1194,
+      "height": 834
+    },
+    "buffer": {
+      "width": 1611,
+      "height": 1125
+    },
+    "shadowMapEnabled": false,
+    "glRenderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+  },
+  "sceneBinding": {
+    "matches": 1,
+    "children": 160
+  },
+  "instrumentation": {
+    "installed": [
+      "gl.drawArraysInstanced",
+      "gl.drawElementsInstanced",
+      "gl.drawRangeElements",
+      "gl.drawArrays",
+      "gl.drawBuffers",
+      "gl.drawElements",
+      "gl.drawingBufferStorage"
+    ],
+    "shadows": [
+      {
+        "name": "chapter-1-scenery-soft-shadows",
+        "visible": true,
+        "triangles": 228,
+        "patches": 34
+      },
+      {
+        "name": "chapter-2-scenery-soft-shadows",
+        "visible": true,
+        "triangles": 600,
+        "patches": 70
+      },
+      {
+        "name": "chapter-3-scenery-soft-shadows",
+        "visible": true,
+        "triangles": 810,
+        "patches": 82
+      }
+    ],
+    "water": 1,
+    "grass": 1,
+    "sky": 1,
+    "alphaTests": [
+      0
+    ],
+    "clippedShadowTriangles": [
+      {
+        "name": "chapter-1-scenery-soft-shadows",
+        "original": 228,
+        "clipped": 364
+      },
+      {
+        "name": "chapter-2-scenery-soft-shadows",
+        "original": 600,
+        "clipped": 840
+      },
+      {
+        "name": "chapter-3-scenery-soft-shadows",
+        "original": 810,
+        "clipped": 1012
+      }
+    ]
+  },
+  "controlDriftPercent": -27.696831972962165,
+  "result": "completed-core-diagnostics-timing-inconclusive",
+  "stopReason": "Restored control drift exceeds15%; parent requested release browser slot instead of extra variants",
+  "ended": "2026-10-20T13:41:14.227801+00:00",
+  "extraVariantsCompleted": []
+}

@@ -1,0 +1,61 @@
+{
+  "sourceCommit": "18ae9dcd104d3f2cd4fa92fbb96ee25d673818d5",
+  "method": "Offline decoding of existing Playwright trace results; no new browser, simulation or snapshot injection.",
+  "trace": "/workspace/.cache/graphics-polish-04/webkit-focused-failures-results/story-Story-all-three-chap-32630-y-without-losing-completion-webkit-ipad/trace.zip",
+  "wallSpanMs": 60495.09200000006,
+  "pollSnapshots": 52,
+  "actualRenderedFrameCount": "Not recorded in snapshot/trace; poll snapshots are not frame counts.",
+  "first": {
+    "traceEndTimeMs": 520426.86,
+    "hero": {
+      "x": 17,
+      "y": 11.6564738029303,
+      "z": 60
+    },
+    "paused": false,
+    "render": {
+      "calls": 32,
+      "triangles": 112536
+    },
+    "quality": 0,
+    "foal": {
+      "x": -18,
+      "z": 63,
+      "animation": "Gallop"
+    },
+    "alex": {
+      "x": -11,
+      "z": 62,
+      "animation": "Walk"
+    }
+  },
+  "last": {
+    "traceEndTimeMs": 580921.952,
+    "hero": {
+      "x": 17,
+      "y": 11.6564738029303,
+      "z": 60
+    },
+    "paused": false,
+    "render": {
+      "calls": 39,
+      "triangles": 112150
+    },
+    "quality": 0,
+    "foal": {
+      "x": -2.8342131195556863,
+      "z": 60.977895082607404,
+      "animation": "Trot"
+    },
+    "alex": {
+      "x": 6.845060874282869,
+      "z": 61.58011621472275,
+      "animation": "Run"
+    }
+  },
+  "foalDeltaX": 15.165786880444314,
+  "alexDeltaX": 17.84506087428287,
+  "failureCategory": "global300s scenario timeout while ford90s wait was still active",
+  "unchangedFrameDtCapSeconds": 0.05,
+  "wallTimeIsNotSimulationTime": true
+}

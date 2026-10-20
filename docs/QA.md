@@ -314,3 +314,97 @@ follows from the software-runner timing.
 PR #17 remains subject to the GitHub checks on its final head before it is marked
 ready. No physical Safari, hardware FPS, independent child navigation, human
 listening or measured 10–15 minute chapter claim is inferred from these checks.
+
+## Graphics-only polish, 20 October 2026
+
+Branch `codex/graphics-polish-04` starts from merged main `6bd97a7`, whose
+runtime tree is identical to the frozen before source `e0e0fd3`. Final runtime
+source is `2606207`, with release fingerprints in `18ae9dc`. The work changes
+lighting, palettes, fog, distant scenery, ground colouring, water shading,
+grass geometry and static decoration. Chapters, character/quest logic, physical
+terrain, routes, camera/control code, audio and persistence remain unchanged.
+No paid generation, new external assets or dependency upgrades were used.
+
+The QA build and all **69 unit checks** pass. New checks cover slope-based ground
+colouring, preservation of batched world surfaces/materials/UVs, bounded shadow
+coverage and shadow vertices against an independent Three.Raycaster terrain
+oracle. All 1,505 existing story instance matrices, route samples and camera
+envelopes match the baseline. Soft scenery shadows use one shared local 64px
+texture and one draw per chapter, without shadow maps, alpha discard, reflection
+buffers or postprocessing. Medium retains 4,000 grass tufts and pixel ratio 1.35;
+each tuft uses eight triangles instead of twelve.
+
+Matched screenshots, raw resource/timing reports, source-map checks and the
+opt-in reproducible capture harness are recorded in
+[graphics-polish-04](../tests/evidence/graphics-polish-04/README.md). The fixed
+1194×834 touch viewport uses Chromium 151, DPR 2 and the public medium preset.
+These are seeded Continue/checkpoint fixtures with six 1/30-second simulation
+steps, followed by a frozen simulation for eight native frame-interval samples.
+They validate matched camera/pose and the 150,000-triangle/240-call budget,
+not natural-route play or physical iPad frame rate. Resource counts are allocated
+objects, not GPU memory bytes.
+
+Cloud SwiftShader timing is variable and inconclusive. An intermediate hot
+diagnostic confirmed actual GL draw calls matched renderer.info and no hidden
+shadow-map passes occurred; control medians also drifted by 29%. Clipping the
+new shadow patches removed 86.95% of their former raster area, but that geometric
+result does not measure total scene overdraw or mobile FPS. The final source
+ships clipping with alphaTest disabled.
+
+All five core before/final pairs pass the matched camera, medium quality and
+render-budget guards with no browser errors. Peak observed counts across these
+poses fall from 149,557 to 137,563 triangles and from 79 to 68 calls; clearing
+and herd individually add two and three calls, respectively. The initial final
+capture run saved three guarded pairs before reaching its 600-second overall
+limit while loading ascent. Its raw report remains `failed`; a separate tail
+run passed ascent and herd within the same limit. This is an aggregation of
+verified frames, not a passing uninterrupted five-pose suite.
+
+Two additional bank/river pairs also pass, for **seven paired poses/14 matched
+PNG** overall. The first shows only a narrow water stripe; the second shows the
+channel surface in foreground and distance. Neither frozen image validates wave
+animation. The river view records 46→43 calls and 123,976→109,864 triangles.
+
+The initial unchanged **WebKit 26.5** regression ran all 18 scenarios with no
+retries: **11 passed, 7 failed**. Five failures reached the original 20-second
+loading-screen limit before their scenario bodies. Full story reached chapter 2
+but timed out at the original 90-second ford predicate; restart reached its
+100-second scenario cap while Alex trust was still growing. These results are
+recorded as failures, not a green suite. Offline ford snapshots show both
+companions continuing to move, with no observed stop or blocked target.
+
+A frozen baseline control ran the same original new-game and full-story cases:
+new game passed; full story also timed out at the same ford predicate. Baseline
+companions moved farther in that wall-time window than the candidate. This
+control neither proves performance equality nor confirms a new quest softlock.
+The existing 0.05s frame-delta clamp is unchanged; on a slow software GPU, wall
+time and simulated movement time differ. See the exact outcomes, sources and
+movement samples in [regression summary](../tests/evidence/graphics-polish-04/webkit-regression-summary.json)
+and [baseline control](../tests/evidence/graphics-polish-04/webkit-baseline-control-summary.json).
+
+One bounded focused run of those seven failures finished **3 passed / 4 failed**,
+with no source/helper/assertion/timeout changes or retries. Gallop pointer
+ownership, new game and return-to-trail passed. Pause and restart hit loading
+limits; tutorial received W/Shift and accelerated to 5.67 but missed the >7
+threshold within 12 seconds; full story reached the same moving-companion ford
+and hit its 300-second overall cap. Thus **14/18 unique scenarios passed at least
+once**, with no complete clean run. The [focused summary](../tests/evidence/graphics-polish-04/webkit-focused-failures-summary.json)
+retains each result and the independent timing diagnostics. The regression gate
+remains open; neither the shared baseline timeout nor a passing retry establishes
+hardware performance.
+
+The production rebuild (`env -u VITE_TEST_MODE npm run build`) passes with the
+existing Safari 15 target and pinned dependencies. All 18 release fingerprints
+match, and all three emitted runtime JS files omit the QA hook symbol:
+[production proof](../tests/evidence/graphics-polish-04/production-build-proof.json).
+The separate production WebKit smoke passes on its first run: `?qa=1` exposes no
+QA hooks before or after public touch New Game, HUD is visible, the local rigged
+horse returns 200, and page/console/HTTP errors are empty. HTTP index, three JS
+bundles and horse GLB match production dist byte for byte:
+[production smoke](../tests/evidence/graphics-polish-04/production-webkit-smoke.json).
+Production game SHA-256 is `27feb88708aa07eaa9b7868caccfcb692d7e9a5597b7c5d2ef5be1f64a34b02f`;
+the frozen QA capture bundle has a different hash by design.
+
+The physical iPad Safari gate above,
+sustained 30 FPS, independent child navigation and natural chapter duration
+remain open. This feature branch does not update the public Pages deployment.

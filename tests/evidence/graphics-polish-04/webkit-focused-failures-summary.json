@@ -1,0 +1,210 @@
+{
+  "sourceCommit": "18ae9dcd104d3f2cd4fa92fbb96ee25d673818d5",
+  "runtimeCoreCommit": "2606207e02f8dd9bb8d24a1c9d14ffb9a3a73fa2",
+  "browser": {
+    "name": "webkit",
+    "version": "26.5",
+    "revision": "2336"
+  },
+  "runPurpose": "One bounded focused run of the seven original failed cases, authorized after baseline control; no further reruns.",
+  "configurationChanges": {
+    "caseSelectionOnly": true,
+    "sourceChanged": false,
+    "helpersChanged": false,
+    "assertionsChanged": false,
+    "timeoutsChanged": false,
+    "retries": 0
+  },
+  "stats": {
+    "startTime": "2026-10-20T14:47:39.029Z",
+    "duration": 642410.473,
+    "expected": 3,
+    "skipped": 0,
+    "unexpected": 4,
+    "flaky": 0
+  },
+  "cases": [
+    {
+      "file": "camera-touch.spec.js",
+      "title": "Only the touch holding gallop can release it; cancellation never sticks",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 26045,
+          "retry": 0,
+          "failureLocation": null,
+          "failureMessage": null
+        }
+      ]
+    },
+    {
+      "file": "gameplay.spec.js",
+      "title": "P1 new game renders locally and landscape controls are usable",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 29601,
+          "retry": 0,
+          "failureLocation": null,
+          "failureMessage": null
+        }
+      ]
+    },
+    {
+      "file": "gameplay.spec.js",
+      "title": "P1 keyboard can finish every tutorial step and Shift release stops galloping",
+      "status": "unexpected",
+      "attempts": [
+        {
+          "status": "failed",
+          "durationMs": 45019,
+          "retry": 0,
+          "failureLocation": {
+            "file": "/workspace/wild-mustang/tests/gameplay.spec.js",
+            "column": 62,
+            "line": 53
+          },
+          "failureMessage": "Error: expect(received).toBeGreaterThanOrEqual(expected)\n\nExpected: >= 3\nReceived:    2\n\nCall Log:\n- Timeout 12000ms exceeded while waiting on the predicate"
+        }
+      ]
+    },
+    {
+      "file": "gameplay.spec.js",
+      "title": "P1 pause freezes airborne movement and restores safely",
+      "status": "unexpected",
+      "attempts": [
+        {
+          "status": "failed",
+          "durationMs": 28710,
+          "retry": 0,
+          "failureLocation": {
+            "file": "/workspace/wild-mustang/tests/helpers.js",
+            "column": 42,
+            "line": 14
+          },
+          "failureMessage": "Error: expect(locator).toHaveCount(expected) failed\n\nLocator:  locator('#loading')\nExpected: 0\nReceived: 1\nTimeout:  20000ms\n\nCall log:\n  - Expect \"toHaveCount\" with timeout 20000ms\n  - waiting for locator('#loading')\n    4 × locator resolved to 1 element\n      - unexpected value \"1\"\n"
+        }
+      ]
+    },
+    {
+      "file": "gameplay.spec.js",
+      "title": "P1 return to the trail moves an off-route save without losing quest progress",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 111936,
+          "retry": 0,
+          "failureLocation": null,
+          "failureMessage": null
+        }
+      ]
+    },
+    {
+      "file": "story.spec.js",
+      "title": "Story all three chapters unlock, save, reunite and replay without losing completion",
+      "status": "unexpected",
+      "attempts": [
+        {
+          "status": "failed",
+          "durationMs": 305071,
+          "retry": 0,
+          "failureLocation": {
+            "file": "/workspace/wild-mustang/tests/helpers.js",
+            "column": 121,
+            "line": 96
+          },
+          "failureMessage": "Error: expect(received).not.toBe(expected) // Object.is equality\n\nExpected: not 3\n\nCall Log:\n- Test timeout of 300000ms exceeded"
+        }
+      ]
+    },
+    {
+      "file": "story.spec.js",
+      "title": "Story restart resets the current chapter and preserves unlocked chapters",
+      "status": "unexpected",
+      "attempts": [
+        {
+          "status": "failed",
+          "durationMs": 38789,
+          "retry": 0,
+          "failureLocation": {
+            "file": "/workspace/wild-mustang/tests/helpers.js",
+            "column": 42,
+            "line": 14
+          },
+          "failureMessage": "Error: expect(locator).toHaveCount(expected) failed\n\nLocator:  locator('#loading')\nExpected: 0\nReceived: 1\nTimeout:  20000ms\n\nCall log:\n  - Expect \"toHaveCount\" with timeout 20000ms\n  - waiting for locator('#loading')\n"
+        }
+      ]
+    }
+  ],
+  "failureScopes": [
+    {
+      "category": "initial_loading_timeout",
+      "count": 2,
+      "originalTimeoutMs": 20000,
+      "location": "tests/helpers.js:14",
+      "cases": [
+        "P1 pause freezes airborne movement and restores safely",
+        "Story restart resets the current chapter and preserves unlocked chapters"
+      ]
+    },
+    {
+      "category": "tutorial_gallop_speed_progression_wall_timeout",
+      "count": 1,
+      "originalTimeoutMs": 12000,
+      "location": "tests/gameplay.spec.js:53",
+      "lastObservedSpeed": 5.672766259200001,
+      "requiredSpeedGreaterThan": 7,
+      "diagnostic": "webkit-focused-tutorial-diagnostic.json"
+    },
+    {
+      "category": "global_story_wall_timeout_while_waiting_at_ford",
+      "count": 1,
+      "originalTimeoutMs": 300000,
+      "location": "tests/helpers.js:96",
+      "companionsMoving": true,
+      "diagnostic": "webkit-focused-ford-diagnostic.json"
+    }
+  ],
+  "initialCompleteRun": {
+    "passed": 11,
+    "failed": 7,
+    "clean": false
+  },
+  "candidateUniqueCasesEverPassed": 14,
+  "candidateUniqueCaseCount": 18,
+  "noSingleCompleteCleanRun": true,
+  "sourceProofSHA256": "67fb54658b3fbd8cf39cb36239ce94d61db46063f9034c6393bc52bf5f496aad",
+  "rawArtifacts": {
+    "log": "/workspace/.cache/graphics-polish-04/webkit-focused-failures-run.log",
+    "json": "/workspace/.cache/graphics-polish-04/webkit-focused-failures-report.json",
+    "html": "/workspace/.cache/graphics-polish-04/webkit-focused-failures-report/index.html"
+  },
+  "baselineControl": {
+    "summary": "webkit-baseline-control-summary.json",
+    "newGamePassed": true,
+    "sameFord90SecondTimeout": true,
+    "movingCompanions": {
+      "candidateInitial": {
+        "wallSpanMs": 89709.96999999997,
+        "foalDeltaX": 12.340787363498809,
+        "alexDeltaX": 14.520980907504692
+      },
+      "baseline": {
+        "wallSpanMs": 89485.77300000002,
+        "foalDeltaX": 18.882891508004192,
+        "alexDeltaX": 22.218850304254172
+      }
+    },
+    "equalPerformanceEstablished": false,
+    "interpretation": "Both ford traces show moving companions and unchanged frameDt cap 0.05. Sequential wall-time progress differs; software-renderer performance equality is unproven. Trace poll counts are not rendered frame counts. No new blocked-NPC or quest bug is confirmed by the shared timeout."
+  },
+  "limitations": "Linux software-rendered WebKit tablet emulation; no physical iPad Safari, hardware FPS, natural-route completion or complete clean 18-case run claim.",
+  "browserClosed": true,
+  "postRunProcessCheck": {
+    "activeBrowserOrPlaywrightProcesses": 0
+  },
+  "trackedHistoricalImageChanges": []
+}

@@ -1,0 +1,1419 @@
+{
+  "status": "final-guarded-pairs-budget-pass-partial-core-timeout-software-timing-inconclusive",
+  "method": "Scripted V2 Continue fixtures; fixed pose/camera/medium/seed/six simulation frames; not natural gameplay or physical iPad testing",
+  "beforeSourceCommit": "e0e0fd36e9b78c2b6fe2c0536697b7e968dfd21a",
+  "contentIdenticalBaseMain": "6bd97a716ab638f94b1624d2ea5a806b3f8318ee",
+  "afterSourceCommit": "18ae9dcd104d3f2cd4fa92fbb96ee25d673818d5",
+  "runtimeSourceCommit": "2606207e02f8dd9bb8d24a1c9d14ffb9a3a73fa2",
+  "browserVersion": "151.0.7922.34",
+  "launchOptions": {
+    "args": [
+      "--no-sandbox",
+      "--enable-unsafe-swiftshader"
+    ]
+  },
+  "runsPassed": 6,
+  "runsFailed": 1,
+  "partialRunObservation": "Playwright overall new opt-in visual test cap 600000 ms expired during loading 04-ascent; three previously saved rows completed all guards. Raw result remains failed, tail captured under a new prefix without changing timeout.",
+  "matchedPairs": 7,
+  "screenshots": 14,
+  "errors": [],
+  "candidateAssertions": {
+    "maxTriangles": 150000,
+    "maxCalls": 240,
+    "allPassed": true,
+    "poseCameraQualityAndBrowserMatched": true
+  },
+  "observedMaxBefore": {
+    "calls": 79,
+    "triangles": 149557,
+    "programs": 17,
+    "textures": 10,
+    "geometries": 280
+  },
+  "observedMaxAfter": {
+    "calls": 68,
+    "triangles": 137563,
+    "programs": 19,
+    "textures": 11,
+    "geometries": 227
+  },
+  "timingLimitations": [
+    "Eight native callback intervals per pose after two warmup frames; cold scene contexts",
+    "Game delta zero while sampling: active animation/physics CPU excluded",
+    "Hot diagnostic conventional-median control drift was -28.88%; no causal performance/FPS inference",
+    "Software SwiftShader only; physical iPad Safari/child-play/manual gate remains open"
+  ],
+  "rawHistoricalMedianNote": "Original baseline/intermediate medianMs uses upper-central sample at N=8; raw bytes preserved. Final helper and derived summary use ordinary median from raw arrays.",
+  "sourceMapVerification": {
+    "path": "source-map-verification-final.json",
+    "sha256": "d30f806282b27ea41d244ec21f5f11bea789b798834aa39691302ee11c9e50f8"
+  },
+  "historicalIntermediate": {
+    "readme": "README-ca93299.md",
+    "summary": "comparison-summary-ca93299.json",
+    "rawReportsUnchanged": true
+  },
+  "reports": {
+    "before-report.json": {
+      "sha256": "7ca1b32404b3b318eb6efd09f15f2c2fa5df0d2f3cebc2be4a1e5295ccbb3e7e",
+      "began": "2026-10-20T13:06:17.361Z",
+      "ended": "2026-10-20T13:14:05.940Z",
+      "result": "passed",
+      "sourceCommit": "e0e0fd36e9b78c2b6fe2c0536697b7e968dfd21a",
+      "runtimeSourceCommit": "e0e0fd36e9b78c2b6fe2c0536697b7e968dfd21a",
+      "medianDefinition": "Historical upper-central sample; summary recomputes conventional median",
+      "completedRows": 5,
+      "failure": null
+    },
+    "after-final-report.json": {
+      "sha256": "060a37250898de4d201c4b147ba22ebe98cf20047ae78bbbd3284bcc8e4a1db1",
+      "began": "2026-10-20T13:45:50.337Z",
+      "ended": "2026-10-20T13:55:56.184Z",
+      "result": "failed",
+      "sourceCommit": "18ae9dcd104d3f2cd4fa92fbb96ee25d673818d5",
+      "runtimeSourceCommit": "2606207e02f8dd9bb8d24a1c9d14ffb9a3a73fa2",
+      "medianDefinition": "Arithmetic mean of the two central samples when sample count is even",
+      "completedRows": 3,
+      "failure": "\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('#loading')\nExpected: \u001b[32m0\u001b[39m\nReceived: \u001b[31mundefined\u001b[39m\n\nCall log:\n\u001b[2m  - Expect \"toHaveCount\" with timeout 30000ms\u001b[22m\n\u001b[2m  - waiting for locator('#loading')\u001b[22m\n\u001b[2m  - Protocol error (Runtime.evaluate): Internal server error, session closed.\u001b[22m\n"
+    },
+    "after-final-rest-report.json": {
+      "sha256": "87f5d856715bd0c7dd9e452978b3da2af79397eb495fde303b62aa001b888c18",
+      "began": "2026-10-20T13:57:19.405Z",
+      "ended": "2026-10-20T14:01:21.935Z",
+      "result": "passed",
+      "sourceCommit": "18ae9dcd104d3f2cd4fa92fbb96ee25d673818d5",
+      "runtimeSourceCommit": "2606207e02f8dd9bb8d24a1c9d14ffb9a3a73fa2",
+      "medianDefinition": "Arithmetic mean of the two central samples when sample count is even",
+      "completedRows": 2,
+      "failure": null
+    },
+    "before-water-report.json": {
+      "sha256": "80cb58cbeb172741642d87b8e9294bde6288a312b78bc0f69a9b48c8ffe1e052",
+      "began": "2026-10-20T13:25:06.829Z",
+      "ended": "2026-10-20T13:27:42.302Z",
+      "result": "passed",
+      "sourceCommit": "e0e0fd36e9b78c2b6fe2c0536697b7e968dfd21a",
+      "runtimeSourceCommit": "e0e0fd36e9b78c2b6fe2c0536697b7e968dfd21a",
+      "medianDefinition": "Historical upper-central sample; summary recomputes conventional median",
+      "completedRows": 1,
+      "failure": null
+    },
+    "after-final-water-report.json": {
+      "sha256": "8c3753ba82acace0bbbbcc1da666c22304ffcdb8bcbdc45c9e62889d194d7759",
+      "began": "2026-10-20T14:03:00.698Z",
+      "ended": "2026-10-20T14:04:56.427Z",
+      "result": "passed",
+      "sourceCommit": "18ae9dcd104d3f2cd4fa92fbb96ee25d673818d5",
+      "runtimeSourceCommit": "2606207e02f8dd9bb8d24a1c9d14ffb9a3a73fa2",
+      "medianDefinition": "Arithmetic mean of the two central samples when sample count is even",
+      "completedRows": 1,
+      "failure": null
+    },
+    "before-river-report.json": {
+      "sha256": "9df0e14c6ce5c93ebd3861b13a307e15375c3d92a34ab3cdfc77a685b71f757a",
+      "began": "2026-10-20T14:05:18.591Z",
+      "ended": "2026-10-20T14:06:56.432Z",
+      "result": "passed",
+      "sourceCommit": "e0e0fd36e9b78c2b6fe2c0536697b7e968dfd21a",
+      "runtimeSourceCommit": "e0e0fd36e9b78c2b6fe2c0536697b7e968dfd21a",
+      "medianDefinition": "Arithmetic mean of the two central samples when sample count is even",
+      "completedRows": 1,
+      "failure": null
+    },
+    "after-final-river-report.json": {
+      "sha256": "782617a3f850b56a478191431efffbf55b737a95f348db62331de53d3e681e27",
+      "began": "2026-10-20T14:07:22.348Z",
+      "ended": "2026-10-20T14:08:19.252Z",
+      "result": "passed",
+      "sourceCommit": "18ae9dcd104d3f2cd4fa92fbb96ee25d673818d5",
+      "runtimeSourceCommit": "2606207e02f8dd9bb8d24a1c9d14ffb9a3a73fa2",
+      "medianDefinition": "Arithmetic mean of the two central samples when sample count is even",
+      "completedRows": 1,
+      "failure": null
+    }
+  },
+  "pairs": [
+    {
+      "id": "01-start",
+      "fixture": {
+        "id": "01-start",
+        "chapter": 1,
+        "quest": 0,
+        "x": 20,
+        "z": 24,
+        "heading": 3.141592653589793,
+        "phase": "tutorial"
+      },
+      "screenshots": {
+        "before": {
+          "path": "before-01-start.png",
+          "sha256": "60208ae6ef9b82545eefbbaf8c07c0a5c0163803fd7746f946c56a352319333d",
+          "bytes": 484839,
+          "width": 1194,
+          "height": 834
+        },
+        "after": {
+          "path": "after-final-01-start.png",
+          "sha256": "e3b0e98ce6d8678b2aff279ea28598ea5b35f2612e19819832b357640b03ee09",
+          "bytes": 558222,
+          "width": 1194,
+          "height": 834
+        }
+      },
+      "beforeRender": {
+        "calls": 77,
+        "triangles": 125158,
+        "frame": 42,
+        "programs": 16,
+        "textures": 5,
+        "geometries": 248,
+        "pixelRatio": 1.35,
+        "buffer": {
+          "width": 1611,
+          "height": 1125
+        },
+        "outputEncoding": 3001,
+        "toneMapping": 4,
+        "exposure": 0.92,
+        "glRenderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "glVendor": "Google Inc. (Google)"
+      },
+      "afterRender": {
+        "calls": 68,
+        "triangles": 111478,
+        "frame": 52,
+        "programs": 18,
+        "textures": 6,
+        "geometries": 200,
+        "pixelRatio": 1.35,
+        "buffer": {
+          "width": 1611,
+          "height": 1125
+        },
+        "outputEncoding": 3001,
+        "toneMapping": 4,
+        "exposure": 1.02,
+        "glRenderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "glVendor": "Google Inc. (Google)"
+      },
+      "beforeCamera": {
+        "yaw": 6.283185307179586,
+        "pitch": 0.22,
+        "dist": 11.5,
+        "position": {
+          "x": 19.999999999999996,
+          "y": 18.76240934281822,
+          "z": 35.22282066730196
+        },
+        "look": {
+          "x": 20,
+          "y": 14.452768677388221,
+          "z": 24
+        }
+      },
+      "afterCamera": {
+        "yaw": 6.283185307179586,
+        "pitch": 0.22,
+        "dist": 11.5,
+        "position": {
+          "x": 19.999999999999996,
+          "y": 18.76240934281822,
+          "z": 35.22282066730196
+        },
+        "look": {
+          "x": 20,
+          "y": 14.452768677388221,
+          "z": 24
+        }
+      },
+      "beforeTimingRaw": {
+        "rafIntervalsMs": [
+          1266.6000000000058,
+          1133.3999999999942,
+          1149.800000000003,
+          1266.699999999997,
+          1166.6000000000058,
+          1200,
+          1599.8999999999942,
+          1133.300000000003
+        ],
+        "nativeCallbackIntervalsMs": [
+          1261.2000000178814,
+          1138.7999999821186,
+          1163.9000000059605,
+          1268.0999999940395,
+          1181.800000011921,
+          1187.199999988079,
+          1613.4000000059605,
+          1116.5
+        ],
+        "raf": {
+          "count": 8,
+          "medianMs": 1200,
+          "p95Ms": 1599.8999999999942,
+          "meanMs": 1239.5375000000004,
+          "minMs": 1133.300000000003,
+          "maxMs": 1599.8999999999942
+        },
+        "native": {
+          "count": 8,
+          "medianMs": 1187.199999988079,
+          "p95Ms": 1613.4000000059605,
+          "meanMs": 1241.362500000745,
+          "minMs": 1116.5,
+          "maxMs": 1613.4000000059605
+        }
+      },
+      "afterTimingRaw": {
+        "rafIntervalsMs": [
+          1033.199999999997,
+          1266.699999999997,
+          1783.199999999997,
+          1899.9000000000087,
+          1316.5999999999913,
+          1833.300000000003,
+          9366.300000000003,
+          4033.2000000000116
+        ],
+        "nativeCallbackIntervalsMs": [
+          1015.9000000059605,
+          1275.2000000178814,
+          1815.199999988079,
+          1868.9000000059605,
+          1312.699999988079,
+          1876.5,
+          9375.200000017881,
+          4120.5
+        ],
+        "raf": {
+          "count": 8,
+          "medianMs": 1808.25,
+          "p95Ms": 9366.300000000003,
+          "meanMs": 2816.550000000001,
+          "minMs": 1033.199999999997,
+          "maxMs": 9366.300000000003
+        },
+        "native": {
+          "count": 8,
+          "medianMs": 1842.0499999970198,
+          "p95Ms": 9375.200000017881,
+          "meanMs": 2832.5125000029802,
+          "minMs": 1015.9000000059605,
+          "maxMs": 9375.200000017881
+        }
+      },
+      "conventionalNativeMedian": {
+        "definition": "Mean of two central samples for even N",
+        "beforeMs": 1184.5,
+        "afterMs": 1842.0499999970198,
+        "changePercent": 55.51287463039425
+      },
+      "changes": {
+        "calls": -11.688311688311693,
+        "triangles": -10.93018424711165,
+        "programs": 12.5,
+        "textures": 19.999999999999996,
+        "geometries": -19.354838709677423
+      }
+    },
+    {
+      "id": "02-ford",
+      "fixture": {
+        "id": "02-ford",
+        "chapter": 2,
+        "quest": 2,
+        "x": -14,
+        "z": 60,
+        "heading": 1.5707963267948966,
+        "phase": "quests"
+      },
+      "screenshots": {
+        "before": {
+          "path": "before-02-ford.png",
+          "sha256": "a653d7d56de2746a3845b854fe0320493d1e64bcb46398718a0642c207551e51",
+          "bytes": 400090,
+          "width": 1194,
+          "height": 834
+        },
+        "after": {
+          "path": "after-final-02-ford.png",
+          "sha256": "08db2fe81dcded46c750f32bcea2a72c7006e77a52a02f3c12c7f8c7defb400f",
+          "bytes": 456242,
+          "width": 1194,
+          "height": 834
+        }
+      },
+      "beforeRender": {
+        "calls": 79,
+        "triangles": 144690,
+        "frame": 44,
+        "programs": 17,
+        "textures": 5,
+        "geometries": 280,
+        "pixelRatio": 1.35,
+        "buffer": {
+          "width": 1611,
+          "height": 1125
+        },
+        "outputEncoding": 3001,
+        "toneMapping": 4,
+        "exposure": 0.92,
+        "glRenderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "glVendor": "Google Inc. (Google)"
+      },
+      "afterRender": {
+        "calls": 67,
+        "triangles": 132538,
+        "frame": 44,
+        "programs": 19,
+        "textures": 6,
+        "geometries": 227,
+        "pixelRatio": 1.35,
+        "buffer": {
+          "width": 1611,
+          "height": 1125
+        },
+        "outputEncoding": 3001,
+        "toneMapping": 4,
+        "exposure": 1,
+        "glRenderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "glVendor": "Google Inc. (Google)"
+      },
+      "beforeCamera": {
+        "yaw": 4.71238898038469,
+        "pitch": 0.22,
+        "dist": 11.5,
+        "position": {
+          "x": -25.222820667301963,
+          "y": 12.857730100375548,
+          "z": 60
+        },
+        "look": {
+          "x": -14,
+          "y": 8.54808943494555,
+          "z": 60
+        }
+      },
+      "afterCamera": {
+        "yaw": 4.71238898038469,
+        "pitch": 0.22,
+        "dist": 11.5,
+        "position": {
+          "x": -25.222820667301963,
+          "y": 12.857730100375548,
+          "z": 60
+        },
+        "look": {
+          "x": -14,
+          "y": 8.54808943494555,
+          "z": 60
+        }
+      },
+      "beforeTimingRaw": {
+        "rafIntervalsMs": [
+          966.6000000000058,
+          933.3000000000029,
+          1483.300000000003,
+          1049.8999999999942,
+          1416.699999999997,
+          1016.5,
+          950,
+          1133.300000000003
+        ],
+        "nativeCallbackIntervalsMs": [
+          973.6999999880791,
+          923,
+          1497.9000000059605,
+          1049,
+          1406.300000011921,
+          1022.7999999821186,
+          947.8000000119209,
+          1125.5
+        ],
+        "raf": {
+          "count": 8,
+          "medianMs": 1049.8999999999942,
+          "p95Ms": 1483.300000000003,
+          "meanMs": 1118.7000000000007,
+          "minMs": 933.3000000000029,
+          "maxMs": 1483.300000000003
+        },
+        "native": {
+          "count": 8,
+          "medianMs": 1049,
+          "p95Ms": 1497.9000000059605,
+          "meanMs": 1118.25,
+          "minMs": 923,
+          "maxMs": 1497.9000000059605
+        }
+      },
+      "afterTimingRaw": {
+        "rafIntervalsMs": [
+          1633.2999999999884,
+          3283.100000000006,
+          2499.899999999994,
+          6516.400000000023,
+          3316.5999999999767,
+          2833.2000000000116,
+          1566.6000000000058,
+          3933.100000000006
+        ],
+        "nativeCallbackIntervalsMs": [
+          1632.5999999940395,
+          3292.2999999821186,
+          2520.4000000059605,
+          6521.300000011921,
+          3277.2999999821186,
+          2853.7000000178814,
+          1539.2999999821186,
+          3989.9000000059605
+        ],
+        "raf": {
+          "count": 8,
+          "medianMs": 3058.1500000000087,
+          "p95Ms": 6516.400000000023,
+          "meanMs": 3197.7750000000015,
+          "minMs": 1566.6000000000058,
+          "maxMs": 6516.400000000023
+        },
+        "native": {
+          "count": 8,
+          "medianMs": 3065.5,
+          "p95Ms": 6521.300000011921,
+          "meanMs": 3203.349999997765,
+          "minMs": 1539.2999999821186,
+          "maxMs": 6521.300000011921
+        }
+      },
+      "conventionalNativeMedian": {
+        "definition": "Mean of two central samples for even N",
+        "beforeMs": 1035.8999999910593,
+        "afterMs": 3065.5,
+        "changePercent": 195.92624770986174
+      },
+      "changes": {
+        "calls": -15.189873417721522,
+        "triangles": -8.39864537977746,
+        "programs": 11.764705882352944,
+        "textures": 19.999999999999996,
+        "geometries": -18.928571428571427
+      }
+    },
+    {
+      "id": "03-clearing",
+      "fixture": {
+        "id": "03-clearing",
+        "chapter": 2,
+        "quest": 4,
+        "x": 27,
+        "z": 75,
+        "heading": 1.5707963267948966,
+        "phase": "quests"
+      },
+      "screenshots": {
+        "before": {
+          "path": "before-03-clearing.png",
+          "sha256": "786e866ccdae6a20c15db3c101495145613690c74ba1fb27e661f74550c8f206",
+          "bytes": 369439,
+          "width": 1194,
+          "height": 834
+        },
+        "after": {
+          "path": "after-final-03-clearing.png",
+          "sha256": "a1653e1fd1db5912d2e96ebc0e62366fe471933a89e842439f56a71df3bae9c1",
+          "bytes": 445647,
+          "width": 1194,
+          "height": 834
+        }
+      },
+      "beforeRender": {
+        "calls": 39,
+        "triangles": 137172,
+        "frame": 43,
+        "programs": 17,
+        "textures": 5,
+        "geometries": 244,
+        "pixelRatio": 1.35,
+        "buffer": {
+          "width": 1611,
+          "height": 1125
+        },
+        "outputEncoding": 3001,
+        "toneMapping": 4,
+        "exposure": 0.92,
+        "glRenderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "glVendor": "Google Inc. (Google)"
+      },
+      "afterRender": {
+        "calls": 41,
+        "triangles": 125020,
+        "frame": 42,
+        "programs": 19,
+        "textures": 6,
+        "geometries": 205,
+        "pixelRatio": 1.35,
+        "buffer": {
+          "width": 1611,
+          "height": 1125
+        },
+        "outputEncoding": 3001,
+        "toneMapping": 4,
+        "exposure": 1,
+        "glRenderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "glVendor": "Google Inc. (Google)"
+      },
+      "beforeCamera": {
+        "yaw": 4.71238898038469,
+        "pitch": 0.22,
+        "dist": 11.5,
+        "position": {
+          "x": 15.777179332698037,
+          "y": 18.01548348822433,
+          "z": 75
+        },
+        "look": {
+          "x": 27,
+          "y": 13.705842822794331,
+          "z": 75
+        }
+      },
+      "afterCamera": {
+        "yaw": 4.71238898038469,
+        "pitch": 0.22,
+        "dist": 11.5,
+        "position": {
+          "x": 15.777179332698037,
+          "y": 18.01548348822433,
+          "z": 75
+        },
+        "look": {
+          "x": 27,
+          "y": 13.705842822794331,
+          "z": 75
+        }
+      },
+      "beforeTimingRaw": {
+        "rafIntervalsMs": [
+          1566.5999999999913,
+          2883.300000000003,
+          1383.300000000003,
+          1316.6000000000058,
+          1266.5999999999913,
+          1266.5,
+          1316.699999999997,
+          1883.300000000003
+        ],
+        "nativeCallbackIntervalsMs": [
+          1584.9000000059605,
+          2901.399999976158,
+          1339.7000000178814,
+          1314.5999999940395,
+          1266.699999988079,
+          1259.6000000238419,
+          1338.0999999940395,
+          1859.7999999821186
+        ],
+        "raf": {
+          "count": 8,
+          "medianMs": 1383.300000000003,
+          "p95Ms": 2883.300000000003,
+          "meanMs": 1610.3624999999993,
+          "minMs": 1266.5,
+          "maxMs": 2883.300000000003
+        },
+        "native": {
+          "count": 8,
+          "medianMs": 1339.7000000178814,
+          "p95Ms": 2901.399999976158,
+          "meanMs": 1608.0999999977648,
+          "minMs": 1259.6000000238419,
+          "maxMs": 2901.399999976158
+        }
+      },
+      "afterTimingRaw": {
+        "rafIntervalsMs": [
+          2533.0999999999767,
+          1383.4000000000233,
+          1333.2999999999884,
+          1649.8999999999942,
+          916.6000000000058,
+          1583.2999999999884,
+          4399.8000000000175,
+          1616.6000000000058
+        ],
+        "nativeCallbackIntervalsMs": [
+          2566,
+          1356.5,
+          1328.0999999940395,
+          1643.0999999940395,
+          917.4000000059605,
+          1584.9000000059605,
+          4429.4000000059605,
+          1674.0999999940395
+        ],
+        "raf": {
+          "count": 8,
+          "medianMs": 1599.949999999997,
+          "p95Ms": 4399.8000000000175,
+          "meanMs": 1927,
+          "minMs": 916.6000000000058,
+          "maxMs": 4399.8000000000175
+        },
+        "native": {
+          "count": 8,
+          "medianMs": 1614,
+          "p95Ms": 4429.4000000059605,
+          "meanMs": 1937.4375,
+          "minMs": 917.4000000059605,
+          "maxMs": 4429.4000000059605
+        }
+      },
+      "conventionalNativeMedian": {
+        "definition": "Mean of two central samples for even N",
+        "beforeMs": 1338.9000000059605,
+        "afterMs": 1614.0,
+        "changePercent": 20.54671745409029
+      },
+      "changes": {
+        "calls": 5.128205128205132,
+        "triangles": -8.858950806287002,
+        "programs": 11.764705882352944,
+        "textures": 19.999999999999996,
+        "geometries": -15.983606557377051
+      }
+    },
+    {
+      "id": "04-ascent",
+      "fixture": {
+        "id": "04-ascent",
+        "chapter": 3,
+        "quest": 1,
+        "x": 75,
+        "z": 26,
+        "heading": 3.141592653589793,
+        "phase": "quests"
+      },
+      "screenshots": {
+        "before": {
+          "path": "before-04-ascent.png",
+          "sha256": "b7ff58f7b3c66533806ddc148819768941ebdb697bd68151c3edd76a60920ac8",
+          "bytes": 374831,
+          "width": 1194,
+          "height": 834
+        },
+        "after": {
+          "path": "after-final-rest-04-ascent.png",
+          "sha256": "7512e5940101a7095e0ae93acabff62445898f3e1f5b6e423ea0923c3db91e98",
+          "bytes": 424289,
+          "width": 1194,
+          "height": 834
+        }
+      },
+      "beforeRender": {
+        "calls": 57,
+        "triangles": 149557,
+        "frame": 44,
+        "programs": 17,
+        "textures": 10,
+        "geometries": 265,
+        "pixelRatio": 1.35,
+        "buffer": {
+          "width": 1611,
+          "height": 1125
+        },
+        "outputEncoding": 3001,
+        "toneMapping": 4,
+        "exposure": 0.92,
+        "glRenderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "glVendor": "Google Inc. (Google)"
+      },
+      "afterRender": {
+        "calls": 50,
+        "triangles": 137563,
+        "frame": 44,
+        "programs": 19,
+        "textures": 11,
+        "geometries": 216,
+        "pixelRatio": 1.35,
+        "buffer": {
+          "width": 1611,
+          "height": 1125
+        },
+        "outputEncoding": 3001,
+        "toneMapping": 4,
+        "exposure": 1.04,
+        "glRenderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "glVendor": "Google Inc. (Google)"
+      },
+      "beforeCamera": {
+        "yaw": 6.283185307179586,
+        "pitch": 0.22,
+        "dist": 11.5,
+        "position": {
+          "x": 75,
+          "y": 13.367130969609514,
+          "z": 31.156032003949434
+        },
+        "look": {
+          "x": 75,
+          "y": 11.387179061332162,
+          "z": 26
+        }
+      },
+      "afterCamera": {
+        "yaw": 6.283185307179586,
+        "pitch": 0.22,
+        "dist": 11.5,
+        "position": {
+          "x": 75,
+          "y": 13.367130969609514,
+          "z": 31.156032003949434
+        },
+        "look": {
+          "x": 75,
+          "y": 11.387179061332162,
+          "z": 26
+        }
+      },
+      "beforeTimingRaw": {
+        "rafIntervalsMs": [
+          1066.699999999997,
+          1433.300000000003,
+          1249.8999999999942,
+          1183.300000000003,
+          1616.6000000000058,
+          2849.899999999994,
+          1349.8999999999942,
+          1133.300000000003
+        ],
+        "nativeCallbackIntervalsMs": [
+          1083.699999988079,
+          1490.1000000238419,
+          1208.0999999940395,
+          1158.2999999821186,
+          2144.300000011921,
+          2322,
+          1370.800000011921,
+          1105
+        ],
+        "raf": {
+          "count": 8,
+          "medianMs": 1349.8999999999942,
+          "p95Ms": 2849.899999999994,
+          "meanMs": 1485.3624999999993,
+          "minMs": 1066.699999999997,
+          "maxMs": 2849.899999999994
+        },
+        "native": {
+          "count": 8,
+          "medianMs": 1370.800000011921,
+          "p95Ms": 2322,
+          "meanMs": 1485.2875000014901,
+          "minMs": 1083.699999988079,
+          "maxMs": 2322
+        }
+      },
+      "afterTimingRaw": {
+        "rafIntervalsMs": [
+          1949.9000000000087,
+          2966.5,
+          5716.5,
+          3349.800000000003,
+          2166.5999999999913,
+          1033.300000000003,
+          1483.300000000003,
+          5416.399999999994
+        ],
+        "nativeCallbackIntervalsMs": [
+          1947.5999999940395,
+          2975.5999999940395,
+          5704.4000000059605,
+          3360.5,
+          2159.699999988079,
+          1036,
+          1486.800000011921,
+          5432.0999999940395
+        ],
+        "raf": {
+          "count": 8,
+          "medianMs": 2566.5499999999956,
+          "p95Ms": 5716.5,
+          "meanMs": 3010.2875000000004,
+          "minMs": 1033.300000000003,
+          "maxMs": 5716.5
+        },
+        "native": {
+          "count": 8,
+          "medianMs": 2567.6499999910593,
+          "p95Ms": 5704.4000000059605,
+          "meanMs": 3012.83749999851,
+          "minMs": 1036,
+          "maxMs": 5704.4000000059605
+        }
+      },
+      "conventionalNativeMedian": {
+        "definition": "Mean of two central samples for even N",
+        "beforeMs": 1289.4500000029802,
+        "afterMs": 2567.6499999910593,
+        "changePercent": 99.12753499438713
+      },
+      "changes": {
+        "calls": -12.28070175438597,
+        "triangles": -8.0196848024499,
+        "programs": 11.764705882352944,
+        "textures": 10.000000000000009,
+        "geometries": -18.490566037735846
+      }
+    },
+    {
+      "id": "05-family",
+      "fixture": {
+        "id": "05-family",
+        "chapter": 3,
+        "quest": 5,
+        "x": 97,
+        "z": -94,
+        "heading": 2.5393053074548293,
+        "phase": "epilogue"
+      },
+      "screenshots": {
+        "before": {
+          "path": "before-05-family.png",
+          "sha256": "01471049f3fbbaf2e5591b7f2cb83f4397e8e0a7a7e25545d3971fb627c90943",
+          "bytes": 329768,
+          "width": 1194,
+          "height": 834
+        },
+        "after": {
+          "path": "after-final-rest-05-family.png",
+          "sha256": "aa800c72e44ab52c706ecbb4e8751c668f340161536c7f70ce46b4a2f896dccf",
+          "bytes": 426136,
+          "width": 1194,
+          "height": 834
+        }
+      },
+      "beforeRender": {
+        "calls": 27,
+        "triangles": 145207,
+        "frame": 49,
+        "programs": 16,
+        "textures": 10,
+        "geometries": 243,
+        "pixelRatio": 1.35,
+        "buffer": {
+          "width": 1611,
+          "height": 1125
+        },
+        "outputEncoding": 3001,
+        "toneMapping": 4,
+        "exposure": 0.92,
+        "glRenderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "glVendor": "Google Inc. (Google)"
+      },
+      "afterRender": {
+        "calls": 30,
+        "triangles": 133213,
+        "frame": 45,
+        "programs": 18,
+        "textures": 11,
+        "geometries": 204,
+        "pixelRatio": 1.35,
+        "buffer": {
+          "width": 1611,
+          "height": 1125
+        },
+        "outputEncoding": 3001,
+        "toneMapping": 4,
+        "exposure": 1.04,
+        "glRenderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "glVendor": "Google Inc. (Google)"
+      },
+      "beforeCamera": {
+        "yaw": 5.680897961044622,
+        "pitch": 0.22,
+        "dist": 11.5,
+        "position": {
+          "x": 90.64194861788079,
+          "y": 28.107134391374355,
+          "z": -84.75192526237205
+        },
+        "look": {
+          "x": 97,
+          "y": 23.797493725944356,
+          "z": -94
+        }
+      },
+      "afterCamera": {
+        "yaw": 5.680897961044622,
+        "pitch": 0.22,
+        "dist": 11.5,
+        "position": {
+          "x": 90.64194861788079,
+          "y": 28.107134391374355,
+          "z": -84.75192526237205
+        },
+        "look": {
+          "x": 97,
+          "y": 23.797493725944356,
+          "z": -94
+        }
+      },
+      "beforeTimingRaw": {
+        "rafIntervalsMs": [
+          1733.2000000000116,
+          1899.8999999999942,
+          1666.6000000000058,
+          3083.199999999997,
+          1666.699999999997,
+          2016.5,
+          1516.6000000000058,
+          2833.2999999999884
+        ],
+        "nativeCallbackIntervalsMs": [
+          1744.2000000178814,
+          1893,
+          1678.7999999821186,
+          3098.300000011921,
+          1640,
+          2010.0999999940395,
+          1513.5,
+          2828.5
+        ],
+        "raf": {
+          "count": 8,
+          "medianMs": 1899.8999999999942,
+          "p95Ms": 3083.199999999997,
+          "meanMs": 2052,
+          "minMs": 1516.6000000000058,
+          "maxMs": 3083.199999999997
+        },
+        "native": {
+          "count": 8,
+          "medianMs": 1893,
+          "p95Ms": 3098.300000011921,
+          "meanMs": 2050.800000000745,
+          "minMs": 1513.5,
+          "maxMs": 3098.300000011921
+        }
+      },
+      "afterTimingRaw": {
+        "rafIntervalsMs": [
+          1749.9000000000087,
+          2516.5999999999913,
+          2183.2000000000116,
+          2133.2999999999884,
+          1733.2000000000116,
+          2783.199999999997,
+          3449.899999999994,
+          2433.300000000003
+        ],
+        "nativeCallbackIntervalsMs": [
+          1696.0999999940395,
+          2515.4000000059605,
+          2190.699999988079,
+          2127.7000000178814,
+          1729.7999999821186,
+          2799.9000000059605,
+          3488.4000000059605,
+          2437.199999988079
+        ],
+        "raf": {
+          "count": 8,
+          "medianMs": 2308.2500000000073,
+          "p95Ms": 3449.899999999994,
+          "meanMs": 2372.8250000000007,
+          "minMs": 1733.2000000000116,
+          "maxMs": 3449.899999999994
+        },
+        "native": {
+          "count": 8,
+          "medianMs": 2313.949999988079,
+          "p95Ms": 3488.4000000059605,
+          "meanMs": 2373.14999999851,
+          "minMs": 1696.0999999940395,
+          "maxMs": 3488.4000000059605
+        }
+      },
+      "conventionalNativeMedian": {
+        "definition": "Mean of two central samples for even N",
+        "beforeMs": 1818.6000000089407,
+        "afterMs": 2313.949999988079,
+        "changePercent": 27.23798526210839
+      },
+      "changes": {
+        "calls": 11.111111111111116,
+        "triangles": -8.259932372406286,
+        "programs": 12.5,
+        "textures": 10.000000000000009,
+        "geometries": -16.049382716049386
+      }
+    },
+    {
+      "id": "06-water-bank",
+      "fixture": {
+        "id": "06-water-bank",
+        "chapter": 2,
+        "quest": 2,
+        "x": -8,
+        "z": 48,
+        "heading": 1.5707963267948966,
+        "phase": "quests"
+      },
+      "screenshots": {
+        "before": {
+          "path": "before-water-06-water-bank.png",
+          "sha256": "245f6be1a69ac0e0733672f00a659b536eddbba1fbe3c6fd06c1f927deb6d34b",
+          "bytes": 410599,
+          "width": 1194,
+          "height": 834
+        },
+        "after": {
+          "path": "after-final-water-06-water-bank.png",
+          "sha256": "2ffe97549940d45cceba91cfcea4dc924ea15f7dab9ab51d7de2be6d7590e358",
+          "bytes": 464015,
+          "width": 1194,
+          "height": 834
+        }
+      },
+      "beforeRender": {
+        "calls": 63,
+        "triangles": 142740,
+        "frame": 42,
+        "programs": 16,
+        "textures": 5,
+        "geometries": 267,
+        "pixelRatio": 1.35,
+        "buffer": {
+          "width": 1611,
+          "height": 1125
+        },
+        "outputEncoding": 3001,
+        "toneMapping": 4,
+        "exposure": 0.92,
+        "glRenderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "glVendor": "Google Inc. (Google)"
+      },
+      "afterRender": {
+        "calls": 54,
+        "triangles": 130588,
+        "frame": 44,
+        "programs": 18,
+        "textures": 6,
+        "geometries": 219,
+        "pixelRatio": 1.35,
+        "buffer": {
+          "width": 1611,
+          "height": 1125
+        },
+        "outputEncoding": 3001,
+        "toneMapping": 4,
+        "exposure": 1,
+        "glRenderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "glVendor": "Google Inc. (Google)"
+      },
+      "beforeCamera": {
+        "yaw": 4.71238898038469,
+        "pitch": 0.22,
+        "dist": 11.5,
+        "position": {
+          "x": -19.222820667301963,
+          "y": 12.986663558160917,
+          "z": 48
+        },
+        "look": {
+          "x": -8,
+          "y": 8.67702289273092,
+          "z": 48
+        }
+      },
+      "afterCamera": {
+        "yaw": 4.71238898038469,
+        "pitch": 0.22,
+        "dist": 11.5,
+        "position": {
+          "x": -19.222820667301963,
+          "y": 12.986663558160917,
+          "z": 48
+        },
+        "look": {
+          "x": -8,
+          "y": 8.67702289273092,
+          "z": 48
+        }
+      },
+      "beforeTimingRaw": {
+        "rafIntervalsMs": [
+          6433.100000000006,
+          2749.899999999994,
+          3366.5,
+          6083.100000000006,
+          5366.5,
+          15415.999999999985,
+          4899.8000000000175,
+          2699.899999999994
+        ],
+        "nativeCallbackIntervalsMs": [
+          6303,
+          2734.899999976158,
+          3457.4000000059605,
+          6268.800000011921,
+          5127.0999999940395,
+          15637.5,
+          4739.5,
+          2622
+        ],
+        "raf": {
+          "count": 8,
+          "medianMs": 5366.5,
+          "p95Ms": 15415.999999999985,
+          "meanMs": 5876.85,
+          "minMs": 2699.899999999994,
+          "maxMs": 15415.999999999985
+        },
+        "native": {
+          "count": 8,
+          "medianMs": 5127.0999999940395,
+          "p95Ms": 15637.5,
+          "meanMs": 5861.27499999851,
+          "minMs": 2622,
+          "maxMs": 15637.5
+        }
+      },
+      "afterTimingRaw": {
+        "rafIntervalsMs": [
+          800,
+          816.6000000000058,
+          1016.6999999999971,
+          1016.6000000000058,
+          900,
+          816.5999999999913,
+          866.6000000000058,
+          1133.300000000003
+        ],
+        "nativeCallbackIntervalsMs": [
+          796,
+          813.1999999880791,
+          1031.199999988079,
+          1013.2000000178814,
+          912.5999999940395,
+          811.3000000119209,
+          877.5,
+          1118.5
+        ],
+        "raf": {
+          "count": 8,
+          "medianMs": 883.3000000000029,
+          "p95Ms": 1133.300000000003,
+          "meanMs": 920.8000000000011,
+          "minMs": 800,
+          "maxMs": 1133.300000000003
+        },
+        "native": {
+          "count": 8,
+          "medianMs": 895.0499999970198,
+          "p95Ms": 1118.5,
+          "meanMs": 921.6875,
+          "minMs": 796,
+          "maxMs": 1118.5
+        }
+      },
+      "conventionalNativeMedian": {
+        "definition": "Mean of two central samples for even N",
+        "beforeMs": 4933.29999999702,
+        "afterMs": 895.0499999970198,
+        "changePercent": -81.85697200661706
+      },
+      "changes": {
+        "calls": -14.28571428571429,
+        "triangles": -8.513380972397366,
+        "programs": 12.5,
+        "textures": 19.999999999999996,
+        "geometries": -17.97752808988764
+      }
+    },
+    {
+      "id": "07-river-look",
+      "fixture": {
+        "id": "07-river-look",
+        "chapter": 1,
+        "quest": 0,
+        "x": -3,
+        "z": 48,
+        "heading": 0,
+        "phase": "tutorial"
+      },
+      "screenshots": {
+        "before": {
+          "path": "before-river-07-river-look.png",
+          "sha256": "7905ba9775188a035f9805e4ac27efad41096228ffb7eb05d98535e60e535636",
+          "bytes": 430509,
+          "width": 1194,
+          "height": 834
+        },
+        "after": {
+          "path": "after-final-river-07-river-look.png",
+          "sha256": "2bc49f890070cbbd9cceecb195f33dd2211a61fff9a5dc42d940cf667fa7d047",
+          "bytes": 505761,
+          "width": 1194,
+          "height": 834
+        }
+      },
+      "beforeRender": {
+        "calls": 46,
+        "triangles": 123976,
+        "frame": 42,
+        "programs": 16,
+        "textures": 5,
+        "geometries": 253,
+        "pixelRatio": 1.35,
+        "buffer": {
+          "width": 1611,
+          "height": 1125
+        },
+        "outputEncoding": 3001,
+        "toneMapping": 4,
+        "exposure": 0.92,
+        "glRenderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "glVendor": "Google Inc. (Google)"
+      },
+      "afterRender": {
+        "calls": 43,
+        "triangles": 109864,
+        "frame": 45,
+        "programs": 18,
+        "textures": 6,
+        "geometries": 208,
+        "pixelRatio": 1.35,
+        "buffer": {
+          "width": 1611,
+          "height": 1125
+        },
+        "outputEncoding": 3001,
+        "toneMapping": 4,
+        "exposure": 1.02,
+        "glRenderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "glVendor": "Google Inc. (Google)"
+      },
+      "beforeCamera": {
+        "yaw": 3.141592653589793,
+        "pitch": 0.22,
+        "dist": 11.5,
+        "position": {
+          "x": -2.9999999999999987,
+          "y": 9.34018623619638,
+          "z": 36.77717933269804
+        },
+        "look": {
+          "x": -3,
+          "y": 5.030545570766383,
+          "z": 48
+        }
+      },
+      "afterCamera": {
+        "yaw": 3.141592653589793,
+        "pitch": 0.22,
+        "dist": 11.5,
+        "position": {
+          "x": -2.9999999999999987,
+          "y": 9.34018623619638,
+          "z": 36.77717933269804
+        },
+        "look": {
+          "x": -3,
+          "y": 5.030545570766383,
+          "z": 48
+        }
+      },
+      "beforeTimingRaw": {
+        "rafIntervalsMs": [
+          699.9000000000087,
+          699.8999999999942,
+          783.3999999999942,
+          783.2000000000116,
+          1033.3999999999942,
+          1016.5,
+          850,
+          1183.300000000003
+        ],
+        "nativeCallbackIntervalsMs": [
+          693.0999999940395,
+          702.6999999880791,
+          789.7000000178814,
+          777.5,
+          1033.5999999940395,
+          1015.5999999940395,
+          872.1999999880791,
+          1174.300000011921
+        ],
+        "raf": {
+          "count": 8,
+          "medianMs": 816.6999999999971,
+          "p95Ms": 1183.300000000003,
+          "meanMs": 881.2000000000007,
+          "minMs": 699.8999999999942,
+          "maxMs": 1183.300000000003
+        },
+        "native": {
+          "count": 8,
+          "medianMs": 830.9500000029802,
+          "p95Ms": 1174.300000011921,
+          "meanMs": 882.3374999985099,
+          "minMs": 693.0999999940395,
+          "maxMs": 1174.300000011921
+        }
+      },
+      "afterTimingRaw": {
+        "rafIntervalsMs": [
+          1749.9000000000015,
+          766.6999999999971,
+          716.6000000000058,
+          1083.199999999997,
+          2266.5999999999985,
+          1683.300000000003,
+          750,
+          716.5999999999985
+        ],
+        "nativeCallbackIntervalsMs": [
+          1739.800000011921,
+          763.8999999761581,
+          717.2000000178814,
+          1084.699999988079,
+          2270.4000000059605,
+          1675.9000000059605,
+          750.4000000059605,
+          730.0999999940395
+        ],
+        "raf": {
+          "count": 8,
+          "medianMs": 924.9499999999971,
+          "p95Ms": 2266.5999999999985,
+          "meanMs": 1216.6125000000002,
+          "minMs": 716.5999999999985,
+          "maxMs": 2266.5999999999985
+        },
+        "native": {
+          "count": 8,
+          "medianMs": 924.2999999821186,
+          "p95Ms": 2270.4000000059605,
+          "meanMs": 1216.550000000745,
+          "minMs": 717.2000000178814,
+          "maxMs": 2270.4000000059605
+        }
+      },
+      "conventionalNativeMedian": {
+        "definition": "Mean of two central samples for even N",
+        "beforeMs": 830.9500000029802,
+        "afterMs": 924.2999999821186,
+        "changePercent": 11.234129608135701
+      },
+      "changes": {
+        "calls": -6.521739130434778,
+        "triangles": -11.38284829321804,
+        "programs": 12.5,
+        "textures": 19.999999999999996,
+        "geometries": -17.786561264822133
+      }
+    }
+  ]
+}

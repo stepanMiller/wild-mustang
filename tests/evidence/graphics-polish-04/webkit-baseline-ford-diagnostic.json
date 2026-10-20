@@ -1,0 +1,60 @@
+{
+  "sourceCommit": "e0e0fd36e9b78c2b6fe2c0536697b7e968dfd21a",
+  "method": "Offline decoding of existing Playwright trace results; no new browser, simulation or snapshot injection.",
+  "trace": "/workspace/.cache/graphics-polish-04/webkit-baseline-control-results/story-Story-all-three-chap-32630-y-without-losing-completion-webkit-ipad/trace.zip",
+  "wallSpanMs": 89485.77300000002,
+  "pollSnapshots": 71,
+  "actualRenderedFrameCount": "Not recorded in snapshot/trace; poll snapshots are not frame counts.",
+  "foalDeltaX": 18.882891508004192,
+  "alexDeltaX": 22.218850304254172,
+  "unchangedFrameDtCapSeconds": 0.05,
+  "wallTimeIsNotSimulationTime": true,
+  "first": {
+    "traceEndTimeMs": 209630.58,
+    "hero": {
+      "x": 17,
+      "y": 11.6564738029303,
+      "z": 60
+    },
+    "paused": false,
+    "foal": {
+      "x": -18,
+      "z": 63,
+      "animation": "Gallop"
+    },
+    "alex": {
+      "x": -11,
+      "z": 62,
+      "animation": "Walk"
+    },
+    "render": {
+      "calls": 35,
+      "triangles": 117488
+    },
+    "quality": 0
+  },
+  "last": {
+    "traceEndTimeMs": 299116.353,
+    "hero": {
+      "x": 17,
+      "y": 11.6564738029303,
+      "z": 60
+    },
+    "paused": false,
+    "foal": {
+      "x": 0.8828915080041932,
+      "z": 60.48228113226608,
+      "animation": "Walk"
+    },
+    "alex": {
+      "x": 11.218850304254172,
+      "z": 61.477203522252836,
+      "animation": "Walk"
+    },
+    "render": {
+      "calls": 37,
+      "triangles": 116668
+    },
+    "quality": 0
+  }
+}

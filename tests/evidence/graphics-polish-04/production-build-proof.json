@@ -1,0 +1,113 @@
+{
+  "result": "passed",
+  "verifiedAt": "2026-10-20T14:59:37.402Z",
+  "sourceHead": "18ae9dcd104d3f2cd4fa92fbb96ee25d673818d5",
+  "runtimeSourceCommit": "2606207e02f8dd9bb8d24a1c9d14ffb9a3a73fa2",
+  "buildCommand": "env -u VITE_TEST_MODE npm run build",
+  "target": "safari15",
+  "releaseManifestMatches": true,
+  "registeredSourceFingerprints": [
+    {
+      "path": "src/game.js",
+      "sha256": "10213ad06e6873e4be5bff5e61f9229f81ebed4a2e8103aedca11bd19e136c0c"
+    },
+    {
+      "path": "src/story/chapters.js",
+      "sha256": "ab066ab7c71af8e18e0fb36eeea4f87a166e92cf0adc885437dc8786c8df6c91"
+    },
+    {
+      "path": "src/story/environment.js",
+      "sha256": "4af6f188b413d7b74a1bf38add7d12e74098564d6c88c6bbfad67c473763f6f5"
+    },
+    {
+      "path": "src/characters/characters.js",
+      "sha256": "691bee28155136b706beb60b5d0e585ce04ec06352383113557be7611f12b28f"
+    },
+    {
+      "path": "index.html",
+      "sha256": "e50afc8c5792f8fbe420f7c9cb06d3e68b3559d152d29beeba2146a688d06797"
+    },
+    {
+      "path": "src/navigation.js",
+      "sha256": "775c7d6c405fa219afbfa02ddf64fab83eb910077f7f260d9dea14c3646685a3"
+    },
+    {
+      "path": "src/camera.js",
+      "sha256": "bb814827c09c59659a41fef946c1a23bdfc68abc4ae41a92a35eee215df528d0"
+    },
+    {
+      "path": "public/favicon.svg",
+      "sha256": "ed893d80a35efa7a602ac6a44c7f763a3ba4dda7cc8aa5af99bc86d46cca483a"
+    },
+    {
+      "path": "src/scene-style.js",
+      "sha256": "ef9a915385b59f43453afc45df5889fc603bfa57eed656345c6a8849640262de"
+    },
+    {
+      "path": "src/contact-shadows.js",
+      "sha256": "c2255293dcbe0cb3b3ae26f50da8791743e3e9597ed3888028a6818df15597e0"
+    },
+    {
+      "path": "src/audio.js",
+      "sha256": "ff0c04c89bae6118e6639f1e6a8f2e09cd90306c546d339b04e087832dc87a9d"
+    },
+    {
+      "path": "src/audio-cues.js",
+      "sha256": "85d1ef6e2db83d927447514c40e4f1f8d84c437d1f9d7d69bed691cf5b41ce74"
+    },
+    {
+      "path": "src/story/companion-scenes.js",
+      "sha256": "e207b1e347c5a1d1d4f911250c8351bfd331d85add2eaff3d24caaef877d87a1"
+    },
+    {
+      "path": "src/story/ford-escort.js",
+      "sha256": "5bb6951b2f395e64851056df23b4daf1d19a35ec9abc94ab6f4a0be84ffde681"
+    },
+    {
+      "path": "src/ui-icons.js",
+      "sha256": "c327c7798767d04e01a8e006f6c6ae5de2b00b4e5e0b4f09cc9bf86efdd14139"
+    },
+    {
+      "path": "public/assets/audio/audio-manifest.json",
+      "sha256": "341838b4dbb3b7e7e77bdcd269380679f632d9226ea1cb5592dfce0ed99d4c0d"
+    },
+    {
+      "path": "src/static-scenery.js",
+      "sha256": "c5df33104c9f55cb77f3b4da6550a34d926f62bfff2860cb77648530fd36b751"
+    },
+    {
+      "path": "src/story/scenery-shadows.js",
+      "sha256": "e99736944e54e17c4aff48a8d2f0d50382169e7ca384c83469b047618fc14a08"
+    }
+  ],
+  "productionHooksAbsentInAllRuntimeJS": true,
+  "assets": [
+    {
+      "path": "assets/game-B2IxAm2v.js",
+      "bytes": 183270,
+      "sha256": "27feb88708aa07eaa9b7868caccfcb692d7e9a5597b7c5d2ef5be1f64a34b02f"
+    },
+    {
+      "path": "assets/index-DnKSu8Sw.js",
+      "bytes": 2167,
+      "sha256": "36c9df0dba6375d4bfc20636fa186e215edd74aca780d54708795da8fb17f4f0"
+    },
+    {
+      "path": "assets/three-BmWcDw8o.js",
+      "bytes": 600807,
+      "sha256": "e7ecd029d31654659cf05187f72d4d39f17974667c0ab6b73f0534e953b075c0"
+    }
+  ],
+  "index": {
+    "path": "index.html",
+    "bytes": 25453,
+    "sha256": "3260f1ee2e45fddc788b0c33cfc861f30e878072c9f7261e3c0122e03ae4001e"
+  },
+  "release": {
+    "path": "release.json",
+    "sha256": "de41959437673fd9029c27df4407bd57951fba9a8eeb4a805ccd805bddbb100a"
+  },
+  "limitations": [
+    "Local production artifact; not a deployed build or physical iPad performance measurement"
+  ]
+}
