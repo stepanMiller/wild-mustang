@@ -49,7 +49,8 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: `VITE_TEST_MODE=true npm run build && npm run preview -- --host 127.0.0.1 --port ${port}`,
+    command: `npm run build && npm run preview -- --host 127.0.0.1 --port ${port}`,
+    env: { VITE_TEST_MODE: 'true' },
     url: baseURL,
     reuseExistingServer: false,
     cwd: process.env.WILD_MUSTANG_REPO || process.cwd(),

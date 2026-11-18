@@ -2,6 +2,12 @@
 
 The original browser world is preserved. Unity and English Loop are unchanged. The three-chapter release candidate is implemented and built, with licensed animated characters and a complete reunion. A physical iPad and independent child playthrough remain release gates.
 
+## November 2026 landscape upgrade
+
+- [x] Rebuild the valley horizon, chapter lighting, water and vegetation in the playable world.
+- [x] Run the production build and all 63 unit checks.
+- [ ] Verify sustained frame rate, readability and touch exploration on a physical iPad.
+
 ## Foundation, issue #5
 
 - [x] Original scene reproduced and captured at commit 6ba7765.
