@@ -1,4 +1,5 @@
 import { CHAPTERS, chapterDefinition } from './chapters.js';
+import { coniferWhorlGeometry, crownGeometry, willowSprayGeometry } from '../prairie-plants.js';
 
 /** Original, deterministic scenery. Static pieces share geometry and draw batches. */
 export const SCENERY_PALETTES = {
@@ -7,7 +8,7 @@ export const SCENERY_PALETTES = {
   3: { stone:0xa7afb4, shade:0x75868e, bark:0x665344, leaf:0x43675d, leafLight:0x698779, flowers:0xe7c888, trail:0xc9b58b }
 };
 
-export function createStoryEnvironment(THREE, scene, hAt) {
+export function createStoryEnvironment(THREE, scene, hAt, creek) {
   const root = new THREE.Group();
   root.name = 'story-landmarks';
   scene.add(root);
@@ -20,8 +21,9 @@ export function createStoryEnvironment(THREE, scene, hAt) {
   const flowerMat = new THREE.MeshLambertMaterial({ color:0xffffff, vertexColors:true, side:THREE.DoubleSide });
   const rockGeo = new THREE.DodecahedronGeometry(1,0);
   const trunkGeo = new THREE.CylinderGeometry(.2,.34,1,7);
-  const leafGeo = new THREE.IcosahedronGeometry(1,0);
-  const coneGeo = new THREE.ConeGeometry(1,1,7);
+  const leafGeo = crownGeometry(), willowGeo=willowSprayGeometry();
+  const coneGeo = coniferWhorlGeometry();
+  const foliage=new THREE.MeshLambertMaterial({color:0xffffff,vertexColors:true,side:THREE.DoubleSide});
   const peakGeo = new THREE.ConeGeometry(1,1,5);
   const reedGeo = new THREE.CylinderGeometry(.028,.045,1,4);
   const fruitGeo = new THREE.SphereGeometry(.24,7,5);
@@ -69,12 +71,14 @@ export function createStoryEnvironment(THREE, scene, hAt) {
     };
   }
   function staticPiece(group,geo,color,x,y,z,sx=1,sy=sx,sz=sx,rx=0,ry=0,rz=0,material=natural) {
+    const canopy=geo===leafGeo || geo===coneGeo || geo===willowGeo;
+    if(canopy)material=foliage;
     const batches=staticBatches[group.userData.chapter];
     let batch=batches.find(item=>item.geometry===geo&&item.material===material);
     if(!batch){batch={geometry:geo,material,items:[]};batches.push(batch);}
     dummy.position.set(x,y,z);dummy.scale.set(sx,sy,sz);dummy.rotation.set(rx,ry,rz);dummy.updateMatrix();
     batch.items.push({matrix:dummy.matrix.clone(),color});
-    if(geo===leafGeo || geo===coneGeo){
+    if(canopy){
       if(!geo.boundingBox)geo.computeBoundingBox();
       const bounds=geo.boundingBox.clone().applyMatrix4(dummy.matrix);
       cameraBounds[group.userData.chapter].push({x:(bounds.min.x+bounds.max.x)/2,z:(bounds.min.z+bounds.max.z)/2,
@@ -88,7 +92,7 @@ export function createStoryEnvironment(THREE, scene, hAt) {
       item.name=`chapter-${group.userData.chapter}-static-${index}`;
       batch.items.forEach((piece,i)=>{
         item.setMatrixAt(i,piece.matrix);
-        if(batch.material===natural||batch.material===flowerMat)item.setColorAt(i,tint.setHex(piece.color).convertSRGBToLinear());
+        if(batch.material!==gold)item.setColorAt(i,tint.setHex(piece.color).convertSRGBToLinear());
       });
       item.instanceMatrix.needsUpdate=true;
       if(item.instanceColor)item.instanceColor.needsUpdate=true;
@@ -106,17 +110,35 @@ export function createStoryEnvironment(THREE, scene, hAt) {
     return new THREE.CatmullRomCurve3(points.map(([x,z])=>new THREE.Vector3(x,0,z)),false,'centripetal');
   }
   function buildTrail(group,definition) {
-    const curve=pointCurve(definition.route),samples=180,vertices=[],indices=[];
+    const curve=pointCurve(definition.route),samples=180,vertices=[],indices=[],coverage=[];
     routeSamples[definition.id]=curve.getPoints(samples);
+    const width=definition.id===3?2.7:2.4;
+    // The compacted centre follows the footprints. Unequal, feathered shoulders
+    // disappear into the grass without adding alpha cards along the path.
     for(let i=0;i<=samples;i++){
-      const t=i/samples,p=curve.getPoint(t),tangent=curve.getTangent(t),width=definition.id===3?2.7:2.4;
-      const nx=-tangent.z*width*.5,nz=tangent.x*width*.5;
-      for(const side of [-1,1]){const x=p.x+nx*side,z=p.z+nz*side;vertices.push(x,hAt(x,z)+.065,z);}
-      if(i<samples){const a=i*2;indices.push(a,a+2,a+1,a+1,a+2,a+3);}
+      const t=i/samples,p=curve.getPoint(t),tangent=curve.getTangent(t);
+      const left=1+.13*Math.sin(p.x*.52+p.z*.33),right=1+.17*Math.cos(p.z*.47-p.x*.16);
+      for(const fraction of [-1,-.56,.53,1]){
+        const offset=fraction*width*.6*(fraction<0?left:right);
+        const x=p.x-tangent.z*offset,z=p.z+tangent.x*offset;
+        vertices.push(x,hAt(x,z)+.065,z);
+        coverage.push(Math.abs(fraction)===1?0:.65+.08*Math.sin(x*.92+z*.51));
+      }
+      if(i<samples)for(let j=0;j<3;j++){
+        const a=i*4+j;indices.push(a,a+4,a+1,a+1,a+4,a+5);
+      }
     }
     const geo=new THREE.BufferGeometry();
-    geo.setAttribute('position',new THREE.Float32BufferAttribute(vertices,3));geo.setIndex(indices);geo.computeVertexNormals();
-    const mat=new THREE.MeshLambertMaterial({color:SCENERY_PALETTES[definition.id].trail,transparent:true,opacity:.54,side:THREE.DoubleSide,depthWrite:false});
+    geo.setAttribute('position',new THREE.Float32BufferAttribute(vertices,3));
+    geo.setAttribute('coverage',new THREE.Float32BufferAttribute(coverage,1));geo.setIndex(indices);geo.computeVertexNormals();
+    const mat=new THREE.MeshLambertMaterial({color:new THREE.Color(SCENERY_PALETTES[definition.id].trail).convertSRGBToLinear(),
+      transparent:true,side:THREE.DoubleSide,depthWrite:false});
+    mat.onBeforeCompile=shader=>{
+      shader.vertexShader='attribute float coverage; varying float vCoverage;\n'+shader.vertexShader.replace(
+        '#include <begin_vertex>','#include <begin_vertex>\nvCoverage=coverage;');
+      shader.fragmentShader='varying float vCoverage;\n'+shader.fragmentShader.replace(
+        '#include <color_fragment>','#include <color_fragment>\ndiffuseColor.a*=vCoverage;');
+    };
     const trail=new THREE.Mesh(geo,mat);trail.renderOrder=1;group.add(trail);routes[definition.id]=trail;
     const footprintGeo=new THREE.CircleGeometry(.16,7);footprintGeo.rotateX(-Math.PI/2);
     const footMat=new THREE.MeshBasicMaterial({color:0x5c4a2d,transparent:true,opacity:.48,depthWrite:false});
@@ -145,9 +167,74 @@ export function createStoryEnvironment(THREE, scene, hAt) {
     glow.rotation.x=-Math.PI/2;glow.position.y=.11;marker.add(glow);
     const beacon=mesh(markerBeaconGeo,gold,0,3.1,0);marker.add(beacon);marker.userData={index,id,sign,glow,beacon};group.add(marker);return marker;
   }
+  const shadePatches={1:[],2:[],3:[]};
+  function treeShade(group,x,z,radius) {
+    shadePatches[group.userData.chapter].push({x:x+.55*radius,z:z+.24*radius,radius});
+  }
+  function buildShade(group) {
+    const positions=[],opacity=[],indices=[];
+    for(const patch of shadePatches[group.userData.chapter]) {
+      const {x,z,radius}=patch,base=opacity.length;
+      for(let ring=0;ring<3;ring++) {
+        for(let i=0;i<12;i++) {
+          const a=i*2*Math.PI/12,edge=1+.12*Math.sin(3*a+x)+.08*Math.sin(5*a+z);
+          const r=radius*edge*[0,.67,1][ring];
+          const px=x+Math.cos(a)*r*1.17,pz=z+Math.sin(a)*r*.84;
+          positions.push(px,hAt(px,pz)+.085,pz);
+          opacity.push([.26,.19,0][ring]);
+          if(ring<2){
+            const k=base+ring*12+i,n=base+ring*12+(i+1)%12;
+            indices.push(k,n,k+12,n,n+12,k+12);
+          }
+        }
+      }
+    }
+    const geometry=new THREE.BufferGeometry();
+    geometry.setAttribute('position',new THREE.Float32BufferAttribute(positions,3));
+    geometry.setAttribute('shade',new THREE.Float32BufferAttribute(opacity,1));geometry.setIndex(indices);
+    const material=new THREE.MeshBasicMaterial({color:0x283c33,side:THREE.DoubleSide,transparent:true,depthWrite:false,
+      polygonOffset:true,polygonOffsetFactor:-1,polygonOffsetUnits:-1});
+    material.onBeforeCompile=shader=>{
+      shader.vertexShader='attribute float shade; varying float vShade;\n'+shader.vertexShader.replace(
+        '#include <begin_vertex>','#include <begin_vertex>\nvShade=shade;');
+      shader.fragmentShader='varying float vShade;\n'+shader.fragmentShader.replace(
+        '#include <color_fragment>','#include <color_fragment>\ndiffuseColor.a*=vShade;');
+    };
+    group.add(new THREE.Mesh(geometry,material));
+  }
+  function cottonwood(group,x,z,scale,seed) {
+    if(routeDistance(group.userData.chapter,x,z)<5+3*scale)return;
+    const y=hAt(x,z),rand=seeded(seed);
+    treeShade(group,x,z,3.2*scale);
+    staticPiece(group,trunkGeo,0x74614d,x,y+2.65*scale,z,1.35*scale,5.3*scale,1.25*scale,0,0,.055);
+    for(let i=0;i<4;i++) {
+      const a=i*2.4+rand()*.42,reach=(1.16+rand()*.65)*scale;
+      const cx=x+Math.cos(a)*reach,cz=z+Math.sin(a)*reach;
+      const height=(4.6+rand()*1.36)*scale;
+      staticPiece(group,trunkGeo,0x826e55,(cx+x)*.5,y+height*.77,(cz+z)*.5,.6*scale,2.8*scale,.58*scale,
+        Math.sin(a)*.68,0,-Math.cos(a)*.68);
+      staticPiece(group,leafGeo,[0x78924f,0x92aa59,0x91aa5a,0x708e54][i],cx,y+height,cz,
+        2.1*scale,1.64*scale,1.73*scale,.09,a,.18);
+    }
+  }
+  function gravelBank(group,z,side,seed){
+    if(!creek)return;
+    const rand=seeded(seed),id=group.userData.chapter;
+    for(let i=0;i<21;i++){
+      const pz=z+(rand()-.5)*6,level=creek.waterY+.05+rand()*.90;
+      let px=creek.riverX(pz);
+      for(let step=0;step<85 && hAt(px,pz)<level;step++)px+=side*.20;
+      const radius=.13+rand()*.42;
+      if(routeDistance(id,px,pz)<2.3+radius)continue;
+      staticPiece(group,rockGeo,[0xa69d83,0xb5b7a1,0x909d91][i%3],px,hAt(px,pz)+.10,pz,
+        radius*1.25,radius*.44,radius,.09,rand()*Math.PI,.12);
+      if(i%5===0)reeds(group,px+side*.65,pz,seed+i);
+    }
+  }
   function willow(group,x,z,scale=1,seed=1) {
     const y=hAt(x,z),p=SCENERY_PALETTES[group.userData.chapter],random=seeded(seed),lean=(random()-.5)*.16;
     staticPiece(group,trunkGeo,p.bark,x,y+2.5*scale,z,1.05*scale,5*scale,.90*scale,0,0,lean);
+    treeShade(group,x,z,2.8*scale);
     // Open crowns with irregular spreading boughs and pendant leaf clusters.
     // The center stays lighter than the outer, falling tips: no solid green ball.
     for(let i=0;i<3;i++){
@@ -156,7 +243,7 @@ export function createStoryEnvironment(THREE, scene, hAt) {
     }
     for(let i=0;i<7;i++){
       const a=i*Math.PI*2/7+random()*.35,reach=(1.6+random()*.75)*scale;
-      staticPiece(group,leafGeo,i%3?p.leaf:p.leafLight,x+Math.cos(a)*reach,y+(4.2+random()*.4)*scale,z+Math.sin(a)*reach,(.78+random()*.3)*scale,1.7*scale,.60*scale,.14,a,.12);
+      staticPiece(group,willowGeo,i%3?p.leaf:p.leafLight,x+Math.cos(a)*reach,y+(4.1+random()*.4)*scale,z+Math.sin(a)*reach,(.88+random()*.3)*scale,2.1*scale,.85*scale,.14,a,.12);
       if(i===1||i===4){
         staticPiece(group,trunkGeo,p.bark,x+Math.cos(a)*reach*.45,y+4.0*scale,z+Math.sin(a)*reach*.45,.38*scale,2.6*scale,.38*scale,Math.sin(a)*.85,0,-Math.cos(a)*.85);
       }
@@ -164,6 +251,7 @@ export function createStoryEnvironment(THREE, scene, hAt) {
   }
   function pine(group,x,z,scale=1,seed=1) {
     const y=hAt(x,z),p=SCENERY_PALETTES[3],random=seeded(seed),lean=(random()-.5)*.08;
+    treeShade(group,x,z,2.15*scale);
     staticPiece(group,trunkGeo,p.bark,x,y+2.7*scale,z,.82*scale,5.4*scale,.82*scale,0,0,lean);
     for(let i=0;i<4;i++){
       const spread=(2.25-i*.45)*scale,ox=(random()-.5)*.34*scale,oz=(random()-.5)*.34*scale;
@@ -225,12 +313,25 @@ export function createStoryEnvironment(THREE, scene, hAt) {
   for(const [x,z,s] of [[28,33,.88],[4,17,.72],[-21,4,.86],[-63,-15,.86]])willow(c1,x,z,s,Math.round(x*z));
   for(const [x,z,seed] of [[27,30,101],[-28,-1,102],[-55,-27,103],[-68,-61,104]])flowerPatch(c1,x,z,18,seed);
 
+  // Cottonwoods grow in loose groups on the outside of creek bends. The
+  // break between the groups keeps the first trail and the ford easy to see.
+  for(const [x,z,size] of [[34,1,1.30],[39,-5,1.06],[35,-10,.82],[7,-13,1.06],
+    [17,-27,1.27],[21,-32,.84],[-15,-25,.95],[-32,6,1.14],[-38,9,.85],
+    [-51,-53,1.08],[-56,-59,.77],[-66,-1,.96]])cottonwood(c1,x,z,size,Math.round(x*z));
+  gravelBank(c1,-15,-1,417);gravelBank(c1,-14,1,418);gravelBank(c1,2,1,419);
+
   const c2=chapters[2];
   for(const [x,z,s] of [[-82,-14,2.1],[-73,-20,1.4],[-61,31,1.9],[-50,39,1.5],[-29,55,2.1],[-18,68,1.8],[20,57,1.7],[33,80,1.5],[44,62,2.1]])rockCluster(c2,x,z,s,Math.round(x*17+z*11));
   for(const [x,z,s] of [[-59,40,1.18],[-47,43,1],[-23,70,.85],[14,70,.9],[-68,19,.84],[-38,58,.82],[22,82,.78],[38,67,.85]])willow(c2,x,z,s,Math.round(x*z));
   appleTree(c2,30,79);
   reeds(c2,-14,68,201);reeds(c2,11,50,202);reeds(c2,-19,55,203);
   for(const [x,z,seed] of [[-60,33,211],[-32,56,212],[22,74,213],[38,80,214]])flowerPatch(c2,x,z,18,seed);
+  // The far side of the orchard encloses the picnic clearing; its open
+  // southwest edge faces the route from the ford.
+  for(const [x,z,size] of [[18,90,1.2],[12,84,.96],[38,88,1.12],[42,86,.72]])willow(c2,x,z,size,Math.round(x*z));
+  for(const [x,z,seed] of [[19,81,241],[34,84,242],[13,76,243]])flowerPatch(c2,x,z,32,seed,3);
+  gravelBank(c2,49,-1,424);gravelBank(c2,72,1,425);
+
   // Exactly the original three moving stones. Other stones can safely be batched.
   for(let i=0;i<11;i++){
     const x=-14+i*2.6,z=60+Math.sin(i*.5)*.45;
@@ -261,8 +362,10 @@ export function createStoryEnvironment(THREE, scene, hAt) {
     staticPiece(c3,peakGeo,color,x,15+i%3*3,z,14,22+i%3*9,16,0,i*.71,0);
     staticPiece(c3,rockGeo,color,x-3,11+i%3*2,z+7,12,15+i%3*3,10,.12,i*.63,.18);
   }
+  for(const [x,z,size] of [[82,11,1.26],[86,10,.8],[92,-1,.92],
+    [115,-107,1.42],[121,-110,.98],[111,-116,1.15],[82,-112,1.27],[78,-114,.82]])pine(c3,x,z,size,Math.round(x*z));
   stone(c3,88,-94,1.4,0xe8dec9);
-  for(const id of [1,2,3])finishBatches(chapters[id]);
+  for(const id of [1,2,3]){finishBatches(chapters[id]);buildShade(chapters[id]);}
 
   function setChapter(id) {
     chapterId=chapterDefinition(id).id;questIndex=0;

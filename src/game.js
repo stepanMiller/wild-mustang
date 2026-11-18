@@ -1,7 +1,11 @@
+import { createCreek } from './creek.js';
+import { crownGeometry, grassTuftGeometry } from './prairie-plants.js';
 import * as THREE from 'three';
 import { directionAngle, nearestSafeTrailPoint } from './navigation.js';
 import { followCameraPosition, constrainCameraPosition } from './camera.js';
-import { LANDSCAPE_STYLES, paintLandscape, ridgeGeometry, prairieFlowerGeometry } from './scene-style.js';
+import { createPrairieSky } from './prairie-sky.js';
+import { createPrairieRanges } from './prairie-ranges.js';
+import { LANDSCAPE_STYLES, paintLandscape, groundTexture, prairieFlowerGeometry } from './scene-style.js';
 import { createAdventureAudio } from './audio.js';
 import { AUDIO_CUE_TEXT } from './audio-cues.js';
 import { createCompanionScenes } from './story/companion-scenes.js';
@@ -117,148 +121,64 @@ fill.position.set(50, 25, -40); scene.add(fill);
 const rim = new THREE.DirectionalLight(0xff9a52, 0.22);
 rim.position.set(-35, 12, -55); scene.add(rim);
 
-/* --- небо --- */
-const skyMat = new THREE.ShaderMaterial({
-  side:THREE.BackSide, depthWrite:false,
-  uniforms:{ top:{value:new THREE.Color(0x3E6FA8).convertSRGBToLinear()}, mid:{value:new THREE.Color(0xF0A24E).convertSRGBToLinear()},
-             bot:{value:new THREE.Color(0xFBE0A0).convertSRGBToLinear()}, sunDir:{value:new THREE.Vector3(-1,.2,.4)} },
-  vertexShader:`varying vec3 vP; void main(){ vP=normalize(position); gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}`,
-  fragmentShader:`
-   uniform vec3 top,mid,bot,sunDir; varying vec3 vP;
-   void main(){
-     float y = clamp(vP.y*1.15+0.06,-1.,1.);
-     vec3 c = y>0.0 ? mix(mid,top,pow(y,0.72)) : mix(mid,bot,pow(-y,0.55));
-     float s = max(dot(normalize(vP), normalize(sunDir)),0.0);
-     c += vec3(1.0,0.72,0.32)*pow(s,7.0)*0.85;
-     c += vec3(1.0,0.85,0.55)*pow(s,120.0)*2.2;
-     gl_FragColor = vec4(c,1.0);
-     #include <tonemapping_fragment>
-     #include <encodings_fragment>
-   }`
-});
-scene.add(new THREE.Mesh(new THREE.SphereGeometry(600,32,20), skyMat));
+/* --- небо и дальний план --- */
+const sky = createPrairieSky(THREE, hashRand(0x78cc3));
+scene.add(sky);
+const skyUniforms = sky.material.uniforms;
+function chapterLight(id) {
+  const style = LANDSCAPE_STYLES[id];
+  sun.color.setHex(style.light).convertSRGBToLinear();
+  fill.color.setHex(style.fill).convertSRGBToLinear();
+  hemi.color.copy(fill.color);
+  hemi.groundColor.setHex(id === 2 ? 0x626b52 : 0x736449).convertSRGBToLinear();
+  rim.color.setHex(style.rim).convertSRGBToLinear();
+  skyUniforms.zenith.value.setHex(style.sky).convertSRGBToLinear();
+  skyUniforms.horizon.value.setHex(style.horizon).convertSRGBToLinear();
+  scene.fog.color.setHex(style.fog).convertSRGBToLinear();
+  scene.fog.density = style.density;
+  renderer.setClearColor(scene.fog.color);
+}
+chapterLight(1);
 
 /* --- земля --- */
 const GSEG = 160, GSIZE = 420;
-const groundGeo = new THREE.PlaneGeometry(GSIZE,GSIZE,GSEG,GSEG);
+// Keep the release sampling grid through the playable area and camera margin.
+// At the distant apron every second row/column is enough. Shared rows avoid seams.
+const groundAxis = [];
+for (let i = 0; i <= GSEG; i++) {
+  const metres = (i / GSEG - .5) * GSIZE;
+  if (Math.abs(metres) <= 124 || i % 2 === 0) groundAxis.push(metres);
+}
+const gridSize = groundAxis.length;
+const groundGeo = new THREE.PlaneGeometry(GSIZE,GSIZE,gridSize-1,gridSize-1);
 groundGeo.rotateX(-Math.PI/2);
-(function(){
-  const p = groundGeo.attributes.position, cols = [];
-  const cGold = new THREE.Color(0xC9A24E).convertSRGBToLinear(), cGreen = new THREE.Color(0x7E9A50).convertSRGBToLinear(),
-        cDry = new THREE.Color(0xA98A44).convertSRGBToLinear(), cRock = new THREE.Color(0x8B7960).convertSRGBToLinear(),
-        cSand = new THREE.Color(0xC7B285).convertSRGBToLinear();
-  for(let i=0;i<p.count;i++){
-    const x=p.getX(i), z=p.getZ(i), h=hAt(x,z);
-    p.setY(i,h);
-    const d = Math.abs(x - riverX(z));
-    let c = cGold.clone().lerp(cDry, (Math.sin(x*0.07)*Math.cos(z*0.09)*0.5+0.5));
-    if(d<26) c.lerp(cGreen, clamp(1-(d-4)/22,0,1)*0.85);
-    if(d<5)  c.lerp(cSand, clamp(1-d/5,0,1));
-    if(h>15) c.lerp(cRock, clamp((h-15)/8,0,1)*0.7);
-    const scree = Math.max(0, Math.sin(x*0.19+z*0.11)*Math.cos(z*0.17));
-    if(scree>0.72 && h>9 && d>riverWidth(z)+8) c.lerp(cRock, (scree-0.72)*1.4);
-    cols.push(c.r,c.g,c.b);
-  }
-  groundGeo.setAttribute('color', new THREE.Float32BufferAttribute(cols,3));
-  groundGeo.computeVertexNormals();
-})();
-const ground = new THREE.Mesh(groundGeo, new THREE.MeshLambertMaterial({vertexColors:true}));
+const groundPositions = groundGeo.attributes.position;
+for (let i = 0; i < groundPositions.count; i++) {
+  const x = groundAxis[i % gridSize], z = groundAxis[Math.floor(i / gridSize)];
+  groundPositions.setXYZ(i, x, hAt(x,z), z);
+  groundGeo.attributes.uv.setXY(i, .5 + x/GSIZE, .5 - z/GSIZE);
+}
+groundGeo.computeVertexNormals();
+groundGeo.setAttribute('color', new THREE.BufferAttribute(new Float32Array(groundPositions.count * 3), 3));
+paintLandscape(THREE, groundGeo, 1, riverX);
+const ground = new THREE.Mesh(groundGeo, new THREE.MeshLambertMaterial({
+  vertexColors: true, map: groundTexture(THREE, hashRand(0x571d)),
+}));
 scene.add(ground);
 
 /* --- вода --- */
-const waterMat = new THREE.MeshPhongMaterial({color:0x3F91A0, transparent:true, opacity:0.82,
-  shininess:150, specular:0xffe6a8, side:THREE.DoubleSide});
-waterMat.onBeforeCompile = sh => {
-  sh.uniforms.uWaterTime = windU;
-  sh.vertexShader = 'uniform float uWaterTime;\n' + sh.vertexShader.replace('#include <begin_vertex>', `
-    #include <begin_vertex>
-    transformed.y += sin(position.z*.34 + uWaterTime*1.7)*.055;
-    transformed.y += sin(position.z*.91 - uWaterTime*2.2)*.022;
-  `);
-  sh.fragmentShader = 'uniform float uWaterTime;\n' + sh.fragmentShader.replace('#include <dithering_fragment>', `
-    float glint = pow(.5 + .5*sin(vViewPosition.z*1.7 + uWaterTime*2.4), 12.0);
-    gl_FragColor.rgb += vec3(1.0,.72,.38)*glint*.13;
-    #include <dithering_fragment>
-  `);
-};
-function buildRiverGeometry(){
-  const seg=96, verts=[], uvs=[], idx=[];
-  for(let i=0;i<=seg;i++){
-    const z=-GSIZE/2 + (i/seg)*GSIZE, x=riverX(z), w=riverWidth(z);
-    verts.push(x-w, 0, z, x+w, 0, z);
-    uvs.push(0,i/seg, 1,i/seg);
-    if(i<seg){ const a=i*2; idx.push(a,a+1,a+2, a+1,a+3,a+2); }
-  }
-  const geo=new THREE.BufferGeometry();
-  geo.setAttribute('position', new THREE.Float32BufferAttribute(verts,3));
-  geo.setAttribute('uv', new THREE.Float32BufferAttribute(uvs,2));
-  geo.setIndex(idx); geo.computeVertexNormals();
-  return geo;
-}
-const water = new THREE.Mesh(buildRiverGeometry(), waterMat);
-water.position.y = WATER_Y;
+const windU = {value:0};
+const water = createCreek({size:GSIZE,riverX,riverWidth,heightAt:hAt,waterY:WATER_Y,clock:windU});
 scene.add(water);
 
-/* --- горы: shared instanced silhouettes --- */
-(function(){
-  const rockM=new THREE.MeshLambertMaterial({color:new THREE.Color(0x7a6b7e).convertSRGBToLinear()});
-  const snowM=new THREE.MeshLambertMaterial({color:new THREE.Color(0xf2e4d6).convertSRGBToLinear()});
-  const peaks=new THREE.InstancedMesh(ridgeGeometry(THREE),rockM,30);
-  const snowGeometry=ridgeGeometry(THREE,true),snowPeaks=[];
-  const dummy=new THREE.Object3D();
-  for(let i=0;i<30;i++){
-    const a=i/30*TAU+valleyRand()*.12,r=210+valleyRand()*80;
-    const height=40+valleyRand()*70,radius=24+valleyRand()*30,rotation=valleyRand()*TAU;
-    const x=Math.cos(a)*r,z=Math.sin(a)*r;
-    dummy.position.set(x,height*.42,z);dummy.rotation.set(0,rotation,0);dummy.scale.set(radius,height,radius);dummy.updateMatrix();peaks.setMatrixAt(i,dummy.matrix);
-    if(height>78)snowPeaks.push(dummy.matrix.clone());
-  }
-  const caps=new THREE.InstancedMesh(snowGeometry,snowM,snowPeaks.length);
-  snowPeaks.forEach((matrix,i)=>caps.setMatrixAt(i,matrix));
-  scene.add(peaks,caps);
-})();
-
-/* --- облака --- */
-const clouds = [];
-(function(){
-  const cv = document.createElement('canvas'); cv.width=cv.height=256;
-  const g = cv.getContext('2d');
-  for(let i=0;i<26;i++){
-    const x=40+Math.random()*176, y=90+Math.random()*70, r=22+Math.random()*44;
-    const rad=g.createRadialGradient(x,y,0,x,y,r);
-    rad.addColorStop(0,'rgba(255,246,232,0.95)'); rad.addColorStop(1,'rgba(255,235,210,0)');
-    g.fillStyle=rad; g.beginPath(); g.arc(x,y,r,0,TAU); g.fill();
-  }
-  const tex = new THREE.CanvasTexture(cv);
-  for(let i=0;i<16;i++){
-    const sp = new THREE.Sprite(new THREE.SpriteMaterial({map:tex, transparent:true,
-      opacity:0.45+Math.random()*0.35, depthWrite:false, color:i%3?0xffe9cd:0xffd0a8}));
-    const a=Math.random()*TAU, r=90+Math.random()*160;
-    sp.position.set(Math.cos(a)*r, 48+Math.random()*46, Math.sin(a)*r);
-    const s = 60+Math.random()*80; sp.scale.set(s, s*0.5, 1);
-    clouds.push(sp); scene.add(sp);
-  }
-})();
+scene.add(createPrairieRanges(THREE, valleyRand));
 
 /* --- трава (инстансы с ветром) --- */
 let grass=null, grassCount=0, grassBase=[], grassAnchor=new THREE.Vector3(9999,0,9999);
-const windU = {value:0};
 function buildGrass(){
   if(grass){ scene.remove(grass); grass.geometry.dispose(); grass.material.dispose(); grass=null; }
-  grassCount = [2200, 4000, 8000][S.quality];
-  // Two crossed, tapered ribbons read as fine blades from every camera angle.
-  // Unlike PlaneGeometry they finish in a point, removing the old card-like silhouette.
-  const verts=[], indices=[];
-  function blade(angle, height, width){
-    const ca=Math.cos(angle), sa=Math.sin(angle), base=verts.length/3;
-    const levels=[[0,width*.62],[height*.42,width*.48],[height*.78,width*.27],[height,0]];
-    levels.forEach(v=>{ verts.push(-v[1]*ca,v[0],-v[1]*sa, v[1]*ca,v[0],v[1]*sa); });
-    for(let j=0;j<3;j++){ const a=base+j*2; indices.push(a,a+1,a+2,a+1,a+3,a+2); }
-  }
-  blade(0,1.55,.23); blade(Math.PI/2,1.18,.17);
-  const bg = new THREE.BufferGeometry();
-  bg.setAttribute('position',new THREE.Float32BufferAttribute(verts,3)); bg.setIndex(indices);
-  bg.computeVertexNormals();
+  grassCount = [1450, 2500, 4850][S.quality];
+  const bg=grassTuftGeometry();
   const cols=[]; const pos=bg.attributes.position;
   const grassStyle=LANDSCAPE_STYLES[G.chapter];
   const dark=new THREE.Color(grassStyle.grassDark).convertSRGBToLinear(), lite=new THREE.Color(grassStyle.grassLight).convertSRGBToLinear();
@@ -277,16 +197,19 @@ function buildGrass(){
       #endif
       float w = sin(uTime*1.5 + ip.x*0.32 + ip.z*0.27) + 0.4*sin(uTime*3.1 + ip.x*0.12);
       float k = pow(max(position.y,0.0)/1.5, 1.7);
-      transformed.x += w*0.42*k;
-      transformed.z += w*0.22*k;
+      transformed.x += w*.25*k;
+      transformed.z += w*.11*k;
     `);
   };
   grass = new THREE.InstancedMesh(bg, mat, grassCount);
   grass.frustumCulled = false;
   grassBase = [];
-  for(let i=0;i<grassCount;i++)
-    grassBase.push({x:(Math.random()-0.5)*110, z:(Math.random()-0.5)*110,
-                    r:Math.random()*TAU, s:0.75+Math.random()*0.7});
+  const random=hashRand(0x59b90), tint=new THREE.Color();
+  for(let i=0;i<grassCount;i++) {
+    grassBase.push({x:(random()-.5)*110,z:(random()-.5)*110,r:random()*TAU,s:.65+random()*.88});
+    const shade=random();
+    grass.setColorAt(i,tint.setRGB(.72+.28*shade,.79+.21*shade,.66+.34*(1-shade)));
+  }
   scene.add(grass);
   grassAnchor.set(9999,0,9999);
 }
@@ -499,42 +422,50 @@ function addLog(x,z,rot){
   l.rotation.set(Math.PI/2, rot||0, 0); l.position.set(x,y+0.5,z);
   scene.add(l); obstacles.push({x,z,r:1.5,top:y+1.1});
 }
+// Shared wooded-valley props. Keep the random stream and obstacle coordinates
+// stable for existing checkpoints while batching all crowns, trunks and rocks.
+const valleyCrown=crownGeometry(), valleyStone=new THREE.DodecahedronGeometry(1,0);
+const valleyBough=new THREE.CylinderGeometry(.67,1,1,7), propBatches=new Map();
+function valleyPiece(geometry,hex,x,y,z,sx,sy,sz,rx=0,ry=0,rz=0){
+  const matrix=new THREE.Matrix4().compose(new THREE.Vector3(x,y,z),
+    new THREE.Quaternion().setFromEuler(new THREE.Euler(rx,ry,rz)),new THREE.Vector3(sx,sy,sz));
+  if(!propBatches.has(geometry))propBatches.set(geometry,[]);
+  propBatches.get(geometry).push({matrix,hex});
+  return matrix;
+}
 function addRock(x,z,s){
   const y=hAt(x,z);
-  const r = sph(1.1*s, M.rock, 1, 0.75, 1.1);
-  r.position.set(x,y+0.5*s,z); r.rotation.y=valleyRand()*TAU;
-  scene.add(r); obstacles.push({x,z,r:1.1*s,top:y+1.1*s});
+  valleyPiece(valleyStone,0x938a75,x,y+.4*s,z,1.18*s,.79*s,1.07*s,.17,valleyRand()*TAU,-.13);
+  obstacles.push({x,z,r:1.1*s,top:y+1.1*s});
 }
 function addTree(x,z){
-  const y=hAt(x,z);
-  const t = cyl(0.27,0.48,4.1,M.wood); t.position.set(x,y+2.05,z); t.rotation.z=(valleyRand()-.5)*.1; scene.add(t);
-  // Open, irregular prairie crowns let sunset light through instead of reading as snowmen.
+  const y=hAt(x,z),lean=(valleyRand()-.5)*.1;
+  valleyPiece(valleyBough,0x73604c,x,y+2.05,z,.42,4.1,.44,0,0,lean);
   for(let i=0;i<7;i++){
-    const a=valleyRand()*TAU, reach=.3+valleyRand()*1.25;
-    const f = sph(.8+valleyRand()*.55, i%3?M.leaf:M.leafLight,
-      1.25+valleyRand()*.35,.55+valleyRand()*.28,1.0+valleyRand()*.3);
-    f.position.set(x+Math.cos(a)*reach, y+3.65+valleyRand()*1.65, z+Math.sin(a)*reach);
-    f.rotation.y=a; scene.add(f);f.updateMatrix();
-    f.geometry.computeBoundingBox();
-    const bounds=f.geometry.boundingBox.clone().applyMatrix4(f.matrix);
+    const a=valleyRand()*TAU, reach=.3+valleyRand()*1.25, radius=.8+valleyRand()*.55;
+    const sx=radius*(1.25+valleyRand()*.35),sy=radius*(.55+valleyRand()*.28),sz=radius*(1+valleyRand()*.3);
+    const cx=x+Math.cos(a)*reach,cz=z+Math.sin(a)*reach,cy=y+3.65+valleyRand()*1.65;
+    const matrix=valleyPiece(valleyCrown,[0x71854e,0x94a75c,0x90a451,0x687f49][i%4],cx,cy,cz,sx,sy,sz,.08,a,lean);
+    if(i%3===0)valleyPiece(valleyBough,0x79634d,(x+cx)*.5,(cy+y+2.5)*.5,(z+cz)*.5,.16,cy-y-2.3,.15,
+      Math.sin(a)*.56,0,-Math.cos(a)*.56);
+    if(!valleyCrown.boundingBox)valleyCrown.computeBoundingBox();
+    const bounds=valleyCrown.boundingBox.clone().applyMatrix4(matrix);
     cameraCanopies.push({x:(bounds.min.x+bounds.max.x)/2,z:(bounds.min.z+bounds.max.z)/2,
       r:Math.hypot(bounds.max.x-bounds.min.x,bounds.max.z-bounds.min.z)/2,bottom:bounds.min.y,top:bounds.max.y});
   }
-  obstacles.push({x,z,r:0.9,top:y+3.5});
+  obstacles.push({x,z,r:.9,top:y+3.5});
 }
 function addWhiteRock(x,z,s){
   const y=hAt(x,z);
-  const r = sph(1.0*s, M.paleRock, 1.15, 0.55, 0.9);
-  r.position.set(x,y+0.35*s,z); r.rotation.y=valleyRand()*TAU;
-  scene.add(r); obstacles.push({x,z,r:0.95*s,top:y+0.8*s});
+  valleyPiece(valleyStone,0xd5cbb0,x,y+.35*s,z,s*1.15,s*.55,s*.9,.08,valleyRand()*TAU,.09);
+  obstacles.push({x,z,r:.95*s,top:y+.8*s});
 }
 function addBush(x,z,s){
-  const y=hAt(x,z), g=new THREE.Group();
+  const y=hAt(x,z);
   for(let i=0;i<3;i++){
-    const b=sph(0.55*s,M.leaf,1.25,0.55,1.0);
-    b.position.set((valleyRand()-0.5)*0.7,y+0.32*s,(valleyRand()-0.5)*0.7); g.add(b);
+    const ox=(valleyRand()-.5)*.7,oz=(valleyRand()-.5)*.7;
+    valleyPiece(valleyCrown,i%2?0x859251:0x647e48,x+ox,y+.32*s,z+oz,s*.7,s*.35,s*.55,0,ox*4,.09);
   }
-  g.position.set(x,0,z); scene.add(g);
 }
 addLog(14,14,0.2); addLog(2,-14,1.1); addLog(-40,-24,0.5);
 [[-18,-6,0.9],[-24,-16,0.7],[-33,-25,0.8],[-47,-29,0.75],[-62,-45,1.1],[-78,-61,1.25],[10,5,0.65],[32,-46,1.0],[-10,60,0.9],[38,42,0.8]].forEach(p=>addRock(p[0],p[1],p[2]));
@@ -550,6 +481,18 @@ for(let i=0;i<18;i++){
   if(Math.abs(x-riverX(z))<riverWidth(z)+8) continue;
   if(valleyRand()<0.55) addRock(x,z,0.45+valleyRand()*0.55); else addBush(x,z,0.55+valleyRand()*0.35);
 }
+
+for(const [geometry,pieces] of propBatches){
+  const material=new THREE.MeshLambertMaterial({vertexColors:!!geometry.attributes.color});
+  const mesh=new THREE.InstancedMesh(geometry,material,pieces.length);
+  const tint=new THREE.Color();
+  pieces.forEach(({matrix,hex},i)=>{
+    mesh.setMatrixAt(i,matrix);
+    mesh.setColorAt(i,tint.setHex(hex).convertSRGBToLinear());
+  });
+  scene.add(mesh);
+}
+propBatches.clear();
 
 /* --- следы копыт --- */
 const trackPool=[];
@@ -798,7 +741,7 @@ function cameraLookPoint(){
    9. ЗАДАНИЯ
    ================================================================ */
 let QUESTS=CHAPTERS[1].quests;
-const storyWorld=createStoryEnvironment(THREE,scene,hAt);
+const storyWorld=createStoryEnvironment(THREE,scene,hAt,{riverX,waterY:WATER_Y});
 const cameraBlocks=[...obstacles,...cameraCanopies,...storyWorld.cameraObstacles()];
 const convertedStoryMats=new Set();
 Object.values(storyWorld.groups.chapters).forEach(g=>g.traverse(o=>{if(o.material?.color && !convertedStoryMats.has(o.material)){o.material.color.convertSRGBToLinear();convertedStoryMats.add(o.material);}}));
@@ -1010,7 +953,6 @@ function applyQuality(){
   const mobileCap = /iPad|iPhone|Android|Mobile/.test(navigator.userAgent) ? 1.35 : 2;
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, [1,1.35,Math.min(1.75,mobileCap)][S.quality]));
   buildGrass(); refreshGrass(P.x,P.z);
-  clouds.forEach((c,i)=>c.visible = S.quality>0 || i<6);
 }
 
 /* --- сохранения --- */
@@ -1211,20 +1153,15 @@ function animate(){
   else if(!G.paused) G.timeOfDay += dt*0.0016;
   const tod = G.timeOfDay % 1;
   const sunAng = (tod*0.82 + 0.09)*Math.PI;
-  sun.position.set(Math.cos(sunAng)*130, Math.max(Math.sin(sunAng)*90, 6), 40+Math.sin(tod*3)*40);
-  const low = clamp(1 - Math.sin(sunAng), 0, 1);
-  const style=LANDSCAPE_STYLES[G.chapter];
-  sun.color.setHex(style.light).convertSRGBToLinear();
-  sun.intensity = lerp(1.05,.85,low);
-  hemi.intensity = lerp(.60,.46,low);
-  fill.color.setHex(style.fill).convertSRGBToLinear();
-  rim.color.setHex(style.rim).convertSRGBToLinear();
-  skyMat.uniforms.sunDir.value.copy(sun.position).normalize();
-  skyMat.uniforms.top.value.setHex(style.sky).convertSRGBToLinear();
-  skyMat.uniforms.mid.value.setHex(style.horizon).convertSRGBToLinear();
-  skyMat.uniforms.bot.value.setHex(style.fog).convertSRGBToLinear();
-  scene.fog.color.setHex(style.fog).convertSRGBToLinear();
-  renderer.setClearColor(scene.fog.color);
+  // A low eastern break in the clouds, high light at the ford, then a western sunset.
+  const elevation = G.chapter === 3 ? .14 : G.chapter === 2 ? .92 : .57;
+  const west = G.chapter === 3 ? -43 : 130;
+  sun.position.set(Math.cos(sunAng) * west, Math.max(8, Math.sin(sunAng) * 90 * elevation), -85);
+  const low = 1 - Math.sin(sunAng) * elevation;
+  sun.intensity = lerp(1.32, 1.16, low);
+  hemi.intensity = lerp(.82, .72, low);
+  skyUniforms.sunDir.value.copy(sun.position).normalize();
+  skyUniforms.drift.value = (windU.value * .000065) % 1;
 
   /* --- ввод --- */
   let mvx = IN.move.x, mvy = IN.move.y;
@@ -1410,7 +1347,6 @@ function animate(){
     b.position.set(Math.cos(u.a)*u.r + P.x*0.3, u.y, Math.sin(u.a)*u.r + P.z*0.3);
     b.rotation.set(0, -u.a, Math.sin(windU.value*7+u.r)*0.5);
   });
-  clouds.forEach(c=>{ c.position.x += dt*0.55; if(c.position.x>240) c.position.x=-240; });
 
   /* --- трава --- */
   if(grass && Math.hypot(P.x-grassAnchor.x, P.z-grassAnchor.z) > 10) refreshGrass(P.x,P.z);
@@ -1598,10 +1534,11 @@ function alignCompanion(actor,dt){
   headingQ.setFromAxisAngle(slopeUp,actor.userData.travelHeading ?? actor.rotation.y);
   slopeQ.multiply(headingQ);actor.quaternion.slerp(slopeQ,Math.min(1,dt*8));
 }
-const contactShadows=createContactShadows(THREE,scene,[{actor:horse,width:2.8,length:4.2},{actor:foal,width:1.5,length:2.3},{actor:alex,width:1.1,length:1.1},...herd.children.map(actor=>({actor,width:2.6,length:3.8}))],hAt,normalAt);
+const contactShadows=createContactShadows(THREE,scene,[{actor:horse,width:2.8,length:4.2},{actor:foal,width:1.5,length:2.3},{actor:alex,width:1.1,length:1.1},...herd.children.map(actor=>({actor,width:2.6,length:3.8}))],hAt,normalAt,sun);
 function configureChapter(id){
   G.chapter=id; QUESTS=CHAPTERS[id].quests; CINE=CHAPTERS[id].cinematic;
   cameraBlocks.splice(0,cameraBlocks.length,...obstacles,...cameraCanopies,...storyWorld.cameraObstacles(id));
+  chapterLight(id);
   paintLandscape(THREE,groundGeo,id,riverX);
   if(grass){
     const tones=LANDSCAPE_STYLES[id],dark=new THREE.Color(tones.grassDark).convertSRGBToLinear(),light=new THREE.Color(tones.grassLight).convertSRGBToLinear();
