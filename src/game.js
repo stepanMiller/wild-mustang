@@ -1141,8 +1141,18 @@ refreshGrass(P.x,P.z);
 const clock = new THREE.Clock();
 function animate(){
   requestAnimationFrame(animate);
-  const frameDt=Math.min(clock.getDelta(),0.05);
-  const dt=G.paused && G.phase!=='menu'?0:frameDt;
+  // Slow rendering must not slow the walk to the ford. Limit catch-up after
+  // a suspended tab, and keep each collision/physics step at most 50 ms.
+  const elapsed=Math.min(clock.getDelta(),0.4);
+  const dt=G.paused && G.phase!=='menu'?0:elapsed;
+  const steps=Math.max(1,Math.ceil(dt/0.05));
+  let companionFrame;
+  for(let i=0;i<steps;i++) companionFrame=updateWorld(dt/steps);
+  updateFrame(dt,companionFrame);
+  renderer.render(scene,camera);
+}
+
+function updateWorld(dt){
   questCooldown=Math.max(0,questCooldown-dt);
   windU.value += dt;
 
@@ -1367,8 +1377,6 @@ function animate(){
   camera.position.copy(constrainCameraPosition(cam.look,camera.position,hAt,cameraBlocks));
   camera.lookAt(cam.look);
 
-  A.setEnvironment({chapter:G.chapter,creek:clamp(1-Math.abs(P.x-riverX(P.z))/26,0,1),movement:clamp(sp/12,0,1)});
-
   /* --- прогресс сценария --- */
   if(G.phase==='tutorial' && !G.paused){
     const st = TUT[G.tutStep];
@@ -1429,6 +1437,11 @@ function animate(){
     if(cineT>CINE.length*4.2+2.5 && !G.finished && !G.paused) finishChapter();
   }
 
+  return companionFrame;
+}
+
+function updateFrame(dt,companionFrame){
+  A.setEnvironment({chapter:G.chapter,creek:clamp(1-Math.abs(P.x-riverX(P.z))/26,0,1),movement:clamp(P.speed/12,0,1)});
   updateVoiceCaption();
 
   /* --- UI обновления --- */
@@ -1455,7 +1468,6 @@ function animate(){
     herdGesture:G.phase==='cine' && G.chapter===3?'sniff':'graze',
     alexGesture:companionFrame.gestures.alex ?? (G.phase==='meet' && G.trust>=35?'offer':G.phase==='epilogue'?'wave':undefined)});
   updateGuidance();
-  renderer.render(scene,camera);
 }
 
 /* --- фон главного меню: живая сцена как на референсе --- */
