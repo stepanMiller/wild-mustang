@@ -61,7 +61,18 @@ test('Story all three chapters unlock, save, reunite and replay without losing c
   await expect.poll(async () => (await state(page)).chapter).toBe(2);
   expect((await state(page)).quest).toBe(0);
   expect((await state(page)).completedChapters).toEqual(completed);
-  await finishCurrentChapter(page);
+  await test.step('Replay the ford with slow animation frames and both friends starting on the west bank', async () => {
+    // Model slow rendering without changing the game clock, inputs or save.
+    await page.evaluate(() => {
+      const requestFrame = window.requestAnimationFrame.bind(window);
+      window.requestAnimationFrame = callback => requestFrame(() => {
+        setTimeout(() => callback(performance.now()), 200);
+      });
+    });
+    // The foal walks about 25 m to dry ground at 3 m/s. Counting only
+    // 50 ms per frame would take over 33 s even on a fast test machine.
+    await finishCurrentChapter(page, { fordTimeout: 25_000 });
+  });
   expect((await state(page)).completedChapters).toEqual(completed);
   expect(errors).toEqual([]);
 });

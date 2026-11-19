@@ -50,7 +50,7 @@ export function position(snapshot) {
   return snapshot.position || snapshot.player || { x: snapshot.x, z: snapshot.z };
 }
 
-export async function finishCurrentChapter(page) {
+export async function finishCurrentChapter(page, { fordTimeout = 90_000 } = {}) {
   const initial = await state(page);
   for (let attempts = 0; attempts < 30; attempts++) {
     // Read related values together. Early apple collection can advance a quest
@@ -90,10 +90,15 @@ export async function finishCurrentChapter(page) {
       expect(continued.heading).toBeCloseTo(current.heading, 5);
       expect(continued.position.x).toBeCloseTo(current.position.x, 2);
       expect(continued.position.z).toBeCloseTo(current.position.z, 2);
+      for (const actor of [continued.companions.alex, continued.companions.foal]) {
+        expect(actor.x).toBeLessThan(0);
+      }
     }
     await teleport(page, travel[0], travel[1]);
     if (quest.kind === 'zone') {
-      await expect.poll(async () => (await state(page)).quest,{timeout:quest.id==='willow-crossing'?90_000:12_000}).not.toBe(current.quest);
+      await expect.poll(async () => (await state(page)).quest, {
+        timeout: quest.id === 'willow-crossing' ? fordTimeout : 12_000,
+      }).not.toBe(current.quest);
     } else {
       await action(page);
       // Some tasks have several visible actions (apples / moving branches).
