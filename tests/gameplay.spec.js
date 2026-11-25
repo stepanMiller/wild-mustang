@@ -84,15 +84,25 @@ test('P1 touch joystick moves the hero and pointer cancellation clears controls'
 test('P1 pause freezes airborne movement and restores safely', async ({ page }) => {
   await openGame(page);
   await startChapterOne(page);
-  await page.locator('#btnJump').click();
-  await expect.poll(async () => (await state(page)).grounded).toBe(false);
-  await page.locator('#btnPause').click();
-  const frozen = await state(page);
+  // Observe takeoff and press Pause within the same browser frame. Separate
+  // Playwright round trips can miss a short jump when rendering is slow.
+  const [takeoff] = await Promise.all([
+    page.waitForFunction(() => {
+      const snapshot = window.__WILD_MUSTANG_TEST__.snapshot();
+      if (snapshot.grounded) return false;
+      document.getElementById('btnPause').click();
+      return snapshot.position;
+    }, undefined, { timeout: 12_000 }),
+    page.locator('#btnJump').click(),
+  ]);
+  const frozen = await takeoff.jsonValue();
   await page.waitForTimeout(400);
-  expect((await state(page)).position).toEqual(frozen.position);
-  expect((await state(page)).paused).toBe(true);
+  expect(await state(page)).toMatchObject({ position: frozen, grounded: false, paused: true });
   await page.locator('#btnResume').click();
-  await expect.poll(async () => (await state(page)).grounded).toBe(true);
+  await expect.poll(async () => {
+    const { grounded, paused } = await state(page);
+    return { grounded, paused };
+  }).toEqual({ grounded: true, paused: false });
 });
 
 test('P1 required quest interaction wins over optional companion petting', async ({ page }) => {
