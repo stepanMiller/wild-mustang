@@ -17,11 +17,11 @@ concurrency:
 jobs:
   checks:
     uses: ./.github/workflows/qa.yml
-  deploy:
+  package:
     needs: checks
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+    permissions:
+      contents: read
+      pages: read
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -36,9 +36,17 @@ jobs:
       - name: Configure Pages
         uses: actions/configure-pages@v5
       - name: Upload built static game
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
         with:
           path: dist
+
+  deploy:
+    needs: package
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
