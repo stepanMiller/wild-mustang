@@ -2,6 +2,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { SkeletonUtils } from 'three/examples/jsm/utils/SkeletonUtils.js';
 import { BufferGeometryUtils } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import { attachAlex } from './alex.js';
+import { shapeHeroPrimitive, createHeroForelock } from './hero-appearance.js';
 
 const MODEL_URL = (import.meta.env?.BASE_URL || '/') + 'assets/characters/horse.glb';
 const BASE_HEIGHT = 4.1;
@@ -21,7 +22,7 @@ function skinMaterials(THREE, root, coat, role) {
   const parts = [];
   root.traverse((mesh) => { if (mesh.isSkinnedMesh) parts.push(mesh); });
   const geometries = parts.map((mesh) => {
-    const geometry = mesh.geometry.clone();
+    let geometry = mesh.geometry.clone();
     const name = mesh.material.name;
     const color = mesh.material.color.clone();
     if (name === 'Main') color.copy(main);
@@ -30,15 +31,19 @@ function skinMaterials(THREE, root, coat, role) {
     if (name === 'Hair') color.copy(coatColor(THREE, role === 'foal' ? 0x423027 : 0x241c1a));
     if (name === 'Hooves') color.copy(coatColor(THREE, 0x332b25));
     if (name === 'Eye_White') color.copy(coatColor(THREE, 0xebe3d2));
-    if (name === 'Veter_Blaze') color.copy(role === 'hero' ? coatColor(THREE, 0xffefd0) : main);
+    if (name === 'Veter_Blaze') color.copy(main);
     const colors = new Float32Array(geometry.attributes.position.count * 3);
     for (let i = 0; i < colors.length; i += 3) {
       colors[i] = color.r; colors[i + 1] = color.g; colors[i + 2] = color.b;
     }
     geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+    if (role === 'hero') {
+      geometry = shapeHeroPrimitive(THREE, geometry, name);
+    }
     return geometry;
   });
   if (!parts.length) throw new Error('The character model has no skinned mesh.');
+  if (role === 'hero') geometries.push(createHeroForelock(THREE, parts));
   const geometry = BufferGeometryUtils.mergeBufferGeometries(geometries, false);
   geometries.forEach((part) => part.dispose());
   if (!geometry) throw new Error('The character mesh could not be combined.');

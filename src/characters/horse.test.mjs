@@ -152,3 +152,48 @@ test('missing GLB resolves a fallback state without hiding the playable horses',
   cast.update(.02, { speed: 4 });
   cast.dispose();
 });
+
+test('Veter has an unspotted coat, a left forelock below the eye and surface-bound dark markings', async () => {
+  const { cast } = await loadCast();
+  try {
+    const hero = cast.horses[0];
+    const skin = hero.rig.getObjectByName('HorseSkin');
+    const { position, color, skinIndex, skinWeight } = skin.geometry.attributes;
+    const dark = new THREE.Color(0x171411).convertSRGBToLinear();
+    const hair = new THREE.Color(0x241c1a).convertSRGBToLinear();
+    const head = skin.skeleton.bones.findIndex(bone => bone.name === 'Head');
+    let stripe = 0, muzzle = 0, eyeHighlights = 0, lowLeftForelock = 0;
+    for (let i = 0; i < position.count; i++) {
+      const x = position.getX(i), y = position.getY(i), z = position.getZ(i);
+      const r = color.getX(i), g = color.getY(i), b = color.getZ(i);
+      if (r > .6 && g > .6 && b > .5) {
+        eyeHighlights++;
+        assert.ok(Math.abs(x) > .2 && y > 4.1 && y < 4.2 && z > 2.8 && z < 3,
+          'Only the eye whites can remain pale; the facial blaze must match the coat');
+      }
+      if (Math.abs(r - dark.r) < 1e-6 && Math.abs(g - dark.g) < 1e-6 && Math.abs(b - dark.b) < 1e-6) {
+        if (z < 1.36) {
+          stripe++;
+          assert.ok(Math.abs(x) < .14 && y > 2.25 && z >= -1.751, 'Stripe stays on the top centre of the back');
+        } else {
+          muzzle++;
+          assert.ok(z >= 3.099 && y + .38 * z >= 4.829 && y + .38 * z <= 4.881,
+            'Muzzle marking remains a narrow line around the nose');
+        }
+      }
+      if (y < 4.1 && y > 3.9 && z > 2.93 && z < 3.35 && x > .16 && Math.abs(r - hair.r) < 1e-6) {
+        lowLeftForelock++;
+        assert.equal(skinIndex.getX(i), head);
+        assert.ok(skinWeight.getX(i) > .65, 'The lowered lock follows the forehead with the source head weights');
+      }
+      const sum = skinWeight.getX(i) + skinWeight.getY(i) + skinWeight.getZ(i) + skinWeight.getW(i);
+      assert.ok(Math.abs(sum - 1) < 1e-5, 'Cut marking surfaces retain normalized skin weights');
+    }
+    assert.ok(eyeHighlights > 0 && stripe > 30 && muzzle > 20 && lowLeftForelock > 5);
+    const originalBlaze = [];
+    gltf.scene.traverse(node => { if (node.material?.name === 'Veter_Blaze') originalBlaze.push(node); });
+    assert.ok(originalBlaze[0].material.color.r > .8, 'Runtime changes do not alter the shared GLB materials');
+    assert.ok(cast.horses[2].rig.getObjectByName('HorseSkin').geometry.index,
+      'Other horses keep their source geometry, including their normal forelocks');
+  } finally { cast.dispose(); }
+});
