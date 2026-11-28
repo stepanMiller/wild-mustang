@@ -1,18 +1,18 @@
 {
-  "version": "1.0.0-rc.1",
+  "version": "1.0.0-rc.2",
   "game": "Ветер прерий",
-  "sourceCommit": "e6b8f8bdea80c580ed89b4066ba48f069acb445c",
-  "date": "2026-11-25",
+  "sourceCommit": "2cdec6675e253a0919ea693612cb5a7e879c4183",
+  "date": "2026-11-28",
   "chapters": 3,
   "manualIPadSafari": "pending",
   "sourceSha256": {
-    "src/game.js": "5ad94bad8f618c9e2ceb588c34da7be98c9ed692d2f01f296130d224ecce3a61",
+    "src/game.js": "eed10b13344a1dd16bedd8e5fb47dea540edf063599e2faa26d60f532cc32fb7",
     "src/story/chapters.js": "ab066ab7c71af8e18e0fb36eeea4f87a166e92cf0adc885437dc8786c8df6c91",
     "src/story/environment.js": "b0fa3890cca61d76fa0870be32f71b2a795205711d737b66ae4e786412233140",
-    "src/characters/characters.js": "691bee28155136b706beb60b5d0e585ce04ec06352383113557be7611f12b28f",
-    "index.html": "e50afc8c5792f8fbe420f7c9cb06d3e68b3559d152d29beeba2146a688d06797",
+    "src/characters/characters.js": "10159b68de89a632ba41b303ee7895eadea2f1d9bf29c9d2fe3997e5eeb4a3a6",
+    "index.html": "3db98135a203026b88dbe44152b64772c3ac819bdf90fef7c571854ca7d839e6",
     "src/navigation.js": "775c7d6c405fa219afbfa02ddf64fab83eb910077f7f260d9dea14c3646685a3",
-    "src/camera.js": "bb814827c09c59659a41fef946c1a23bdfc68abc4ae41a92a35eee215df528d0",
+    "src/camera.js": "a6025379e0b31bd4627e883a0f11512ef9afbd40e551e7f6eccedc29b8368215",
     "public/favicon.svg": "ed893d80a35efa7a602ac6a44c7f763a3ba4dda7cc8aa5af99bc86d46cca483a",
     "src/scene-style.js": "255f057c4b2237164252d41b45c93826d7df73b1346f87500c1b3d04651b36a1",
     "src/contact-shadows.js": "e4d95015b0e2f65d322ba3a7ffedef785a36db97fcedc0e32e2e5e52ff935131",
@@ -25,10 +25,23 @@
     "src/creek.js": "44e91c896e601167c7051527701732061a8b433161cd4d2cccdd2c433bede922",
     "src/prairie-plants.js": "00da6ec7f8fd26b7f845317fd26b4f582e85eb8ec80ba985bd4d2deea1bbfae1",
     "src/prairie-ranges.js": "53a409a3ae90c2585aae597f88076209c34cf3129a8c85ee259c0e3bfcb7d477",
-    "src/prairie-sky.js": "809d3b7f51c4174e2fe29e4264e1b8f6393c6a8c0ab83bab0d43b623945355d1"
+    "src/prairie-sky.js": "809d3b7f51c4174e2fe29e4264e1b8f6393c6a8c0ab83bab0d43b623945355d1",
+    "src/persistence.js": "e3da7c703080245f7529669301ab0d750235651e39821480f3049d438e405715",
+    "src/characters/hero-appearance.js": "48146031fd4f81cbd5d87517800e1591cccef0b289d188d0ea87fb70fd251dfe",
+    "src/adventures/herd-rescue.js": "5c9dab2a213eb2c4c8968f2113584957aa495f3b3aae50fdafbe27a29c310740",
+    "src/adventures/rescue-art.js": "99dd4baa50646e6b7cf9530363d034111494a34805cfb2e66b01531c5fdc3e0c",
+    "src/adventures/rescue-state.js": "ea46fbd7a19f816ce15a88514c366dc4593727447f98b476d61b06ed7a428753"
   },
   "toolchain": {
     "three": "0.128.0",
     "vite": "6.4.4"
-  }
+  },
+  "adventures": [
+    {
+      "id": "herd-rescue",
+      "name": "Спасти табун",
+      "unlock": "after-three-chapters",
+      "wildHorses": 3
+    }
+  ]
 }
