@@ -58,6 +58,25 @@ the gate centre, outside its five-metre movement envelope, and a regression test
 checks availability at 6.2 metres and rejection at 7 metres. A repeated complete
 touch run passed after that fix.
 
+### First PR matrix and touch-driver correction
+
+PR #20, run `46166695544`, passed 25 Chromium desktop and 25 WebKit scenarios.
+The Chromium iPad job passed 27 scenarios but failed the new natural rescue
+route in both attempts before reaching the gate. The focused adventure test,
+including capture, reloads, freeing and replay, passed in all three profiles.
+
+The delayed browser-control loop alternated between .15 and .80 joystick
+deflection while the follow camera changed yaw. The held camera-relative input
+therefore kept turning its world direction between observations. This caused the
+automated driver to circle away from the gate. The natural rescue test now walks
+with a .22 input cap, approximately 1.06 m/s, below the 1.2 m/s automatic camera
+follow threshold. The runtime, camera behavior, collision and completion logic
+are unchanged. Other tests retain their normal input range. Failure samples now
+include heading, yaw, requested direction and observation intervals.
+
+The local recheck deliberately uses a 1000 ms observation interval. The final
+cross-engine matrix must be repeated for the revised test commit.
+
 ### Remaining release evidence
 
 - Final source commit and full CI run: pending.

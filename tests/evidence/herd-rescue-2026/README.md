@@ -18,6 +18,11 @@ public bonus button. It then uses actual browser touch events for the joystick
 and gate action. It does not teleport Veter or inject bonus progress. All three
 horses are caught and freed through the game simulation.
 
+The retained local recording uses the original faster test driver. A later CI
+run exposed stale camera-yaw feedback in that driver on a slower runner. The
+current test limits its walking input to .22 and checks a delayed control loop;
+this changes only the automation, not the recorded game runtime or its behavior.
+
 ## Appearance and art review
 
 `hero-left-face.png` shows the actual WebGL-rendered animated hero model with

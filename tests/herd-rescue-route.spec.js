@@ -22,6 +22,11 @@ test('Herd adventure is walkable with browser touch from the camp to freedom', a
   await expect.poll(async () => (await state(page)).phase).toBe('rescue');
 
   const touches = await BrowserTouches.create(page);
+  // Keep this scene traversal at an ordinary slow walk. The camera auto-follows
+  // above 1.2 m/s; a delayed CI input loop must not chase its own stale yaw.
+  // Other movement, gallop and camera tests retain their normal input range.
+  const movement = { maxDeflection: .22,
+    controlInterval: Number(process.env.WILD_MUSTANG_ROUTE_POLL_MS) || 250 };
   let recorder, frameWork = Promise.resolve();
   const frames = [], evidence = [];
   if (process.env.WILD_MUSTANG_RECORD_RESCUE === '1') {
@@ -44,14 +49,14 @@ test('Herd adventure is walkable with browser touch from the camp to freedom', a
     evidence.push({ name, snapshot: await state(page) });
   };
   try {
-    await walkTrailPoint(page, touches, RESCUE_LAYOUT.watch, { tolerance: 2, timeout: 30_000 });
+    await walkTrailPoint(page, touches, RESCUE_LAYOUT.watch, { ...movement, tolerance: 2, timeout: 30_000 });
     await expect.poll(async () => (await state(page)).rescue.horses.some(h => h.state === 'caught'),
       { timeout: 45_000, intervals: [200, 500] }).toBe(true);
     await capture('touch-visible-capture');
     await expect.poll(async () => (await state(page)).rescue.stage, { timeout: 70_000 }).toBe('captive');
     // Stop just outside the physical closed gate, inside the interaction radius.
     // This exercises movement collision instead of teleporting into the gate.
-    await walkTrailPoint(page, touches, [61, 20.2], { tolerance: .22, timeout: 45_000 });
+    await walkTrailPoint(page, touches, [61, 20.2], { ...movement, tolerance: .45, timeout: 45_000 });
     await capture('touch-closed-corral');
     await touchAction(page, 'Открыть загон');
     await expect.poll(async () => (await state(page)).rescue.stage).toBe('escape');
@@ -61,7 +66,7 @@ test('Herd adventure is walkable with browser touch from the camp to freedom', a
       // not circle a waypoint to land within centimetres of its exact centre.
       // The meadow completes and pauses the episode before reaching its centre.
       await walkTrailPoint(page, touches, point,
-        { tolerance: index === RESCUE_LAYOUT.escape.length - 1 ? 3 : 2, timeout: 35_000 });
+        { ...movement, tolerance: index === RESCUE_LAYOUT.escape.length - 1 ? 3 : 2, timeout: 35_000 });
     }
     await expect.poll(async () => (await state(page)).rescue.stage, { timeout: 35_000 }).toBe('complete');
     await expect(page.locator('#rescueFinish')).toHaveClass(/on/);
