@@ -132,3 +132,11 @@ test('camera constraints preserve caller state and finite positions', () => {
   assert.deepEqual(candidate, { x: 1, y: 1, z: 1 });
   assert.deepEqual(position, { x: 1, y: 2, z: 1 });
 });
+
+test('opening a gate removes its camera obstruction while closed gates still constrain the view', () => {
+  const look = { x: 0, y: 2.4, z: 0 }, candidate = { x: 10, y: 4.2, z: 0 };
+  const gate = { x: 5, z: 0, r: 2, top: 6, active: true };
+  assert.ok(constrainCameraPosition(look, candidate, flat, [gate]).x < 3);
+  gate.active = false;
+  assert.deepEqual(constrainCameraPosition(look, candidate, flat, [gate]), candidate);
+});

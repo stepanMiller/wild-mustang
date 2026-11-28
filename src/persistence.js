@@ -1,5 +1,7 @@
+import { validateRescueSave } from './adventures/rescue-state.js';
+
 export const SAVE_KEY = 'veter-save';
-export const SAVE_VERSION = 2;
+export const SAVE_VERSION = 3;
 const phases = new Set(['tutorial', 'meet', 'quests', 'epilogue']);
 const finite = (x) => typeof x === 'number' && Number.isFinite(x);
 const bound = (x, a, b) => Math.min(b, Math.max(a, x));
@@ -30,13 +32,21 @@ export function decodeSave(raw) {
   try {
     const data = typeof raw === 'string' ? JSON.parse(raw) : raw;
     if (!data || typeof data !== 'object') return null;
-    if (data.version != null && data.version !== SAVE_VERSION) return null;
+    if (data.version != null && ![2, SAVE_VERSION].includes(data.version)) return null;
     const checkpoint = validateCheckpoint(data.version ? data.checkpoint : data);
     if (!checkpoint && !data.version) return null;
     const completed = Array.isArray(data.completedChapters)
       ? [...new Set(data.completedChapters.filter(x => [1, 2, 3].includes(x)))].sort() : [];
     if (checkpoint?.chapter > 1 && !completed.includes(checkpoint.chapter - 1)) return null;
+    // Bonus progress is independent of the original story checkpoint. A damaged
+    // optional episode must never erase a child's completed journey.
+    const rescue = [1, 2, 3].every(id => completed.includes(id))
+      ? validateRescueSave(data.adventures?.herdRescue) : null;
+    if (rescue) rescue.playTime = finite(data.adventures.herdRescue.playTime)
+      ? Math.max(0, data.adventures.herdRescue.playTime) : 0;
     return { version: SAVE_VERSION, checkpoint, completedChapters: completed,
+      activeAdventure: data.activeAdventure === 'herd-rescue' && rescue ? 'herd-rescue' : null,
+      adventures: { herdRescue: rescue },
       settings: data.settings && typeof data.settings === 'object' ? data.settings : {} };
   } catch { return null; }
 }

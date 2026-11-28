@@ -13,6 +13,9 @@ import { fordEscort } from './story/ford-escort.js';
 import { applyIcons } from './ui-icons.js';
 import { createContactShadows } from './contact-shadows.js';
 import { attachCharacters } from './characters/characters.js';
+import { decorateHeroFallback } from './characters/hero-appearance.js';
+import { createHerdRescue } from './adventures/herd-rescue.js';
+import { RESCUE_LAYOUT } from './adventures/rescue-state.js';
 import { CHAPTERS, createStoryEnvironment } from './story/index.js';
 import { readSave, writeSave, validateCheckpoint } from './persistence.js';
 (function(){
@@ -41,6 +44,7 @@ const S = {
 };
 const G = {
   chapter:1, completedChapters:[], finished:false,
+  activeAdventure:null, adventures:{herdRescue:null},
   questSteps:0, phase:'menu',        // menu | tutorial | meet | quests | cine | done
   tutStep:0,
   quest:0,             // индекс текущего задания
@@ -222,7 +226,7 @@ function refreshGrass(px,pz){
     let x = ((b.x - px + F*0.5) % F + F) % F - F*0.5 + px;
     let z = ((b.z - pz + F*0.5) % F + F) % F - F*0.5 + pz;
     const y = hAt(x,z);
-    const route=CHAPTERS[G.chapter].route;
+    const route=G.phase==='rescue'?RESCUE_LAYOUT.route:CHAPTERS[G.chapter].route;
     let routeDistance=Infinity;
     for(let j=1;j<route.length;j++){
       const a=route[j-1],b=route[j],dx=b[0]-a[0],dz=b[1]-a[1];
@@ -389,6 +393,7 @@ function makeAlex(){
 }
 
 const horse = makeHorse(1.0);
+decorateHeroFallback(THREE,horse);
 horse.position.set(20, hAt(20,24), 24);
 scene.add(horse);
 
@@ -586,7 +591,7 @@ function hoofSurface(){
   const bank=Math.abs(P.x-riverX(P.z));
   if(bank<riverWidth(P.z)+3)return 'sand';
   if(hAt(P.x,P.z)>17)return 'hard';
-  const route=CHAPTERS[G.chapter].route;
+  const route=G.phase==='rescue'?RESCUE_LAYOUT.route:CHAPTERS[G.chapter].route;
   const trail=nearestSafeTrailPoint(route,P.x,P.z,()=>true);
   return trail && Math.hypot(P.x-trail[0],P.z-trail[1])<2.6?'ground':'grass';
 }
@@ -746,6 +751,7 @@ const cameraBlocks=[...obstacles,...cameraCanopies,...storyWorld.cameraObstacles
 const convertedStoryMats=new Set();
 Object.values(storyWorld.groups.chapters).forEach(g=>g.traverse(o=>{if(o.material?.color && !convertedStoryMats.has(o.material)){o.material.color.convertSRGBToLinear();convertedStoryMats.add(o.material);}}));
 function questTarget(){
+  if(G.phase==='rescue') return rescue.target();
   if(G.phase==='meet') return [alex.position.x,alex.position.z];
   if(['tutorial','done','epilogue','cine','menu'].includes(G.phase)) return null;
   const q = QUESTS[G.quest];
@@ -758,6 +764,16 @@ function questTarget(){
   return q.target;
 }
 function updateTracker(){
+  $('#btnListen').hidden=G.phase==='rescue';
+  if(G.phase==='rescue'){
+    storyWorld.setQuest(-1);
+    const task=rescue.tracker();
+    $('#chapterTag').textContent='Приключение · Спасти табун';
+    $('#log .sub').textContent='Спасти табун';
+    $('#trackTitle').textContent=task.title;
+    $('#trackSub').textContent=task.subtitle;
+    return;
+  }
   narrateGuide();
   storyWorld.setQuest(['quests'].includes(G.phase)?G.quest:-1);
   $('#chapterTag').textContent='Глава '+G.chapter+' · '+CHAPTERS[G.chapter].title;
@@ -776,6 +792,20 @@ function updateTracker(){
 }
 function renderLog(){
   const el = $('#questList'); el.innerHTML='';
+  if(G.phase==='rescue'){
+    const stage=rescue.snapshot().stage;
+    const index=['watch','roundup','captive','escape','complete'].indexOf(stage);
+    const tasks=[['Найти диких лошадей','Подойди к поляне рядом с лагерем.'],
+      ['Проследить за отрядом','Кавалеристы ловят лошадей и ведут их в загон.'],
+      ['Открыть загон','Подойди к воротам и толкни засов.'],
+      ['Вывести табун','Иди по золотым отметкам на тихую поляну.']];
+    tasks.forEach(([title,description],i)=>{
+      const row=document.createElement('div');row.className='quest'+(i<index?' done':'')+(i===index?' now':'');
+      row.innerHTML=`<div class="mk">${i<index?'✓':i+1}</div><div class="tx"><b>${title}</b><span>${description}</span></div>`;
+      el.appendChild(row);
+    });
+    return;
+  }
   QUESTS.forEach((q,i)=>{
     const done = i<G.quest, now = i===G.quest;
     const d = document.createElement('div');
@@ -813,6 +843,7 @@ const TUT = [
 let actTarget=null;
 function nearestAction(){
   if(G.paused) return null;
+  if(G.phase==='rescue') return rescue.action(P);
   if(G.phase==='meet'){
     const d=Math.hypot(P.x-alex.position.x,P.z-alex.position.z);
     return d<4.5 && G.trust>=35 ? {label:'Взять яблоко из руки',fn:acceptApple}:null;
@@ -906,6 +937,13 @@ $('#btnPlay').onclick = ()=>startGame(false);
 $('#btnContinue').onclick = ()=>{ if(G.hasSave||G.checkpoint) startGame(true); else startGame(false); };
 $('#btnChapters').onclick = ()=>{renderChapters();screen('#chapters',true);};
 $('#btnCloseChapters').onclick = ()=>screen('#chapters',false);
+const continueRescue=()=>startRescue(!!G.adventures.herdRescue && G.adventures.herdRescue.stage!=='complete');
+$('#btnRescue').onclick=continueRescue;
+$('#btnRescueStart').onclick=continueRescue;
+$('#btnRescueFinish').onclick=continueRescue;
+$('#btnRescueAgain').onclick=()=>startRescue(false);
+$('#btnRescueMenu').onclick=()=>toMenu();
+$('#btnRescueRoam').onclick=()=>{screen('#rescueFinish',false);$('#hud').classList.add('on');pauseGame(false);updateTracker();};
 $('#btnSettings1').onclick = ()=>screen('#settings',true);
 $('#btnSettings2').onclick = ()=>screen('#settings',true);
 $('#btnCloseSettings').onclick = ()=>{screen('#settings',false);persist();};
@@ -914,10 +952,12 @@ $('#btnResume').onclick = ()=>{ screen('#pause',false); pauseGame(false); };
 $('#btnToMenu').onclick = ()=>{ screen('#pause',false); toMenu(); };
 $('#btnUnstuck').onclick = ()=>{
   const chapter = CHAPTERS[G.chapter];
-  const point = nearestSafeTrailPoint(chapter.route,P.x,P.z,(x,z)=>{
+  const route=G.phase==='rescue'?RESCUE_LAYOUT.route:chapter.route;
+  const collisions=G.phase==='rescue'?rescueObstacles:obstacles;
+  const point = nearestSafeTrailPoint(route,P.x,P.z,(x,z)=>{
     const ground = hAt(x,z);
-    return ground >= WATER_Y+.1 && !obstacles.some(o=>Math.hypot(x-o.x,z-o.z)<o.r+1.5 && ground<o.top+.25);
-  }) || chapter.spawn;
+    return ground >= WATER_Y+.1 && !collisions.some(o=>o.active!==false && Math.hypot(x-o.x,z-o.z)<o.r+1.5 && ground<o.top+.25);
+  }) || (G.phase==='rescue'?RESCUE_LAYOUT.spawn:chapter.spawn);
   resetTo(...point);
   saveCheckpoint();
   screen('#pause',false); pauseGame(false); toast('Ветер вернулся на тропу');
@@ -958,11 +998,16 @@ function applyQuality(){
 /* --- сохранения --- */
 const storage={getItem:key=>window.localStorage.getItem(key),setItem:(key,value)=>window.localStorage.setItem(key,value)};
 function persist(){
-  const ok=writeSave(storage,{checkpoint:G.checkpoint,completedChapters:G.completedChapters,settings:S});
+  const ok=writeSave(storage,{checkpoint:G.checkpoint,completedChapters:G.completedChapters,settings:S,
+    activeAdventure:G.activeAdventure,adventures:G.adventures});
   if(!ok) hint('Сохранение недоступно. Путешествие можно продолжить в этой вкладке.');
-  $('#btnContinue').disabled=!G.checkpoint;
+  $('#btnContinue').disabled=!G.checkpoint && !(G.activeAdventure && G.adventures.herdRescue);
 }
 function saveCheckpoint(){
+  if(G.phase==='rescue' && !rescueStarting){
+    G.adventures.herdRescue={...rescue.snapshot(),player:{x:P.x,z:P.z,heading:P.heading},playTime:G.playTime};
+    G.hasSave=true;persist();return;
+  }
   if(!['tutorial','meet','quests','epilogue'].includes(G.phase)) return;
   const quest=G.phase==='epilogue'?QUESTS.length-1:G.quest;
   G.checkpoint={chapter:G.chapter,x:P.x,z:P.z,heading:P.heading,quest,trust:G.trust,
@@ -974,7 +1019,8 @@ function saveCheckpoint(){
 function loadSave(){
   const saved=readSave(storage);
   if(!saved){ $('#btnContinue').disabled=true; return; }
-  G.checkpoint=saved.checkpoint; G.hasSave=!!saved.checkpoint;
+  G.checkpoint=saved.checkpoint;G.activeAdventure=saved.activeAdventure;G.adventures=saved.adventures;
+  G.hasSave=!!saved.checkpoint || !!(G.activeAdventure && G.adventures.herdRescue);
   G.completedChapters=saved.completedChapters;
   for(const key of ['music','sfx','camSens','quality']) if(Number.isFinite(saved.settings[key]))
     S[key]=clamp(saved.settings[key],key==='camSens'?0.2:0,key==='quality'?2:key==='camSens'?2:1);
@@ -982,7 +1028,7 @@ function loadSave(){
   $('#volMusic').value=S.music*100; $('#volSfx').value=S.sfx*100; $('#camSens').value=S.camSens*100;
   for(const [id,key] of [['#tgHints','hints'],['#tgSubs','subs'],['#tgVoice','voice'],['#tgEasy','easy']]) $(id).classList.toggle('on',S[key]);
   document.querySelectorAll('[data-q]').forEach(b=>b.classList.toggle('sel',+b.dataset.q===S.quality));
-  $('#btnContinue').disabled=!G.checkpoint; applyQuality();
+  $('#btnContinue').disabled=!G.hasSave; applyQuality();
 }
 function resetWorld(){
   companionScenes.reset(G.chapter);escortHintShown=false;
@@ -1020,8 +1066,11 @@ function applyCheckpoint(checkpoint){
 }
 function startGame(cont,chapter=1){
   if(!cont && chapter>1 && !G.completedChapters.includes(chapter-1)) return;
+  if(cont && G.activeAdventure==='herd-rescue' && G.adventures.herdRescue){startRescue(true);return;}
+  if(G.phase==='rescue')saveCheckpoint();
+  rescue.stop();G.activeAdventure=null;storyWorld.groups.root.visible=true;herdTrail.visible=true;
   initAudio();
-  ['#start','#finish','#chapters','#pause','#map','#log','#settings'].forEach(id=>screen(id,false));
+  ['#start','#finish','#rescueFinish','#chapters','#pause','#map','#log','#settings'].forEach(id=>screen(id,false));
   $('#hud').classList.add('on'); joyLayout();
   if(cont && G.checkpoint && applyCheckpoint(G.checkpoint)) toast('Продолжаем путь');
   else {
@@ -1038,9 +1087,43 @@ function startGame(cont,chapter=1){
   $('#btnSkipTutorial').hidden=G.phase!=='tutorial';
   hint(G.phase==='tutorial'?TUT[G.tutStep].s:QUESTS[G.quest]?.s || 'Подойди к Алексу.');
 }
+let rescueStarting=false,rescueSaveTimer=0;
+function startRescue(cont=false){
+  if(![1,2,3].every(id=>G.completedChapters.includes(id)))return;
+  if(G.phase!=='rescue')saveCheckpoint();
+  const saved=cont?G.adventures.herdRescue:null;
+  rescueStarting=true;pauseGame(true);initAudio();
+  ['#start','#finish','#rescueFinish','#chapters','#pause','#map','#log','#settings'].forEach(id=>screen(id,false));
+  configureChapter(1);resetWorld();
+  G.activeAdventure='herd-rescue';G.phase='rescue';G.trust=100;G.staminaMax=140;G.stamina=140;G.jumpPower=9.8;
+  G.playTime=saved?.playTime || 0;G.alexFollows=false;G.foalFreed=false;
+  storyWorld.groups.root.visible=false;herdTrail.visible=false;
+  alex.visible=foal.visible=herd.visible=branchGroup.visible=false;
+  apples.forEach(a=>a.visible=false);
+  rescue.start(saved);
+  cameraBlocks.splice(0,cameraBlocks.length,...obstacles,...cameraCanopies,...rescue.cameraObstacles);
+  const spawn=saved?.player || {x:RESCUE_LAYOUT.spawn[0],z:RESCUE_LAYOUT.spawn[1],heading:Math.PI/2};
+  P.heading=spawn.heading;resetTo(spawn.x,spawn.z);
+  $('#hud').classList.add('on');$('#btnSkipTutorial').hidden=true;joyLayout();
+  rescueStarting=false;rescueSaveTimer=0;pauseGame(false);updateTracker();saveCheckpoint();
+  const returnLine={watch:'Отряд ещё здесь. Присмотрюсь к лагерю.',roundup:'Отряд ловит лошадей. Нужно держаться рядом.',
+    captive:'Лошади в загоне. Надо открыть ворота.',escape:'Ворота открыты. Выведу табун к поляне.',complete:'Табун снова свободен.'};
+  say('Ветер',cont?returnLine[rescue.snapshot().stage]:'В долине чужой отряд. Что они задумали?');
+  hint(rescue.tracker().subtitle);
+}
+function finishRescue(){
+  saveCheckpoint();renderChapters();SFX.quest();
+  $('#hud').classList.remove('on');screen('#rescueFinish',true);pauseGame(true);
+}
+function onRescueEvent(event){
+  if(rescueStarting || G.phase!=='rescue')return;
+  if(event.type==='dialog')say(event.who,event.text);
+  if(event.type==='progress'){saveCheckpoint();updateTracker();}
+  if(event.type==='complete')finishRescue();
+}
 function toMenu(){
   saveCheckpoint(); pauseGame(true); $('#hud').classList.remove('on');
-  ['#pause','#map','#log','#settings','#finish','#chapters'].forEach(id=>screen(id,false));
+  ['#pause','#map','#log','#settings','#finish','#rescueFinish','#chapters'].forEach(id=>screen(id,false));
   screen('#start',true); $('#cine').classList.remove('on'); G.phase='menu'; renderChapters();
 }
 function finishTutorial(){
@@ -1097,6 +1180,15 @@ function drawMap(){
   g.clearRect(0,0,FW,FW);
   g.drawImage(off,0,0,FW,FW);
   const toPx = (x,z)=>[ (x/(2*R)+0.5)*FW, (z/(2*R)+0.5)*FW ];
+  if(G.phase==='rescue'){
+    g.strokeStyle='#f5df9a';g.lineWidth=3;g.setLineDash([7,5]);g.beginPath();
+    RESCUE_LAYOUT.route.forEach(([x,z],i)=>{const [mx,my]=toPx(x,z);i?g.lineTo(mx,my):g.moveTo(mx,my);});
+    g.stroke();g.setLineDash([]);
+    for(const [point,label] of [[RESCUE_LAYOUT.gate,'Лагерь'],[RESCUE_LAYOUT.refuge,'Свобода']]){
+      const [mx,my]=toPx(...point);g.fillStyle='#243e2b';g.fillRect(mx-5,my-5,10,10);
+      g.font='bold 15px sans-serif';g.fillText(label,mx+10,my-8);
+    }
+  }
   // цель
   const tp = questTarget();
   if(tp){ const [mx,my]=toPx(tp[0],tp[1]);
@@ -1182,7 +1274,8 @@ function updateWorld(dt){
   const galloping=IN.gallop || keys['ShiftLeft'] || keys['ShiftRight'];
   const mag = clamp(Math.hypot(mvx,mvy),0,1);
 
-  const canMove = !G.paused && (G.phase==='tutorial'||G.phase==='meet'||G.phase==='quests'||G.phase==='epilogue');
+  const canMove = !G.paused && ['tutorial','meet','quests','epilogue','rescue'].includes(G.phase);
+  const collisionObjects=G.phase==='rescue'?rescueObstacles:obstacles;
 
   /* --- скорость и направление --- */
   let target = 0;
@@ -1209,7 +1302,8 @@ function updateWorld(dt){
     }
   }
   if(canMove && S.easy && P.grounded && P.speed>5){
-    for(const o of obstacles){
+    for(const o of collisionObjects){
+      if(o.active===false)continue;
       const fx = P.x + Math.sin(P.heading)*3.2, fz = P.z + Math.cos(P.heading)*3.2;
       if(Math.hypot(fx-o.x, fz-o.z) < o.r+0.6){ P.vy=G.jumpPower; P.grounded=false; SFX.jump(); break; }
     }
@@ -1220,7 +1314,8 @@ function updateWorld(dt){
     const nx = P.x + Math.sin(P.heading)*P.speed*dt;
     const nz = P.z + Math.cos(P.heading)*P.speed*dt;
     let blocked=false;
-    for(const o of obstacles){
+    for(const o of collisionObjects){
+      if(o.active===false)continue;
       const d = Math.hypot(nx-o.x, nz-o.z);
       if(d < o.r+1.1 && P.y < o.top){ blocked=true; break; }
     }
@@ -1378,6 +1473,10 @@ function updateWorld(dt){
   camera.lookAt(cam.look);
 
   /* --- прогресс сценария --- */
+  if(G.phase==='rescue' && !G.paused){
+    rescue.update(dt,P);rescueSaveTimer+=dt;
+    if(rescueSaveTimer>=5){rescueSaveTimer=0;saveCheckpoint();}
+  }
   if(G.phase==='tutorial' && !G.paused){
     const st = TUT[G.tutStep];
     if(st && st.check()){
@@ -1486,9 +1585,12 @@ ring.rotation.x=-Math.PI/2; beacon.add(ring);
 const diamond=new THREE.Mesh(new THREE.OctahedronGeometry(.5),new THREE.MeshBasicMaterial({color:0xffde8b}));
 diamond.position.y=3.2; beacon.add(diamond);scene.add(beacon);
 function updateGuidance(){
-  const t=questTarget(); beacon.visible=!!t && !G.paused && ['meet','quests'].includes(G.phase);
+  const t=questTarget(); beacon.visible=!!t && !G.paused && ['meet','quests','rescue'].includes(G.phase);
   const el=$('#direction'); el.hidden=!beacon.visible;
   if(!beacon.visible) return;
+  // A nearby beacon can sit between the chase camera and Veter. Keep the ground
+  // ring and screen guidance, but leave the horse and roundup unobscured.
+  diamond.visible=G.phase!=='rescue' || Math.hypot(t[0]-P.x,t[1]-P.z)>=8;
   beacon.position.set(t[0],hAt(...t)+.15,t[1]);diamond.rotation.y=windU.value;
   diamond.position.y=3.1+Math.sin(windU.value*2)*.3;
   const angle=directionAngle(P.x,P.z,t[0],t[1],cam.yaw);
@@ -1498,6 +1600,8 @@ function updateGuidance(){
 if((import.meta.env.DEV || __TEST_MODE__) && ['localhost','127.0.0.1'].includes(location.hostname) && new URLSearchParams(location.search).has('qa')){
   window.__WILD_MUSTANG_TEST__={
     snapshot:()=>({phase:G.phase,chapter:G.chapter,quest:G.quest,tutStep:G.tutStep,
+      activeAdventure:G.activeAdventure,rescue:rescue.group.visible?rescue.snapshot():G.adventures.herdRescue,
+      rescueVisible:rescue.group.visible,
       trust:G.trust,apples:G.apples,freeProgress:G.freeProgress,foalFreed:G.foalFreed,
       position:{x:P.x,y:P.y,z:P.z},grounded:P.grounded,speed:P.speed,paused:G.paused,
       heading:P.heading,camera:{yaw:cam.yaw,pitch:cam.pitch,dist:cam.dist,
@@ -1517,7 +1621,7 @@ if((import.meta.env.DEV || __TEST_MODE__) && ['localhost','127.0.0.1'].includes(
     setInput:({x=0,y=0,gallop=false,jump=false})=>{IN.move.set(x,y);IN.gallop=gallop;IN.jump=jump;},
     cameraLook:()=>cam.manual=2,interact:doInteract,save:saveCheckpoint,
     finishCinematic:()=>cineT=CINE.length*4.2+3,
-    objects:()=>({alex:{x:alex.position.x,z:alex.position.z},apples:apples.map(a=>({x:a.userData.bx,z:a.userData.bz,taken:a.userData.taken})),quests:QUESTS.map(q=>({...q})),obstacles:obstacles.map(o=>({...o}))})
+    objects:()=>({alex:{x:alex.position.x,z:alex.position.z},apples:apples.map(a=>({x:a.userData.bx,z:a.userData.bz,taken:a.userData.taken})),quests:QUESTS.map(q=>({...q})),obstacles:(G.phase==='rescue'?rescueObstacles:obstacles).filter(o=>o.active!==false).map(o=>({...o})),rescue:{layout:RESCUE_LAYOUT}})
   };
 }
 
@@ -1526,6 +1630,8 @@ let cineRunDuration=2;
 const cast=attachCharacters({THREE,horse,foal,herd,alex});
 const companionScenes=createCompanionScenes({THREE,horse,foal,alex,herd,hAt,
   isSafeGoal:goal=>!obstacles.some(o=>Math.hypot(goal.x-o.x,goal.z-o.z)<o.r+goal.radius+.2 && goal.y<o.top)});
+const rescue=createHerdRescue({THREE,scene,hAt,normalAt,makeHorse,onEvent:onRescueEvent});
+const rescueObstacles=[...obstacles,...rescue.obstacles];
 function escortFrame(){
   return fordEscort(P,{foal,alex},{chapter:G.chapter,phase:G.phase,questId:QUESTS[G.quest]?.id,
     riverX,riverWidth,hAt,waterY:WATER_Y,isSafeGoal:goal=>!obstacles.some(o=>Math.hypot(goal.x-o.x,goal.z-o.z)<o.r+goal.radius+.2 && goal.y<o.top)});
@@ -1572,9 +1678,15 @@ function configureChapter(id){
 function renderChapters(){
   document.querySelectorAll('[data-chapter]').forEach(b=>{
     const id=+b.dataset.chapter,done=G.completedChapters.includes(id),unlocked=id===1||G.completedChapters.includes(id-1);
-    b.disabled=!unlocked;b.classList.toggle('done',done);b.classList.toggle('now',id===G.chapter);
+    b.disabled=!unlocked;b.classList.toggle('done',done);b.classList.toggle('now',id===G.chapter && G.activeAdventure!=='herd-rescue');
     b.querySelector('span').textContent=done?'Пройдено. Можно повторить.':unlocked?'Можно начать.':'Сначала пройди главу '+(id-1)+'.';
   });
+  const unlocked=[1,2,3].every(id=>G.completedChapters.includes(id));
+  const saved=G.adventures.herdRescue;
+  $('#btnRescue').disabled=!unlocked;$('#btnRescueStart').hidden=!unlocked;
+  $('#btnRescue').classList.toggle('done',saved?.stage==='complete');
+  $('#btnRescue').classList.toggle('now',G.activeAdventure==='herd-rescue');
+  $('#btnRescue span').textContent=!unlocked?'Откроется после третьей главы.':saved?.stage==='complete'?'Табун свободен. Можно повторить.':saved?'Продолжить спасение табуна.':'Капитан, лассо и дорога на волю.';
 }
 document.querySelectorAll('[data-chapter]').forEach(b=>b.onclick=()=>startGame(false,+b.dataset.chapter));
 function finishChapter(){
@@ -1594,6 +1706,7 @@ function finishChapter(){
   $('#btnNextChapter').hidden=G.chapter===3; $('#btnNextChapter').textContent=G.chapter===1?'К белым камням →':'К дальним горам →';
   $('#finishDetails').open=false;
   $('#btnEpilogue').hidden=G.chapter!==3; screen('#finish',true);G.phase='done';pauseGame(true);
+  $('#btnRescueFinish').hidden=G.chapter!==3;
   cam.dist=G.chapter===3?19:16;cam.pitch=.32;cameraLookPoint();
   cam.pos.copy(constrainCameraPosition(cam.look,followCameraPosition(P,cam.yaw,cam.pitch,cam.dist),hAt,cameraBlocks));
   camera.position.copy(cam.pos);camera.lookAt(cam.look);

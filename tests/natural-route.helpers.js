@@ -124,7 +124,7 @@ export async function followVisibleTrail(page, touches, point, options = {}) {
   }
 }
 
-export async function walkTrailPoint(page, touches, point, { tolerance = 2, timeout = 240_000, jumpOnBlock = false } = {}) {
+export async function walkTrailPoint(page, touches, point, { tolerance = 2, timeout = 240_000, jumpOnBlock = false, maxDeflection = .80, controlInterval = 250 } = {}) {
   const geometry = await touchGeometry(page), start = await observeRoute(page);
   const distance = current => Math.hypot(point[0] - current.position.x, point[1] - current.position.z);
   if (distance(start.current) <= tolerance) return;
@@ -133,10 +133,12 @@ export async function walkTrailPoint(page, touches, point, { tolerance = 2, time
   let jumpAttempt = null;
   const began = Date.now();
   let nextReport = began + 15_000;
+  let previousObservation = began;
   try {
     while (Date.now() - began < timeout) {
       const { current, objects, yaw } = await observeRoute(page);
       const d = distance(current);
+      const heading = Math.atan2(point[0] - current.position.x, point[1] - current.position.z);
       if (d <= tolerance || ['cine', 'done'].includes(current.phase)) return;
       if (jumpAttempt) jumpAttempt.peakRise = Math.max(jumpAttempt.peakRise, current.position.y - jumpAttempt.startY);
       if (Date.now() >= nextReport) {
@@ -144,7 +146,10 @@ export async function walkTrailPoint(page, touches, point, { tolerance = 2, time
         nextReport = Date.now() + 15_000;
       }
       if (d < best - .2) { best = d; lastProgress = Date.now(); }
-      samples.push({ x: current.position.x, z: current.position.z, speed: current.speed, d });
+      const observedAt = Date.now();
+      samples.push({ x: current.position.x, z: current.position.z, speed: current.speed, d,
+        heading: current.heading, yaw, desiredHeading: heading, cycleMs: observedAt - previousObservation });
+      previousObservation = observedAt;
       if (samples.length > 10) samples.shift();
       if (Date.now() - lastProgress > 35_000) {
         throw new Error(`Natural trail movement stalled towards ${point}: ${JSON.stringify({ samples, jumpAttempt })}`);
@@ -159,17 +164,16 @@ export async function walkTrailPoint(page, touches, point, { tolerance = 2, time
       }
       expect(current.paused, 'Route unexpectedly paused').toBe(false);
       expect(Number.isFinite(yaw), 'Camera yaw observable from public guidance').toBe(true);
-      const heading = Math.atan2(point[0] - current.position.x, point[1] - current.position.z);
       const relative = heading - yaw - Math.PI;
       // Walk gently into interactions; trot on the authored trail. Turning and
       // all acceleration/obstacle/water behavior remain the real game's physics.
       const turning = current.heading === undefined ? 0 : Math.abs(Math.atan2(Math.sin(heading - current.heading), Math.cos(heading - current.heading)));
       const nearObstacle = objects.obstacles?.some(o => Math.hypot(current.position.x - o.x, current.position.z - o.z) - o.r < 3);
-      const deflection = turning > .45 ? .15 : d < 5 || nearObstacle ? .28 : .80;
+      const deflection = Math.min(maxDeflection, turning > .45 ? .15 : d < 5 || nearObstacle ? .28 : .80);
       await touches.move(1,
         geometry.x - Math.sin(relative) * geometry.radius * deflection,
         geometry.y - Math.cos(relative) * geometry.radius * deflection);
-      await page.waitForTimeout(250);
+      await page.waitForTimeout(controlInterval);
     }
     throw new Error(`Timed out walking to ${point}; last observation: ${JSON.stringify(await observeRoute(page))}`);
   } finally {

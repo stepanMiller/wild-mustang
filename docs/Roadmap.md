@@ -1,5 +1,40 @@
 # Wild Mustang production status, 13 October 2026
 
+## 2026-11-28: hero appearance and the herd rescue adventure
+
+Current update status: implemented on `feat/luka-herd-rescue`, based on main
+`a8301eb`. Final-head CI and publication of this update are pending. Earlier
+dated results below remain the historical record of the published game.
+
+- [x] Remove the hero's white coat markings, add a dark forelock beside and below
+  the horse's left eye, a muzzle line and a dorsal stripe. Preserve the existing
+  rig and animations, and apply the new appearance to the playable fallback.
+- [x] Add the repeatable bonus adventure "Спасти табун", unlocked after all three
+  story chapters. A captain and two mounted cavalrymen autonomously catch three
+  wild horses with visible lassos and lead them into a corral. The player opens
+  the gate and leads the horses to a safe meadow. Holstered cowboy revolvers are
+  part of the cavalry artwork.
+- [x] Keep the original story checkpoint and completed chapters separate from
+  bonus progress. Save version 3 migrates legacy and version 2 saves; invalid
+  optional-adventure data does not discard valid main-story progress.
+- [x] Verify the integrated full unit suite at 75/75, including the adventure and
+  persistence suites at 15/15 with the gate stopping-distance regression.
+- [x] Pass both focused browser scenarios in Chromium desktop, 2/2, and Chromium
+  iPad emulation, 2/2, including autonomous capture, pause, two reloads, release,
+  completion, replay and return to chapter one.
+- [x] Complete the natural touch route through the bonus adventure, 1/1 in
+  1.8 minutes, with actual browser touch movement and gate interaction. Preserve
+  screenshots, a silent recording and source hashes in the evidence directory.
+- [ ] Run the full browser matrix, including WebKit, on the final commit.
+- [ ] Record the merged commit, successful Pages deployment and public game check.
+- [ ] Verify the new appearance, complete bonus episode and sustained performance
+  on physical iPad Safari. Record an independent Luka playthrough separately.
+
+See `docs/QA.md` for the exact scope and limitations of the local checks. Physical
+iPad, hardware FPS and independent child-comprehension gates remain open.
+
+## Earlier production record, 13 October 2026
+
 The original browser world is preserved. Unity and English Loop are unchanged. The three-chapter release candidate is implemented and built, with licensed animated characters and a complete reunion. A physical iPad and independent child playthrough remain release gates.
 
 ## November 2026 landscape upgrade

@@ -1,0 +1,1110 @@
+{
+  "errors": [],
+  "evidence": [
+    {
+      "name": "touch-visible-capture",
+      "snapshot": {
+        "phase": "rescue",
+        "chapter": 1,
+        "quest": 0,
+        "tutStep": 0,
+        "activeAdventure": "herd-rescue",
+        "rescue": {
+          "version": 1,
+          "stage": "roundup",
+          "elapsed": 9.994600000000556,
+          "stageTime": 6.467833333333643,
+          "gateOpen": true,
+          "horses": [
+            {
+              "id": 0,
+              "state": "caught",
+              "x": 71.91015429668082,
+              "z": 33.321549192731645,
+              "heading": -2.547040283811633,
+              "guard": 0,
+              "routeIndex": 0
+            },
+            {
+              "id": 1,
+              "state": "caught",
+              "x": 81.98817155877961,
+              "z": 37.79574081522571,
+              "heading": -2.0290378272558427,
+              "guard": 1,
+              "routeIndex": 0
+            },
+            {
+              "id": 2,
+              "state": "grazing",
+              "x": 85,
+              "z": 27,
+              "heading": 0.6500000000000001,
+              "guard": -1,
+              "routeIndex": 0
+            }
+          ],
+          "guards": [
+            {
+              "id": 0,
+              "x": 71.20278985300737,
+              "z": 27.27982080953374,
+              "heading": 3.051217264892241,
+              "mode": "escort",
+              "target": 0,
+              "clock": 1.1522000000001862,
+              "routeIndex": 0
+            },
+            {
+              "id": 1,
+              "x": 78.20975439072643,
+              "z": 32.60463222379578,
+              "heading": 3.537496650812117,
+              "mode": "escort",
+              "target": 1,
+              "clock": 0.4793333333336438,
+              "routeIndex": 0
+            }
+          ],
+          "capturedCount": 2,
+          "safeCount": 0,
+          "complete": false,
+          "ropes": [
+            {
+              "visible": true,
+              "from": {
+                "x": 70.8981109509154,
+                "y": 12.528669650166396,
+                "z": 26.70344170220093
+              },
+              "to": {
+                "x": 71.20998180410642,
+                "y": 12.062870949485719,
+                "z": 32.28605004708151
+              },
+              "horse": 0,
+              "mode": "escort"
+            },
+            {
+              "visible": true,
+              "from": {
+                "x": 77.67102964070318,
+                "y": 11.556081353085585,
+                "z": 32.23745685362219
+              },
+              "to": {
+                "x": 80.86713181599939,
+                "y": 10.610418353911697,
+                "z": 37.242776173401985
+              },
+              "horse": 1,
+              "mode": "escort"
+            }
+          ]
+        },
+        "rescueVisible": true,
+        "trust": 100,
+        "apples": 0,
+        "freeProgress": 0,
+        "foalFreed": false,
+        "position": {
+          "x": 60.076616388923185,
+          "y": 11.605687336388659,
+          "z": 31.926622553495374
+        },
+        "grounded": true,
+        "speed": 1.1722329609200495e-12,
+        "paused": false,
+        "heading": 1.5799366702572837,
+        "camera": {
+          "yaw": 5.345917814276249,
+          "pitch": 0.22,
+          "dist": 11.5,
+          "position": {
+            "x": 51.031657159675476,
+            "y": 18.3153280018189,
+            "z": 38.5704479780299
+          },
+          "look": {
+            "x": 60.076616388923185,
+            "y": 14.00568733638866,
+            "z": 31.926622553495374
+          }
+        },
+        "characters": {
+          "horse": "rigged",
+          "foal": "rigged",
+          "herd": "rigged",
+          "alex": "rigged",
+          "error": null
+        },
+        "gaits": [
+          "Idle",
+          "Idle",
+          "Eating",
+          "Eating",
+          "Eating",
+          "Eating",
+          "Eating"
+        ],
+        "world": {
+          "rescuePieces": 10,
+          "heroUp": [
+            0.14668160810950556,
+            0.9887111592915392,
+            -0.03057367061362458
+          ],
+          "terrainUp": [
+            0.1466816081331598,
+            0.988711159287734,
+            -0.030573670623185462
+          ]
+        },
+        "inputs": {
+          "x": 0,
+          "y": 0,
+          "gallop": false,
+          "jump": false
+        },
+        "completedChapters": [
+          1,
+          2,
+          3
+        ],
+        "audio": {
+          "ready": true,
+          "paused": false,
+          "context": "running",
+          "sampleRate": 44100,
+          "cue": null,
+          "pendingCue": null,
+          "cueDuration": 0,
+          "cueStarts": 0,
+          "effectStarts": 0,
+          "streamStarts": 0,
+          "decodeCount": 7,
+          "lastEffect": null,
+          "voiceCacheEntries": 0,
+          "voiceCacheBytes": 0,
+          "effectCacheEntries": 7,
+          "effectCacheBytes": 764232,
+          "activeEffects": 0,
+          "musicDucked": false,
+          "settings": {
+            "music": 0,
+            "sfx": 0,
+            "voice": false,
+            "camSens": 1,
+            "hints": true,
+            "subs": true,
+            "easy": false,
+            "quality": 1
+          },
+          "environment": {
+            "chapter": 1,
+            "creek": 0,
+            "movement": 9.768608007667079e-14
+          },
+          "streams": {
+            "wind": {
+              "playing": false,
+              "level": 0,
+              "time": 0,
+              "readyState": 4
+            },
+            "forest": {
+              "playing": false,
+              "level": 0,
+              "time": 0,
+              "readyState": 4
+            },
+            "bird": {
+              "playing": false,
+              "level": 0,
+              "time": 0,
+              "readyState": 4
+            },
+            "creek": {
+              "playing": false,
+              "level": 0,
+              "time": 0,
+              "readyState": 4
+            },
+            "music": {
+              "playing": false,
+              "level": 0,
+              "time": 0,
+              "readyState": 4
+            }
+          },
+          "unavailable": []
+        },
+        "presentation": null,
+        "companions": {
+          "foal": {
+            "x": -52,
+            "z": -36,
+            "animation": "Idle"
+          },
+          "alex": {
+            "x": 13,
+            "z": 10,
+            "animation": "Idle"
+          },
+          "herd": [
+            {
+              "x": -95,
+              "z": -95,
+              "role": "parent"
+            },
+            {
+              "x": -97,
+              "z": -98,
+              "role": "member"
+            },
+            {
+              "x": -99,
+              "z": -101,
+              "role": "member"
+            },
+            {
+              "x": -101,
+              "z": -104,
+              "role": "member"
+            },
+            {
+              "x": -103,
+              "z": -107,
+              "role": "member"
+            }
+          ]
+        },
+        "render": {
+          "calls": 47,
+          "triangles": 120164
+        },
+        "settings": {
+          "music": 0,
+          "sfx": 0,
+          "camSens": 1,
+          "hints": true,
+          "subs": true,
+          "voice": false,
+          "easy": false,
+          "quality": 0
+        }
+      }
+    },
+    {
+      "name": "touch-closed-corral",
+      "snapshot": {
+        "phase": "rescue",
+        "chapter": 1,
+        "quest": 0,
+        "tutStep": 0,
+        "activeAdventure": "herd-rescue",
+        "rescue": {
+          "version": 1,
+          "stage": "captive",
+          "elapsed": 63.33520000000003,
+          "stageTime": 14.495266666666295,
+          "gateOpen": false,
+          "horses": [
+            {
+              "id": 0,
+              "state": "corral",
+              "x": 57.38887593147028,
+              "z": 9.687168999714972,
+              "heading": -2.6266165274445905,
+              "guard": -1,
+              "routeIndex": 0
+            },
+            {
+              "id": 1,
+              "state": "corral",
+              "x": 61.26023564161962,
+              "z": 8.840944679195804,
+              "heading": -2.8414832052252805,
+              "guard": -1,
+              "routeIndex": 0
+            },
+            {
+              "id": 2,
+              "state": "corral",
+              "x": 64.32575018026874,
+              "z": 10.406761343029975,
+              "heading": -4.169561290531177,
+              "guard": -1,
+              "routeIndex": 0
+            }
+          ],
+          "guards": [
+            {
+              "id": 0,
+              "x": 55.100682300997875,
+              "z": 23.951917644210535,
+              "heading": -1.1252545366692277,
+              "mode": "waiting",
+              "target": -1,
+              "clock": 0,
+              "routeIndex": 0
+            },
+            {
+              "id": 1,
+              "x": 66.87456209309225,
+              "z": 23.944249819152112,
+              "heading": 1.1525688036799797,
+              "mode": "waiting",
+              "target": -1,
+              "clock": 22.702533333333527,
+              "routeIndex": 0
+            }
+          ],
+          "capturedCount": 3,
+          "safeCount": 0,
+          "complete": false,
+          "ropes": [
+            {
+              "visible": false
+            },
+            {
+              "visible": false
+            }
+          ]
+        },
+        "rescueVisible": true,
+        "trust": 100,
+        "apples": 0,
+        "freeProgress": 0,
+        "foalFreed": false,
+        "position": {
+          "x": 61.3074628080967,
+          "y": 11.333719857549141,
+          "z": 20.59781787229916
+        },
+        "grounded": true,
+        "speed": 0.0004461241452948173,
+        "paused": false,
+        "heading": 0.557005149488623,
+        "camera": {
+          "yaw": 6.17689884061362,
+          "pitch": 0.22,
+          "dist": 11.5,
+          "position": {
+            "x": 60.11677543335256,
+            "y": 18.04344692371826,
+            "z": 31.75751871187762
+          },
+          "look": {
+            "x": 61.3074628080967,
+            "y": 13.733719857549142,
+            "z": 20.59781787229916
+          }
+        },
+        "characters": {
+          "horse": "rigged",
+          "foal": "rigged",
+          "herd": "rigged",
+          "alex": "rigged",
+          "error": null
+        },
+        "gaits": [
+          "Idle_2",
+          "Idle",
+          "Eating",
+          "Eating",
+          "Eating",
+          "Eating",
+          "Eating"
+        ],
+        "world": {
+          "rescuePieces": 10,
+          "heroUp": [
+            0.16724138937072863,
+            0.9857281253805835,
+            0.01924527253717362
+          ],
+          "terrainUp": [
+            0.1672414221191018,
+            0.9857281262300022,
+            0.019244944444433414
+          ]
+        },
+        "inputs": {
+          "x": 0,
+          "y": 0,
+          "gallop": false,
+          "jump": false
+        },
+        "completedChapters": [
+          1,
+          2,
+          3
+        ],
+        "audio": {
+          "ready": true,
+          "paused": false,
+          "context": "running",
+          "sampleRate": 44100,
+          "cue": null,
+          "pendingCue": null,
+          "cueDuration": 0,
+          "cueStarts": 0,
+          "effectStarts": 0,
+          "streamStarts": 0,
+          "decodeCount": 7,
+          "lastEffect": null,
+          "voiceCacheEntries": 0,
+          "voiceCacheBytes": 0,
+          "effectCacheEntries": 7,
+          "effectCacheBytes": 764232,
+          "activeEffects": 0,
+          "musicDucked": false,
+          "settings": {
+            "music": 0,
+            "sfx": 0,
+            "voice": false,
+            "camSens": 1,
+            "hints": true,
+            "subs": true,
+            "easy": false,
+            "quality": 1
+          },
+          "environment": {
+            "chapter": 1,
+            "creek": 0,
+            "movement": 0.00003717701210790144
+          },
+          "streams": {
+            "wind": {
+              "playing": false,
+              "level": 0,
+              "time": 0,
+              "readyState": 4
+            },
+            "forest": {
+              "playing": false,
+              "level": 0,
+              "time": 0,
+              "readyState": 4
+            },
+            "bird": {
+              "playing": false,
+              "level": 0,
+              "time": 0,
+              "readyState": 4
+            },
+            "creek": {
+              "playing": false,
+              "level": 0,
+              "time": 0,
+              "readyState": 4
+            },
+            "music": {
+              "playing": false,
+              "level": 0,
+              "time": 0,
+              "readyState": 4
+            }
+          },
+          "unavailable": []
+        },
+        "presentation": null,
+        "companions": {
+          "foal": {
+            "x": -52,
+            "z": -36,
+            "animation": "Idle"
+          },
+          "alex": {
+            "x": 13,
+            "z": 10,
+            "animation": "Idle"
+          },
+          "herd": [
+            {
+              "x": -95,
+              "z": -95,
+              "role": "parent"
+            },
+            {
+              "x": -97,
+              "z": -98,
+              "role": "member"
+            },
+            {
+              "x": -99,
+              "z": -101,
+              "role": "member"
+            },
+            {
+              "x": -101,
+              "z": -104,
+              "role": "member"
+            },
+            {
+              "x": -103,
+              "z": -107,
+              "role": "member"
+            }
+          ]
+        },
+        "action": "Открыть загон",
+        "render": {
+          "calls": 62,
+          "triangles": 125345
+        },
+        "settings": {
+          "music": 0,
+          "sfx": 0,
+          "camSens": 1,
+          "hints": true,
+          "subs": true,
+          "voice": false,
+          "easy": false,
+          "quality": 0
+        }
+      }
+    },
+    {
+      "name": "touch-open-gate",
+      "snapshot": {
+        "phase": "rescue",
+        "chapter": 1,
+        "quest": 0,
+        "tutStep": 0,
+        "activeAdventure": "herd-rescue",
+        "rescue": {
+          "version": 1,
+          "stage": "escape",
+          "elapsed": 66.94479999999963,
+          "stageTime": 1.463899999999442,
+          "gateOpen": true,
+          "horses": [
+            {
+              "id": 0,
+              "state": "following",
+              "x": 58.62346116380445,
+              "z": 15.111260228342926,
+              "heading": 0.2237985053516163,
+              "guard": -1,
+              "routeIndex": 0
+            },
+            {
+              "id": 1,
+              "state": "following",
+              "x": 61.136101780335636,
+              "z": 14.402379488384804,
+              "heading": -0.022316918513438495,
+              "guard": -1,
+              "routeIndex": 0
+            },
+            {
+              "id": 2,
+              "state": "following",
+              "x": 63.153526607587516,
+              "z": 15.844670706749351,
+              "heading": -6.495501430016454,
+              "guard": -1,
+              "routeIndex": 0
+            }
+          ],
+          "guards": [
+            {
+              "id": 0,
+              "x": 55.100682300997875,
+              "z": 23.951917644210535,
+              "heading": -1.1252545366692277,
+              "mode": "waiting",
+              "target": -1,
+              "clock": 0,
+              "routeIndex": 0
+            },
+            {
+              "id": 1,
+              "x": 66.87456209309225,
+              "z": 23.944249819152112,
+              "heading": 1.1525688036799797,
+              "mode": "waiting",
+              "target": -1,
+              "clock": 0,
+              "routeIndex": 0
+            }
+          ],
+          "capturedCount": 3,
+          "safeCount": 0,
+          "complete": false,
+          "ropes": [
+            {
+              "visible": false
+            },
+            {
+              "visible": false
+            }
+          ]
+        },
+        "rescueVisible": true,
+        "trust": 100,
+        "apples": 0,
+        "freeProgress": 0,
+        "foalFreed": false,
+        "position": {
+          "x": 61.30749969711768,
+          "y": 11.3337105161524,
+          "z": 20.597877104621944
+        },
+        "grounded": true,
+        "speed": 6.434715290140729e-13,
+        "paused": false,
+        "heading": 0.557005149488623,
+        "camera": {
+          "yaw": 6.17689884061362,
+          "pitch": 0.22,
+          "dist": 11.5,
+          "position": {
+            "x": 60.11691034561621,
+            "y": 18.043351181582526,
+            "z": 31.757366372797197
+          },
+          "look": {
+            "x": 61.30749969711768,
+            "y": 13.733710516152401,
+            "z": 20.597877104621944
+          }
+        },
+        "characters": {
+          "horse": "rigged",
+          "foal": "rigged",
+          "herd": "rigged",
+          "alex": "rigged",
+          "error": null
+        },
+        "gaits": [
+          "Idle",
+          "Idle",
+          "Eating",
+          "Eating",
+          "Eating",
+          "Eating",
+          "Eating"
+        ],
+        "world": {
+          "rescuePieces": 10,
+          "heroUp": [
+            0.16724144847030958,
+            0.9857281269160572,
+            0.019244680306909144
+          ],
+          "terrainUp": [
+            0.1672414510620006,
+            0.9857281269835182,
+            0.019244654328969574
+          ]
+        },
+        "inputs": {
+          "x": 0,
+          "y": 0,
+          "gallop": false,
+          "jump": false
+        },
+        "completedChapters": [
+          1,
+          2,
+          3
+        ],
+        "audio": {
+          "ready": true,
+          "paused": false,
+          "context": "running",
+          "sampleRate": 44100,
+          "cue": null,
+          "pendingCue": null,
+          "cueDuration": 0,
+          "cueStarts": 0,
+          "effectStarts": 0,
+          "streamStarts": 0,
+          "decodeCount": 7,
+          "lastEffect": null,
+          "voiceCacheEntries": 0,
+          "voiceCacheBytes": 0,
+          "effectCacheEntries": 7,
+          "effectCacheBytes": 764232,
+          "activeEffects": 0,
+          "musicDucked": false,
+          "settings": {
+            "music": 0,
+            "sfx": 0,
+            "voice": false,
+            "camSens": 1,
+            "hints": true,
+            "subs": true,
+            "easy": false,
+            "quality": 1
+          },
+          "environment": {
+            "chapter": 1,
+            "creek": 0,
+            "movement": 5.362262741783941e-14
+          },
+          "streams": {
+            "wind": {
+              "playing": false,
+              "level": 0,
+              "time": 0,
+              "readyState": 4
+            },
+            "forest": {
+              "playing": false,
+              "level": 0,
+              "time": 0,
+              "readyState": 4
+            },
+            "bird": {
+              "playing": false,
+              "level": 0,
+              "time": 0,
+              "readyState": 4
+            },
+            "creek": {
+              "playing": false,
+              "level": 0,
+              "time": 0,
+              "readyState": 4
+            },
+            "music": {
+              "playing": false,
+              "level": 0,
+              "time": 0,
+              "readyState": 4
+            }
+          },
+          "unavailable": []
+        },
+        "presentation": null,
+        "companions": {
+          "foal": {
+            "x": -52,
+            "z": -36,
+            "animation": "Idle"
+          },
+          "alex": {
+            "x": 13,
+            "z": 10,
+            "animation": "Idle"
+          },
+          "herd": [
+            {
+              "x": -95,
+              "z": -95,
+              "role": "parent"
+            },
+            {
+              "x": -97,
+              "z": -98,
+              "role": "member"
+            },
+            {
+              "x": -99,
+              "z": -101,
+              "role": "member"
+            },
+            {
+              "x": -101,
+              "z": -104,
+              "role": "member"
+            },
+            {
+              "x": -103,
+              "z": -107,
+              "role": "member"
+            }
+          ]
+        },
+        "render": {
+          "calls": 52,
+          "triangles": 125218
+        },
+        "settings": {
+          "music": 0,
+          "sfx": 0,
+          "camSens": 1,
+          "hints": true,
+          "subs": true,
+          "voice": false,
+          "easy": false,
+          "quality": 0
+        }
+      }
+    },
+    {
+      "name": "touch-free-herd",
+      "snapshot": {
+        "phase": "rescue",
+        "chapter": 1,
+        "quest": 0,
+        "tutStep": 0,
+        "activeAdventure": "herd-rescue",
+        "rescue": {
+          "version": 1,
+          "stage": "complete",
+          "elapsed": 98.66239999999966,
+          "stageTime": 0,
+          "gateOpen": true,
+          "horses": [
+            {
+              "id": 0,
+              "state": "safe",
+              "x": 80.94663755812383,
+              "z": 58.992992494451975,
+              "heading": 0.3367414724635311,
+              "guard": -1,
+              "routeIndex": 1
+            },
+            {
+              "id": 1,
+              "state": "safe",
+              "x": 81.7362743489382,
+              "z": 58.68392048076648,
+              "heading": 0.33734866628961757,
+              "guard": -1,
+              "routeIndex": 1
+            },
+            {
+              "id": 2,
+              "state": "safe",
+              "x": 82.53808405565651,
+              "z": 58.4117446001924,
+              "heading": -5.944318462044882,
+              "guard": -1,
+              "routeIndex": 1
+            }
+          ],
+          "guards": [
+            {
+              "id": 0,
+              "x": 55.100682300997875,
+              "z": 23.951917644210535,
+              "heading": -1.1252545366692277,
+              "mode": "waiting",
+              "target": -1,
+              "clock": 0,
+              "routeIndex": 0
+            },
+            {
+              "id": 1,
+              "x": 66.87456209309225,
+              "z": 23.944249819152112,
+              "heading": 1.1525688036799797,
+              "mode": "waiting",
+              "target": -1,
+              "clock": 0,
+              "routeIndex": 0
+            }
+          ],
+          "capturedCount": 3,
+          "safeCount": 3,
+          "complete": true,
+          "ropes": [
+            {
+              "visible": false
+            },
+            {
+              "visible": false
+            }
+          ]
+        },
+        "rescueVisible": true,
+        "trust": 100,
+        "apples": 0,
+        "freeProgress": 0,
+        "foalFreed": false,
+        "position": {
+          "x": 85.47361310602189,
+          "y": 6.259293282397037,
+          "z": 67.81996031643668
+        },
+        "grounded": true,
+        "speed": 0.12670301646471838,
+        "paused": true,
+        "heading": -0.12422522305717475,
+        "camera": {
+          "yaw": 3.5056895408651436,
+          "pitch": 0.22,
+          "dist": 11.5,
+          "position": {
+            "x": 81.44762608462422,
+            "y": 12.987076053250766,
+            "z": 57.24048101539566
+          },
+          "look": {
+            "x": 85.47361310602189,
+            "y": 8.659293282397037,
+            "z": 67.81996031643668
+          }
+        },
+        "characters": {
+          "horse": "rigged",
+          "foal": "rigged",
+          "herd": "rigged",
+          "alex": "rigged",
+          "error": null
+        },
+        "gaits": [
+          "Idle_2",
+          "Idle",
+          "Eating",
+          "Eating",
+          "Eating",
+          "Eating",
+          "Eating"
+        ],
+        "world": {
+          "rescuePieces": 10,
+          "heroUp": [
+            0.22624142519825974,
+            0.971510096402199,
+            0.07059001425732807
+          ],
+          "terrainUp": [
+            0.2262944434945026,
+            0.9715037742592897,
+            0.07050703116334033
+          ]
+        },
+        "inputs": {
+          "x": 0,
+          "y": 0,
+          "gallop": false,
+          "jump": false
+        },
+        "completedChapters": [
+          1,
+          2,
+          3
+        ],
+        "audio": {
+          "ready": true,
+          "paused": true,
+          "context": "suspended",
+          "sampleRate": 44100,
+          "cue": null,
+          "pendingCue": null,
+          "cueDuration": 0,
+          "cueStarts": 0,
+          "effectStarts": 0,
+          "streamStarts": 0,
+          "decodeCount": 7,
+          "lastEffect": null,
+          "voiceCacheEntries": 0,
+          "voiceCacheBytes": 0,
+          "effectCacheEntries": 7,
+          "effectCacheBytes": 764232,
+          "activeEffects": 0,
+          "musicDucked": false,
+          "settings": {
+            "music": 0,
+            "sfx": 0,
+            "voice": false,
+            "camSens": 1,
+            "hints": true,
+            "subs": true,
+            "easy": false,
+            "quality": 1
+          },
+          "environment": {
+            "chapter": 1,
+            "creek": 0,
+            "movement": 0.010558584705393198
+          },
+          "streams": {
+            "wind": {
+              "playing": false,
+              "level": 0,
+              "time": 0,
+              "readyState": 4
+            },
+            "forest": {
+              "playing": false,
+              "level": 0,
+              "time": 0,
+              "readyState": 4
+            },
+            "bird": {
+              "playing": false,
+              "level": 0,
+              "time": 0,
+              "readyState": 4
+            },
+            "creek": {
+              "playing": false,
+              "level": 0,
+              "time": 0,
+              "readyState": 4
+            },
+            "music": {
+              "playing": false,
+              "level": 0,
+              "time": 0,
+              "readyState": 4
+            }
+          },
+          "unavailable": []
+        },
+        "presentation": null,
+        "companions": {
+          "foal": {
+            "x": -52,
+            "z": -36,
+            "animation": "Idle"
+          },
+          "alex": {
+            "x": 13,
+            "z": 10,
+            "animation": "Idle"
+          },
+          "herd": [
+            {
+              "x": -95,
+              "z": -95,
+              "role": "parent"
+            },
+            {
+              "x": -97,
+              "z": -98,
+              "role": "member"
+            },
+            {
+              "x": -99,
+              "z": -101,
+              "role": "member"
+            },
+            {
+              "x": -101,
+              "z": -104,
+              "role": "member"
+            },
+            {
+              "x": -103,
+              "z": -107,
+              "role": "member"
+            }
+          ]
+        },
+        "render": {
+          "calls": 24,
+          "triangles": 104186
+        },
+        "settings": {
+          "music": 0,
+          "sfx": 0,
+          "camSens": 1,
+          "hints": true,
+          "subs": true,
+          "voice": false,
+          "easy": false,
+          "quality": 0
+        }
+      }
+    }
+  ]
+}

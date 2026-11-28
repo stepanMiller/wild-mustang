@@ -1,4 +1,49 @@
-# Ветер прерий, 1.0.0-rc.1
+# Ветер прерий, 1.0.0-rc.2
+
+## 2026-11-28 update candidate: new hero and "Спасти табун"
+
+Status: implementation and focused local QA are complete. The final source
+commit, full cross-engine CI, merge and publication of this update are pending.
+The previous dated publication record is preserved below.
+
+The hero now has a coat without white markings, a dark forelock beside and below
+his left eye, a black muzzle line and a dorsal stripe. The existing rig,
+locomotion and playable fallback are retained.
+
+The new repeatable adventure "Спасти табун" becomes available after the three
+main chapters, including for existing saves that have already reached the ending.
+A captain commands two mounted cavalrymen, who independently catch three wild
+horses with animated lassos and bring them into a corral. Their artwork includes
+holstered cowboy revolvers. Ветер opens the gate, leads the horses to a quiet
+meadow and can then roam with the rescued herd or replay the adventure.
+
+Save version 3 preserves the original main-story checkpoint and completed
+chapters while storing the bonus episode separately. Legacy and version 2 saves
+migrate. Invalid optional-adventure data is discarded without losing valid
+main-story progress.
+
+Local validation recorded 75/75 unit checks on the final integrated source,
+including 15/15 adventure and persistence checks, and 2/2 focused
+browser scenarios in each of Chromium desktop and Chromium iPad emulation.
+Those browser scenarios cover autonomous capture, pause, save/reload during
+capture and escape, release, completion, replay and return to the original story.
+Those focused scenarios use a QA-only hero waypoint helper. A separate natural
+touch route also passed, using actual browser touch input from the camp to the
+completed rescue without hero teleports. Its silent screen recording and
+screenshots are retained with source hashes. See `docs/QA.md` for exact scope.
+
+Release record to complete after the remaining checks:
+
+- Final commit and full CI, including WebKit: pending.
+- Natural bonus touch route: passed, 1/1 in 1.8 minutes on Chromium iPad emulation.
+- Merged commit, successful Pages run and public game verification: pending.
+- Physical iPad Safari, sustained hardware FPS and independent Luka playthrough:
+  not verified for this update.
+
+The game remains a release candidate until the existing physical-device and
+independent-play gates are documented.
+
+## Published candidate, 13 October 2026
 
 Release candidate published and verified 13 October 2026. All three story chapters are implemented, with animated in-engine characters, a family reunion, free-wander epilogue, chapter replay and versioned local saves. Play at https://stepanmiller.github.io/wild-mustang/.
 
