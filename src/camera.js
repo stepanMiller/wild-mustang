@@ -61,7 +61,10 @@ export function constrainCameraPosition(look, candidate, terrain, obstacles = []
   if (length < 1e-8) return endpoint;
 
   let limit = 1;
-  for (const obstacle of obstacles) limit = Math.min(limit, obstacleEntry(look, delta, obstacle));
+  for (const obstacle of obstacles) {
+    if (obstacle.active === false) continue;
+    limit = Math.min(limit, obstacleEntry(look, delta, obstacle));
+  }
 
   const blocked = t => terrain(look.x + delta.x * t, look.z + delta.z * t) + CAMERA_RADIUS > look.y + delta.y * t;
   const steps = Math.max(1, Math.ceil(Math.hypot(delta.x, delta.z) / TERRAIN_STEP));
@@ -97,7 +100,7 @@ export function constrainCameraPosition(look, candidate, terrain, obstacles = []
       const raisedDelta = { x: position.x - look.x, y: raisedY - look.y, z: position.z - look.z };
       // Canopies have an underside: raising a clear view beneath one can put
       // the lens back inside its leaves. Keep the clear lower pose in that case.
-      const entersCanopy = obstacles.some(obstacle => Number.isFinite(obstacle.bottom) && obstacleEntry(look, raisedDelta, obstacle) < 1);
+      const entersCanopy = obstacles.some(obstacle => obstacle.active !== false && Number.isFinite(obstacle.bottom) && obstacleEntry(look, raisedDelta, obstacle) < 1);
       if (!entersCanopy) position.y = raisedY;
     }
   }

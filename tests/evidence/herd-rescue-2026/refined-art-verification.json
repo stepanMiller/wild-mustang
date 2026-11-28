@@ -1,0 +1,9 @@
+{
+  "errors": [],
+  "stage": "roundup",
+  "render": {
+    "calls": 18,
+    "triangles": 104144
+  },
+  "notes": "Live Chromium localhost preview. Normal checkpoint resumed for visual review; only hero position/camera changed. Refuge uses shared crownGeometry."
+}

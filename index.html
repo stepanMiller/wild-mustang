@@ -212,7 +212,14 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:32px;heigh
 .panel{max-height:calc(100vh - 40px);max-height:calc(100dvh - 40px);overflow:auto;touch-action:pan-y;}
 @media(orientation:portrait){#orientation{display:flex;}}
 @media(max-height:600px){#gauges{width:160px;}#chapterTag{font-size:13px;}#topRight{gap:6px;}#topRight .btn{width:48px;height:48px;}#tracker{width:190px;top:calc(var(--safe-t) + 114px);padding:7px 10px;}#tracker p{font-size:13px;}#tracker span{font-size:11px;}#hint{font-size:13px;padding:7px 12px;max-width:53vw;top:calc(var(--safe-t) + 52px);}#direction{top:calc(var(--safe-t) + 60px);}#joyBase{width:120px;height:120px;left:var(--safe-l);bottom:var(--safe-b);}#actions{transform:scale(.8);transform-origin:bottom right;}#dialog{width:48vw;padding:9px 14px;font-size:13px;bottom:var(--safe-b);}#startInner{padding-top:12px;}#title{font-size:56px;}#tagline{font-size:13px;margin:10px 0;}#startBtns{gap:8px;}#startBtns .btn{min-height:44px;padding:9px 16px;}#chapterLine{font-size:12px;}#mapCanvas{max-height:45vh;width:auto;}}
-[data-chapter]{width:100%;text-align:left;margin:10px 0;padding:14px;min-height:80px;border-radius:14px;justify-content:flex-start;}[data-chapter] .tx{flex:1;}[data-chapter] .mk{min-width:36px;}
+[data-chapter],#btnRescue{width:100%;text-align:left;margin:10px 0;padding:14px;min-height:80px;border-radius:14px;justify-content:flex-start;}[data-chapter] .tx,#btnRescue .tx{flex:1;}[data-chapter] .mk,#btnRescue .mk{min-width:36px;}
+#btnRescue{border-color:#d5b878;background:linear-gradient(120deg,#65513a,#394d3b);}
+.adventure-label{margin:20px 0 5px;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#e3cd9e;}
+#rescueFinish{background:linear-gradient(90deg,transparent 40%,#23332666);backdrop-filter:none;-webkit-backdrop-filter:none;align-items:flex-end;justify-content:flex-end;padding:var(--safe-t) var(--safe-r) var(--safe-b) var(--safe-l);}
+#rescueFinish .panel{width:min(380px,43vw);padding:24px;background:linear-gradient(155deg,#293d30f5,#253323f5);border-color:#dac48e;}
+#rescueFinish h2{font-size:32px;line-height:1.1;}#rescueFinish .sub{line-height:1.5;}
+#rescueFinish .finish-secondary .btn{flex:1;min-height:48px;padding:10px;}
+@media(max-height:600px){#rescueFinish .panel{padding:16px;width:min(340px,44vw);}#rescueFinish h2{font-size:26px;}#rescueFinish .sub{font-size:14px;}}
 .toggle,input[type="range"],.seg button{min-height:44px;}
 .toggle i{top:50%;transform:translateY(-50%);}
 </style>
@@ -291,6 +298,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:32px;heigh
       <div id="startBtns">
         <button class="btn primary pe" id="btnPlay">Начать путешествие</button>
         <button class="btn pe" id="btnContinue">Продолжить</button>
+        <button class="btn pe" id="btnRescueStart" hidden>Спасти табун</button>
         <button class="btn pe" id="btnChapters">Главы</button>
         <button class="btn pe" id="btnSettings1">Настройки</button>
       </div>
@@ -367,6 +375,8 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:32px;heigh
 <button class="quest btn pe" data-chapter="1"><div class="mk">1</div><div class="tx"><b>Следы после грозы</b><span></span></div></button>
 <button class="quest btn pe" data-chapter="2" disabled><div class="mk">2</div><div class="tx"><b>Брод у белых камней</b><span></span></div></button>
 <button class="quest btn pe" data-chapter="3" disabled><div class="mk">3</div><div class="tx"><b>Дорога к дальним горам</b><span></span></div></button>
+      <p class="adventure-label">Новое приключение</p>
+      <button class="quest btn pe" id="btnRescue" disabled><div class="mk">✦</div><div class="tx"><b>Спасти табун</b><span>Откроется после третьей главы.</span></div></button>
       <button class="btn wide primary pe" id="btnCloseChapters">Назад</button>
     </div>
   </div>
@@ -378,6 +388,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:32px;heigh
       <div class="sub">Табун ушёл к горам — но теперь Ветер знает дорогу. И он больше не один.</div>
       <button class="btn wide primary pe" id="btnNextChapter" hidden>Продолжить путь →</button>
       <button class="btn wide primary pe" id="btnEpilogue" hidden>Гулять с табуном</button>
+      <button class="btn wide pe" id="btnRescueFinish" hidden>Новое приключение: спасти табун</button>
       <div class="finish-secondary">
         <button class="btn pe" id="btnAgain">Ещё раз</button>
         <button class="btn pe" id="btnFinMenu">В меню</button>
@@ -388,6 +399,19 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:32px;heigh
         <div class="row"><label>Яблоки для друзей</label><b id="finApples">—</b></div>
         <div class="row"><label>Время в пути</label><b id="finTime">—</b></div>
       </details>
+    </div>
+  </div>
+
+  <div class="screen" id="rescueFinish">
+    <div class="panel">
+      <p class="adventure-label">Спасти табун</p>
+      <h2>Снова на воле</h2>
+      <div class="sub">Все три лошади выбрались из загона. Ветер привёл их на тихую поляну, где можно свободно бежать навстречу ветру.</div>
+      <button class="btn wide primary pe" id="btnRescueRoam">Гулять с новым табуном</button>
+      <div class="finish-secondary">
+        <button class="btn pe" id="btnRescueAgain">Ещё раз</button>
+        <button class="btn pe" id="btnRescueMenu">В меню</button>
+      </div>
     </div>
   </div>
 

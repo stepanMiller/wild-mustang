@@ -17,6 +17,12 @@ The pack has no native trot. `prepare-horse.py` authors `Trot` by rephasing both
 
 ## Integration
 
+### Veter's November appearance update
+
+`src/characters/hero-appearance.js` changes only the hero's cloned geometry. The pale facial marking takes the coat color, the forelock bends to the horse's anatomical left (+X in the source rig) and follows the head bone. A thin muzzle line and tapered dorsal stripe are painted into subdivided skinned triangles, preserving their interpolated joint weights. They do not float over the coat or add a separate skinned draw call. The source GLB and other horses keep their original geometry. `decorateHeroFallback()` applies corresponding changes to the emergency procedural hero.
+
+The additional adventure reuses the existing licensed horse model for three wild horses and two cavalry mounts. Its captain, cavalry uniforms, hats, revolvers, lassos and camp are original locally generated geometry.
+
 ```js
 import { attachCharacters } from './src/characters/characters.js';
 const cast = attachCharacters({ THREE, horse, foal, herd, alex });

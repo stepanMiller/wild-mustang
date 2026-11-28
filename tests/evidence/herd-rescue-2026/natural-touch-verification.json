@@ -1,0 +1,26 @@
+{
+  "date": "2026-11-28",
+  "browser": "Chromium 158.0.8127.0",
+  "viewport": {
+    "width": 1194,
+    "height": 834
+  },
+  "renderer": "desktop software, iPad landscape emulation",
+  "test": "tests/herd-rescue-route.spec.js",
+  "result": "passed",
+  "input": "Actual Chromium browser touch events; completed-story fixture only. No injected bonus progress or player teleport.",
+  "recording": "CDP screencast sampled to at most 6.25 fps, encoded at 960 x 670 / 8 fps; silent, real elapsed time. This is not a hardware frame-rate measurement.",
+  "frames": 387,
+  "recordingSeconds": 98.61272120475769,
+  "sourceSha256": {
+    "src/game.js": "eed10b13344a1dd16bedd8e5fb47dea540edf063599e2faa26d60f532cc32fb7",
+    "src/persistence.js": "e3da7c703080245f7529669301ab0d750235651e39821480f3049d438e405715",
+    "src/camera.js": "a6025379e0b31bd4627e883a0f11512ef9afbd40e551e7f6eccedc29b8368215",
+    "src/adventures/herd-rescue.js": "5c9dab2a213eb2c4c8968f2113584957aa495f3b3aae50fdafbe27a29c310740",
+    "src/adventures/rescue-art.js": "99dd4baa50646e6b7cf9530363d034111494a34805cfb2e66b01531c5fdc3e0c",
+    "src/adventures/rescue-state.js": "ea46fbd7a19f816ce15a88514c366dc4593727447f98b476d61b06ed7a428753",
+    "src/characters/characters.js": "10159b68de89a632ba41b303ee7895eadea2f1d9bf29c9d2fe3997e5eeb4a3a6",
+    "src/characters/hero-appearance.js": "48146031fd4f81cbd5d87517800e1591cccef0b289d188d0ea87fb70fd251dfe",
+    "index.html": "3db98135a203026b88dbe44152b64772c3ac819bdf90fef7c571854ca7d839e6"
+  }
+}

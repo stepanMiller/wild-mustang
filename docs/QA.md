@@ -1,5 +1,77 @@
 # Wild Mustang QA
 
+## 2026-11-28: new hero and "Спасти табун" candidate
+
+Base: main `a8301eb`; working branch: `feat/luka-herd-rescue`. The new appearance
+and bonus adventure are implemented. This entry records local evidence before
+the final CI and publication gates; it does not certify physical iPad behavior.
+
+| Check | Observed result | Scope |
+| --- | --- | --- |
+| Full unit suite | 75/75 passed | Final integrated source, including the gate stopping-distance regression. |
+| Adventure and persistence unit suites | 15/15 passed | Final validator, malformed-save regressions and the gate stopping-distance fix. |
+| Focused Chromium desktop | 2/2 passed, about 2 minutes | 1440 x 900 viewport, desktop software renderer. |
+| Focused Chromium iPad emulation | 2/2 passed, about 2 minutes | iPad Pro 11 landscape profile; desktop Chromium, not physical Safari. |
+| Natural touch route for the new adventure | 1/1 passed, 1.8 minutes | Real browser touch movement and gate action from camp to completed rescue, without hero teleports. |
+| Full final-head browser matrix and WebKit | Pending | No new-release result claimed. |
+| Physical iPad Safari and independent Luka playthrough | Pending | Device, OS, sustained FPS and observations must be recorded. |
+
+The focused browser runs used Chromium 158.0.8127.0 through
+`WILD_MUSTANG_CHROMIUM_EXECUTABLE` and the existing
+`PLAYWRIGHT_SINGLE_PROCESS=1` runner. They preceded the final cosmetic changes.
+The standard GitHub Actions matrix remains the final cross-engine gate.
+
+### What the new tests verify
+
+`tests/herd-rescue.test.mjs` drives the actual adventure state machine with small
+time steps and renderer-independent Three.js objects. Each horse must
+progress through caught and corral states, while guards perform throw and escort
+states. Rope diagnostics must have finite endpoints and a matching caught horse.
+The tests reject teleports during the roundup, resume a real caught-horse
+checkpoint, lead all three horses through the open gate to safety, emit completion
+once, and reset actors correctly for replay.
+
+`tests/herd-rescue.spec.js` starts from a version 2 completed-story fixture seeded
+only once. Public buttons launch the adventure, pause, open the gate, continue,
+restart and return to the original story. The guards catch and escort horses
+through ordinary runtime code. The focused test moves only the hero between
+waypoints through the localhost QA interface. It reloads during capture and
+again during escape, checks the real saved data, and preserves completed chapters
+`[1,2,3]` and the original story checkpoint. The fixture is not reapplied on
+reload. This is a focused integration check, not evidence of natural touch travel
+or an independent child playthrough.
+
+`tests/persistence.test.mjs` verifies version 3 migration from legacy and version 2
+data, separate bonus progress, continued access to the original ending, recovery
+from corrupted bonus data and the requirement to complete all three main chapters
+before unlocking the adventure.
+
+QA found and verified fixes for a Three.js r128 geometry-method incompatibility,
+the mounted guard's clearance at the corral back fence, and accepted corrupted
+checkpoints that could stall the roundup. The final validator checks compatible
+stages, route indices and unique two-way guard/horse assignments. Normal active
+snapshots and resumed gameplay continue to pass the regression tests.
+
+The natural touch run also found that the normal stopping glide could move the
+hero outside the gate interaction radius. The action now allows 6.8 metres from
+the gate centre, outside its five-metre movement envelope, and a regression test
+checks availability at 6.2 metres and rejection at 7 metres. A repeated complete
+touch run passed after that fix.
+
+### Remaining release evidence
+
+- Final source commit and full CI run: pending.
+- Natural bonus touch route passed. Screenshots, the actual silent recording and
+  source hashes are retained in `tests/evidence/herd-rescue-2026/`.
+- Merged main commit, Pages deployment and public URL check: pending.
+- Actual iPad Safari: inspect the hero from the front and both sides, play the
+  entire bonus episode with touch controls, reload during capture and escape,
+  background/restore Safari, replay, and return to the original chapters. Measure
+  sustained rendering with the full mounted cast and record the device/iPadOS.
+- Independent Luka comprehension and play duration: pending.
+
+The earlier dated sections below retain their original results and source scope.
+
 ## Issue #14 Stage A evidence — 14 October 2026
 
 Base: main `188f152`; feature branch `codex/ipad-polish-01`. Node.js 24.19.0,
